@@ -130,20 +130,70 @@ Każda palarnia w bazie docelowo zawiera:
 
 ---
 
+## Europa Środkowa — Polska
+
+| Nazwa | Miasto | Website | Direct trade | Specialties | Notatki |
+|-------|--------|---------|-------------|-------------|---------|
+| **HAYB** | Warszawa | [haybcoffee.eu](https://haybcoffee.eu) | ✅ | single-origin, filter, espresso | Założona 2016 przez Roberta i Wiktora Borowskich; Wiktor certyfikowany Q-Grader |
+| **JAVA Coffee Roasters** | Warszawa | [javacoffee.pl](https://javacoffee.pl/en) | ✅ | single-origin, multi-origin, B2B | Założona 2001; jedna z najstarszych specialty w Polsce; nagrody w konkursach międzynarodowych |
+| **Hard Beans** | Opole | [hardbeans.pl](https://hardbeans.pl) | ✅ | competition-grade, filter, espresso | Liderzy polskiej sceny konkursowej; silna obecność na SCA i WBC |
+| **Etno Cafe** | Wrocław | [etnocafe.pl](https://etnocafe.pl) | ✅ | single-origin, direct trade, subscription | Jeden z pionierów specialty coffee w Polsce; silna community i sklep online |
+| **Story Coffee Roasters** | Warszawa | [storycoffee.pl](https://storycoffee.pl/en) | ✅ | single-origin, filter, craft roasting | Palarnia rzemieślnicza z naciskiem na selekcję ziarna i świeżość |
+| **CoffeeLab** | Warszawa | [coffeelab.pl](https://coffeelab.pl) | ✅ | single-origin, barista education | Palarnia + szkoła kawowa; kształcenie baristów i Q-Graderów |
+| **Milo Coffee Roasters** | — | [miloroast.com](https://miloroast.com) | ✅ | filter, light roast, Scandinavian influence | Nordycki styl palenia; mocny online |
+| **Sheep and Raven** | Warszawa | — | ✅ | micro-batch, filter, experimental | Ocena 4.5/5 na coffeeroast.com; wyjątkowo wysoka jakość micro-partii |
+
+---
+
+## Afryka
+
+### Etiopia
+| Nazwa | Miasto | Website | Direct trade | Specialties | Notatki |
+|-------|--------|---------|-------------|-------------|---------|
+| **Garden of Coffee** | Addis Abeba | [gardenofcoffee.com](https://gardenofcoffee.com) | ✅ | hand-roasted, traditional, single-origin | Tradycyjne ręczne palenie metodą etiopską; eksport + lokalne kawiarnie |
+| **Tomoca Coffee** | Addis Abeba | [tomocacoffee.com](https://tomocacoffee.com) | — | espresso, traditional blend, dark roast | Ikoniczna palarnia założona 1953; najstarsza i najbardziej znana w Etiopii |
+| **YA Coffee** | Addis Abeba | [ya.coffee](https://ya.coffee) | ✅ | single-origin, smallholder, fair trade | Bezpośredni skup od drobnych farmerów; export specialty do Europy i USA |
+| **Tarara Coffee** | Addis Abeba | [tararacoffee.com](https://www.tararacoffee.com) | ✅ | specialty-grade, Ethiopian terroir | Najwyższe gatunki etiopskiego ziarna; własna palnia specialty w Addis |
+
+### Kenia
+| Nazwa | Miasto | Website | Direct trade | Specialties | Notatki |
+|-------|--------|---------|-------------|-------------|---------|
+| **Barista & Co.** | Nairobi | [baristaco.co.ke](https://www.baristaco.co.ke) | ✅ | single-origin Kenyan, farm-to-cup | Kenyjski family business; bezpośrednie relacje z farmami w całej Kenii; roasting on-site |
+| **Vava Coffee** | Nairobi | [vavacoffeeinc.com](https://www.vavacoffeeinc.com) | ✅ | direct trade, smallholder, East Africa | Od 2009; misja dekolonizacji handlu kawą; bezpośredni dostęp dla roasters i konsumentów |
+| **Connect Coffee Roasters** | Nairobi | [connectcoffeeroasters.net](https://connectcoffeeroasters.net) | ✅ | specialty Kenyan, single-origin, daily roasting | Roasting on-site codziennie; silna więź z lokalnymi farmerami |
+| **Kesh Kesh Coffee Roastery** | Nairobi | [keshkeshroastery.com](https://keshkeshroastery.com) | ✅ | East Africa, arabica, specialty-grade | Profesjonalna palarnia specialty z regionu Afryki Wschodniej |
+| **Spring Valley Coffee** | Nairobi | [springvalleycoffee.com](https://www.springvalleycoffee.com) | ✅ | Kenyan single-origin, estate coffee | Klasyczna kenyjska palarnia z długą tradycją; eksport ziarna |
+
+---
+
+## Ameryka Łacińska
+
+### Brazylia
+| Nazwa | Miasto | Website | Direct trade | Specialties | Notatki |
+|-------|--------|---------|-------------|-------------|---------|
+| **O'Coffee Brazilian Estates** | São Paulo | [ocoffee.com.br](https://ocoffee.com.br) | ✅ | estate coffee, direct trade, multi-origin | 7 mln drzewek kawowych; direct trade do 15+ krajów; szeroka paleta profili specialty |
+| **Academia do Café** | Belo Horizonte | [academiadocafe.com.br](https://academiadocafe.com.br) | ✅ | specialty-grade, SCA-licensed, education | Palarnia + licencjonowana szkoła SCA; centrum edukacji kawowej w Brazylii |
+| **Ovelha Negra** | São Paulo | — | ✅ | small-batch, collaborative roasting, female farmers | Palarnia w Vila Clementino; model współpracy z małymi roasterami; preferencja dla kobiet-farmerów |
+
+---
+
 ## Podsumowanie zbioru (seed data)
 
 | Region | Liczba palarni | Uwagi |
 |--------|----------------|-------|
-| Europa | 18 | Priorytet: Niemcy, UK, Skandynawia, Holandia |
-| Ameryka Północna | 14 | USA zdominowane przez nagrody GCA 2025 |
-| Azja–Pacyfik | 8 | Australia + Japonia jako liderzy regionu |
-| **Łącznie** | **40** | Baza robocza; do uzupełnienia przed launchem |
+| Europa Zachodnia / Skandynawia | 18 | UK, Niemcy, Dania, Norwegia, Francja, Szwecja, Holandia, Czechy |
+| Europa Środkowa (Polska) | 8 | Silna i rosnąca scena specialty |
+| Ameryka Północna | 14 | USA + Kanada, zdominowane przez GCA 2025 |
+| Azja–Pacyfik | 8 | Australia + Japonia |
+| Afryka (Etiopia + Kenia) | 9 | Kluczowe rynki origin z rosnącą sceną lokalną |
+| Ameryka Łacińska (Brazylia) | 3 | Największy producent kawy na świecie |
+| **Łącznie** | **60** | Baza robocza; do uzupełnienia przed launchem |
 
-**Brakujące regiony do uzupełnienia:**
-- Ameryka Łacińska (Brazylia, Kolumbia — duże rynki lokalne)
-- Afryka (Etiopia, Kenia — rynki wschodzące z rosnącą sceną specialty)
+**Brakujące regiony do kolejnej iteracji:**
+- Kolumbia (ogromna scena specialty, np. Pergamino, Amor Perfecto)
 - Bliski Wschód (Dubai, Istanbul — dynamicznie rosnące rynki)
-- Europa Środkowa / Wschodnia (Polska, Czechy, Węgry)
+- Europa Wschodnia (Czechy, Węgry, Rumunia)
+- Ameryka Łacińska — pozostałe kraje (Gwatemala, Kostaryka, Panama)
 
 ---
 
