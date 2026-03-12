@@ -148,7 +148,69 @@ Po weryfikacji profil otrzymuje znaczek **"Verified Roaster"** i jest widoczny p
 
 ---
 
-## 10. Otwarte pytania
+## 10. Marketing i pozyskiwanie ruchu
+
+### Faza 0 — przed launchem (cold start)
+
+Największe ryzyko katalogu/marketplace to problem kurczaka i jajka: kawiarnie nie przyjdą, jeśli nie ma palarni, palarnie nie przyjdą, jeśli nie ma kawiarni. Rozwiązanie: **najpierw zapełnić bazę palarni ręcznie**, zanim platforma jest publiczna.
+
+- Ręczne wprowadzenie 50–100 palarni z publicznych źródeł (strony www, Instagram, Google Maps, istniejące listy specialty coffee)
+- Dopiero z wypełnioną bazą — otwarcie platformy
+
+### Kanały pozyskiwania palarni (supply side)
+
+| Kanał | Działanie | Koszt |
+|-------|-----------|-------|
+| **Cold outreach email** | Bezpośredni email do palarni z zaproszeniem do darmowego profilu | Czas |
+| **LinkedIn** | Kontakt z właścicielami i head roasters przez LinkedIn | Czas |
+| **Instagram / TikTok** | Platformy są mocne w specialty coffee — DM do aktywnych palarni | Czas |
+| **Społeczności** | Fora i grupy (Slack SCA, Reddit r/coffee, grupy FB branżowe) | Czas |
+| **Targi i eventy** | World of Coffee, SCA Expo, lokalne targi kawy — networking | Budżet |
+| **Partnerzy branżowi** | Dystrybutorzy zielonych ziaren, importerzy — jako ambasadorzy platformy | Negocjacje |
+
+### Kanały pozyskiwania ruchu organicznego (kawiarnie)
+
+**SEO — główny kanał długoterminowy:**
+- Strony landing dla każdego kraju/miasta: *"Coffee roasters in [City]"*, *"Specialty roasters in [Country]"*
+- Strony dla certyfikatów: *"Fair Trade certified coffee roasters"*
+- Blog / content: przewodniki po origins, jak wybrać dostawcę kawy, trendy specialty coffee
+- Każdy profil palarni to osobna, indeksowalna strona — długi ogon
+
+**Social media:**
+- Instagram: showcasing palarni, behind-the-scenes, "roaster of the week"
+- LinkedIn: content B2B skierowany do właścicieli kawiarni i F&B buyers
+- TikTok/Reels: krótkie filmy o procesie palenia, originach — budowanie świadomości marki
+
+**Newsletter:**
+- "Roasters Hub Weekly" — nowe palarnie w bazie, ciekawostki o kawie, trendy
+- Zbieranie maili od odwiedzających (kawiarnie) od pierwszego dnia
+
+### Dystrybucja wirusowa i efekty sieciowe
+
+- Każda palarnia po weryfikacji dostaje **gotowy badge "Listed on Roasters Hub"** do wklejenia na swojej stronie → backlinki + ruch zwrotny
+- Palarnie naturalnie promują swój profil wśród klientów → kawiarnie trafiają organicznie
+- Opcja: przycisk "Share this roaster" na profilach
+
+### Płatne kanały (po walidacji)
+
+- **Google Ads** — frazy z intencją zakupową: *"buy specialty coffee wholesale"*, *"coffee roaster B2B"*
+- **Meta Ads** — retargeting odwiedzających, lookalike z listy palarni
+- Nie inwestować w płatne kanały przed osiągnięciem PMF
+
+### KPIs do monitorowania trakcji
+
+| Metryka | Co mierzy |
+|---------|-----------|
+| Liczba zweryfikowanych palarni | Wypełnienie bazy (supply) |
+| Miesięczni unikalni użytkownicy | Ruch ogólny |
+| Sesje z wyszukiwarek organicznych | Skuteczność SEO |
+| Czas na stronie / profilu palarni | Zaangażowanie kawiarni |
+| Kliknięcia w dane kontaktowe palarni | Rzeczywiste połączenia (core value) |
+| Konwersja Free → Featured | Monetyzacja |
+
+---
+
+## 11. Otwarte pytania
 
 - [ ] Jaka jest docelowa cena planów płatnych (Featured, kampanie)?
 - [ ] Czy palarnie mogą same dodać się do bazy, czy tylko przez formularz zgłoszeniowy?
