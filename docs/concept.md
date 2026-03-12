@@ -1,8 +1,54 @@
 # Roasters Hub — Dokument Koncepcji Produktu
 
-**Wersja:** 0.1
+**Wersja:** 0.2
 **Data:** 2026-03-12
 **Status:** Roboczy
+
+---
+
+## 0. Kontekst rynkowy i trendy
+
+### Specialty coffee — dane i sygnały (2025–2026)
+
+Rynek specialty coffee rośnie szybciej niż cały rynek kawy i tworzy strukturalne zapotrzebowanie na platformę taką jak Roasters Hub.
+
+**Skala rynku:**
+- Globalny rynek specialty coffee: **$101,6 mld w 2024**, prognoza **$183 mld do 2030** (CAGR 10,4%)
+- Kanały B2B odpowiadają za **37,6% udziału w rynku** dystrybucji kawy; spożycie poza domem = **72,5% globalnych przychodów**
+- Rynek maszyn do palenia kawy: $1,58 mld (2025) → $2,99 mld (2032), CAGR 9,5% — wzrost liczby aktywnych palarni
+
+**Trendy bezpośrednio wpływające na produkt:**
+
+| Trend | Implikacja dla Roasters Hub |
+|-------|-----------------------------|
+| **Traceability i transparentność** — kawiarnie i konsumenci wymagają znajomości origin, farmy, profilu etycznego | Profile palarni powinny eksponować origin, direct trade, certyfikaty — to nie ozdobnik, to core value |
+| **Direct trade jako standard** — palarnie specialty budują bezpośrednie relacje z farmami i kawiarniami | Platforma pośredniczy w relacjach, które i tak chcą być bezpośrednie — musi dawać realną wartość, nie biurokrację |
+| **Single-origin i micro-lot jako nowa norma** — CAGR 6,86% (2026–2031), szybszy niż blendy | Filtry i tagi origin/micro-lot/processing method to must-have w katalogu |
+| **Specialty coffee na historycznym szczycie** — 45% dorosłych Amerykanów piło specialty coffee w ciągu ostatniego dnia (wzrost o 80% od 2011) | Rynek kupujących (kawiarni) aktywnie szuka dostawców jakościowych |
+| **Europa jako kluczowy rynek** — 32% udziału w rynku palarni, CAGR 10,3% | Priorytetowy region do pozyskiwania palarni w fazie 0 |
+| **Sustainability jako kryterium wyboru dostawcy** | Certyfikaty ekologiczne i fair trade jako widoczny element profilu palarni |
+
+---
+
+### Micro-SaaS i Vertical SaaS — wnioski dla produktu
+
+Roasters Hub wpisuje się w jeden z najsilniejszych trendów SaaS: **vertical micro-SaaS** — oprogramowanie głęboko osadzone w konkretnej niszy branżowej.
+
+**Dane rynkowe:**
+- Vertical SaaS: retencja klientów wyższa o **35–60%** niż platformy horyzontalne
+- Marże zysku micro-SaaS: **41% w 2024**
+- Net retention >120% dla najlepszych produktów vertical SaaS
+
+**Zasady, które powinny kształtować produkt:**
+
+| Zasada | Zastosowanie |
+|--------|--------------|
+| **Product-Led Growth (PLG)** — produkt sam pozyskuje użytkowników, wartość widoczna przed płatnością | Darmowy profil palarni jest produktem lead-gen; kawiarnie przychodzą organicznie przez SEO i mapę |
+| **Freemium działa — ale wymaga wyraźnej granicy wartości** — czyste freemium gorzej konwertuje niż freemium z konkretnym "upgrade trigger" | Plan Featured musi oferować mierzalną przewagę (np. 5× więcej wyświetleń), nie tylko estetyczną |
+| **Vertical SaaS wygrywa przez embedowanie w workflow branży** — nie ogólne narzędzie, ale narzędzie "dla palarni kawy" | Język, terminologia, funkcje (origin, cupping notes, certyfikaty SCA) muszą być natywne dla branży |
+| **Monetyzacja rozszerza się organicznie** — najpierw katalog → potem reklamy → potem transakcje | Roadmapa Roasters Hub jest zgodna z tym wzorcem |
+| **SEO + niszowa społeczność = główny kanał dystrybucji** dla vertical micro-SaaS | Long-tail SEO per miasto/kraj/certyfikat jako fundament ruchu organicznego |
+| **Founder distribution** — twórca aktywny w społeczności branżowej zwiększa wiarygodność i konwersję | Obecność na SCA Expo, Perfect Daily Grind, społecznościach specialty coffee |
 
 ---
 
