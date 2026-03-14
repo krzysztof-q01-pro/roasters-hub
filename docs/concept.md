@@ -1,16 +1,18 @@
 # Roasters Hub — Dokument Koncepcji Produktu
 
-**Wersja:** 0.2
-**Data:** 2026-03-12
+**Wersja:** 0.3
+**Data:** 2026-03-14
 **Status:** Roboczy
 
 ---
 
 ## 1. Idea
 
-Roasters Hub to platforma B2B łącząca **palarnie kawy** (roasters) z **kawiarniami** (cafés/buyers). Jej głównym celem jest stworzenie centralnego, globalnego katalogu palarni, który pozwoli kawiarniom odkrywać nowych dostawców ziaren — niezależnie od tego, czy szukają lokalnych rzemieślników, czy egzotycznych producentów z drugiego końca świata.
+Roasters Hub to platforma łącząca **palarnie kawy** (roasters), **kawiarnie** (cafés/buyers) i **miłośników kawy specialty** (consumers). Jej głównym celem jest stworzenie centralnego, globalnego katalogu palarni, który pozwoli kawiarniom odkrywać nowych dostawców ziaren, a konsumentom — znajdować palarnie dopasowane do ich gustu.
 
-Branża specialty coffee jest rozproszona. Palarnie — szczególnie te mniejsze — mają ograniczone możliwości dotarcia do nowych klientów. Kawiarnie z kolei często kupują od tych samych dostawców, bo po prostu nie wiedzą o alternatywach. Roasters Hub rozwiązuje ten problem, będąc **miejscem spotkania obu stron**.
+Branża specialty coffee jest rozproszona. Palarnie — szczególnie te mniejsze — mają ograniczone możliwości dotarcia do nowych klientów. Kawiarnie często kupują od tych samych dostawców, bo po prostu nie wiedzą o alternatywach. Konsumenci z kolei chcą świadomie wybierać kawę, ale brakuje im jednego miejsca, w którym mogliby porównać palarnie z całego świata. Roasters Hub rozwiązuje ten problem, będąc **miejscem spotkania wszystkich trzech stron**.
+
+Relacje B2B (palarnie ↔ kawiarnie) pozostają rdzeniem platformy, natomiast konsumenci pełnią rolę **motoru skali** — generują ruch i zainteresowanie, co zwiększa wartość platformy dla palarni i kawiarni. Monetyzacja konsumenta jest odroczona do momentu osiągnięcia masy krytycznej.
 
 ---
 
@@ -29,16 +31,26 @@ Właściciele i kupcy kawy w kawiarniach, którzy chcą:
 - znaleźć dostawcę dopasowanego do profilu ich lokalu
 - kontaktować się bezpośrednio z palarniami
 
+### Miłośnicy kawy (Coffee Enthusiasts / Consumers)
+Home brewerzy, podróżnicy kawowi i świadomi konsumenci, którzy chcą:
+- odkrywać nowe palarnie i ziarna z całego świata
+- filtrować po originach, profilach smakowych, certyfikatach (direct trade, organic)
+- planować podróże kawowe — znajdować palarnie i kawiarnie w nowych miastach
+- kupować ziarna bezpośrednio od palarni (DTC — link do sklepu online)
+
+**Rola w ekosystemie:** Konsumenci generują ruch i zainteresowanie platformą. Ich obecność zwiększa wartość profilu palarni (więcej ekspozycji, kontakt DTC) oraz odkrywalność kawiarni. Na start — darmowy dostęp bez rejestracji. Docelowo — konta, personalizacja, subskrypcje.
+
 ---
 
 ## 3. Propozycja wartości
 
-| Dla palarni | Dla kawiarni |
-|-------------|--------------|
-| Profil w globalnym katalogu | Dostęp do setek palarni w jednym miejscu |
-| Dotarcie do nowych klientów B2B | Filtrowanie po kraju, certyfikatach, profilu |
-| Narzędzia do promocji (kampanie) | Mapa palarni |
-| Wiarygodność (weryfikacja profilu) | Bezpośredni kontakt z palarniami |
+| Dla palarni | Dla kawiarni | Dla konsumenta |
+|-------------|--------------|----------------|
+| Profil w globalnym katalogu | Dostęp do setek palarni w jednym miejscu | Odkrywanie palarni z całego świata |
+| Dotarcie do klientów B2B i DTC | Filtrowanie po kraju, certyfikatach, profilu | Filtrowanie po originach, smaku, certyfikatach |
+| Narzędzia do promocji (kampanie) | Mapa palarni | Mapa palarni — planowanie podróży kawowych |
+| Wiarygodność (weryfikacja profilu) | Bezpośredni kontakt z palarniami | Bezpośredni link do sklepu online palarni |
+| Ekspozycja wśród konsumentów (skala) | Odkrywalność przez konsumentów | Informacje o direct trade i procesach — świadome zakupy |
 
 ---
 
@@ -49,6 +61,14 @@ Właściciele i kupcy kawy w kawiarniach, którzy chcą:
 2. Przegląda katalog palarni — filtruje po lokalizacji, profilu, certyfikatach
 3. Klika w profil palarni — widzi szczegóły, ofertę, dane kontaktowe
 4. Kontaktuje się z palarnią bezpośrednio (email, formularz, link zewnętrzny)
+
+### Dla konsumenta (bez rejestracji)
+1. Wchodzi na platformę
+2. Przegląda katalog palarni — filtruje po lokalizacji, originach, profilu smakowym, certyfikatach
+3. Klika w profil palarni — widzi ofertę, link do sklepu online, social media
+4. Kupuje ziarna bezpośrednio od palarni (link zewnętrzny) lub kontaktuje się
+5. Dzieli się odkryciem — "Share this roaster" (social media, link)
+6. *(Przyszłość)* Odkrywa kawiarnie serwujące kawę z danej palarni
 
 ### Dla palarni
 1. Rejestruje się na platformie
@@ -84,10 +104,50 @@ Właściciele i kupcy kawy w kawiarniach, którzy chcą:
 ### Przyszłościowo (v2+)
 - Prowizja od obsługi sampli / zamówień przez platformę
 - Subskrypcja premium dla kawiarni (zaawansowane filtry, historia, notatki)
+- **Affiliate links / DTC** — link "Shop online" na profilach palarni z trackingiem → prowizja od sprzedaży do konsumentów
+- **Reklamy kontekstowe** — skierowane do konsumentów (sprzęt kawowy, subskrypcje ziaren, kursy baristyczne)
+- **Premium dla konsumentów** — zaawansowane filtry, notatki degustacyjne, wishlist, alerty "nowa palarnia w Twoim regionie"
+- **Profile kawiarni (płatne)** — kawiarnia prezentuje serwowane palarnie → odkrywalność przez konsumentów
 
 ---
 
-## 6. Kluczowe funkcje — MVP
+## 6. Krajobraz konkurencyjny
+
+| Rozwiązanie | Co robi | Czego nie robi / luka |
+|-------------|---------|----------------------|
+| **European Coffee Trip** | Katalog kawiarni w Europie + content (video, blog) | Fokus na kawiarnie, nie palarnie. Brak B2B. Tylko Europa. |
+| **Google Maps** | Uniwersalne wyszukiwanie lokalne — palarnie i kawiarnie | Brak filtrów specialty (certyfikaty, origin, direct trade). Brak dedykowanego UX dla discovery palarni. |
+| **Beanconqueror / Coffeection** | Aplikacje do trackowania i oceniania kawy (konsumenci) | Nie łączą konsumenta z palarniami. Brak katalogu, brak B2B. |
+| **Cropster / Roast.World** | Narzędzia operacyjne dla palarni (profiling, inventory, QC) | Nie zajmują się discovery ani marketingiem. Narzędzia wewnętrzne, nie katalog. |
+| **Instagram / TikTok** | Organiczne odkrywanie palarni przez content | Brak struktury, filtrów, porównywalności. Algorytm decyduje o widoczności. |
+
+**Pozycjonowanie Roasters Hub:** jedyna platforma łącząca **discovery palarni** (dla konsumentów i kawiarni) z **generowaniem leadów B2B** — w jednym miejscu. Żadne istniejące rozwiązanie nie obsługuje trójkąta palarnia ↔ kawiarnia ↔ konsument.
+
+---
+
+## 7. Strategia retencji
+
+Pozyskanie użytkownika to dopiero początek — kluczowe jest, aby wracał. Mechanizmy retencji per persona:
+
+### Palarnie
+- **Statystyki profilu** — wyświetlenia, kliknięcia w dane kontaktowe, kliknięcia "Shop online" → palarnia widzi ROI
+- **Powiadomienia** — nowe zapytania od kawiarni, nowe recenzje od konsumentów
+- **Sezonowe prompty** — "Zaktualizuj ofertę na nowy sezon", "Dodaj nowe ziarna"
+
+### Kawiarnie
+- **Alerty** — "Nowa palarnia w Twoim regionie", "Nowe ziarna od palarni, które obserwujesz"
+- **Zapisane / ulubione** palarnie — szybki dostęp do kontaktów
+- **Newsletter** — digest nowych palarni, sezonowe oferty, trendy
+
+### Konsumenci
+- **Personalizowane rekomendacje** — na podstawie ulubionych originów, certyfikatów, profili smakowych
+- **"Roaster of the Week"** — cotygodniowe odkrycie nowej palarni (newsletter + social)
+- **Wishlist / ulubione** — palarnie do wypróbowania, odwiedzone palarnie
+- **Content** — edukacyjne artykuły, origin stories, behind-the-scenes z palarni
+
+---
+
+## 8. Kluczowe funkcje — MVP
 
 ### Katalog palarni
 - Lista palarni z filtrowaniem (kraj, region, certyfikaty, typ palenia)
@@ -119,25 +179,29 @@ Właściciele i kupcy kawy w kawiarniach, którzy chcą:
 
 ---
 
-## 7. Poza MVP (backlog)
+## 9. Poza MVP (backlog)
 
 - Obsługa sampli — flow zamawiania próbek przez platformę
 - Konta dla kawiarni — ulubione palarnie, historia, notatki
-- Recenzje i oceny palarni (przez zweryfikowane kawiarnie)
-- Newsletter / digest dla kawiarni ("Nowe palarnie w Twoim regionie")
+- **Konta dla konsumentów** — ulubione palarnie, wishlist, notatki degustacyjne, historia
+- Recenzje i oceny palarni (przez zweryfikowane kawiarnie i konsumentów)
+- **Profile kawiarni** — prezentacja serwowanych palarni, odkrywalność przez konsumentów
+- **Affiliate links / "Shop online"** — tracking i prowizja od sprzedaży DTC
+- Newsletter / digest dla kawiarni i konsumentów ("Nowe palarnie w Twoim regionie")
+- **Personalizowane rekomendacje** — na podstawie preferencji użytkownika (origin, profil, certyfikaty)
 - API dla partnerów
 - Wielojęzyczność (i18n)
 - Aplikacja mobilna
 
 ---
 
-## 8. Zakres geograficzny
+## 10. Zakres geograficzny
 
 Platforma działa globalnie od pierwszego dnia, ale baza palarni na start będzie niewielka i będzie stopniowo rozrastać się organicznie. Interfejs w języku angielskim jako język bazowy.
 
 ---
 
-## 9. Zasady weryfikacji palarni (MVP)
+## 11. Zasady weryfikacji palarni (MVP)
 
 Weryfikacja jest manualna — admin sprawdza:
 - czy palarnia istnieje (strona www, social media, Google Maps)
@@ -148,7 +212,7 @@ Po weryfikacji profil otrzymuje znaczek **"Verified Roaster"** i jest widoczny p
 
 ---
 
-## 10. Marketing i pozyskiwanie ruchu
+## 12. Marketing i pozyskiwanie ruchu
 
 ### Faza 0 — przed launchem (cold start)
 
@@ -168,7 +232,7 @@ Największe ryzyko katalogu/marketplace to problem kurczaka i jajka: kawiarnie n
 | **Targi i eventy** | World of Coffee, SCA Expo, lokalne targi kawy — networking | Budżet |
 | **Partnerzy branżowi** | Dystrybutorzy zielonych ziaren, importerzy — jako ambasadorzy platformy | Negocjacje |
 
-### Kanały pozyskiwania ruchu organicznego (kawiarnie)
+### Kanały pozyskiwania ruchu organicznego (kawiarnie + konsumenci)
 
 **SEO — główny kanał długoterminowy:**
 - Strony landing dla każdego kraju/miasta: *"Coffee roasters in [City]"*, *"Specialty roasters in [Country]"*
@@ -176,14 +240,22 @@ Największe ryzyko katalogu/marketplace to problem kurczaka i jajka: kawiarnie n
 - Blog / content: przewodniki po origins, jak wybrać dostawcę kawy, trendy specialty coffee
 - Każdy profil palarni to osobna, indeksowalna strona — długi ogon
 
+**Content strategy — wieloźródłowa:**
+- **Content od palarni** — palarnie same dodają opisy ziaren, story behind the bean, zdjęcia z wypraw do origin → koszt zero dla platformy, unikalny content
+- **User-generated content** — recenzje i zdjęcia od konsumentów → potężne SEO + zaangażowanie + social proof
+- **Redakcyjny** — blog: przewodniki po originach, jak wybrać dostawcę kawy, trendy specialty coffee
+- **Formaty** — oprócz tekstu: krótkie video (proces palenia, origin stories), infografiki (mapa originów, porównanie procesów)
+
 **Social media:**
 - Instagram: showcasing palarni, behind-the-scenes, "roaster of the week"
 - LinkedIn: content B2B skierowany do właścicieli kawiarni i F&B buyers
 - TikTok/Reels: krótkie filmy o procesie palenia, originach — budowanie świadomości marki
+- Reddit r/coffee, grupy FB — angażowanie konsumentów, budowanie community
 
 **Newsletter:**
 - "Roasters Hub Weekly" — nowe palarnie w bazie, ciekawostki o kawie, trendy
-- Zbieranie maili od odwiedzających (kawiarnie) od pierwszego dnia
+- Zbieranie maili od odwiedzających (kawiarnie i konsumenci) od pierwszego dnia
+- Segmentacja: osobne treści dla kawiarni (B2B) i konsumentów (discovery, edukacja)
 
 ### Dystrybucja wirusowa i efekty sieciowe
 
@@ -199,21 +271,30 @@ Największe ryzyko katalogu/marketplace to problem kurczaka i jajka: kawiarnie n
 
 ### KPIs do monitorowania trakcji
 
-| Metryka | Co mierzy |
-|---------|-----------|
-| Liczba zweryfikowanych palarni | Wypełnienie bazy (supply) |
-| Miesięczni unikalni użytkownicy | Ruch ogólny |
-| Sesje z wyszukiwarek organicznych | Skuteczność SEO |
-| Czas na stronie / profilu palarni | Zaangażowanie kawiarni |
-| Kliknięcia w dane kontaktowe palarni | Rzeczywiste połączenia (core value) |
-| Konwersja Free → Featured | Monetyzacja |
+| Metryka | Co mierzy | Persona |
+|---------|-----------|---------|
+| Liczba zweryfikowanych palarni | Wypełnienie bazy (supply) | Palarnie |
+| Miesięczni unikalni użytkownicy | Ruch ogólny | Wszystkie |
+| Sesje z wyszukiwarek organicznych | Skuteczność SEO | Wszystkie |
+| Czas na stronie / profilu palarni | Zaangażowanie | Kawiarnie + Konsumenci |
+| Kliknięcia w dane kontaktowe palarni | Połączenia B2B (core value) | Kawiarnie |
+| Kliknięcia "Shop online" / "Visit website" | Połączenia DTC | Konsumenci |
+| Udostępnienia profili palarni ("Share") | Dystrybucja wirusowa | Konsumenci |
+| Powracający użytkownicy (7d / 30d) | Retencja | Wszystkie |
+| Newsletter signups | Baza kontaktowa | Kawiarnie + Konsumenci |
+| Konwersja Free → Featured | Monetyzacja | Palarnie |
 
 ---
 
-## 11. Otwarte pytania
+## 13. Otwarte pytania
 
 - [ ] Jaka jest docelowa cena planów płatnych (Featured, kampanie)?
 - [ ] Czy palarnie mogą same dodać się do bazy, czy tylko przez formularz zgłoszeniowy?
 - [ ] Czy mapa ma być widoczna dla niezalogowanych użytkowników?
 - [ ] Jaki będzie proces onboardingu pierwszych palarni (ręczne wprowadzanie przez admina vs. self-service)?
 - [ ] Nazwa domeny?
+- [ ] Czy konsumenci będą mogli tworzyć konta? (ulubione, recenzje, wishlist) — jeśli tak, kiedy?
+- [ ] Kiedy wprowadzić affiliate links / "Shop online" na profilach palarni?
+- [ ] Czy kawiarnie będą miały własne profile? (z informacją o serwowanych palarniach)
+- [ ] Mobile-first vs. responsive — jaka strategia dla konsumenta mobilnego?
+- [ ] Jak moderować recenzje konsumentów? (weryfikacja zakupu, flagowanie)
