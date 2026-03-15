@@ -1,0 +1,15 @@
+# Wygenerowane pliki tymczasowe
+.tmp/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# Node
+node_modules/
+
+# Credentials
+credentials.json
+token.json
