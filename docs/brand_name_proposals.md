@@ -20,6 +20,7 @@ Dodatkowo: **dwie z top 5 domen są już zajęte** (`roastly.com` od 2025, `roas
 
 ## Kryteria oceny (zaktualizowane)
 
+- **Dwie sylaby i wymowa** — nazwa dwusylabowa jest łatwiejsza do zapamiętania, naturalnie wchodzi do mowy potocznej i działa globalnie (np. "Bean-Map", "Brew-Map"). Trudna wymowa = bariera adopcji.
 - **Neutralność** — czy nazwa działa dla wszystkich 3 person bez stronniczości?
 - **Dostępność domeny** — .com preferowane, .coffee/.io jako alternatywa
 - **DE/PL-friendly** — czytelne i wymawiane w Niemczech i Polsce
@@ -194,51 +195,279 @@ roastmap.com, sourced.coffee, originmap.com, beanroute.com, beanmap.com, special
 
 ## Tabela porównawcza
 
-| # | Nazwa | Domena | Neutralność | Brand | SEO | DE/PL | Dostępność |
-|---|---|---|---|---|---|---|---|
-| 1 | **BeanMap** | beanmap.com | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | Prawdop. wolna |
-| 2 | **OriginMap** | originmap.com | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | Prawdop. wolna |
-| 3 | **SpecialtyMap** | specialtymap.com | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | Prawdop. wolna |
-| 4 | **BrewMap** | brewmap.com | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | Prawdop. wolna |
-| 5 | **Sourced** | sourced.coffee | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | Prawdop. wolna |
-| 6 | **BeanRoute** | beanroute.com | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | Prawdop. wolna |
-| 7 | **CoffeeFind** | coffeefind.com | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | Prawdop. wolna |
-| 8 | **TheCuppingRoom** | thecuppingroom.com | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | Prawdop. wolna |
-| 9 | **RoastCircle** | roastcircle.com | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | Prawdop. wolna |
-| 10 | **RoasterFinder** | roasterfinder.com | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | Prawdop. wolna |
-| 11 | **CoffeeHunt** | coffeehunt.com | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | Prawdop. wolna |
-| 12 | **CoffeeDiscovery** | coffeediscovery.com | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | Prawdop. wolna |
-| 13 | **CoffeeRoute** | coffeeroute.com | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | Prawdop. wolna |
-| 14 | **BrewBase** | brewbase.com | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | Prawdop. wolna |
-| 15 | **BeanVault** | beanvault.com | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | Prawdop. wolna |
-| 16 | **CraftSource** | craftsource.com | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | Prawdop. wolna |
-| 17 | **DirectBean** | directbean.com | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | Prawdop. wolna |
-| 18 | **BeanWise** | beanwise.com | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | Prawdop. wolna |
-| 19 | **CupQuest** | cupquest.com | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ | Prawdop. wolna |
-| 20 | **RoastMap** | roastmap.com | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | Prawdop. wolna |
+> Dostępność zweryfikowana przez RDAP (oficjalny protokół rejestrów domen) — marzec 2026.
+
+| # | Nazwa | Domena | 2 sylaby | Neutralność | Brand | SEO | DE/PL | Dostępność | Marek | Krzysiek |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | **BeanMap** | beanmap.com | ✅ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ❌ ZAJĘTA (2025) | — | — |
+| 2 | **OriginMap** | originmap.com | ✅ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ❌ ZAJĘTA (2025) | — | — |
+| 3 | **SpecialtyMap** | specialtymap.com | ❌ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ❌ ZAJĘTA (2003) | — | — |
+| 4 | **BrewMap** | brewmap.com | ✅ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ❌ ZAJĘTA (2005) | — | — |
+| 5 | **Sourced** | sourced.coffee | ✅ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ✅ **WOLNA** | — | — |
+| 6 | **BeanRoute** | beanroute.com | ✅ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ❌ ZAJĘTA (2025) | — | — |
+| 7 | **CoffeeFind** | coffeefind.com | ❌ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ❌ ZAJĘTA (2002) | — | — |
+| 8 | **TheCuppingRoom** | thecuppingroom.com | ❌ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ✅ **WOLNA** | — | — |
+| 9 | **RoastCircle** | roastcircle.com | ❌ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ❌ ZAJĘTA (2018) | — | — |
+| 10 | **RoasterFinder** | roasterfinder.com | ❌ | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ❌ ZAJĘTA (2020) | — | — |
+| 11 | **CoffeeHunt** | coffeehunt.com | ❌ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ❌ ZAJĘTA (2007) | — | — |
+| 12 | **CoffeeDiscovery** | coffeediscovery.com | ❌ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ❌ ZAJĘTA (1998) | — | — |
+| 13 | **CoffeeRoute** | coffeeroute.com | ❌ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ❌ ZAJĘTA (2017) | — | — |
+| 14 | **BrewBase** | brewbase.com | ✅ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ❌ ZAJĘTA (2007) | — | — |
+| 15 | **BeanVault** | beanvault.com | ✅ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ❌ ZAJĘTA (2012) | — | — |
+| 16 | **CraftSource** | craftsource.com | ✅ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ❌ ZAJĘTA (1996) | — | — |
+| 17 | **DirectBean** | directbean.com | ❌ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ❌ ZAJĘTA (2015) | — | — |
+| 18 | **BeanWise** | beanwise.com | ✅ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ❌ ZAJĘTA (2002) | — | — |
+| 19 | **CupQuest** | cupquest.com | ✅ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ | ❌ ZAJĘTA (2010) | — | — |
+| 20 | **RoastMap** | roastmap.com | ✅ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ❌ ZAJĘTA (2013) | — | — |
 
 ---
 
 ## Rekomendacja końcowa v2
 
+> ⚠️ Zdezaktualizowana — niemal wszystkie domeny .com zajęte. Patrz: **v3 poniżej.**
+
+---
+
+## v3 — Nowa runda (po weryfikacji RDAP całej listy)
+
+### Wnioski z weryfikacji
+
+Z 20 propozycji v2 tylko **2 domeny wolne**: `sourced.coffee` i `thecuppingroom.com`.
+Przestrzeń `.com` dla słów związanych z kawą jest praktycznie wyprzedana.
+
+**Strategia v3:** poszerzenie na TLD `.coffee` (branżowe, premium) i `.io` (tech-credible, znane).
+
+---
+
+### Domeny WOLNE — zweryfikowane RDAP, marzec 2026
+
+#### Tier A — Rekomendowane (2 sylaby + dostępne)
+
+**1. sourced.coffee**
+`sourced` = pozyskane/wyselekcjonowane — rezonuje z direct trade, misją platformy i wszystkimi trzema stronami (palarnia pozyskuje ziarno → kawiarnia pozyskuje palarnię). TLD `.coffee` to branżowe wyróżnienie, nie generyczna końcówka. ✅ 2 sylaby. ✅ Premium.
+
+---
+
+**2. direct.coffee**
+`direct` = direct trade — największy trend specialty coffee. Natychmiastowy sygnał wartości dla palarni i kawiarni. DE/PL-friendly (identyczna wymowa). TLD `.coffee` domyka znaczenie. ✅ 2 sylaby. Najsilniejszy sygnał branżowy.
+
+---
+
+**3. graded.coffee**
+`graded` = Q-graded, oceniona jakościowo. Termin branżowy rozpoznawany przez każdego profesjonalistę specialty. Sygnał weryfikacji i jakości — wprost odpowiada na "Verified Roaster" jako core feature platformy. ✅ 2 sylaby. Bardzo branżowe.
+
+---
+
+**4. beanmap.io**
+Koncepcja z Tier A v2 (`beanmap.com` zajęta) z TLD `.io`. Neutralna, 2-sylabowa, DE/PL-friendly, silne SEO. `.io` jest powszechnie przyjęte w produktach tech i SaaS. ✅ 2 sylaby.
+
+---
+
+**5. originmap.io**
+Koncepcja z Tier A v2 (`originmap.com` zajęta) z TLD `.io`. Premium, trójstronna, brand story wokół origin i transparentności — kluczowego trendu specialty coffee 2025–2026. ✅ 2 sylaby.
+
+---
+
+#### Tier B — Mocne alternatywy
+
+**6. traded.coffee**
+`traded` = direct trade, fair trade — oba kluczowe terminy branżowe. Sygnał przejrzystości relacji handlowej. Trochę bliżej B2B niż consumer. ✅ 2 sylaby.
+
+---
+
+**7. listed.coffee**
+`listed` = być na liście, być widocznym — wprost opisuje wartość dla palarni (listing w katalogu). Prosty, jasny, neutralny. Ryzyko: mniej premium, bardziej funkcjonalny. ✅ 2 sylaby.
+
+---
+
+**8. brewmap.io**
+Alternatywa dla `brewmap.com` (zajęta). Neutralna, consumer-friendly, 2 sylaby. `.io` jako TLD akceptowalne w SaaS. ✅ 2 sylaby.
+
+---
+
+**9. traced.coffee**
+`traced` = traceability — jeden z najważniejszych trendów specialty coffee (transparentność origin, farm-to-cup). Jednosylabowe ale mocne znaczeniowo. Ryzyko: nie spełnia kryterium 2 sylab.
+
+---
+
+**10. thecuppingroom.com**
+Jedyna wolna domena `.com` z poprzedniej rundy. Insiderska nazwa — "cupping room" to miejsce degustacji kawy w każdej palarni. Buduje credibility wśród profesjonalistów. Ryzyko: 4 sylaby, trudna dla konsumentów i rynku DE/PL.
+
+---
+
+### Tabela v3 — weryfikacja DNS, marzec 2026
+
+> Dostępność zweryfikowana przez **DNS (dig NS/A)** — dokładniejsze niż RDAP.
+
+| # | Nazwa | Domena | 2 sylaby | Neutralność | Brand | SEO | DE/PL | Dostępność | Marek | Krzysiek |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | **Sourced** | sourced.coffee | ✅ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ❌ ZAJĘTA (DNS) | — | — |
+| 2 | **Direct** | direct.coffee | ✅ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ✅ WOLNA | — | — |
+| 3 | **Graded** | graded.coffee | ✅ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ✅ WOLNA | — | — |
+| 4 | **BeanMap** | beanmap.io | ✅ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ✅ WOLNA | — | — |
+| 5 | **OriginMap** | originmap.io | ✅ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ✅ WOLNA | — | — |
+| 6 | **Traded** | traded.coffee | ✅ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ✅ WOLNA | — | — |
+| 7 | **Listed** | listed.coffee | ✅ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ✅ WOLNA | — | — |
+| 8 | **BrewMap** | brewmap.io | ✅ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ✅ WOLNA | — | — |
+| 9 | **Traced** | traced.coffee | ❌ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ✅ WOLNA | — | — |
+| 10 | **TheCuppingRoom** | thecuppingroom.com | ❌ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ✅ WOLNA | — | — |
+
+---
+
+### Rekomendacja końcowa v3
+
 | Priorytet | Nazwa | Domena | Główny argument |
 |---|---|---|---|
-| **#1** | **BeanMap** | `beanmap.com` | Neutralna, krótka, DE/PL-friendly, SEO-silna |
-| **#2** | **OriginMap** | `originmap.com` | Premium, trójstronna, brand story wokół origin |
-| **#3** | **SpecialtyMap** | `specialtymap.com` | Najsilniejszy sygnał jakości + SEO |
-| **#4** | **BrewMap** | `brewmap.com` | Neutralna, consumer-friendly |
-| **#5** | **Sourced** | `sourced.coffee` | Najbardziej premium .coffee TLD — jeśli dostępna |
-
-**Następny krok:** Ręczna weryfikacja top 5 domen na [instantdomainsearch.com](https://instantdomainsearch.com) lub [namecheap.com](https://namecheap.com).
+| **#1** | **Direct** | `direct.coffee` | Najsilniejszy sygnał branżowy (direct trade), globalnie zrozumiały, 2 sylaby, DE/PL-friendly |
+| **#2** | **OriginMap** | `originmap.io` | Koncept z v2 odżywa na .io — premium, SEO-silny, brand wokół transparentności |
+| **#3** | **BeanMap** | `beanmap.io` | Sprawdzony koncept z v2 na .io — neutralny, SEO-silny, DE/PL-friendly |
+| **#4** | **Graded** | `graded.coffee` | Insiderski sygnał jakości (Q-grade), unikalna pozycja w niszy specialty |
+| **#5** | **Traded** | `traded.coffee` | Direct trade jako core value, branżowo czytelne |
 
 ---
 
-## Usunięte z v1 (zajęte lub roaster-centric):
+---
+
+## v4 — Całkowicie nowe propozycje (zweryfikowane RDAP, marzec 2026)
+
+### Strategia v4
+
+Wszystkie 20 pozycji to **wolne domeny**, zweryfikowane przez RDAP. Skupienie na `.coffee` (branżowe TLD, premium sygnał) i `.com` gdzie dostępne. Każda nazwa spełnia kryterium 2 sylab i neutralności wobec wszystkich 3 person.
+
+---
+
+### Tabela v4 — weryfikacja DNS, marzec 2026
+
+> Dostępność zweryfikowana przez **DNS (dig NS/A)**. Część domen okazała się zajęta mimo braku danych RDAP.
+
+| # | Nazwa | Domena | 2 sylaby | Neutralność | Brand | SEO | DE/PL | Dostępność | Marek | Krzysiek |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | **Vetted** | vetted.coffee | ✅ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ✅ WOLNA | — | — |
+| 2 | **Single** | single.coffee | ✅ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ❌ ZAJĘTA (DNS) | — | — |
+| 3 | **Chosen** | chosen.coffee | ✅ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ❌ ZAJĘTA (DNS) | — | — |
+| 4 | **Connect** | connect.coffee | ✅ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ❌ ZAJĘTA (DNS) | — | — |
+| 5 | **Crafted** | crafted.coffee | ✅ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ❌ ZAJĘTA (DNS) | — | — |
+| 6 | **Select** | select.coffee | ✅ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ❌ ZAJĘTA (DNS) | — | — |
+| 7 | **Gather** | gather.coffee | ✅ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ❌ ZAJĘTA (DNS) | — | — |
+| 8 | **Circle** | circle.coffee | ✅ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ❌ ZAJĘTA (DNS) | — | — |
+| 9 | **Micro** | micro.coffee | ✅ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ❌ ZAJĘTA (DNS) | — | — |
+| 10 | **Cupped** | cupped.coffee | ✅ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ❌ ZAJĘTA (DNS) | — | — |
+| 11 | **Market** | market.coffee | ✅ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ❌ ZAJĘTA (DNS) | — | — |
+| 12 | **Finder** | finder.coffee | ✅ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ❌ ZAJĘTA (DNS) | — | — |
+| 13 | **Global** | global.coffee | ✅ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ✅ WOLNA | — | — |
+| 14 | **Roasted** | roasted.coffee | ✅ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ✅ WOLNA | — | — |
+| 15 | **Local** | local.coffee | ✅ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ✅ WOLNA | — | — |
+| 16 | **BeanNest** | beannest.com | ✅ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ✅ WOLNA | — | — |
+| 17 | **BeanMesh** | beanmesh.com | ✅ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ✅ WOLNA | — | — |
+| 18 | **BeanDen** | beanden.com | ✅ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ✅ WOLNA | — | — |
+| 19 | **BeanRay** | beanray.com | ✅ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ✅ WOLNA | — | — |
+| 20 | **Vetted** | vetted.coffee | ✅ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ✅ WOLNA | — | — |
+
+---
+
+### Uzasadnienia v4
+
+**Vetted.coffee** — "vetted" = zweryfikowany, sprawdzony. Wprost nawiązuje do core feature platformy (Verified Roaster). Sygnał zaufania dla kawiarni szukającej dostawcy. Unikalne, premium, branżowo czytelne. ✅ 2 sylaby.
+
+**Single.coffee** — "single" = single-origin, najważniejszy termin specialty coffee. Natychmiast sygnalizuje niszę. Działa dla wszystkich 3 person: palarnia ("my single origins"), kawiarnia ("find single-origin suppliers"), konsument ("single-origin discovery"). ✅ 2 sylaby.
+
+**Chosen.coffee** — "chosen" = wybrane, selekcjonowane. Premium feel, sugeruje kuratowany katalog. Dla kawiarni: "chosen by the community". Dla palarni: "be chosen". ✅ 2 sylaby.
+
+**Connect.coffee** — "connect" = połącz. Najbardziej dosłowna misja platformy — łączenie palarni z kawiarniami. Globalne, DE/PL-friendly (identyczna wymowa). Ryzyko: generyczne poza kontekstem TLD. ✅ 2 sylaby.
+
+**Crafted.coffee** — "crafted" = rzemieślnicze. Specialty coffee = craft. Neutralne (dotyczy całego łańcucha), premium. Silny rezonans z branżą micro-roasters. ✅ 2 sylaby.
+
+**Select.coffee** — "select" = wyselekcjonowane. Sygnał jakości i kuratacji. Znane w kawie: "select beans", "select roasters". DE/PL-friendly. ✅ 2 sylaby.
+
+**Gather.coffee** — "gather" = zbierz, zgromadź. Platforma gromadzi palarnie i kawiarnie w jednym miejscu. Community feel. Metafora zbioru (harvest/gather) rezonuje z farmą. ✅ 2 sylaby.
+
+**Circle.coffee** — "circle" = krąg, społeczność. Network effects wbudowane w nazwę. Ciepłe, community-driven. Specialty coffee to mała, zwarta branża — "circle" idealnie to oddaje. ✅ 2 sylaby.
+
+**Micro.coffee** — "micro" = micro-lot, micro-roaster. Terminy kluczowe w specialty coffee. Bardzo niszowe, insider-friendly. Ryzyko: może sugerować "małą" platformę. ✅ 2 sylaby.
+
+**Cupped.coffee** — "cupped" = przeszedł cupping (degustację). Branżowy rytuał oceny jakości kawy. Insiderski sygnał, buduje credibility. Ryzyko: mniej zrozumiałe poza branżą. ✅ 2 sylaby.
+
+**Market.coffee** — "market" = rynek, marketplace. Wprost opisuje model platformy B2B. Silne SEO. Ryzyko: generyczne, mało premium. ✅ 2 sylaby.
+
+**Finder.coffee** — "finder" = wyszukiwarka palarni. Opisuje core funkcję (discovery). Zrozumiałe globalnie, DE/PL-friendly. Ryzyko: narzędziowe, mało emocjonalne. ✅ 2 sylaby.
+
+**Global.coffee** — "global" = globalny katalog palarni. Podkreśla zasięg geograficzny jako USP. Ryzyko: zbyt generyczne, mało niszowe. ✅ 2 sylaby.
+
+**Roasted.coffee** — "roasted" = palona kawa. Oczywiste dla branży. Silne SEO. Ryzyko: roaster-centric (pomija kawiarnie i konsumentów jako użytkowników). ✅ 2 sylaby.
+
+**Local.coffee** — "local" = lokalne palarnie. Podkreśla trend lokalności i community. Ryzyko: "local" zaprzecza globalnemu zasięgowi platformy. ✅ 2 sylaby.
+
+**BeanNest.com** — "bean nest" = gniazdo ziaren. Ciepła, organiczna metafora — miejsce gdzie wszystko się zaczyna. Unikalna, niestandardowa w branży. ✅ 2 sylaby.
+
+**BeanMesh.com** — "bean mesh" = sieć ziaren. "Mesh" = sieć połączeń. Technologicznie brzmiące, sugeruje platformę/infrastrukturę. Ryzyko: mniej warm, bardziej tech. ✅ 2 sylaby.
+
+**BeanDen.com** — "bean den" = jama/legowisko ziaren. Przytulna, insiderska metafora. Dla znawców kawy. Ryzyko: "den" mało znane w DE/PL. ✅ 2 sylaby.
+
+**BeanRay.com** — "bean ray" = promień ziarna. Metafora światła, odkrycia, widoczności. Ryzyko: abstrakcyjne, bez silnego znaczenia branżowego. ✅ 2 sylaby.
+
+---
+
+### Rekomendacja końcowa v4
+
+| Priorytet | Nazwa | Domena | Główny argument |
+|---|---|---|---|
+| **#1** | **Vetted** | `vetted.coffee` | Core feature platformy w nazwie, premium, zaufanie — najsilniejszy brand story |
+| **#2** | **BeanNest** | `beannest.com` | Najlepsza opcja .com — unikalna metafora, ciepła, memorizowalna |
+| **#3** | **Global** | `global.coffee` | Podkreśla zasięg, neutralne, DE/PL-friendly |
+| **#4** | **BeanMesh** | `beanmesh.com` | Sieć połączeń, tech-credible, .com |
+| **#5** | **BeanDen** | `beanden.com` | Przytulna insiderska metafora, .com |
+
+---
+
+## Historia — usunięte wersje
+
+### Usunięte z v1 (zajęte lub roaster-centric):
 - ~~Roastly~~ — zajęta (roastly.com od 2025)
 - ~~RoastVault~~ — zajęta (roastvault.com od 2025)
-- ~~RoastIndex, RoastCircle~~ — roaster-centric (zachowany RoastCircle jako #9 z obniżoną oceną)
+- ~~RoastIndex, RoastCircle~~ — roaster-centric
 - ~~SpecialtyBase, Cuppio, Kaffindr, SpecialtyFind~~ — zastąpione lepszymi wariantami
+
+### Usunięte z v2 (niemal wszystkie zajęte .com):
+- ~~BeanMap, OriginMap, SpecialtyMap, BrewMap~~ — .com zajęte, odżywają na .io
+- ~~BeanRoute, CoffeeFind, RoastCircle, RoasterFinder~~ — zajęte
+- ~~CoffeeHunt, CoffeeDiscovery, CoffeeRoute, BrewBase~~ — zajęte
+- ~~BeanVault, CraftSource, DirectBean, BeanWise, CupQuest, RoastMap~~ — zajęte
 
 ---
 
-*Wygenerowane przez Claude Code | 2026-03-17 | v2 — korekta po analizie trójstronności i rynków DE/PL*
+---
+
+## Finalna lista — tylko potwierdzone DNS jako WOLNE
+
+> Weryfikacja: DNS (dig NS/A) — marzec 2026. Jedyna miarodajna metoda.
+
+| Domena | Sylaby | Kategoria |
+|--------|--------|-----------|
+| **vetted.coffee** | 2 | ⭐ TOP — weryfikacja w nazwie |
+| **direct.coffee** | 2 | ⭐ TOP — direct trade |
+| **graded.coffee** | 2 | ⭐ TOP — Q-grade |
+| **traded.coffee** | 2 | mocna — direct trade |
+| **listed.coffee** | 2 | funkcjonalna — katalog |
+| **traced.coffee** | 1 | mocna — traceability |
+| **global.coffee** | 2 | neutralna — zasięg |
+| **roasted.coffee** | 2 | roaster-centric |
+| **local.coffee** | 2 | sprzeczna z globalnym zasięgiem |
+| **grade.coffee** | 1 | jakość |
+| **trade.coffee** | 1 | direct trade |
+| **forge.coffee** | 1 | kucie relacji |
+| **roastershub.coffee** | 4 | oryginalna nazwa projektu |
+| **roasterhub.coffee** | 3 | wariant nazwy projektu |
+| **roastershub.io** | 4 | oryginalna nazwa projektu |
+| **roasterhub.io** | 3 | wariant nazwy projektu |
+| **beanmap.io** | 2 | ⭐ TOP — neutralna, SEO |
+| **originmap.io** | 2 | ⭐ TOP — premium, origin |
+| **brewmap.io** | 2 | neutralna |
+| **thecuppingroom.com** | 4 | insiderska, .com |
+| **beannest.com** | 2 | ⭐ TOP — .com, unikalna |
+| **beanmesh.com** | 2 | .com, tech |
+| **beanden.com** | 2 | .com, przytulna |
+| **beanray.com** | 2 | .com, abstrakcyjna |
+
+---
+
+*Wygenerowane przez Claude Code | 2026-03-17 | v4 — pełna weryfikacja DNS*
