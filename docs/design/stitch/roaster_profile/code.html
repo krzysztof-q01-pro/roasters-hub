@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Newsreader:ital,wght@0,400;0,700;0,800;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-fixed-dim": "#95d4b3",
+                        "surface-container-high": "#e8e8e6",
+                        "surface-tint": "#9a4600",
+                        "surface-container-low": "#f4f4f2",
+                        "primary": "#974400",
+                        "on-secondary-fixed-variant": "#0e5138",
+                        "on-background": "#1a1c1b",
+                        "on-surface": "#1a1c1b",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#004c6e",
+                        "surface-variant": "#e2e3e1",
+                        "surface-bright": "#f9f9f7",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#eeeeec",
+                        "on-tertiary-fixed": "#001e2f",
+                        "primary-fixed-dim": "#ffb68d",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#f1f1ef",
+                        "surface": "#f9f9f7",
+                        "secondary-container": "#aeeecb",
+                        "tertiary": "#00628d",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#007cb1",
+                        "surface-dim": "#dadad8",
+                        "primary-container": "#b95a14",
+                        "secondary": "#2c694e",
+                        "outline-variant": "#dcc1b3",
+                        "on-secondary-container": "#316e52",
+                        "on-primary-fixed": "#321200",
+                        "surface-container-highest": "#e2e3e1",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#88ceff",
+                        "on-tertiary-container": "#fcfcff",
+                        "inverse-surface": "#2f3130",
+                        "primary-fixed": "#ffdbc9",
+                        "inverse-primary": "#ffb68d",
+                        "on-primary-container": "#fffbff",
+                        "tertiary-fixed": "#c8e6ff",
+                        "outline": "#897267",
+                        "on-secondary-fixed": "#002114",
+                        "background": "#f9f9f7",
+                        "on-surface-variant": "#564338",
+                        "on-primary-fixed-variant": "#763300",
+                        "secondary-fixed": "#b1f0ce",
+                        "on-error": "#ffffff"
+                    },
+                    fontFamily: {
+                        "headline": ["Newsreader"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-shadow {
+            box-shadow: 0 20px 40px -20px rgba(26, 28, 27, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-primary-fixed">
+<!-- Top Navigation Bar (Shared Component) -->
+<nav class="bg-white/80 dark:bg-stone-900/80 backdrop-blur-md docked full-width top-0 z-50 shadow-sm dark:shadow-none sticky">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-bold font-['Newsreader'] text-stone-900 dark:text-stone-50 tracking-tighter">Bean Map</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors font-body text-sm" href="#">Browse Roasters</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors font-body text-sm" href="#">Map</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors font-body text-sm" href="#">List Your Roastery</a>
+<div class="text-orange-700 dark:text-orange-500 hover:opacity-80 transition-opacity cursor-pointer active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</div>
+<div class="bg-stone-100 dark:bg-stone-800 h-[1px] w-full"></div>
+</nav>
+<!-- Breadcrumb -->
+<div class="max-w-7xl mx-auto px-6 pt-8">
+<nav class="flex text-xs font-label uppercase tracking-widest text-on-surface-variant/60">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span class="mx-2">/</span>
+<a class="hover:text-primary transition-colors" href="#">Roasters</a>
+<span class="mx-2">/</span>
+<a class="hover:text-primary transition-colors" href="#">Poland</a>
+<span class="mx-2">/</span>
+<span class="text-on-surface">Hard Beans</span>
+</nav>
+</div>
+<!-- Hero Section -->
+<header class="w-full h-[614px] mt-6 relative overflow-hidden">
+<div class="absolute inset-0 bg-stone-900">
+<img alt="Panoramic view of modern coffee roastery" class="w-full h-full object-cover opacity-70" data-alt="Modern coffee roastery with industrial machines and lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgr4OyWCA6LXUGx6wspj7rW_BL_KeL-iQAWDmDocoke-HcGEDgw-GP_hW_8uVRnj-LUebE6VI0pkezt_0N5JvqxkmbMuIAMsICpZ7mtLc9XItynUeoiKFBZ7NPYCbLEUEGkAl4R9N9nTQCtL3a4WnRw7XkbHDDwT6C_2D_LVydcjZC40v4_71pv-nuquRHxmv6YxtNKZnR25vCcd4JEqwA8RSHmvpIGTncRVeAZuC5_IO_7iEYyMGE8uNe1YqWtIGPRNHBPG6525gu"/>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="max-w-7xl mx-auto h-full px-6 relative flex flex-col justify-end pb-12">
+<div class="absolute top-8 right-6">
+<div class="bg-secondary text-on-secondary px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+                Verified Roaster
+            </div>
+</div>
+<h1 class="font-headline italic text-6xl md:text-7xl lg:text-8xl text-white tracking-tighter leading-none mb-4 -ml-1">Hard Beans</h1>
+<div class="flex items-center text-white/90 gap-2 font-label text-sm md:text-base">
+<span class="material-symbols-outlined text-primary-fixed-dim" style="font-variation-settings: 'FILL' 1;">location_on</span>
+            Opole, Poland
+        </div>
+</div>
+</header>
+<!-- Main Content Cluster -->
+<main class="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-16">
+<!-- Left Column: Content -->
+<div class="space-y-16">
+<!-- About -->
+<section>
+<h2 class="font-headline text-3xl mb-8 tracking-tight">The Art of the Roast</h2>
+<div class="prose prose-stone max-w-none">
+<p class="text-lg leading-relaxed text-on-surface-variant font-light">
+                    Born in Opole, Hard Beans represents the pinnacle of Polish specialty coffee craftsmanship. Our approach is purely scientific yet deeply sensorial. We believe that every bean has a story written in its density and chemical composition, which we translate into extraordinary sensory profiles. Our roastery is a laboratory of taste where tradition meets cutting-edge technology.
+                </p>
+</div>
+</section>
+<!-- Origins -->
+<section>
+<h3 class="font-label uppercase tracking-widest text-xs text-on-surface-variant/60 mb-6">Current Origins</h3>
+<div class="flex flex-wrap gap-3">
+<span class="bg-surface-container-high px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">Ethiopia <span class="text-lg">🇪🇹</span></span>
+<span class="bg-surface-container-high px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">Kenya <span class="text-lg">🇰🇪</span></span>
+<span class="bg-surface-container-high px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">Colombia <span class="text-lg">🇨🇴</span></span>
+</div>
+</section>
+<!-- Photo Gallery (Bento-ish Grid) -->
+<section>
+<h3 class="font-label uppercase tracking-widest text-xs text-on-surface-variant/60 mb-8">Inside the Roastery</h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="aspect-square overflow-hidden rounded-xl bg-surface-container">
+<img alt="Roastery machines" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" data-alt="Close up of professional coffee roasting machine" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAooMhnzfq1-a63Wli4qvJDoZyxV5qQYYe5DOkRoVcy_RcIAgLHyDhcPmgQSkc0m-O9qU2YDeTE9fyOs-hIoMFeMFhp1p1JmHricSdbxqZQMvMcAisQjeYg4MBN7_9NfcWxY3DXHSmeKW2RbJXScpbCrgrMgmTl9cZ5_PWCi1AdWyVB0PFqgi_06j1h8KtNITmBcwfS-76wN6DgOZzeLhDBwCZVwAEEsGDDHZ64nyh4Kfv4_UuZ2vSyr0-DASGNkxuQetSwEPoszu4"/>
+</div>
+<div class="aspect-square overflow-hidden rounded-xl bg-surface-container">
+<img alt="Interior ambiance" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" data-alt="Interior of a modern minimal coffee shop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCx_neXaLxfhMJhayd8srWq0JBCypFvPODyl-TQCxV-InyExAz8lsrdXFKwPEMMtZmDmE0Wv4FaWHU-dtwLfvVUf53Xa8PWOWIIpfdNm4M41p3H9SfZjwnmKzAkr-UtVuKOeeL9b157S5lI8ENwvrZj0ALI31A75ntqMKFsB1KOUGDPoJ6C1uHbXhrdyhK-byPrTo3w05UJNshB6melq2KYPJlcDT2d-3UzJAN3iVsJL85i7RKUGWswTD39_eMo6Z3Y7vxHnXUZtmJz"/>
+</div>
+<div class="col-span-2 aspect-[16/9] overflow-hidden rounded-xl bg-surface-container">
+<img alt="Coffee cupping" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" data-alt="Professional coffee tasting setup with multiple cups" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7UnXaVk2qi-0mvBXiLIcKcN8hxsqyAASQWDjwpf7JB-uFGJcDi7x7jiceLaaoGOI8l8p9RYKxmtfuUjXgCqDSNEiAJCnAD3ZFdBT4g5l5JlStF8TJqlJQWZyunKZm2HFNir3hL5MKYAEnd8UO0x7u1pMbvuRScwNhjqsB-_Vz6HSphWVvXk1ej4Qd3854JvvnOl1LrQjw__cyn-5jw5A_537iqHxqlXH_814FSvcjhgmtQuSQ8C0LBm7gE2lzEBEWHIHLgeTXxC-o"/>
+</div>
+</div>
+</section>
+<!-- Certifications -->
+<section class="bg-surface-container-low p-8 rounded-2xl">
+<h3 class="font-label uppercase tracking-widest text-xs text-on-surface-variant/60 mb-8">Quality Certifications</h3>
+<div class="flex items-center gap-8 opacity-70 grayscale">
+<div class="flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-4xl" data-icon="verified_user">verified_user</span>
+<span class="text-[10px] font-bold uppercase">SCA Member</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-4xl" data-icon="eco">eco</span>
+<span class="text-[10px] font-bold uppercase">Bio Certified</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-4xl" data-icon="handshake">handshake</span>
+<span class="text-[10px] font-bold uppercase">Direct Trade</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Sticky Card -->
+<aside class="relative">
+<div class="sticky top-24 space-y-8">
+<div class="bg-surface-container-lowest editorial-shadow rounded-2xl p-8 border border-outline-variant/10">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h4 class="font-headline text-2xl font-bold tracking-tight">Hard Beans</h4>
+<p class="text-sm text-on-surface-variant/70">Specialty Roastery</p>
+</div>
+<span class="material-symbols-outlined text-secondary" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="space-y-4 mb-8">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-on-surface-variant/40 mt-0.5">location_on</span>
+<p class="text-sm leading-tight text-on-surface-variant">ul. Częstochowska 11,<br/>45-422 Opole, Poland</p>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-on-surface-variant/40 mt-0.5">mail</span>
+<p class="text-sm text-on-surface-variant">hello@hardbeans.com</p>
+</div>
+</div>
+<div class="space-y-3">
+<button class="w-full bg-primary text-on-primary py-3.5 rounded-lg font-medium text-sm hover:bg-primary-container transition-all shadow-lg shadow-primary/10">Visit Website</button>
+<button class="w-full border border-outline text-on-surface-variant py-3.5 rounded-lg font-medium text-sm hover:bg-surface-container-low transition-all">Shop Online</button>
+</div>
+<div class="flex items-center justify-between mt-8 pt-8 border-t border-surface-container">
+<div class="flex gap-4">
+<a class="text-on-surface-variant/60 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">camera</span>
+</a>
+<a class="text-on-surface-variant/60 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">share</span>
+</a>
+</div>
+<button class="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant/40 hover:text-primary transition-colors flex items-center gap-1">
+                        Copy Link
+                        <span class="material-symbols-outlined text-xs">link</span>
+</button>
+</div>
+</div>
+<!-- Mini Map -->
+<div class="rounded-2xl overflow-hidden h-[200px] relative editorial-shadow border border-outline-variant/10">
+<div class="absolute inset-0 bg-surface-container flex items-center justify-center">
+<img alt="Map location of Opole" class="w-full h-full object-cover grayscale opacity-50 contrast-125" data-location="Opole, Poland" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeJrERVGqDLUo5HfAJgDgb9aY7BJhmEpPJqU_v7gG1C8mOjGPVqTBl3nzeWeBXIUE9rxr1uEOrrdHHsbxNkcvD119q5NkOgXrQu80Hr9B7-7p5J7JiJvMR4uGf0nGu2tKo74aTsR6B9xPfZfdk5b9-pSGrI5TPh5KyUKFpLLR98oDAzJitXcyblBQL55v5vsfXANEaJZnAdrJzrcKFOm03NCBAaa_lQwXT5YO10VlVJE3YPAckRRMFB6X1cEGlYDf6CzlSkSSSSJ_H"/>
+<div class="absolute inset-0 bg-primary/5 pointer-events-none"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-4 h-4 bg-primary rounded-full animate-pulse"></div>
+<div class="absolute w-8 h-8 bg-primary/20 rounded-full animate-ping"></div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</main>
+<!-- More Roasters Section -->
+<section class="bg-surface-container-low py-24">
+<div class="max-w-7xl mx-auto px-6">
+<div class="flex justify-between items-end mb-12">
+<div>
+<h3 class="font-headline text-4xl italic tracking-tight mb-2">Discover Poland</h3>
+<p class="text-on-surface-variant/60 font-light">The flourishing specialty scene in central Europe.</p>
+</div>
+<a class="font-label text-xs uppercase tracking-widest font-bold text-primary pb-1 border-b-2 border-primary/20 hover:border-primary transition-all" href="#">View All Poland</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<div class="group cursor-pointer">
+<div class="aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-surface-container-lowest">
+<img alt="Roastery card 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Modern minimalist coffee packaging and brewing setup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGianJT0bu7GdYqDLfDRZZgFC6Cv4yEOs6yNpvB5QJilKN_EMyZL8IwQZgnkeLwHybXyATUwaWMSTOlC9rr78fcdTL9IQQxrgsrKE_0vXmMQ_dnoLSo1kAXzVLjLXaJAEB_Ol71120bSdy8tQ_anujlAIdeAbTO0t1_p-9WM-422oe9y49KKLLLwOliGS7yEkvgb7tsT3h6jj4W7mi_6sK34qP1z639xzpIHl0bUVHHEyf8N4MQFFKa662epxznbC-NSDOLZXNYJzl"/>
+</div>
+<div class="px-2">
+<h4 class="font-headline text-xl mb-1">HAYB Coffee</h4>
+<p class="text-sm text-on-surface-variant/60">Warsaw, Poland</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group cursor-pointer">
+<div class="aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-surface-container-lowest">
+<img alt="Roastery card 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Industrial style coffee shop interior with warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAExKaeTGjP4_zqP0jYQ5wWihdkOAZtA4MSqoiM09FhU10BroOyQZDEac5WfyOLj4a20AdyT5eDvZCaP6fl_qnQx2VsbUdGgXskOf56aLvcKWz0wmqFKLPDJHK1qiPo13_qFhmCLuhDerwgBYSL8CoC9g_xTqZxnbuFOvF91U_HuYsPHi1v1Tu1KuMHfhdhN8-tsj1DZBtdpmx-WVKfY5YSd57bdU0YOMGfkTmd8bR_INULiVNYRzqeNEH9FQfrPvI8WNJxuG8X7OZo"/>
+</div>
+<div class="px-2">
+<h4 class="font-headline text-xl mb-1">Coffee Proficiency</h4>
+<p class="text-sm text-on-surface-variant/60">Krakow, Poland</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group cursor-pointer">
+<div class="aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-surface-container-lowest">
+<img alt="Roastery card 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Freshly roasted coffee beans cooling in a machine tray" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIVCJkliz5ws6MpE3OJMju1gTI9JDt5jii3FSZJoXM3wOp5mChwWxQ-TrjjPNgPta60yYoXSsUlBKnL4wtbu3_LxC9N7FbP3943wZVfBDKV_sfUHP61B_GeIaVsWPIVgD2X5wdvethVoVrufyH2XDywdXOoRyTb0_PhRvlu-u_86g3mlkwAIiKAnAvrxU60X-h7Ru9TSnH_ncIk7owlEvZTneU3icNnfzPd1A0KI3d9ndETBy-OGvF6Y2QaAXK-IdIxZzLj0B-AGd0"/>
+</div>
+<div class="px-2">
+<h4 class="font-headline text-xl mb-1">Audun Coffee</h4>
+<p class="text-sm text-on-surface-variant/60">Bydgoszcz, Poland</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer (Shared Component) -->
+<footer class="bg-stone-900 dark:bg-black w-full pt-16 pb-8 font-body text-sm font-light">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-8 max-w-7xl mx-auto">
+<div>
+<span class="text-3xl font-headline text-white mb-4 block">Bean Map</span>
+<p class="text-stone-400 leading-relaxed">Curating the finest specialty coffee roasters from across the globe. For those who value origin and craftsmanship.</p>
+</div>
+<div>
+<h5 class="text-white text-xs uppercase tracking-widest font-bold mb-6">Directory</h5>
+<ul class="space-y-3">
+<li><a class="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="#">Browse Roasters</a></li>
+<li><a class="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="#">Global Map</a></li>
+<li><a class="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="#">Origins Guide</a></li>
+<li><a class="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="#">Subscription Hub</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-white text-xs uppercase tracking-widest font-bold mb-6">Company</h5>
+<ul class="space-y-3">
+<li><a class="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="#">About</a></li>
+<li><a class="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="#">Privacy Policy</a></li>
+<li><a class="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="#">Terms of Service</a></li>
+<li><a class="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-white text-xs uppercase tracking-widest font-bold mb-6">Social</h5>
+<div class="flex flex-col gap-3">
+<a class="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="#">Instagram</a>
+<a class="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="#">Twitter</a>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-8 mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-[10px] uppercase tracking-[0.2em] font-light text-stone-400">© 2024 Bean Map. Crafted for the Sensory Curator.</p>
+</div>
+</footer>
+</body></html>

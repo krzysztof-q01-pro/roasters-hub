@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* === COLORS — from Stitch design system === */
+  --color-primary: #974400;
+  --color-primary-container: #b95a14;
+  --color-primary-fixed: #ffdbc9;
+  --color-primary-fixed-dim: #ffb68d;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #fffbff;
+  --color-on-primary-fixed: #321200;
+  --color-on-primary-fixed-variant: #763300;
+
+  --color-secondary: #2c694e;
+  --color-secondary-container: #aeeecb;
+  --color-secondary-fixed: #b1f0ce;
+  --color-secondary-fixed-dim: #95d4b3;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #316e52;
+  --color-on-secondary-fixed: #002114;
+  --color-on-secondary-fixed-variant: #0e5138;
+
+  --color-tertiary: #00628d;
+  --color-tertiary-container: #007cb1;
+  --color-tertiary-fixed: #c8e6ff;
+  --color-tertiary-fixed-dim: #88ceff;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #fcfcff;
+  --color-on-tertiary-fixed: #001e2f;
+  --color-on-tertiary-fixed-variant: #004c6e;
+
+  --color-background: #f9f9f7;
+  --color-on-background: #1a1c1b;
+  --color-surface: #f9f9f7;
+  --color-surface-bright: #f9f9f7;
+  --color-surface-dim: #dadad8;
+  --color-surface-variant: #e2e3e1;
+  --color-surface-container: #eeeeec;
+  --color-surface-container-low: #f4f4f2;
+  --color-surface-container-high: #e8e8e6;
+  --color-surface-container-highest: #e2e3e1;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-tint: #9a4600;
+  --color-on-surface: #1a1c1b;
+  --color-on-surface-variant: #564338;
+
+  --color-outline: #897267;
+  --color-outline-variant: #dcc1b3;
+
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+  --color-on-error: #ffffff;
+  --color-on-error-container: #93000a;
+
+  --color-inverse-surface: #2f3130;
+  --color-inverse-on-surface: #f1f1ef;
+  --color-inverse-primary: #ffb68d;
+
+  /* === FONTS === */
+  --font-headline: var(--font-newsreader), "Georgia", serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+
+  /* === BORDER RADIUS === */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+}
+
+/* === BASE STYLES === */
+body {
+  background: var(--color-background);
+  color: var(--color-on-background);
+  font-family: var(--font-body);
+}
+
+/* === UTILITIES === */
+.editorial-shadow {
+  box-shadow: 0 20px 40px -20px rgba(26, 28, 27, 0.04);
+}
+
+.glass-nav {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+}
+
+.text-editorial-tight {
+  letter-spacing: -0.02em;
+}
+
+/* === SCROLLBAR === */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-container-high);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-outline-variant);
+}
+
+/* === SELECTION === */
+::selection {
+  background: var(--color-primary-fixed);
+  color: var(--color-on-primary-fixed);
+}

@@ -1,0 +1,145 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum RoasterStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+  INACTIVE
+}
+
+enum UserRole {
+  ROASTER
+  ADMIN
+}
+
+enum EventType {
+  PAGE_VIEW
+  CONTACT_CLICK
+  SHOP_CLICK
+  WEBSITE_CLICK
+  MAP_CLICK
+  SHARE_CLICK
+}
+
+enum NewsletterSegment {
+  CAFE
+  CONSUMER
+  ROASTER
+}
+
+model UserProfile {
+  id        String    @id
+  email     String    @unique
+  role      UserRole  @default(ROASTER)
+  roaster   Roaster?  @relation(fields: [roasterId], references: [id])
+  roasterId String?   @unique
+  createdAt DateTime  @default(now())
+
+  adminNotes AdminNote[]
+
+  @@map("user_profiles")
+}
+
+model Roaster {
+  id          String        @id @default(cuid())
+  name        String
+  slug        String        @unique
+  description String?       @db.Text
+  country     String
+  countryCode String
+  city        String
+  lat         Float?
+  lng         Float?
+
+  website     String?
+  email       String?
+  instagram   String?
+  facebook    String?
+  shopUrl     String?
+
+  certifications String[]
+  origins        String[]
+  roastStyles    String[]
+
+  status       RoasterStatus @default(PENDING)
+  featured     Boolean       @default(false)
+  featuredUntil DateTime?
+
+  images       RoasterImage[]
+  events       ProfileEvent[]
+  adminNotes   AdminNote[]
+  owner        UserProfile?
+
+  verifiedAt     DateTime?
+  rejectedAt     DateTime?
+  rejectedReason String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([status])
+  @@index([country])
+  @@index([countryCode])
+  @@index([city])
+  @@index([featured])
+  @@index([status, featured])
+  @@map("roasters")
+}
+
+model RoasterImage {
+  id         String   @id @default(cuid())
+  roaster    Roaster  @relation(fields: [roasterId], references: [id], onDelete: Cascade)
+  roasterId  String
+  url        String
+  alt        String?
+  order      Int      @default(0)
+  isPrimary  Boolean  @default(false)
+
+  @@index([roasterId])
+  @@map("roaster_images")
+}
+
+model ProfileEvent {
+  id        String    @id @default(cuid())
+  roaster   Roaster   @relation(fields: [roasterId], references: [id], onDelete: Cascade)
+  roasterId String
+  type      EventType
+  ipHash    String?
+  userAgent String?
+  createdAt DateTime  @default(now())
+
+  @@index([roasterId])
+  @@index([roasterId, type])
+  @@index([createdAt])
+  @@map("profile_events")
+}
+
+model AdminNote {
+  id        String      @id @default(cuid())
+  roaster   Roaster     @relation(fields: [roasterId], references: [id], onDelete: Cascade)
+  roasterId String
+  admin     UserProfile @relation(fields: [adminId], references: [id])
+  adminId   String
+  note      String      @db.Text
+  createdAt DateTime    @default(now())
+
+  @@index([roasterId])
+  @@map("admin_notes")
+}
+
+model NewsletterSubscriber {
+  id           String              @id @default(cuid())
+  email        String              @unique
+  segment      NewsletterSegment   @default(CONSUMER)
+  confirmedAt  DateTime?
+  createdAt    DateTime            @default(now())
+
+  @@map("newsletter_subscribers")
+}

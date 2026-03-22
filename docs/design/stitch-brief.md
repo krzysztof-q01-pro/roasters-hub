@@ -19,7 +19,7 @@ It is the only platform that serves all three sides simultaneously — functioni
 
 **Tagline:** *Discover the world's best specialty coffee roasters.*
 
-**URL structure:** `roastershub.com`
+**URL structure:** `beanmap.cafe`
 
 ### Core User Journeys
 
@@ -150,7 +150,7 @@ All screens must be designed **mobile-first** — the mobile layout is the prima
 #### Layout (desktop, top → bottom)
 
 **Navigation bar:**
-- Logo "Roasters Hub" (left) — Fraunces font, accent color for "Hub"
+- Logo "Bean Map" (left) — Fraunces font, accent color for "Hub"
 - Nav links: Browse Roasters | Map | List Your Roastery (right)
 - Clean white background, subtle bottom border
 

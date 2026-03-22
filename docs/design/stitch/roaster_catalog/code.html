@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Roaster Catalog | Bean Map</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&amp;family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed-dim": "#95d4b3",
+              "surface-container-high": "#e8e8e6",
+              "surface-tint": "#9a4600",
+              "surface-container-low": "#f4f4f2",
+              "primary": "#974400",
+              "on-secondary-fixed-variant": "#0e5138",
+              "on-background": "#1a1c1b",
+              "on-surface": "#1a1c1b",
+              "error-container": "#ffdad6",
+              "on-tertiary-fixed-variant": "#004c6e",
+              "surface-variant": "#e2e3e1",
+              "surface-bright": "#f9f9f7",
+              "on-tertiary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "surface-container": "#eeeeec",
+              "on-tertiary-fixed": "#001e2f",
+              "primary-fixed-dim": "#ffb68d",
+              "on-error-container": "#93000a",
+              "inverse-on-surface": "#f1f1ef",
+              "surface": "#f9f9f7",
+              "secondary-container": "#aeeecb",
+              "tertiary": "#00628d",
+              "error": "#ba1a1a",
+              "tertiary-container": "#007cb1",
+              "surface-dim": "#dadad8",
+              "primary-container": "#b95a14",
+              "secondary": "#2c694e",
+              "outline-variant": "#dcc1b3",
+              "on-secondary-container": "#316e52",
+              "on-primary-fixed": "#321200",
+              "surface-container-highest": "#e2e3e1",
+              "on-secondary": "#ffffff",
+              "on-primary": "#ffffff",
+              "tertiary-fixed-dim": "#88ceff",
+              "on-tertiary-container": "#fcfcff",
+              "inverse-surface": "#2f3130",
+              "primary-fixed": "#ffdbc9",
+              "inverse-primary": "#ffb68d",
+              "on-primary-container": "#fffbff",
+              "tertiary-fixed": "#c8e6ff",
+              "outline": "#897267",
+              "on-secondary-fixed": "#002114",
+              "background": "#f9f9f7",
+              "on-surface-variant": "#564338",
+              "on-primary-fixed-variant": "#763300",
+              "secondary-fixed": "#b1f0ce",
+              "on-error": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Newsreader", "serif"],
+              "body": ["Inter", "sans-serif"],
+              "label": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .text-editorial-tight { letter-spacing: -0.02em; }
+        .glass-nav { backdrop-filter: blur(20px); }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<header class="bg-white/80 dark:bg-stone-900/80 backdrop-blur-md shadow-sm dark:shadow-none docked full-width top-0 z-50 sticky">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-bold font-['Newsreader'] text-stone-900 dark:text-stone-50 tracking-tighter">Bean Map</span>
+<nav class="hidden md:flex items-center gap-6 font-['Newsreader'] italic tracking-tight">
+<a class="text-orange-700 dark:text-orange-400 font-semibold border-b-2 border-orange-700 pb-1" href="#">Browse Roasters</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors" href="#">Map</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors" href="#">List Your Roastery</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-lg text-sm focus:ring-2 focus:ring-primary w-64" placeholder="Find a roaster..." type="text"/>
+</div>
+<button class="text-stone-600 hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+<div class="bg-stone-100 dark:bg-stone-800 h-[1px] w-full"></div>
+</header>
+<main class="max-w-7xl mx-auto px-6 py-12">
+<!-- Breadcrumbs & Header -->
+<nav class="mb-4 text-label text-on-surface-variant flex items-center gap-2 text-xs uppercase tracking-widest">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-[10px]" data-icon="chevron_right">chevron_right</span>
+<span class="text-on-surface">Roasters</span>
+</nav>
+<header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="font-headline text-5xl md:text-6xl text-on-surface text-editorial-tight mb-2">Specialty Coffee Roasters</h1>
+<p class="text-on-surface-variant flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                247 verified sensory curators worldwide
+            </p>
+</div>
+</header>
+<div class="flex flex-col md:flex-row gap-16">
+<!-- Sidebar Filters -->
+<aside class="w-full md:w-[300px] shrink-0 space-y-10">
+<section>
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-headline text-2xl">Filters</h2>
+<button class="text-sm text-primary hover:underline underline-offset-4">Clear all</button>
+</div>
+<div class="space-y-8">
+<!-- Search Sidebar -->
+<div>
+<label class="text-label text-xs font-semibold uppercase tracking-wider mb-3 block">Search name</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder="Roastery name..." type="text"/>
+</div>
+<!-- Country Select -->
+<div>
+<label class="text-label text-xs font-semibold uppercase tracking-wider mb-3 block">Country</label>
+<select class="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm appearance-none">
+<option>United States 🇺🇸</option>
+<option>Norway 🇳🇴</option>
+<option>Japan 🇯🇵</option>
+<option>United Kingdom 🇬🇧</option>
+</select>
+</div>
+<!-- Origin Chips -->
+<div>
+<label class="text-label text-xs font-semibold uppercase tracking-wider mb-3 block">Origin Regions</label>
+<div class="flex flex-wrap gap-2">
+<button class="px-4 py-1.5 rounded-full bg-primary text-on-primary text-xs transition-colors">Ethiopia</button>
+<button class="px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant text-xs hover:bg-surface-variant transition-colors">Kenya</button>
+<button class="px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant text-xs hover:bg-surface-variant transition-colors">Colombia</button>
+<button class="px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant text-xs hover:bg-surface-variant transition-colors">Brazil</button>
+<button class="px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant text-xs hover:bg-surface-variant transition-colors">Guatemala</button>
+</div>
+</div>
+<!-- Certifications -->
+<div>
+<label class="text-label text-xs font-semibold uppercase tracking-wider mb-3 block">Certifications</label>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors">Fair Trade</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors">Organic</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors">Direct Trade</span>
+</label>
+</div>
+</div>
+<!-- Roast Style -->
+<div>
+<label class="text-label text-xs font-semibold uppercase tracking-wider mb-3 block">Roast Style</label>
+<div class="flex flex-col gap-2">
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="w-4 h-4 text-primary focus:ring-primary" name="roast" type="radio"/>
+<span class="text-sm">Light Roast</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="w-4 h-4 text-primary focus:ring-primary" name="roast" type="radio"/>
+<span class="text-sm">Medium Roast</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="w-4 h-4 text-primary focus:ring-primary" name="roast" type="radio"/>
+<span class="text-sm">Dark Roast</span>
+</label>
+</div>
+</div>
+<!-- Toggle -->
+<div class="pt-4 border-t border-surface-container-high">
+<label class="flex items-center justify-between cursor-pointer">
+<span class="text-sm font-medium">Direct Trade only</span>
+<div class="relative inline-flex h-6 w-11 items-center rounded-full bg-surface-container-high transition-colors">
+<span class="inline-block h-4 w-4 translate-x-1 transform rounded-full bg-white transition-transform"></span>
+</div>
+</label>
+</div>
+</div>
+</section>
+</aside>
+<!-- Main Content Area -->
+<section class="flex-1">
+<!-- Sort & Info Bar -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-surface-container-low">
+<span class="text-sm text-on-surface-variant italic">Showing 24 of 247 results</span>
+<div class="flex items-center gap-4">
+<span class="text-xs uppercase tracking-widest font-semibold">Sort by:</span>
+<select class="bg-transparent border-none text-sm font-medium focus:ring-0 cursor-pointer text-primary">
+<option>Relevance</option>
+<option>Name A–Z</option>
+<option>Newest Arrivals</option>
+<option>Rating</option>
+</select>
+</div>
+</div>
+<!-- Roaster Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+<!-- Roaster Card 1 -->
+<article class="group cursor-pointer">
+<div class="relative mb-4 aspect-[4/5] overflow-hidden rounded-xl bg-surface-container shadow-sm group-hover:shadow-md transition-all duration-300">
+<img alt="Coffee shop interior" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Interior of a modern boutique coffee roastery" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGFfCYSJlwDu83W9RpyTpPEF7TcYp-GqqpdMeYrREKHm8-iq5W9Mq-fNbMZvqft6jTlZI0xqPkKywu2HafRDBNqiQOgXzBY4_X0EAx8S2EtgJ1tVhRabZkZNhftKvgWn-frFyUEe-OYkjPXDh8MMa2VA1BdkZURNLhhrngsod2-4h-zzYTwTKWXYrV-Vf6CoEgBL6qM1-4a32eTOTt5Dgr0Z8i-Jv61M6JBXWPXo3Z34Fag81NNwgIB2KkuAmRoQxt4s7lDvcDkeR0"/>
+<span class="absolute top-4 right-4 bg-secondary text-white text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+                            Verified
+                        </span>
+</div>
+<h3 class="font-headline text-xl mb-1 group-hover:text-primary transition-colors">Onyx Coffee Lab</h3>
+<p class="text-label text-xs text-on-surface-variant mb-3">Rogers, Arkansas • USA</p>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="text-[10px] px-2 py-0.5 bg-surface-container-high rounded-full uppercase tracking-tighter">Ethiopia</span>
+<span class="text-[10px] px-2 py-0.5 bg-surface-container-high rounded-full uppercase tracking-tighter">Light Roast</span>
+</div>
+<p class="text-sm text-on-surface-variant line-clamp-2 leading-relaxed italic">Pushing the boundaries of specialty coffee through science and transparency.</p>
+</article>
+<!-- Roaster Card 2 -->
+<article class="group cursor-pointer">
+<div class="relative mb-4 aspect-[4/5] overflow-hidden rounded-xl bg-surface-container shadow-sm group-hover:shadow-md transition-all duration-300">
+<img alt="Barista at work" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Close up of a barista brewing pour over coffee" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1Na1aOtYENdP9axnMutbdQRdTRKahLjJ8NWf9lJHuVaOSPpd-hZ2JndVOfoYC2AVsNyHhyxmjX0hxaW4thekE13C6T5umFSmVEPVPxNWqcUXd3o1yjR7oHi9ZYCNy1A8_INz8QDUr0pQuIKfMMMoRSp2I5yTbhqVL9cHuKlxf1mIXOTNXhCB1YhOyv_GC0Q2CBHjwMyyoXKRE-EHoSnOijdpvVxLJQYfoA57SJS4Tk6IdTXA_ASSQAlwXWebL6EGgXEuqOyZi18u7"/>
+<span class="absolute top-4 right-4 bg-secondary text-white text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+                            Verified
+                        </span>
+</div>
+<h3 class="font-headline text-xl mb-1 group-hover:text-primary transition-colors">Tim Wendelboe</h3>
+<p class="text-label text-xs text-on-surface-variant mb-3">Oslo • Norway</p>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="text-[10px] px-2 py-0.5 bg-surface-container-high rounded-full uppercase tracking-tighter">Colombia</span>
+<span class="text-[10px] px-2 py-0.5 bg-surface-container-high rounded-full uppercase tracking-tighter">Nordic Light</span>
+</div>
+<p class="text-sm text-on-surface-variant line-clamp-2 leading-relaxed italic">An espresso bar, roastery and coffee resource center focusing on quality.</p>
+</article>
+<!-- Roaster Card 3 -->
+<article class="group cursor-pointer">
+<div class="relative mb-4 aspect-[4/5] overflow-hidden rounded-xl bg-surface-container shadow-sm group-hover:shadow-md transition-all duration-300">
+<img alt="Coffee bags" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Aesthetic stack of craft coffee bean bags" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmiZAaj-9If9MOQ3XIUj-HEfkwj8-lKAQaRTjnXRRFYHZxG_PofuZOvu6fG04LwpJepGFnnbywS3kOkEdndwPV9cCWriWK99wFo2mJ8s0RTEHkwj7bMaeaVXCWKp2VnFrzUMR4R-qT_Zb6K2ZO2_-MQP7Md8pOH7DZJZqUJRtZoA_sf-xsEpgBmNUdPatjT6ddQnn5Um4LIiZ8KtKOhA8-syeJm0zjBOPr2PxA1AGvNhmapci_kIwqJBXSPELqTzBw_EgxqGjLyMXD"/>
+<span class="absolute top-4 right-4 bg-secondary text-white text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+                            Verified
+                        </span>
+</div>
+<h3 class="font-headline text-xl mb-1 group-hover:text-primary transition-colors">Square Mile</h3>
+<p class="text-label text-xs text-on-surface-variant mb-3">London • UK</p>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="text-[10px] px-2 py-0.5 bg-surface-container-high rounded-full uppercase tracking-tighter">Direct Trade</span>
+<span class="text-[10px] px-2 py-0.5 bg-surface-container-high rounded-full uppercase tracking-tighter">Seasonal</span>
+</div>
+<p class="text-sm text-on-surface-variant line-clamp-2 leading-relaxed italic">A multi-award winning specialty coffee roasting company founded in 2008.</p>
+</article>
+<!-- Repeat cards for layout - 4 -->
+<article class="group cursor-pointer">
+<div class="relative mb-4 aspect-[4/5] overflow-hidden rounded-xl bg-surface-container shadow-sm">
+<div class="w-full h-full bg-surface-container-low flex items-center justify-center">
+<img alt="Coffee beans" class="w-full h-full object-cover" data-alt="Close up of roasted coffee beans in a hopper" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-J1wQC4RJCJzm8wOMXPgWN30ehrHpTuiPWBYe_NWnmMeqIS1C4DOda8XS4uBwPYsWkMaRF9FvGb0SHb5uJRNAEctaGuadj8XGPq2reRB_yXrI8OdkIkvKhQAqGn1gxO0OtRpMsQ1FrT6zCTZltA4VmyuEjnvIBIKXydCtu0LcBp_818N2k2fjyAI0fp9IEHa0H-YU4nHsAFfub3afeRGG86Nh7VdtsX9kJXKEuxYSDxs7aqqaSz9K0oCgnq5fHOG2pxKGvfX-sh_r"/>
+</div>
+</div>
+<h3 class="font-headline text-xl mb-1">Assembly Coffee</h3>
+<p class="text-label text-xs text-on-surface-variant mb-3">Brixton • UK</p>
+<p class="text-sm text-on-surface-variant line-clamp-2 leading-relaxed italic">A roastery dedicated to the pursuit of independent coffee excellence.</p>
+</article>
+<!-- Repeat cards for layout - 5 -->
+<article class="group cursor-pointer">
+<div class="relative mb-4 aspect-[4/5] overflow-hidden rounded-xl bg-surface-container shadow-sm">
+<div class="w-full h-full bg-surface-container-low flex items-center justify-center">
+<img alt="Roasting machine" class="w-full h-full object-cover" data-alt="Traditional coffee roasting machine in action" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4niBazklAIL6_iRcu45nIpkciY2g_b56RCNZLWkSVjVjDaFbBObRvyLQjniIoZnvioLAPz-XtJpKy7hP1zYHnyP6qRsC0-PJK7HMpIZ7yiJcVgCv9oIQD1VRbn_9WzVzkDQTu82OpDmvcFzA9Xj6erYuoTuUbd5icjzik8Mfos6V8-Php5m07ygRNer3hx6sywZsHPEp4-0MMWC5MNdKwT7Wmb2Vb9pojF5upwH6E-u8gcu872VfHX6DZng__O4HHnZaMPFDq8Mt4"/>
+</div>
+</div>
+<h3 class="font-headline text-xl mb-1">Gardelli Specialty</h3>
+<p class="text-label text-xs text-on-surface-variant mb-3">Forlì • Italy</p>
+<p class="text-sm text-on-surface-variant line-clamp-2 leading-relaxed italic">Founded by World Coffee Roasting Champion Rubens Gardelli.</p>
+</article>
+<!-- Repeat cards for layout - 6 -->
+<article class="group cursor-pointer">
+<div class="relative mb-4 aspect-[4/5] overflow-hidden rounded-xl bg-surface-container shadow-sm">
+<div class="w-full h-full bg-surface-container-low flex items-center justify-center">
+<img alt="Coffee cup" class="w-full h-full object-cover" data-alt="Minimalist coffee cup on a wooden table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqcqhG_BdP2P8xXDzqaqVRt6mnAVMj_azMa218Wc-gEIHqUgjHv1IcVTHmX4Hw1JMt48Vy2mn2neg3eos81sSUY77_d3k886XJVhORdMfNWGyvdr3UEdUj3kjMvTpZN4O4gTLk7dakQenLLabZSfwnJ2MPIQsyuNUlrclFUvhEgHrXYjzOwrSAuJ5LubMD2NiSMNCW3au2aJbYmZdblYcDVHWArZnHiXOMm0n4gMf8_jtqw5NxnEAhvlvOtNJ4meZL3RU5vNXrZAGm"/>
+</div>
+</div>
+<h3 class="font-headline text-xl mb-1">Sey Coffee</h3>
+<p class="text-label text-xs text-on-surface-variant mb-3">Brooklyn • USA</p>
+<p class="text-sm text-on-surface-variant line-clamp-2 leading-relaxed italic">Clean, expressive, and terroir-driven coffee roasting from NYC.</p>
+</article>
+</div>
+<!-- Pagination -->
+<nav class="mt-20 flex items-center justify-center gap-4">
+<button class="flex items-center gap-1 px-4 py-2 text-sm text-on-surface-variant hover:text-primary transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined text-sm" data-icon="arrow_back">arrow_back</span>
+                    Previous
+                </button>
+<div class="flex items-center gap-1">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold bg-primary text-on-primary">1</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium hover:bg-surface-container transition-colors">2</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium hover:bg-surface-container transition-colors">3</button>
+<span class="px-2 text-on-surface-variant">...</span>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium hover:bg-surface-container transition-colors">10</button>
+</div>
+<button class="flex items-center gap-1 px-4 py-2 text-sm text-on-surface-variant hover:text-primary transition-colors">
+                    Next
+                    <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</nav>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-stone-900 dark:bg-black w-full pt-16 pb-8 text-stone-400 font-['Inter'] text-sm font-light">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-8 max-w-7xl mx-auto">
+<div class="col-span-1 md:col-span-2">
+<span class="text-3xl font-['Newsreader'] text-white mb-4 block">Bean Map</span>
+<p class="max-w-md leading-relaxed mb-6">Connecting conscientious consumers with world-class specialty coffee roasters. Every bean tells a story of origin, labor, and passion.</p>
+<div class="flex gap-4">
+<a class="hover:text-orange-400 transition-colors" href="#">Instagram</a>
+<a class="hover:text-orange-400 transition-colors" href="#">Twitter</a>
+</div>
+</div>
+<div>
+<h4 class="text-white font-semibold mb-4 uppercase tracking-widest text-xs">Resources</h4>
+<ul class="space-y-3">
+<li><a class="hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="#">About</a></li>
+<li><a class="hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="#">Privacy</a></li>
+<li><a class="hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="#">Terms</a></li>
+<li><a class="hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-semibold mb-4 uppercase tracking-widest text-xs">Join Us</h4>
+<p class="mb-4">Are you a roaster? Share your craft with our community.</p>
+<button class="text-orange-500 font-semibold hover:text-white transition-colors flex items-center gap-2">
+                List Your Roastery
+                <span class="material-symbols-outlined text-sm" data-icon="north_east">north_east</span>
+</button>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-8 mt-16 pt-8 border-t border-stone-800 text-center">
+<p>© 2024 Bean Map. Crafted for the Sensory Curator.</p>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&amp;family=Newsreader:ital,wght@0,400;0,700;0,800;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed-dim": "#95d4b3",
+              "surface-container-high": "#e8e8e6",
+              "surface-tint": "#9a4600",
+              "surface-container-low": "#f4f4f2",
+              "primary": "#974400",
+              "on-secondary-fixed-variant": "#0e5138",
+              "on-background": "#1a1c1b",
+              "on-surface": "#1a1c1b",
+              "error-container": "#ffdad6",
+              "on-tertiary-fixed-variant": "#004c6e",
+              "surface-variant": "#e2e3e1",
+              "surface-bright": "#f9f9f7",
+              "on-tertiary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "surface-container": "#eeeeec",
+              "on-tertiary-fixed": "#001e2f",
+              "primary-fixed-dim": "#ffb68d",
+              "on-error-container": "#93000a",
+              "inverse-on-surface": "#f1f1ef",
+              "surface": "#f9f9f7",
+              "secondary-container": "#aeeecb",
+              "tertiary": "#00628d",
+              "error": "#ba1a1a",
+              "tertiary-container": "#007cb1",
+              "surface-dim": "#dadad8",
+              "primary-container": "#b95a14",
+              "secondary": "#2c694e",
+              "outline-variant": "#dcc1b3",
+              "on-secondary-container": "#316e52",
+              "on-primary-fixed": "#321200",
+              "surface-container-highest": "#e2e3e1",
+              "on-secondary": "#ffffff",
+              "on-primary": "#ffffff",
+              "tertiary-fixed-dim": "#88ceff",
+              "on-tertiary-container": "#fcfcff",
+              "inverse-surface": "#2f3130",
+              "primary-fixed": "#ffdbc9",
+              "inverse-primary": "#ffb68d",
+              "on-primary-container": "#fffbff",
+              "tertiary-fixed": "#c8e6ff",
+              "outline": "#897267",
+              "on-secondary-fixed": "#002114",
+              "background": "#f9f9f7",
+              "on-surface-variant": "#564338",
+              "on-primary-fixed-variant": "#763300",
+              "secondary-fixed": "#b1f0ce",
+              "on-error": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Newsreader"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e8e8e6; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #dcc1b3; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body h-screen flex flex-col overflow-hidden">
+<header class="bg-white/80 dark:bg-stone-900/80 backdrop-blur-md shadow-sm dark:shadow-none docked full-width top-0 z-50">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-bold font-['Newsreader'] text-stone-900 dark:text-stone-50 tracking-tighter">
+                Bean Map
+            </div>
+<div class="flex items-center gap-8">
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors font-['Newsreader'] italic tracking-tight" href="#">Browse Roasters</a>
+<a class="text-orange-700 dark:text-orange-400 font-semibold border-b-2 border-orange-700 pb-1 font-['Newsreader'] italic tracking-tight" href="#">Map</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors font-['Newsreader'] italic tracking-tight" href="#">List Your Roastery</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="relative w-[240px]">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 transition-all outline-none" placeholder="Search..." type="text"/>
+</div>
+<span class="material-symbols-outlined text-orange-700 dark:text-orange-500 cursor-pointer hover:opacity-80 transition-opacity" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</div>
+<div class="bg-stone-100 dark:bg-stone-800 h-[1px] w-full"></div>
+</header>
+<main class="flex-1 flex overflow-hidden">
+<section class="relative w-[70%] h-full bg-surface-container-low overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-60 mix-blend-multiply grayscale brightness-110" data-alt="Stylized map showing city layout in warm tones" data-location="Global" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5r_LL77vQXKpYVtZuWL_3IGQMm1h_HX-W04bv3bQX-ahmr2q9vx8vk9CV9PrnaiB-6HUId00bz-ou8nnxADyWKQDb4HA4WfuZfwu5vYbPyZMn60eQlxpOia9pAtgxsIQGN1NUOyZTuMrS-AUH17g1pz6rBjbc3NsJNqj2lDnbenX7fdl9WwWzGpoAkufKRm8Ein8ueIR0RHtTHORZupD9dM-Cbh3O3-ZM95jDJX5pQkeE3ioYU7OsRc8X_mwYOALdUfOmO90hj9il"/>
+<div class="absolute inset-0 bg-primary/5 pointer-events-none"></div>
+</div>
+<div class="absolute top-1/3 left-1/4 z-10 group cursor-pointer">
+<div class="bg-primary text-white p-2 rounded-full shadow-xl shadow-primary/20 scale-100 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="coffee_maker" style="font-variation-settings: 'FILL' 1;">coffee_maker</span>
+</div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-48 opacity-100 translate-y-0 pointer-events-auto">
+<div class="bg-surface-container-lowest p-3 rounded-xl shadow-2xl border border-outline-variant/10">
+<div class="flex gap-3">
+<img class="w-12 h-12 rounded-lg object-cover" data-alt="Modern minimalist coffee shop interior" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXQvFKNkMHxuDT1O0I_dJhNE4-WrzN_vdBr5muFe_-GQ14exOVNyzgn91FXOBU9h-NEnLHVZIF5Pf2H0MB0NNMDcDzX8Xxh64blO9BZVpkUE2dVoT9np6jaKa4WhtqMR6tsJdA1Ir8aD0eeaeL-e21CJl87HrkQ231vUDhTbTWT32xgpaOiBBtYGiNqiXStZz9_wFWIjUs9RjTj4sXItpVfTuG14qh-07fUgqBlQDcHcLSpeduFUkiFuqgjLmKpHCAWeLFCmUirrCP"/>
+<div>
+<h4 class="text-xs font-bold font-headline text-on-surface">The Nordic Roast</h4>
+<p class="text-[10px] text-on-surface-variant">Oslo, Norway</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="text-[9px] uppercase tracking-wider font-semibold text-secondary">Verified</span>
+</div>
+</div>
+</div>
+</div>
+<div class="w-3 h-3 bg-surface-container-lowest rotate-45 absolute -bottom-1.5 left-1/2 -translate-x-1/2 border-r border-b border-outline-variant/10"></div>
+</div>
+</div>
+<div class="absolute top-1/2 right-1/3 z-10 group cursor-pointer">
+<div class="bg-primary text-white p-2 rounded-full shadow-xl shadow-primary/20 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all">
+<span class="material-symbols-outlined" data-icon="location_on" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+</div>
+<div class="absolute bottom-1/4 left-1/2 z-10 group cursor-pointer">
+<div class="bg-primary text-white p-2 rounded-full shadow-xl shadow-primary/20 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all">
+<span class="material-symbols-outlined" data-icon="location_on" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+</div>
+<div class="absolute bottom-6 left-6 z-20 flex flex-col gap-2">
+<button class="w-10 h-10 bg-surface-container-lowest shadow-lg rounded-lg flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+<button class="w-10 h-10 bg-surface-container-lowest shadow-lg rounded-lg flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="remove">remove</span>
+</button>
+</div>
+</section>
+<aside class="w-[30%] h-full bg-surface-container flex flex-col border-l border-outline-variant/10">
+<div class="p-6 border-b border-outline-variant/10 bg-surface-container-low">
+<div class="flex justify-between items-baseline mb-4">
+<h2 class="text-2xl font-black font-headline text-on-surface leading-none">247 beans</h2>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60">Current View</span>
+</div>
+<div class="flex gap-2">
+<span class="px-2.5 py-1 rounded-full bg-primary text-white text-[10px] font-bold">ALL</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant text-[10px] font-bold hover:bg-surface-variant cursor-pointer transition-colors">DIRECT TRADE</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant text-[10px] font-bold hover:bg-surface-variant cursor-pointer transition-colors">B-CORP</span>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-4">
+<div class="group bg-surface-container-lowest p-3 rounded-xl border border-transparent hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5 transition-all cursor-pointer">
+<div class="flex gap-4">
+<div class="w-24 h-24 rounded-lg overflow-hidden shrink-0 relative">
+<img class="w-full h-full object-cover transition-transform group-hover:scale-105" data-alt="Espresso bar detail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzTbOIEYJoWOq0dJKde5q_4vj_06D7HX_kZBMI27eWgl0DEwLh-PrFt6YjunezWwr5ikNxW65x7PeeAgDd36YpMFcA9QTYkCr0VAy9-tOthQlJ8q5mZwLDG3cCVQrteWXsIvfBvfzuiD81DWtxNAweglh1qUm13G_7HxY3qSbnONhhNVuu28C2LXe7229B-y7qvHEA8LVNCvZDhfL8B8cpImo8J52GE9tgWjbRQWWhbL5tJxiaeW9rI8-xw-LbO8SIPUavMqM3dr9w"/>
+<div class="absolute top-1 right-1 bg-secondary text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full uppercase">Verified</div>
+</div>
+<div class="flex-1 flex flex-col justify-between py-0.5">
+<div>
+<h3 class="font-headline font-bold text-lg text-on-surface leading-tight">The Nordic Roast</h3>
+<p class="text-xs text-on-surface-variant font-medium mt-1">Oslo, Norway</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="bg-surface-container-high px-2 py-0.5 rounded-full text-[10px] text-on-surface-variant">Light Roast</span>
+<span class="bg-surface-container-high px-2 py-0.5 rounded-full text-[10px] text-on-surface-variant">Sustainability Focus</span>
+</div>
+</div>
+</div>
+</div>
+<div class="group bg-surface-container-lowest p-3 rounded-xl border border-transparent hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5 transition-all cursor-pointer">
+<div class="flex gap-4">
+<div class="w-24 h-24 rounded-lg overflow-hidden shrink-0 relative">
+<img class="w-full h-full object-cover transition-transform group-hover:scale-105" data-alt="Freshly roasted coffee beans" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAvp9FuFMt3sOCSUevVdRiJDLvI1cJreLIjIwgeHBqeby06bAWlL_jdeZi0uFATtGI6XIQvzU-WyZy79sep_eEVvAqhfQkdUyp79Yh_R5RG2aTaK3hh1fV_wHkw4FgO6tJH7KDVSHNh3yA_4Ja-XZUOxl8m3faKN1NXZO08VlRB-pEfopLWHAzGu0cjhybunMYwMBP5Y5-YAXP5Ek_6oODbGAHotBKKT1UtIXprtXIVm38IrMTUvWA3X8jIxxqjcUEXERqN_VOka51"/>
+</div>
+<div class="flex-1 flex flex-col justify-between py-0.5">
+<div>
+<h3 class="font-headline font-bold text-lg text-on-surface leading-tight">Flora &amp; Fauna</h3>
+<p class="text-xs text-on-surface-variant font-medium mt-1">Melbourne, Australia</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="bg-surface-container-high px-2 py-0.5 rounded-full text-[10px] text-on-surface-variant">Ethical Sourcing</span>
+</div>
+</div>
+</div>
+</div>
+<div class="group bg-surface-container-lowest p-3 rounded-xl border border-transparent hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5 transition-all cursor-pointer">
+<div class="flex gap-4">
+<div class="w-24 h-24 rounded-lg overflow-hidden shrink-0 relative">
+<img class="w-full h-full object-cover transition-transform group-hover:scale-105" data-alt="Industrial coffee roasting machine" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYOWENeS-F7gvFcEBGcgA14WasNTHoXugldcKaIGrIyv8UkFVZGyiEK2Nagj8ggg7uysJUhstHKcu7uWFQsZt11fpz9dDEMO8BkwBCexySfhriEPS1dA-fy74_px_YDMGoVmXHWnD-4CgSAsOflbIK-HRtb7IkWZe0fAn5DIRszGh32AkrSx0kKj6KI02RPbsVHzBC7ukYZi_CGdIXGTdpCYSaBOJmwcP5Al0eL6iAUicptobdD96b-Xg6W45KtnU3SR-sD7Zs0PC1"/>
+</div>
+<div class="flex-1 flex flex-col justify-between py-0.5">
+<div>
+<h3 class="font-headline font-bold text-lg text-on-surface leading-tight">Dark Matter Labs</h3>
+<p class="text-xs text-on-surface-variant font-medium mt-1">Chicago, USA</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="bg-surface-container-high px-2 py-0.5 rounded-full text-[10px] text-on-surface-variant">Experimental</span>
+<span class="bg-surface-container-high px-2 py-0.5 rounded-full text-[10px] text-on-surface-variant">Direct Trade</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</main>
+<footer class="w-full pt-16 pb-8 bg-stone-900 dark:bg-black font-['Inter'] text-sm font-light z-50">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-8 max-w-7xl mx-auto">
+<div class="md:col-span-1">
+<span class="text-3xl font-['Newsreader'] text-white mb-4 block">Bean Map</span>
+<p class="text-stone-400">Curating the finest roasteries across the globe for the discerning palate.</p>
+</div>
+<div>
+<h4 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Platform</h4>
+<div class="flex flex-col gap-2">
+<a class="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 transition-transform" href="#">About</a>
+<a class="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 transition-transform" href="#">Contact</a>
+<a class="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 transition-transform" href="#">List Your Roastery</a>
+</div>
+</div>
+<div>
+<h4 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Connect</h4>
+<div class="flex flex-col gap-2">
+<a class="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 transition-transform" href="#">Instagram</a>
+<a class="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 transition-transform" href="#">Twitter</a>
+</div>
+</div>
+<div>
+<h4 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Legal</h4>
+<div class="flex flex-col gap-2">
+<a class="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 transition-transform" href="#">Privacy</a>
+<a class="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 transition-transform" href="#">Terms</a>
+</div>
+</div>
+</div>
+<div class="mt-16 pt-8 border-t border-stone-800 text-center text-stone-500 text-[10px] uppercase tracking-[0.2em]">
+            © 2024 Bean Map. Crafted for the Sensory Curator.
+        </div>
+</footer>
+<div class="absolute bottom-6 right-6 z-50 md:hidden">
+<button class="w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl" data-icon="explore">explore</span>
+</button>
+</div>
+</body></html>
