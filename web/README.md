@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Roasters Hub — Web Application
 
-## Getting Started
+Katalog palarni specialty coffee. Platforma B2B łącząca roasterów z kawiarniami i konsumentami.
 
-First, run the development server:
+**Live:** https://beanmap-web.vercel.app _(Basic HTTP Auth — preview only)_
+
+---
+
+## Stack
+
+Next.js 16.2.1 · TypeScript 5 · Tailwind CSS v4 · Prisma 7.5 · Supabase · Vercel
+
+## Quick Start
 
 ```bash
+# 1. Zainstaluj zależności
+cd web && npm install
+
+# 2. Skonfiguruj zmienne środowiskowe
+cp .env.example .env.local
+# → Wypełnij wartościami z Supabase project settings
+
+# 3. Uruchom migracje i seed
+npx prisma migrate dev
+npx prisma db seed
+
+# 4. Uruchom dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# → http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Aktualny Stan
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Sprawdź [`/PROJECT_STATUS.md`](../PROJECT_STATUS.md) — co działa, co nie, co jest następne.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Krótko:** Frontend 95% gotowy na mock data. Backend (DB, Auth, Server Actions) nie zaczęty.
 
-## Learn More
+## Struktura Aplikacji
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/                    # Next.js App Router — strony
+│   ├── page.tsx            # Homepage
+│   ├── roasters/           # Katalog + profile (/roasters/[slug])
+│   ├── map/                # Interaktywna mapa
+│   ├── register/           # Formularz rejestracji palarni
+│   └── admin/pending/      # Panel admina
+├── components/
+│   ├── roasters/           # RoasterCard, RoasterFilters, RoasterMap, ...
+│   └── shared/             # Header, Footer
+├── lib/
+│   ├── db.ts               # Prisma client (aktualnie zakomentowany!)
+│   ├── mock-data.ts        # 12 mock palarni — tymczasowe
+│   └── utils.ts
+├── types/
+│   └── certifications.ts   # Enums: certyfikaty, style palenia, pochodzenia
+└── middleware.ts           # Basic Auth (tymczasowy — zastąpić Supabase Auth)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Dokumentacja
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Architektura:** [`docs/architecture/`](../docs/architecture/)
+- **Design:** [`docs/design/stitch-brief.md`](../docs/design/stitch-brief.md)
+- **Roadmap:** [`/ROADMAP.md`](../ROADMAP.md)
 
-## Deploy on Vercel
+## Agent Instructions
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Patrz [`AGENTS.md`](AGENTS.md) w tym katalogu.

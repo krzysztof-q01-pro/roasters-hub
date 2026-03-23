@@ -1,5 +1,25 @@
 # Agent Instructions
 
+## Codebase Quick Reference
+
+**Ground truth:** Czytaj `/PROJECT_STATUS.md` jako PIERWSZE — opisuje rzeczywistość, nie intencję.
+**Zadania:** `/ROADMAP.md` — kanoniczne źródło stanu zadań (NOW / NEXT / LATER / DONE).
+**Nawigacja docs:** `/docs/OVERVIEW.md` — mapa do całej dokumentacji.
+
+**Faktyczne wersje stack** (dokumenty arch. mogą podawać inne):
+- Next.js **16.2.1**, React **19.2.4**, Prisma **7.5**, Tailwind **4**, TypeScript **5.x**
+
+| Obszar | Gdzie szukać |
+|--------|-------------|
+| Aplikacja web | `web/` — Next.js app |
+| Instrukcje agenta (web) | `web/AGENTS.md` |
+| Architektura techniczna | `docs/architecture/` |
+| Design UI/UX | `docs/design/stitch-brief.md` |
+| Narzędzia Python | `tools/` + `tools/README.md` |
+| Workflow SOPs | `workflows/` |
+
+---
+
 You're working inside the **WAT framework** (Workflows, Agents, Tools). This architecture separates concerns so that probabilistic AI handles reasoning while deterministic code handles execution. That separation is what makes this system reliable.
 
 ## The WAT Architecture

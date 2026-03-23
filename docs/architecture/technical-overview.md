@@ -1,7 +1,7 @@
 # Architektura techniczna — Roasters Hub
 
-**Wersja:** 1.0
-**Data:** 2026-03-14
+**Wersja:** 1.1
+**Data:** 2026-03-23 (aktualizacja wersji stack)
 **Status:** Zatwierdzony
 
 ---
@@ -12,12 +12,12 @@
 
 | Warstwa | Technologia | Wersja | Uzasadnienie |
 |---------|-------------|--------|--------------|
-| Framework | **Next.js** (App Router) | 15.x | SSR/SSG/ISR krytyczne dla SEO; fullstack w jednym repo |
+| Framework | **Next.js** (App Router) | **16.2.1** | SSR/SSG/ISR krytyczne dla SEO; fullstack w jednym repo |
 | Język | **TypeScript** | 5.x | Type safety end-to-end; niezbędne przy Prisma |
-| Styling | **Tailwind CSS** | 3.x | Utility-first, szybki development, zero custom CSS |
+| Styling | **Tailwind CSS** | **4** | Utility-first, szybki development, zero custom CSS |
 | Komponenty | **shadcn/ui** | latest | Radix UI + Tailwind, kopiowalne, nie zależność |
 | Baza danych | **PostgreSQL** via Supabase | 15 | Managed, PostGIS dla geolokalizacji, free tier |
-| ORM | **Prisma** | 5.x | Type-safe queries, migracje, Prisma Studio |
+| ORM | **Prisma** | **7.5** | Type-safe queries, migracje, Prisma Studio |
 | Auth | **Supabase Auth** | — | Zintegrowany z DB; magic link + Google OAuth |
 | Storage | **Supabase Storage** | — | Obrazy profili palarni; darmowy do 1GB |
 | Mapa | **Leaflet** + OpenStreetMap | 1.9.x | Darmowy, wystarczający dla MVP; react-leaflet wrapper |
@@ -30,7 +30,7 @@
 
 | Odrzucone | Powód odrzucenia |
 |-----------|-----------------|
-| tRPC | Overhead bez wyraźnej korzyści przy Server Actions w Next.js 15 |
+| tRPC | Overhead bez wyraźnej korzyści przy Server Actions w Next.js 16 |
 | NextAuth.js | Supabase Auth jest zintegrowany z DB — mniej konfiguracji |
 | Drizzle ORM | Prisma ma lepszą dokumentację i Prisma Studio przydatne przy seedingu |
 | Mapbox | Płatny po 50K requests/mies.; Leaflet+OSM wystarczy dla MVP |
