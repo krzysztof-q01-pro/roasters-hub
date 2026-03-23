@@ -1,5 +1,16 @@
 # Agent Instructions
 
+## Scheduled Run Entry Point
+
+Jeśli budzisz się ze scheduled task (loop, cron, remote trigger):
+1. **NAJPIERW czytaj:** `.tmp/SESSION.md` (jeśli istnieje) → `PROJECT_STATUS.md` → `ROADMAP.md`
+2. **POTEM czytaj:** `workflows/scheduled_run.md` — kompletny SOP co robić dalej
+3. **NIE czytaj** całej dokumentacji arch. — tylko jeśli potrzebne do bieżącego zadania
+
+Uprawnienia do narzędzi (git, npm, Read, Write) są auto-approved w `.claude/settings.json`.
+
+---
+
 ## Codebase Quick Reference
 
 **Ground truth:** Czytaj `/PROJECT_STATUS.md` jako PIERWSZE — opisuje rzeczywistość, nie intencję.
