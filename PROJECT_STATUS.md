@@ -59,6 +59,13 @@ None currently. Repository reorganization complete.
 
 ## Next Unblocked Task
 
-**Phase 0, Step 1:** Create Supabase project (dev) → copy credentials to `web/.env.local`
+**⚠️ DECYZJA WYMAGANA — Phase 0, Krok 0:**
+Potwierdź stack technologiczny przed budową backendu.
 
-See `ROADMAP.md` for full task list.
+- Opcja A: Supabase (DB + Auth + Storage)
+- Opcja B: Vercel Postgres + Clerk + Uploadthing *(rekomendacja)*
+
+Szczegóły analizy: `.claude/plans/snazzy-kindling-badger.md`
+Po decyzji: zaznacz `[x]` przy pierwszym zadaniu w `ROADMAP.md` i dostarcz `web/.env.local`.
+
+**Agent NIE buduje backendu przed tą decyzją.**

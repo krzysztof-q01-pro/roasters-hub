@@ -8,8 +8,13 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ## NOW — Phase 0: Setup (przed jakimkolwiek backendem)
 
-- [ ] [P0] Utwórz projekt Supabase (dev) → skopiuj credentials do `web/.env.local`
-- [ ] [P0] Utwórz projekt Supabase (prod) → dodaj zmienne do Vercel
+- [ ] [P0] ⚠️ **DECYZJA WYMAGANA: Potwierdź stack przed budową backendu**
+  - Opcja A: Supabase (DB + Auth + Storage) — status quo z docs architektury
+  - Opcja B: Vercel Postgres + Clerk + Uploadthing (rekomendacja agenta)
+  - Analiza: `docs/architecture/technical-overview.md`, decyzja w planie `.claude/plans/`
+  - **Agent NIE buduje backendu dopóki to zadanie nie jest `[x]`**
+- [ ] [P0] Utwórz bazę danych (dev) → skopiuj credentials do `web/.env.local`
+- [ ] [P0] Utwórz bazę danych (prod) → dodaj zmienne do Vercel
 - [ ] [P0] Zweryfikuj że `prisma migrate dev` działa lokalnie
 - [ ] [P0] Branch protection na `main` (no direct push) w GitHub
 - [ ] [P0] GitHub Actions: `tsc --noEmit` + `eslint` na każdym PR
