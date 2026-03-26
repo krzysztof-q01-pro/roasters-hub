@@ -2,7 +2,7 @@
 
 **Wersja:** 1.0
 **Data:** 2026-03-14
-**Pattern:** Next.js 15 Server Actions + Route Handlers (gdzie potrzeba)
+**Pattern:** Next.js 16 Server Actions + Route Handlers (gdzie potrzeba)
 
 ---
 
@@ -214,10 +214,10 @@ Bezpośrednie wywołania Prisma w Server Components — bez pośredniego API.
 
 ```typescript
 // app/roasters/page.tsx (Server Component)
-import { prisma } from "@/lib/db"
+import { db } from "@/lib/db"
 
 export default async function CatalogPage({ searchParams }) {
-  const roasters = await prisma.roaster.findMany({
+  const roasters = await db.roaster.findMany({
     where: {
       status: "VERIFIED",
       ...(searchParams.country && { countryCode: searchParams.country }),
@@ -229,28 +229,29 @@ export default async function CatalogPage({ searchParams }) {
 }
 ```
 
-**Zasada:** Nigdy nie fetch przez HTTP w Server Component — zawsze bezpośrednio przez Prisma lub Supabase SDK.
+**Zasada:** Nigdy nie fetch przez HTTP w Server Component — zawsze bezpośrednio przez Prisma.
 
 ---
 
-## 6. Auth — flow w Next.js
+## 6. Auth — flow w Next.js (Clerk)
 
 ### Middleware (sprawdzanie sesji)
 
 ```typescript
 // src/middleware.ts
-import { createServerClient } from "@supabase/ssr"
-import { NextResponse } from "next/server"
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server"
 
-export async function middleware(request: NextRequest) {
-  // Sprawdź sesję Supabase
-  // Chroń /admin/* → wymaga roli ADMIN
-  // Chroń /dashboard/* → wymaga zalogowania
-  // Wszystko inne → publiczne
-}
+const isAdminRoute = createRouteMatcher(["/admin(.*)"])
+const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"])
+
+export default clerkMiddleware(async (auth, req) => {
+  if (isAdminRoute(req) || isProtectedRoute(req)) {
+    await auth.protect()
+  }
+})
 
 export const config = {
-  matcher: ["/admin/:path*", "/dashboard/:path*"],
+  matcher: ["/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)"],
 }
 ```
 
@@ -258,30 +259,33 @@ export const config = {
 
 ```typescript
 // src/lib/auth.ts
-export async function requireAdmin() {
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) throw new Error("Unauthorized")
+import { auth } from "@clerk/nextjs/server"
+import { db } from "@/lib/db"
 
-  const profile = await prisma.userProfile.findUnique({
-    where: { id: user.id },
+export async function requireAdmin() {
+  const { userId } = await auth()
+  if (!userId) throw new Error("Unauthorized")
+
+  const profile = await db.userProfile.findUnique({
+    where: { id: userId },
   })
   if (profile?.role !== "ADMIN") throw new Error("Forbidden")
 
-  return { user, profile }
+  return { userId, profile }
 }
 
 export async function requireRoasterOwner(roasterId: string) {
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) throw new Error("Unauthorized")
+  const { userId } = await auth()
+  if (!userId) throw new Error("Unauthorized")
 
-  const profile = await prisma.userProfile.findUnique({
-    where: { id: user.id },
+  const profile = await db.userProfile.findUnique({
+    where: { id: userId },
   })
   if (profile?.roasterId !== roasterId && profile?.role !== "ADMIN") {
     throw new Error("Forbidden")
   }
 
-  return { user, profile }
+  return { userId, profile }
 }
 ```
 

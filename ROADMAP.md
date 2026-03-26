@@ -33,7 +33,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [ ] [P1] Zastąpić importy mock-data Prisma queries na wszystkich stronach
 
 ### Tydzień 2 — Auth (Clerk) + Admin
-- [ ] [P1] `npm install @clerk/nextjs` + konfiguracja `ClerkProvider` w layout.tsx
+- [ ] [P1] Konfiguracja `ClerkProvider` w layout.tsx + sign-in/sign-up routes (pakiet już zainstalowany)
 - [ ] [P1] Zastąpić `web/src/middleware.ts` Basic Auth → `clerkMiddleware()` z route protection
 - [ ] [P1] Stworzyć `web/src/lib/auth.ts` — `requireAdmin()`, `requireRoasterOwner()` (via Clerk `auth()`)
 - [ ] [P1] Stworzyć `web/src/actions/admin.actions.ts` → `verifyRoaster()`, `rejectRoaster()` + `revalidatePath()`

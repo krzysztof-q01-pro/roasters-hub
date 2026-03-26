@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-03-26 | Stack decision: Vercel Postgres + Clerk + Uploadthing
+2026-03-26 | Phase 0 complete, CI added, status audit
 
 ---
 
@@ -16,9 +16,9 @@
 | Warstwa | Technologia | Status |
 |---------|-------------|--------|
 | Framework | Next.js 16.2.1 (App Router) | ✅ deployed |
-| DB | **Vercel Postgres (Neon)** | ⏳ not provisioned |
-| ORM | Prisma 7.5 | ✅ schema ready |
-| Auth | **Clerk** (`@clerk/nextjs`) | ⏳ not installed |
+| DB | **Vercel Postgres (Neon)** | ✅ provisioned, migration `init` applied (6 tabel) |
+| ORM | Prisma 7.5 | ✅ schema ready, singleton active (`db`) |
+| Auth | **Clerk** (`@clerk/nextjs`) | ✅ installed, ⏳ not configured (no ClerkProvider) |
 | Storage | **Uploadthing** (MVP) → Cloudflare R2 (growth) | ⏳ not configured |
 | Hosting | Vercel | ✅ deployed |
 | Email | Resend | ⏳ not configured |
@@ -57,7 +57,6 @@ web/src/lib/auth.ts           — DOES NOT EXIST
 web/src/lib/slug.ts           — DOES NOT EXIST
 web/src/types/actions.ts      — DOES NOT EXIST
 web/prisma/seed.ts            — DOES NOT EXIST
-web/prisma/migrations/        — DOES NOT EXIST (no DB provisioned yet)
 web/.env.local                — DOES NOT EXIST (credentials not provided)
 ```
 

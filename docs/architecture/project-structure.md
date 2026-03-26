@@ -2,7 +2,7 @@
 
 **Wersja:** 1.0
 **Data:** 2026-03-14
-**Framework:** Next.js 15 (App Router)
+**Framework:** Next.js 16 (App Router)
 
 ---
 
@@ -108,8 +108,7 @@ roasters-hub/                          # Korzeń repo (git)
 │   │
 │   ├── lib/                           # Utilitki i konfiguracja
 │   │   ├── db.ts                      # Prisma client (singleton)
-│   │   ├── supabase.ts                # Supabase client (server + client)
-│   │   ├── auth.ts                    # Auth helpers (requireAdmin, etc.)
+│   │   ├── auth.ts                    # Auth helpers via Clerk (requireAdmin, etc.)
 │   │   ├── slug.ts                    # Generowanie slugów
 │   │   ├── geocode.ts                 # Geocoding (dla seed scriptu)
 │   │   └── utils.ts                   # cn(), formatDate(), etc.
@@ -227,22 +226,13 @@ if (process.env.NODE_ENV !== "production") {
 }
 ```
 
-### `src/lib/supabase.ts` — Supabase clients
+### `src/middleware.ts` — ochrona tras (Clerk)
 
 ```typescript
-// Server-side client (dla Server Components i Server Actions)
-export function createServerSupabaseClient()
-
-// Client-side client (dla Client Components)
-export function createClientSupabaseClient()
-```
-
-### `src/middleware.ts` — ochrona tras
-
-```typescript
-// Chroni /admin/* → rola ADMIN
-// Chroni /dashboard/* → zalogowany użytkownik
-// Wszystkie inne → publiczne (brak middleware)
+// Używa clerkMiddleware() z @clerk/nextjs/server
+// Chroni /admin/* → wymaga auth (rola sprawdzana w Server Actions)
+// Chroni /dashboard/* → wymaga auth
+// Wszystkie inne → publiczne
 ```
 
 ---
@@ -271,27 +261,27 @@ export function createClientSupabaseClient()
 ```bash
 # .env.example
 
-# Supabase
-DATABASE_URL="postgresql://postgres:[PASSWORD]@[HOST]:5432/postgres?pgbouncer=true"
-DIRECT_URL="postgresql://postgres:[PASSWORD]@[HOST]:5432/postgres"
-NEXT_PUBLIC_SUPABASE_URL="https://[PROJECT_ID].supabase.co"
-NEXT_PUBLIC_SUPABASE_ANON_KEY="..."
-SUPABASE_SERVICE_ROLE_KEY="..."
+# Database (Vercel Postgres / Neon)
+DATABASE_URL="postgresql://user:password@host/dbname?sslmode=require"
+DIRECT_URL="postgresql://user:password@host/dbname?sslmode=require"
+
+# Auth (Clerk)
+CLERK_SECRET_KEY="sk_test_..."
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_test_..."
 
 # App
 NEXT_PUBLIC_APP_URL="https://roastershub.com"  # lub http://localhost:3000 lokalnie
 
-# Email (Resend)
-RESEND_API_KEY="re_..."
-RESEND_FROM_EMAIL="hello@roastershub.com"
+# Email (Resend) — Phase 2
+# RESEND_API_KEY="re_..."
 
-# Analytics (Plausible)
-NEXT_PUBLIC_PLAUSIBLE_DOMAIN="roastershub.com"
+# Analytics (Plausible) — Phase 2
+# NEXT_PUBLIC_PLAUSIBLE_DOMAIN="roastershub.com"
 
-# Stripe (P2 - Featured tier)
-STRIPE_SECRET_KEY="sk_..."
-STRIPE_WEBHOOK_SECRET="whsec_..."
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_..."
+# Stripe (P3 - Featured tier)
+# STRIPE_SECRET_KEY="sk_..."
+# STRIPE_WEBHOOK_SECRET="whsec_..."
+# NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_..."
 ```
 
 ---
