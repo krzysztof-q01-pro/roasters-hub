@@ -15,9 +15,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
   - Dokumentacja zaktualizowana w tym commicie
 - [x] [P0] Utwórz Vercel Postgres (dev) → skopiuj `DATABASE_URL` + `DIRECT_URL` do `web/.env.local`
 - [x] [P0] Utwórz konto Clerk → skopiuj `CLERK_SECRET_KEY` + `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` do `web/.env.local`
-- [ ] [P0] Dodaj env vars do Vercel (prod): DATABASE_URL, DIRECT_URL, CLERK_SECRET_KEY, NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 - [x] [P0] Zweryfikuj że `prisma migrate dev` działa lokalnie — migracja `init` zastosowana (6 tabel)
-- [ ] [P0] Branch protection na `main` (no direct push) w GitHub
 - [ ] [P0] GitHub Actions: `tsc --noEmit` + `eslint` na każdym PR
 
 ---
@@ -40,7 +38,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [ ] [P1] Stworzyć `web/src/lib/auth.ts` — `requireAdmin()`, `requireRoasterOwner()` (via Clerk `auth()`)
 - [ ] [P1] Stworzyć `web/src/actions/admin.actions.ts` → `verifyRoaster()`, `rejectRoaster()` + `revalidatePath()`
 - [ ] [P1] Podpiąć admin panel UI do Server Actions
-- [ ] [P1] Bootstrap admin user — Clerk Dashboard (ustawić `publicMetadata.role: "ADMIN"`) + UserProfile w DB
+- [ ] [P1] Bootstrap admin user — UserProfile w DB (po ręcznym ustawieniu roli w Clerk → patrz HUMAN ONLY)
 - [ ] [P1] Seed 50-100 palarni z `docs/seed-roasters.md`
 - [ ] [P1] Usunąć `AUTH_USER`/`AUTH_PASSWORD` z env vars
 
@@ -78,6 +76,21 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [ ] API for partners (Route Handlers `/api/v1/`, API key auth)
 - [ ] i18n (`next-intl`, znaczący refactor)
 - [ ] Mobile (PWA first, potem React Native)
+
+---
+
+## 🧑 HUMAN ONLY — zadania wymagające człowieka (agent NIE wykonuje)
+
+- [ ] Dodaj env vars do Vercel (prod): DATABASE_URL, DIRECT_URL, CLERK_SECRET_KEY, NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+- [ ] Branch protection na `main` (no direct push) — GitHub Settings → Branches
+- [ ] Ustawienie Clerk: Google OAuth provider — Clerk Dashboard → User & Authentication → Social connections
+- [ ] Bootstrap admin user — Clerk Dashboard → ustawić `publicMetadata: { "role": "ADMIN" }`
+- [ ] Domena produkcyjna — zakup + konfiguracja DNS w Vercel
+- [ ] Stripe konto (Phase 3) — rejestracja + webhook secret
+- [ ] Cold outreach do palarni — lista kontaktowa, maile, LinkedIn
+- [ ] Decyzja SEO: URL pattern `/roasters/country/[country]` vs `/country/[country]`
+
+**⚠️ Agent: jeśli napotkasz zadanie z tej sekcji — zapisz w SESSION.md i przejdź do następnego.**
 
 ---
 
