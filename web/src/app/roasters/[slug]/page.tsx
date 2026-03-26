@@ -6,7 +6,7 @@ import { Footer } from "@/components/shared/Footer";
 import { VerifiedBadge } from "@/components/roasters/VerifiedBadge";
 import { CertificationBadge } from "@/components/roasters/CertificationBadge";
 import { RoasterCard } from "@/components/roasters/RoasterCard";
-import { MOCK_ROASTERS } from "@/lib/mock-data";
+import { db } from "@/lib/db";
 import type { Metadata } from "next";
 
 export async function generateMetadata({
@@ -15,7 +15,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const roaster = MOCK_ROASTERS.find((r) => r.slug === slug);
+  const roaster = await db.roaster.findUnique({ where: { slug } });
   if (!roaster) return { title: "Roaster Not Found" };
 
   return {
@@ -36,12 +36,21 @@ export default async function RoasterProfilePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const roaster = MOCK_ROASTERS.find((r) => r.slug === slug);
+  const roaster = await db.roaster.findUnique({
+    where: { slug },
+    include: { images: true },
+  });
   if (!roaster) notFound();
 
-  const relatedRoasters = MOCK_ROASTERS.filter(
-    (r) => r.countryCode === roaster.countryCode && r.id !== roaster.id
-  ).slice(0, 3);
+  const relatedRoasters = await db.roaster.findMany({
+    where: {
+      countryCode: roaster.countryCode,
+      id: { not: roaster.id },
+      status: "VERIFIED",
+    },
+    include: { images: { where: { isPrimary: true }, take: 1 } },
+    take: 3,
+  });
 
   const flag = FLAG_MAP[roaster.countryCode] || "";
   const primaryImage = roaster.images[0];

@@ -5,12 +5,15 @@ import Link from "next/link";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { ROAST_STYLES, CERTIFICATIONS, CERTIFICATION_LABELS, ORIGINS } from "@/types/certifications";
+import { createRoasterRegistration } from "@/actions/roaster.actions";
 
 const STEPS = ["Basic Info", "Contact & Links", "Specialty Details"];
 
 export default function RegisterPage() {
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
     name: "",
     country: "",
@@ -39,7 +42,30 @@ export default function RegisterPage() {
   };
 
   const handleSubmit = async () => {
-    // TODO: Server Action to create roaster
+    setSubmitting(true);
+    setError(null);
+
+    const formData = new FormData();
+    formData.set("name", form.name);
+    formData.set("country", form.country);
+    formData.set("city", form.city);
+    formData.set("description", form.description);
+    formData.set("website", form.website);
+    formData.set("shopUrl", form.shopUrl);
+    formData.set("instagram", form.instagram);
+    formData.set("email", form.email);
+    form.certifications.forEach((c) => formData.append("certifications", c));
+    form.origins.forEach((o) => formData.append("origins", o));
+    form.roastStyles.forEach((s) => formData.append("roastStyles", s));
+
+    const result = await createRoasterRegistration(formData);
+
+    if (!result.success) {
+      setError(result.error);
+      setSubmitting(false);
+      return;
+    }
+
     setSubmitted(true);
   };
 
@@ -254,10 +280,20 @@ export default function RegisterPage() {
               </div>
             </div>
 
+            {error && (
+              <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg text-sm">
+                {error}
+              </div>
+            )}
+
             <div className="flex justify-between pt-4">
               <button onClick={() => setStep(1)} className="text-on-surface-variant hover:text-on-surface transition-colors px-4 py-3">&larr; Back</button>
-              <button onClick={handleSubmit} className="bg-primary text-on-primary px-8 py-3 rounded-lg font-medium hover:opacity-90 transition-all">
-                Submit for Verification
+              <button
+                onClick={handleSubmit}
+                disabled={submitting}
+                className="bg-primary text-on-primary px-8 py-3 rounded-lg font-medium hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {submitting ? "Submitting..." : "Submit for Verification"}
               </button>
             </div>
           </div>

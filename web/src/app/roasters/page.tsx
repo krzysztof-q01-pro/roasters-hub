@@ -4,8 +4,9 @@ import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { RoasterCard } from "@/components/roasters/RoasterCard";
 import { RoasterFilters } from "@/components/roasters/RoasterFilters";
-import { MOCK_ROASTERS } from "@/lib/mock-data";
-import type { Metadata } from "next";
+import { db } from "@/lib/db";
+import type { Metadata, } from "next";
+import type { Prisma } from "@prisma/client";
 
 export const metadata: Metadata = {
   title: "Specialty Coffee Roasters",
@@ -27,18 +28,27 @@ export default async function CatalogPage({
   const roast = typeof params.roast === "string" ? params.roast : undefined;
   const q = typeof params.q === "string" ? params.q : undefined;
 
-  // Filter mock data (will be replaced with Prisma query)
-  let filtered = MOCK_ROASTERS.filter((r) => r.status === "VERIFIED");
+  const where: Prisma.RoasterWhereInput = {
+    status: "VERIFIED",
+    ...(country && { countryCode: country }),
+    ...(origins.length && { origins: { hasSome: origins } }),
+    ...(certs.length && { certifications: { hasSome: certs } }),
+    ...(roast && { roastStyles: { has: roast } }),
+    ...(q && { name: { contains: q, mode: "insensitive" as const } }),
+  };
 
-  if (country) filtered = filtered.filter((r) => r.countryCode === country);
-  if (origins.length) filtered = filtered.filter((r) => origins.some((o) => r.origins.includes(o)));
-  if (certs.length) filtered = filtered.filter((r) => certs.some((c) => r.certifications.includes(c)));
-  if (roast) filtered = filtered.filter((r) => r.roastStyles.includes(roast));
-  if (q) filtered = filtered.filter((r) => r.name.toLowerCase().includes(q.toLowerCase()));
+  const [total, roasters] = await Promise.all([
+    db.roaster.count({ where }),
+    db.roaster.findMany({
+      where,
+      include: { images: { where: { isPrimary: true }, take: 1 } },
+      orderBy: { createdAt: "desc" },
+      skip: (page - 1) * PAGE_SIZE,
+      take: PAGE_SIZE,
+    }),
+  ]);
 
-  const total = filtered.length;
   const totalPages = Math.ceil(total / PAGE_SIZE);
-  const roasters = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
     <>

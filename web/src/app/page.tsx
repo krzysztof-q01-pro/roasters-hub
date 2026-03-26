@@ -3,11 +3,22 @@ import Image from "next/image";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { RoasterCard } from "@/components/roasters/RoasterCard";
-import { MOCK_ROASTERS } from "@/lib/mock-data";
+import { db } from "@/lib/db";
 
-const featuredRoasters = MOCK_ROASTERS.filter((r) => r.featured).slice(0, 4);
-
-export default function HomePage() {
+export default async function HomePage() {
+  const [featuredRoasters, roasterCount, countryCount] = await Promise.all([
+    db.roaster.findMany({
+      where: { status: "VERIFIED", featured: true },
+      include: { images: { where: { isPrimary: true }, take: 1 } },
+      take: 4,
+    }),
+    db.roaster.count({ where: { status: "VERIFIED" } }),
+    db.roaster.findMany({
+      where: { status: "VERIFIED" },
+      select: { countryCode: true },
+      distinct: ["countryCode"],
+    }).then((r) => r.length),
+  ]);
   return (
     <>
       <Header />
@@ -75,13 +86,13 @@ export default function HomePage() {
         <div className="bg-surface-container-low">
           <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-center items-center gap-12 md:gap-24">
             <div className="text-center">
-              <span className="block text-3xl font-headline font-bold text-primary">{MOCK_ROASTERS.length}+</span>
+              <span className="block text-3xl font-headline font-bold text-primary">{roasterCount}+</span>
               <span className="text-xs uppercase tracking-widest text-on-surface-variant font-medium">Roasters</span>
             </div>
             <div className="h-8 w-px bg-outline-variant/30 hidden md:block" />
             <div className="text-center">
               <span className="block text-3xl font-headline font-bold text-primary">
-                {new Set(MOCK_ROASTERS.map((r) => r.countryCode)).size}
+                {countryCount}
               </span>
               <span className="text-xs uppercase tracking-widest text-on-surface-variant font-medium">Countries</span>
             </div>

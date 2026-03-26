@@ -27,10 +27,10 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] [P1] `prisma migrate dev --name init` — pierwsza migracja (zrobione w Phase 0)
 - [x] [P1] Stworzyć `web/src/types/actions.ts` — `ActionResult<T>` + `CreateRoasterSchema` (Zod)
 - [x] [P1] Stworzyć `web/src/lib/slug.ts` — obsługa kolizji (hard-beans → hard-beans-opole → hard-beans-opole-2)
-- [ ] [P1] Stworzyć `web/src/actions/roaster.actions.ts` → `createRoasterRegistration`
-- [ ] [P1] Podpiąć `register/page.tsx` handleSubmit do Server Action
-- [ ] [P1] Stworzyć `web/prisma/seed.ts` — 12 mock roasters → DB
-- [ ] [P1] Zastąpić importy mock-data Prisma queries na wszystkich stronach
+- [x] [P1] Stworzyć `web/src/actions/roaster.actions.ts` → `createRoasterRegistration`
+- [x] [P1] Podpiąć `register/page.tsx` handleSubmit do Server Action
+- [x] [P1] Stworzyć `web/prisma/seed.ts` — 12 mock roasters → DB
+- [x] [P1] Zastąpić importy mock-data Prisma queries na wszystkich stronach
 
 ### Tydzień 2 — Auth (Clerk) + Admin
 - [ ] [P1] Konfiguracja `ClerkProvider` w layout.tsx + sign-in/sign-up routes (pakiet już zainstalowany)
