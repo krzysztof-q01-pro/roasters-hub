@@ -17,6 +17,28 @@ Czytaj w tej kolejności:
 
 ---
 
+## Krok 1.5: Consistency Check
+
+Sprawdź spójność plików stanu projektu **przed** rozpoczęciem pracy.
+
+```bash
+python tools/consistency_check.py
+```
+
+**Interpretacja wyników:**
+
+| Wynik | Akcja |
+|-------|-------|
+| Wszystko PASS | Przejdź do Kroku 2 |
+| FAIL + auto_fixable | `python tools/consistency_check.py --fix all` → re-run → commit `[AGENT] fix:` |
+| FAIL C1 (manual) | Sprawdź `git log --oneline -10`, napraw ręcznie, commit `[AGENT] fix:` |
+| FAIL C5/C6 (human) | Zaloguj w SESSION.md → przejdź do Kroku 2 |
+| WARN | Zaloguj w SESSION.md → przejdź do Kroku 2 |
+
+**Czas:** Max 2 minuty. Pełna dokumentacja: `workflows/consistency_check.md`
+
+---
+
 ## Krok 2: Weryfikacja przed pracą
 
 ```bash
@@ -126,11 +148,12 @@ Zapisz `.tmp/SESSION.md` (nadpisz jeśli istnieje):
 ## Szybki Cheat Sheet
 
 ```
-1. Czytaj: SESSION.md → PROJECT_STATUS.md → ROADMAP.md
-2. git status + git branch
-3. Jedno zadanie z ROADMAP NOW
-4. lint + tsc
-5. Zaktualizuj ROADMAP.md [x] + PROJECT_STATUS.md
-6. git add [pliki + ROADMAP + STATUS] → commit [SCOPE] → push
-7. Zapisz SESSION.md
+1.   Czytaj: SESSION.md → PROJECT_STATUS.md → ROADMAP.md
+1.5  python tools/consistency_check.py → fix jeśli FAIL
+2.   git status + git branch
+3.   Jedno zadanie z ROADMAP NOW
+4.   lint + tsc
+5.   Zaktualizuj ROADMAP.md [x] + PROJECT_STATUS.md
+6.   git add [pliki + ROADMAP + STATUS] → commit [SCOPE] → push
+7.   Zapisz SESSION.md
 ```

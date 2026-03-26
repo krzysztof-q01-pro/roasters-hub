@@ -42,3 +42,26 @@ python tools/generate_business_pdf.py
 ```
 
 **Output:** `docs/roasters_hub_business_overview.pdf`
+
+---
+
+### `consistency_check.py`
+
+Deterministyczna kontrola spójności plików stanu projektu. Sprawdza 8 punktów synchronizacji (ROADMAP ↔ STATUS, wersje, filesystem, schema).
+
+```bash
+# Read-only — JSON report na stdout
+python tools/consistency_check.py
+
+# Auto-fix wszystkich auto-fixable checks
+python tools/consistency_check.py --fix all
+
+# Fix wybranych checks
+python tools/consistency_check.py --fix C2,C4
+```
+
+**Output:** JSON na stdout + `.tmp/consistency_check.log`
+
+**Nie wymaga credentiali.** Zero dependencies poza stdlib.
+
+**Workflow:** `workflows/consistency_check.md`

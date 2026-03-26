@@ -38,6 +38,7 @@ Po KAŻDYM ukończonym zadaniu — zanim powiesz użytkownikowi że skończyłe�
 | Architektura techniczna | `docs/architecture/` |
 | Design UI/UX | `docs/design/stitch-brief.md` |
 | Narzędzia Python | `tools/` + `tools/README.md` |
+| Kontrola spójności | `workflows/consistency_check.md` + `tools/consistency_check.py` |
 | Workflow SOPs | `workflows/` |
 
 ---

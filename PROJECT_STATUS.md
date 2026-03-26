@@ -57,7 +57,6 @@ web/src/lib/auth.ts           — DOES NOT EXIST
 web/src/lib/slug.ts           — DOES NOT EXIST
 web/src/types/actions.ts      — DOES NOT EXIST
 web/prisma/seed.ts            — DOES NOT EXIST
-web/.env.local                — DOES NOT EXIST (credentials not provided)
 ```
 
 **Removed (no longer needed):**

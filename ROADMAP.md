@@ -107,3 +107,9 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] Repo reorganization — PROJECT_STATUS, ROADMAP, OVERVIEW, AGENTS.md, .env.example
 - [x] Stack decision — Vercel Postgres + Clerk + Uploadthing (2026-03-26)
 - [x] Scheduled agent config — settings.json, workflows/scheduled_run.md, CLAUDE.md entry point
+- [x] Utwórz Vercel Postgres (dev) → skopiuj `DATABASE_URL` + `DIRECT_URL` do `web/.env.local`
+- [x] Utwórz konto Clerk → skopiuj `CLERK_SECRET_KEY` + `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` do `web/.env.local`
+- [x] Zweryfikuj że `prisma migrate dev` działa lokalnie — migracja `init` zastosowana (6 tabel)
+- [x] GitHub Actions: `tsc --noEmit` + `eslint` na każdym PR
+- [x] Odkomentować `web/src/lib/db.ts` — Prisma singleton (export `db`)
+- [x] `prisma migrate dev --name init` — pierwsza migracja (zrobione w Phase 0)
