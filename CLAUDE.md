@@ -11,6 +11,17 @@ Uprawnienia do narzędzi (git, npm, Read, Write) są auto-approved w `.claude/se
 
 ---
 
+## Post-Task Checklist (OBOWIĄZKOWE po każdym wykonanym zadaniu)
+
+Po KAŻDYM ukończonym zadaniu — zanim powiesz użytkownikowi że skończyłeś:
+1. `ROADMAP.md` — zaznacz `[ ]` → `[x]` przy wykonanym zadaniu
+2. `PROJECT_STATUS.md` — zaktualizuj "Active Work" i "Next Unblocked Task"
+3. Jeśli stworzono nowy plik/katalog — usuń go z "Does NOT Exist Yet"
+
+**Commituj aktualizację stanu W TYM SAMYM COMMICIE co zadanie, nie osobno.**
+
+---
+
 ## Codebase Quick Reference
 
 **Ground truth:** Czytaj `/PROJECT_STATUS.md` jako PIERWSZE — opisuje rzeczywistość, nie intencję.

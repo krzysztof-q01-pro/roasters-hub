@@ -64,9 +64,14 @@ npx tsc --noEmit     # TypeScript musi przejść
 
 ## Krok 5: Commit + Aktualizacja Stanu
 
-### Commit
+### NAJPIERW zaktualizuj stan (PRZED git add)
+1. `ROADMAP.md` — zaznacz wykonane zadanie: `[ ]` → `[x]`
+2. `PROJECT_STATUS.md` — zmień "Active Work" i "Next Unblocked Task"
+3. Jeśli stworzono nowy plik/katalog — usuń z "Does NOT Exist Yet"
+
+### POTEM commit (ZAWSZE dołącz ROADMAP.md + PROJECT_STATUS.md)
 ```bash
-git add [specific files - nie git add -A]
+git add [pliki zadania] ROADMAP.md PROJECT_STATUS.md
 git commit -m "[SCOPE] action: opis
 
 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>"
@@ -75,14 +80,7 @@ git push origin main   # lub feature branch
 
 **Scopes:** `DB | AUTH | ACTION | UI | SEED | INFRA | DOCS | AGENT`
 
-### Zaktualizuj PROJECT_STATUS.md
-- Zmień sekcję "Active Work" na to co właśnie zrobiono
-- Zaktualizuj sekcję "Next Unblocked Task" na kolejne zadanie
-- Jeśli coś nowego zostało stworzone — usuń z "Does NOT Exist Yet"
-
-### Zaktualizuj ROADMAP.md
-- Zaznacz wykonane zadanie: `[ ]` → `[x]`
-- Przenieś do sekcji DONE jeśli cała faza zakończona
+**⚠️ NIGDY nie commituj kodu bez aktualizacji ROADMAP.md i PROJECT_STATUS.md w tym samym commicie.**
 
 ---
 
@@ -131,7 +129,8 @@ Zapisz `.tmp/SESSION.md` (nadpisz jeśli istnieje):
 1. Czytaj: SESSION.md → PROJECT_STATUS.md → ROADMAP.md
 2. git status + git branch
 3. Jedno zadanie z ROADMAP NOW
-4. lint + tsc → commit [SCOPE] → push
-5. Zaktualizuj PROJECT_STATUS.md + ROADMAP.md
-6. Zapisz SESSION.md
+4. lint + tsc
+5. Zaktualizuj ROADMAP.md [x] + PROJECT_STATUS.md
+6. git add [pliki + ROADMAP + STATUS] → commit [SCOPE] → push
+7. Zapisz SESSION.md
 ```
