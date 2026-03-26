@@ -1,8 +1,8 @@
 # Schemat bazy danych — Roasters Hub
 
-**Wersja:** 1.0
-**Data:** 2026-03-14
-**ORM:** Prisma 5.x | **DB:** PostgreSQL 15 (Supabase)
+**Wersja:** 2.0
+**Data:** 2026-03-26 (zmiana: Vercel Postgres + Clerk zamiast Supabase)
+**ORM:** Prisma 7.5 | **DB:** PostgreSQL 16 (Vercel Postgres / Neon)
 
 ---
 
@@ -12,7 +12,7 @@
 ┌─────────────────┐         ┌──────────────────┐
 │   UserProfile   │         │     Roaster       │
 │─────────────────│    1    │──────────────────│
-│ id (Supabase)   │────────>│ id               │
+│ id (Clerk ext)  │────────>│ id               │
 │ email           │         │ name             │
 │ role            │         │ slug (unique)    │
 │ createdAt       │         │ description      │
@@ -106,10 +106,10 @@ enum NewsletterSegment {
 
 // ─── USER ─────────────────────────────────────────────────────────────────────
 
-// UserProfile uzupełnia Supabase Auth (auth.users)
-// id = Supabase Auth UUID
+// UserProfile uzupełnia Clerk Auth
+// id = Clerk externalId (user_xxx)
 model UserProfile {
-  id        String    @id // = auth.users.id z Supabase
+  id        String    @id // = Clerk userId (user_xxx)
   email     String    @unique
   role      UserRole  @default(ROASTER)
   roaster   Roaster?  @relation(fields: [roasterId], references: [id])
@@ -179,7 +179,7 @@ model RoasterImage {
   id         String   @id @default(cuid())
   roaster    Roaster  @relation(fields: [roasterId], references: [id], onDelete: Cascade)
   roasterId  String
-  url        String   // Supabase Storage URL
+  url        String   // Uploadthing URL (MVP) / Cloudflare R2 URL (growth)
   alt        String?
   order      Int      @default(0)
   isPrimary  Boolean  @default(false) // Główne zdjęcie w listingu (nie logo)
@@ -264,9 +264,12 @@ CREATE INDEX roasters_origins_gin ON roasters USING GIN (origins);
 
 Dla MVP, liczba palarni (100–500) nie wymaga PostGIS — zwykłe `Float` + filtrowanie bounding box po stronie aplikacji jest wystarczające i prostsze. PostGIS można dodać w P2 jeśli potrzeba wyszukiwania "w promieniu X km".
 
-### Dlaczego `UserProfile` zamiast Supabase User bezpośrednio
+### Dlaczego `UserProfile` zamiast polegania wyłącznie na Clerk
 
-Supabase Auth zarządza `auth.users` (poza Prisma schema). `UserProfile` jest osobną tabelą w `public` schema, powiązaną przez `id` (= Supabase Auth UUID). Prisma może operować na `UserProfile`, ale nie na `auth.users` (brak dostępu z Prisma do schematu `auth`).
+Clerk zarządza użytkownikami zewnętrznie (poza naszą DB). `UserProfile` jest lokalną tabelą powiązaną przez `id` (= Clerk `userId`, format `user_xxx`). Dzięki temu:
+- Prisma może tworzyć relacje (FK do Roaster, AdminNote)
+- Dane użytkownika są w naszej DB — migracja z Clerk nie wymaga eksportu danych
+- Role (`UserRole`) przechowywane w obu miejscach (Clerk `publicMetadata` + DB) dla redundancji
 
 ### Dlaczego `ipHash` w `ProfileEvent`
 

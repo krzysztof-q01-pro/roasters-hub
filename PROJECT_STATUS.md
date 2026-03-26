@@ -7,7 +7,22 @@
 ---
 
 ## Last Updated
-2026-03-23 | Initial setup (repo reorganization)
+2026-03-26 | Stack decision: Vercel Postgres + Clerk + Uploadthing
+
+---
+
+## Confirmed Stack
+
+| Warstwa | Technologia | Status |
+|---------|-------------|--------|
+| Framework | Next.js 16.2.1 (App Router) | ✅ deployed |
+| DB | **Vercel Postgres (Neon)** | ⏳ not provisioned |
+| ORM | Prisma 7.5 | ✅ schema ready |
+| Auth | **Clerk** (`@clerk/nextjs`) | ⏳ not installed |
+| Storage | **Uploadthing** (MVP) → Cloudflare R2 (growth) | ⏳ not configured |
+| Hosting | Vercel | ✅ deployed |
+| Email | Resend | ⏳ not configured |
+| Analytics | Plausible | ⏳ not configured |
 
 ---
 
@@ -38,13 +53,17 @@
 
 ```
 web/src/actions/              — DOES NOT EXIST
-web/src/lib/supabase.ts       — DOES NOT EXIST
 web/src/lib/auth.ts           — DOES NOT EXIST
 web/src/lib/slug.ts           — DOES NOT EXIST
 web/src/types/actions.ts      — DOES NOT EXIST
 web/prisma/seed.ts            — DOES NOT EXIST
 web/prisma/migrations/        — DOES NOT EXIST (no DB provisioned yet)
-web/.env.local                — DOES NOT EXIST (Supabase not configured)
+web/.env.local                — DOES NOT EXIST (credentials not provided)
+```
+
+**Removed (no longer needed):**
+```
+web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 ```
 
 **Note:** `web/src/lib/db.ts` exists but the Prisma client is **commented out** — it exports `{}`.
@@ -53,19 +72,20 @@ web/.env.local                — DOES NOT EXIST (Supabase not configured)
 
 ## Active Work
 
-None currently. Repository reorganization complete.
+Stack decision confirmed. Documentation update in progress.
 
 ---
 
 ## Next Unblocked Task
 
-**⚠️ DECYZJA WYMAGANA — Phase 0, Krok 0:**
-Potwierdź stack technologiczny przed budową backendu.
+**Phase 0, Step 2:** Provision Vercel Postgres (dev) + create Clerk app → deliver `web/.env.local` with:
+```
+DATABASE_URL=...
+DIRECT_URL=...
+CLERK_SECRET_KEY=...
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=...
+```
 
-- Opcja A: Supabase (DB + Auth + Storage)
-- Opcja B: Vercel Postgres + Clerk + Uploadthing *(rekomendacja)*
+After credentials: agent can autonomously run `prisma migrate dev`, install `@clerk/nextjs`, and begin Phase 1.
 
-Szczegóły analizy: `.claude/plans/snazzy-kindling-badger.md`
-Po decyzji: zaznacz `[x]` przy pierwszym zadaniu w `ROADMAP.md` i dostarcz `web/.env.local`.
-
-**Agent NIE buduje backendu przed tą decyzją.**
+See `ROADMAP.md` for full task list.

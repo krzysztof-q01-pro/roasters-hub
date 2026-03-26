@@ -33,8 +33,9 @@ enum NewsletterSegment {
   ROASTER
 }
 
+// UserProfile uzupełnia Clerk Auth — id = Clerk userId (user_xxx)
 model UserProfile {
-  id        String    @id
+  id        String    @id // = Clerk userId, ustawiany przy tworzeniu profilu
   email     String    @unique
   role      UserRole  @default(ROASTER)
   roaster   Roaster?  @relation(fields: [roasterId], references: [id])

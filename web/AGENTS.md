@@ -12,12 +12,15 @@
 
 ## Faktyczne Wersje Stack (dokumenty mogą podawać inne)
 
-| Pakiet | Faktyczna wersja | Co mówią docs |
-|--------|-----------------|---------------|
-| Next.js | **16.2.1** | ~~15.x~~ |
-| React | **19.2.4** | ~~18.x~~ |
-| Prisma | **7.5.0** | ~~5.x~~ |
-| Tailwind CSS | **4** | ~~3.x~~ |
+| Pakiet | Faktyczna wersja |
+|--------|-----------------|
+| Next.js | **16.2.1** |
+| React | **19.2.4** |
+| Prisma | **7.5.0** |
+| Tailwind CSS | **4** |
+| Auth | **Clerk** (`@clerk/nextjs` ^6) |
+| DB | **Vercel Postgres** (Neon) |
+| Storage | **Uploadthing** (MVP) → Cloudflare R2 |
 | TypeScript | **5.x** | — |
 
 ⚠️ **To nie jest Next.js, którego znasz z treningu.** App Router, Server Actions i konwencje plików

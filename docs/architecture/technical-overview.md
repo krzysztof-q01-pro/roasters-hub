@@ -1,7 +1,7 @@
 # Architektura techniczna — Roasters Hub
 
-**Wersja:** 1.1
-**Data:** 2026-03-23 (aktualizacja wersji stack)
+**Wersja:** 2.0
+**Data:** 2026-03-26 (zmiana stack: Vercel Postgres + Clerk + Uploadthing)
 **Status:** Zatwierdzony
 
 ---
@@ -16,10 +16,10 @@
 | Język | **TypeScript** | 5.x | Type safety end-to-end; niezbędne przy Prisma |
 | Styling | **Tailwind CSS** | **4** | Utility-first, szybki development, zero custom CSS |
 | Komponenty | **shadcn/ui** | latest | Radix UI + Tailwind, kopiowalne, nie zależność |
-| Baza danych | **PostgreSQL** via Supabase | 15 | Managed, PostGIS dla geolokalizacji, free tier |
+| Baza danych | **PostgreSQL** via Vercel Postgres (Neon) | 16 | Managed, brak pauzowania, auto-inject env vars w Vercel |
 | ORM | **Prisma** | **7.5** | Type-safe queries, migracje, Prisma Studio |
-| Auth | **Supabase Auth** | — | Zintegrowany z DB; magic link + Google OAuth |
-| Storage | **Supabase Storage** | — | Obrazy profili palarni; darmowy do 1GB |
+| Auth | **Clerk** (`@clerk/nextjs`) | — | Drop-in auth; magic link + Google OAuth; 30 min setup |
+| Storage | **Uploadthing** (MVP) → Cloudflare R2 | — | Obrazy profili palarni; 2GB free (UT), 10GB free + $0 egress (R2) |
 | Mapa | **Leaflet** + OpenStreetMap | 1.9.x | Darmowy, wystarczający dla MVP; react-leaflet wrapper |
 | Hosting | **Vercel** | — | Zero-config CI/CD, edge network, darmowy tier |
 | Email | **Resend** | — | Newsletter, powiadomienia transakcyjne |
@@ -31,11 +31,11 @@
 | Odrzucone | Powód odrzucenia |
 |-----------|-----------------|
 | tRPC | Overhead bez wyraźnej korzyści przy Server Actions w Next.js 16 |
-| NextAuth.js | Supabase Auth jest zintegrowany z DB — mniej konfiguracji |
+| Supabase (DB+Auth+Storage) | Free tier pauzuje po 7 dniach braku ruchu — agent wstaje na śpiący DB; Auth setup w Next.js 16 App Router ~3 dni vs 30 min z Clerk |
+| NextAuth.js / Auth.js | Clerk ma lepszą integrację z Next.js 16 App Router — drop-in `clerkMiddleware()` |
 | Drizzle ORM | Prisma ma lepszą dokumentację i Prisma Studio przydatne przy seedingu |
 | Mapbox | Płatny po 50K requests/mies.; Leaflet+OSM wystarczy dla MVP |
-| Neon | Supabase daje DB + Auth + Storage w jednym dashboardzie |
-| Cloudinary | Supabase Storage wystarczy dla MVP; Cloudinary to P2 jeśli potrzebne transformacje |
+| Cloudinary | Uploadthing wystarczy dla MVP; Cloudflare R2 dla growth ($0 egress) |
 
 ---
 
@@ -81,15 +81,18 @@
 │                          │                               │
 └──────────────────────────┼──────────────────────────────┘
                            │
-              ┌────────────┴────────────┐
-              │                         │
-    ┌─────────▼──────────┐   ┌─────────▼──────────┐
-    │      Supabase       │   │       Resend        │
-    │                     │   │   (email/newsletter)│
-    │  PostgreSQL + Prisma│   └─────────────────────┘
-    │  Supabase Auth      │
-    │  Supabase Storage   │
-    └─────────────────────┘
+              ┌──────────┼──────────┐
+              │          │          │
+    ┌─────────▼────┐ ┌──▼──────┐ ┌▼─────────────────┐
+    │ Vercel       │ │  Clerk  │ │     Resend        │
+    │ Postgres     │ │  (auth) │ │ (email/newsletter)│
+    │ (Neon)       │ └─────────┘ └───────────────────┘
+    │ + Prisma ORM │
+    └──────────────┘
+    ┌──────────────┐
+    │ Uploadthing  │ (images — MVP)
+    │ → R2         │ (images — growth)
+    └──────────────┘
 ```
 
 ---
@@ -100,36 +103,36 @@
 
 ```bash
 # .env.local
-DATABASE_URL="postgresql://postgres:password@localhost:54322/postgres"
-DIRECT_URL="postgresql://postgres:password@localhost:54322/postgres"
-NEXT_PUBLIC_SUPABASE_URL="http://localhost:54321"
-NEXT_PUBLIC_SUPABASE_ANON_KEY="..."
-SUPABASE_SERVICE_ROLE_KEY="..."
+DATABASE_URL="postgresql://..."                       # Vercel Postgres (Neon) — pooled connection
+DIRECT_URL="postgresql://..."                         # Vercel Postgres (Neon) — direct (dla migracji)
+CLERK_SECRET_KEY="sk_test_..."                        # Clerk — server-side
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_test_..."       # Clerk — client-side
+NEXT_PUBLIC_CLERK_SIGN_IN_URL="/sign-in"
+NEXT_PUBLIC_CLERK_SIGN_UP_URL="/sign-up"
 RESEND_API_KEY="..."
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 ```
 
-Supabase CLI uruchamia lokalną instancję PostgreSQL + Auth na portach 54321/54322.
-
 ### Staging (Vercel Preview)
 
-- Osobny projekt Supabase (staging)
 - Vercel Preview Deployments — każdy PR dostaje osobny URL
-- Automatyczny deploy przy push na branch `main` (→ staging) i tagach (→ production)
+- Ta sama Vercel Postgres (dev) — preview branches używają dev DB
+- Clerk: osobna instancja test/development
 
 ### Production
 
 ```bash
 # Vercel Environment Variables (produkcja)
-DATABASE_URL="postgresql://..."          # Supabase production connection pooler
-DIRECT_URL="postgresql://..."           # Supabase production direct (dla migracji)
-NEXT_PUBLIC_SUPABASE_URL="https://..."
-NEXT_PUBLIC_SUPABASE_ANON_KEY="..."
-SUPABASE_SERVICE_ROLE_KEY="..."
+DATABASE_URL="postgresql://..."                       # Vercel Postgres (prod) — pooled
+DIRECT_URL="postgresql://..."                         # Vercel Postgres (prod) — direct
+CLERK_SECRET_KEY="sk_live_..."
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_live_..."
+NEXT_PUBLIC_CLERK_SIGN_IN_URL="/sign-in"
+NEXT_PUBLIC_CLERK_SIGN_UP_URL="/sign-up"
 RESEND_API_KEY="..."
 NEXT_PUBLIC_APP_URL="https://roastershub.com"
-STRIPE_SECRET_KEY="..."                 # P2
-STRIPE_WEBHOOK_SECRET="..."             # P2
+STRIPE_SECRET_KEY="..."                               # P2
+STRIPE_WEBHOOK_SECRET="..."                            # P2
 ```
 
 ---
@@ -147,21 +150,21 @@ STRIPE_WEBHOOK_SECRET="..."             # P2
    → email do palarni: "Twój profil jest aktywny"
 
 3. Palarnia chce zarządzać profilem:
-   → klik "Claim your profile" → Supabase Auth magic link
+   → klik "Claim your profile" → Clerk sign-in (magic link lub Google OAuth)
    → po login: sprawdzenie czy email pasuje do profilu palarni
+   → UserProfile tworzony via Clerk webhook lub on-demand
    → dostęp do /dashboard/roaster
 
 4. Powracające logowanie:
-   → magic link lub Google OAuth
-   → Supabase session → Server Components sprawdzają session
+   → Clerk sign-in → auth() w Server Components sprawdza session
 ```
 
 ### Admin
 
 ```
-1. Admin loguje się przez Supabase Auth (email/hasło lub magic link)
-2. Rola ADMIN ustawiona w tabeli UserProfile
-3. Middleware sprawdza rolę → access /admin/*
+1. Admin loguje się przez Clerk (email/hasło lub magic link)
+2. Rola ADMIN ustawiona w Clerk publicMetadata + tabeli UserProfile
+3. clerkMiddleware() sprawdza rolę → access /admin/*
 ```
 
 ### Kawiarnie i konsumenci
@@ -175,10 +178,10 @@ Brak kont w MVP — przeglądają bez rejestracji.
 | Aspekt | Implementacja |
 |--------|--------------|
 | SQL Injection | Niemożliwe — Prisma używa prepared statements |
-| Auth | Supabase Auth + Row Level Security (RLS) na poziomie DB |
-| Admin access | Middleware sprawdza rolę ADMIN przed każdą stroną /admin/* |
+| Auth | Clerk session + role-based access w middleware i Server Actions |
+| Admin access | `clerkMiddleware()` sprawdza `publicMetadata.role === "ADMIN"` przed /admin/* |
 | API rate limiting | Vercel Edge Middleware — limit per IP dla /api/track i /api/newsletter |
-| Image upload | Walidacja rozmiaru (<5MB) i typu (jpg/png/webp) przed uploadem do Supabase Storage |
+| Image upload | Walidacja rozmiaru (<5MB) i typu (jpg/png/webp) przed uploadem do Uploadthing |
 | CSRF | Server Actions mają wbudowaną ochronę CSRF w Next.js |
 | Dane osobowe | Plausible nie zbiera IP ani cookies; tracking tylko ipHash (SHA256) |
 
@@ -188,7 +191,7 @@ Brak kont w MVP — przeglądają bez rejestracji.
 
 | Metryka | Target | Jak osiągnąć |
 |---------|--------|--------------|
-| LCP (Largest Contentful Paint) | < 2.5s | ISR + obrazy w Supabase Storage z CDN |
+| LCP (Largest Contentful Paint) | < 2.5s | ISR + obrazy w Uploadthing CDN |
 | CLS (Cumulative Layout Shift) | < 0.1 | Reservacja miejsca dla obrazów (width/height) |
 | Rozmiar bundle (JS) | < 150KB initial | Server Components; lazy load mapy i filtrów |
 | Katalog (lista palarni) | < 200ms TTFB | SSR + indeksy DB na country, status, featured |

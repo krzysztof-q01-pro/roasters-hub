@@ -8,13 +8,14 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ## NOW — Phase 0: Setup (przed jakimkolwiek backendem)
 
-- [ ] [P0] ⚠️ **DECYZJA WYMAGANA: Potwierdź stack przed budową backendu**
-  - Opcja A: Supabase (DB + Auth + Storage) — status quo z docs architektury
-  - Opcja B: Vercel Postgres + Clerk + Uploadthing (rekomendacja agenta)
-  - Analiza: `docs/architecture/technical-overview.md`, decyzja w planie `.claude/plans/`
-  - **Agent NIE buduje backendu dopóki to zadanie nie jest `[x]`**
-- [ ] [P0] Utwórz bazę danych (dev) → skopiuj credentials do `web/.env.local`
-- [ ] [P0] Utwórz bazę danych (prod) → dodaj zmienne do Vercel
+- [x] [P0] ✅ **Stack potwierdzony: Vercel Postgres + Clerk + Uploadthing** (2026-03-26)
+  - DB: Vercel Postgres (Neon) — brak pauzowania, auto-inject env vars
+  - Auth: Clerk — drop-in `@clerk/nextjs`, 30 min setup
+  - Storage: Uploadthing (MVP) → Cloudflare R2 (growth)
+  - Dokumentacja zaktualizowana w tym commicie
+- [ ] [P0] Utwórz Vercel Postgres (dev) → skopiuj `DATABASE_URL` + `DIRECT_URL` do `web/.env.local`
+- [ ] [P0] Utwórz konto Clerk → skopiuj `CLERK_SECRET_KEY` + `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` do `web/.env.local`
+- [ ] [P0] Dodaj env vars do Vercel (prod): DATABASE_URL, DIRECT_URL, CLERK_SECRET_KEY, NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 - [ ] [P0] Zweryfikuj że `prisma migrate dev` działa lokalnie
 - [ ] [P0] Branch protection na `main` (no direct push) w GitHub
 - [ ] [P0] GitHub Actions: `tsc --noEmit` + `eslint` na każdym PR
@@ -33,19 +34,19 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [ ] [P1] Stworzyć `web/prisma/seed.ts` — 12 mock roasters → DB
 - [ ] [P1] Zastąpić importy mock-data Prisma queries na wszystkich stronach
 
-### Tydzień 2 — Auth + Admin
-- [ ] [P1] Stworzyć `web/src/lib/supabase.ts` — server client + browser client
-- [ ] [P1] Zastąpić `web/src/middleware.ts` Basic Auth → Supabase session check
-- [ ] [P1] Stworzyć `web/src/lib/auth.ts` — `requireAdmin()`, `requireRoasterOwner()`
+### Tydzień 2 — Auth (Clerk) + Admin
+- [ ] [P1] `npm install @clerk/nextjs` + konfiguracja `ClerkProvider` w layout.tsx
+- [ ] [P1] Zastąpić `web/src/middleware.ts` Basic Auth → `clerkMiddleware()` z route protection
+- [ ] [P1] Stworzyć `web/src/lib/auth.ts` — `requireAdmin()`, `requireRoasterOwner()` (via Clerk `auth()`)
 - [ ] [P1] Stworzyć `web/src/actions/admin.actions.ts` → `verifyRoaster()`, `rejectRoaster()` + `revalidatePath()`
 - [ ] [P1] Podpiąć admin panel UI do Server Actions
-- [ ] [P1] Bootstrap admin user — ręcznie przez Prisma Studio (udokumentować w `web/README.md`)
+- [ ] [P1] Bootstrap admin user — Clerk Dashboard (ustawić `publicMetadata.role: "ADMIN"`) + UserProfile w DB
 - [ ] [P1] Seed 50-100 palarni z `docs/seed-roasters.md`
-- [ ] [P1] Usunąć `AUTH_USER`/`AUTH_PASSWORD` z middleware
+- [ ] [P1] Usunąć `AUTH_USER`/`AUTH_PASSWORD` z env vars
 
 **Launch Go/No-Go** (wszystkie muszą być ✅ przed publicznym launchem):
-- [ ] Formularz rejestracji zapisuje do Supabase
-- [ ] Admin może zalogować się i zweryfikować palarnie
+- [ ] Formularz rejestracji zapisuje do Vercel Postgres
+- [ ] Admin może zalogować się (Clerk) i zweryfikować palarnie
 - [ ] Zweryfikowane palarnie widoczne w katalogu
 - [ ] Basic HTTP Auth usunięty z middleware
 - [ ] Min. 50 seed palarni ze statusem VERIFIED w DB
@@ -60,7 +61,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [ ] Roaster dashboard `/dashboard/roaster` — edycja profilu
 - [ ] SEO landing pages `/roasters/country/[country]` — `generateStaticParams` z Prisma
 - [ ] `trackEvent` Server Action — zapisuje `ProfileEvent` do DB
-- [ ] Image upload — Supabase Storage, max 2000px, <5MB client-side
+- [ ] Image upload — Uploadthing, max 2000px, <5MB client-side (→ Cloudflare R2 przy growth)
 - [ ] Analytics — Plausible (jeden script tag)
 
 **⚠️ Uwaga SEO:** `technical-overview.md` używa `/roasters/country/[country]`, `project-structure.md` używa `/country/[country]`. Zdecyduj PRZED budową.
@@ -90,3 +91,5 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] UI/UX design — Google Stitch exports + design system
 - [x] Deploy — Vercel (beanmap-web.vercel.app)
 - [x] Repo reorganization — PROJECT_STATUS, ROADMAP, OVERVIEW, AGENTS.md, .env.example
+- [x] Stack decision — Vercel Postgres + Clerk + Uploadthing (2026-03-26)
+- [x] Scheduled agent config — settings.json, workflows/scheduled_run.md, CLAUDE.md entry point
