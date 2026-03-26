@@ -1,75 +1,92 @@
-# Bean Map — Roadmap
+# Roadmap
 
-> Platforma B2B łącząca palarnie kawy z kawiarniami.
-> Cel: doprowadzić MVP do produkcji i pozyskać pierwszych użytkowników.
+Framework: **Now / Next / Later** — nie sprinty. Maksymalnie 5 zadań w NOW.
 
-## Stan projektu (marzec 2026)
+Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
-| Warstwa          | Stan        | Szczegóły                                               |
-|------------------|-------------|---------------------------------------------------------|
-| Dokumentacja     | **90%**     | Architektura, design brief, research — kompletne        |
-| UI / Frontend    | **70%**     | Strony: home, katalog, mapa, profil, rejestracja, admin stub |
-| Baza danych      | **10%**     | Schema Prisma gotowa, brak migracji, brak połączenia    |
-| Backend / API    | **0%**      | Brak server actions, brak route handlers                |
-| Autentykacja     | **0%**      | Brak Supabase Auth, brak middleware                     |
-| Admin panel      | **5%**      | Tylko UI pending queue, brak logiki                     |
-| Dashboard palarni| **0%**      | Brak stron i logiki                                     |
-| Email / Newsletter| **0%**     | Brak integracji z Resend                                |
+---
 
-## Fazy rozwoju
+## NOW — Phase 0: Setup (przed jakimkolwiek backendem)
 
-### Faza 0: Fundament (obecna)
-Porządkowanie projektu, branding, planowanie architektury.
+- [ ] [P0] ⚠️ **DECYZJA WYMAGANA: Potwierdź stack przed budową backendu**
+  - Opcja A: Supabase (DB + Auth + Storage) — status quo z docs architektury
+  - Opcja B: Vercel Postgres + Clerk + Uploadthing (rekomendacja agenta)
+  - Analiza: `docs/architecture/technical-overview.md`, decyzja w planie `.claude/plans/`
+  - **Agent NIE buduje backendu dopóki to zadanie nie jest `[x]`**
+- [ ] [P0] Utwórz bazę danych (dev) → skopiuj credentials do `web/.env.local`
+- [ ] [P0] Utwórz bazę danych (prod) → dodaj zmienne do Vercel
+- [ ] [P0] Zweryfikuj że `prisma migrate dev` działa lokalnie
+- [ ] [P0] Branch protection na `main` (no direct push) w GitHub
+- [ ] [P0] GitHub Actions: `tsc --noEmit` + `eslint` na każdym PR
 
-- Ustalenie finalnej nazwy i branding (logo, kolory)
-- Rewizja architektury pod kątem realnego MVP
-- Decyzja: co wchodzi do MVP, a co do v2
-- Setup Supabase (baza, auth, storage)
+---
 
-### Faza 1: Baza danych i autentykacja
-Podłączenie backendu — bez tego nic nie działa.
+## NEXT — Phase 1: Core Backend (~2 tygodnie)
 
-- Konfiguracja Supabase (PostgreSQL + Auth + Storage)
-- Uruchomienie migracji Prisma
-- Seed 60 palarni z `docs/seed-roasters.md`
-- Integracja Supabase Auth (magic links)
-- Middleware: ochrona `/admin/*` i `/dashboard/*`
+### Tydzień 1 — DB + Rejestracja
+- [ ] [P1] Odkomentować `web/src/lib/db.ts` — Prisma singleton
+- [ ] [P1] `prisma migrate dev --name init` — pierwsza migracja
+- [ ] [P1] Stworzyć `web/src/types/actions.ts` — `ActionResult<T>` + `CreateRoasterSchema` (Zod)
+- [ ] [P1] Stworzyć `web/src/lib/slug.ts` — obsługa kolizji (hard-beans → hard-beans-opole → hard-beans-opole-2)
+- [ ] [P1] Stworzyć `web/src/actions/roaster.actions.ts` → `createRoasterRegistration`
+- [ ] [P1] Podpiąć `register/page.tsx` handleSubmit do Server Action
+- [ ] [P1] Stworzyć `web/prisma/seed.ts` — 12 mock roasters → DB
+- [ ] [P1] Zastąpić importy mock-data Prisma queries na wszystkich stronach
 
-### Faza 2: Server Actions i API
-Logika biznesowa — rejestracja, weryfikacja, zarządzanie profilem.
+### Tydzień 2 — Auth + Admin
+- [ ] [P1] Stworzyć `web/src/lib/supabase.ts` — server client + browser client
+- [ ] [P1] Zastąpić `web/src/middleware.ts` Basic Auth → Supabase session check
+- [ ] [P1] Stworzyć `web/src/lib/auth.ts` — `requireAdmin()`, `requireRoasterOwner()`
+- [ ] [P1] Stworzyć `web/src/actions/admin.actions.ts` → `verifyRoaster()`, `rejectRoaster()` + `revalidatePath()`
+- [ ] [P1] Podpiąć admin panel UI do Server Actions
+- [ ] [P1] Bootstrap admin user — ręcznie przez Prisma Studio (udokumentować w `web/README.md`)
+- [ ] [P1] Seed 50-100 palarni z `docs/seed-roasters.md`
+- [ ] [P1] Usunąć `AUTH_USER`/`AUTH_PASSWORD` z middleware
 
-- Server actions: roaster (rejestracja, update, upload)
-- Server actions: admin (verify, reject, featured)
-- Server actions: tracking (eventy)
-- API route: `/api/roasters` (dane dla mapy)
-- Walidacja Zod na wszystkich formularzach
+**Launch Go/No-Go** (wszystkie muszą być ✅ przed publicznym launchem):
+- [ ] Formularz rejestracji zapisuje do Supabase
+- [ ] Admin może zalogować się i zweryfikować palarnie
+- [ ] Zweryfikowane palarnie widoczne w katalogu
+- [ ] Basic HTTP Auth usunięty z middleware
+- [ ] Min. 50 seed palarni ze statusem VERIFIED w DB
+- [ ] Error monitoring skonfigurowany (choćby Vercel logs)
+- [ ] `PROJECT_STATUS.md` aktualny
 
-### Faza 3: Panele
-Dashboard palarni + pełny panel admina.
+---
 
-- Dashboard palarni: edycja profilu, upload zdjęć, statystyki
-- Admin: lista palarni, weryfikacja, notatki, featured tier
-- Image upload z Supabase Storage
+## LATER — Phase 2: Post-Launch (2-4 tygodnie po launchu)
 
-### Faza 4: SEO i marketing
-Organiczny wzrost — strony pod SEO, newsletter, analityka.
+- [ ] Email notifications — Resend (`createRoasterRegistration` + `verifyRoaster`)
+- [ ] Roaster dashboard `/dashboard/roaster` — edycja profilu
+- [ ] SEO landing pages `/roasters/country/[country]` — `generateStaticParams` z Prisma
+- [ ] `trackEvent` Server Action — zapisuje `ProfileEvent` do DB
+- [ ] Image upload — Supabase Storage, max 2000px, <5MB client-side
+- [ ] Analytics — Plausible (jeden script tag)
 
-- Landing pages: `/country/[country]`, `/country/[country]/[city]`
-- Sitemap + robots.txt
-- Newsletter z Resend
-- Analityka (Plausible)
-- Open Graph images
+**⚠️ Uwaga SEO:** `technical-overview.md` używa `/roasters/country/[country]`, `project-structure.md` używa `/country/[country]`. Zdecyduj PRZED budową.
 
-### Faza 5: Monetyzacja (v2)
-- Kampanie sponsorowane (Stripe)
-- Płatne wyróżnienie profilu
-- Konta kawiarni
-- Obsługa sampli
+## LATER — Phase 3: Growth (miesiąc 2-3)
 
-## Kryteria sukcesu MVP
+- [ ] Featured tier + Stripe (webhook `/api/webhooks/stripe`, `setFeatured` action)
+- [ ] Newsletter digest (Resend + `NewsletterSubscriber` — model już w schema)
+- [ ] Café accounts (nowa rola UserRole, migracja)
+- [ ] Reviews (nowy model, migracja)
 
-- [ ] Palarnia może się zarejestrować i edytować profil
-- [ ] Admin może weryfikować palarnie
-- [ ] Katalog wyświetla dane z bazy (nie mock)
-- [ ] Mapa działa z realnymi danymi
-- [ ] Strona działa na produkcji (Vercel + Supabase)
+## LATER — Phase 4: Scale (miesiąc 4+)
+
+- [ ] API for partners (Route Handlers `/api/v1/`, API key auth)
+- [ ] i18n (`next-intl`, znaczący refactor)
+- [ ] Mobile (PWA first, potem React Native)
+
+---
+
+## DONE
+
+- [x] Prisma schema — 6 modeli, wszystkie indeksy, relacje
+- [x] Frontend MVP — homepage, catalog, profiles, map, register form, admin UI
+- [x] Design system — Tailwind v4 + shadcn/ui
+- [x] Architecture documentation — `docs/architecture/`
+- [x] Market research + personas — `docs/research/`
+- [x] UI/UX design — Google Stitch exports + design system
+- [x] Deploy — Vercel (beanmap-web.vercel.app)
+- [x] Repo reorganization — PROJECT_STATUS, ROADMAP, OVERVIEW, AGENTS.md, .env.example
