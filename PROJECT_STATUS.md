@@ -66,7 +66,7 @@ web/.env.local                — DOES NOT EXIST (credentials not provided)
 web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 ```
 
-**Note:** `web/src/lib/db.ts` exists but the Prisma client is **commented out** — it exports `{}`.
+**Note:** `web/src/lib/db.ts` — Prisma singleton aktywny, eksportuje `db`.
 
 ---
 
@@ -78,14 +78,12 @@ Stack decision confirmed. Documentation update in progress.
 
 ## Next Unblocked Task
 
-**Phase 0, Step 2:** Provision Vercel Postgres (dev) + create Clerk app → deliver `web/.env.local` with:
+**Phase 1, Tydzień 1:** Stworzyć `web/src/types/actions.ts` — `ActionResult<T>` + `CreateRoasterSchema` (Zod)
 ```
 DATABASE_URL=...
 DIRECT_URL=...
 CLERK_SECRET_KEY=...
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=...
 ```
-
-After credentials: agent can autonomously run `prisma migrate dev`, install `@clerk/nextjs`, and begin Phase 1.
 
 See `ROADMAP.md` for full task list.

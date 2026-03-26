@@ -23,8 +23,8 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 ## NEXT — Phase 1: Core Backend (~2 tygodnie)
 
 ### Tydzień 1 — DB + Rejestracja
-- [ ] [P1] Odkomentować `web/src/lib/db.ts` — Prisma singleton
-- [ ] [P1] `prisma migrate dev --name init` — pierwsza migracja
+- [x] [P1] Odkomentować `web/src/lib/db.ts` — Prisma singleton (export `db`)
+- [x] [P1] `prisma migrate dev --name init` — pierwsza migracja (zrobione w Phase 0)
 - [ ] [P1] Stworzyć `web/src/types/actions.ts` — `ActionResult<T>` + `CreateRoasterSchema` (Zod)
 - [ ] [P1] Stworzyć `web/src/lib/slug.ts` — obsługa kolizji (hard-beans → hard-beans-opole → hard-beans-opole-2)
 - [ ] [P1] Stworzyć `web/src/actions/roaster.actions.ts` → `createRoasterRegistration`
@@ -81,7 +81,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ## 🧑 HUMAN ONLY — zadania wymagające człowieka (agent NIE wykonuje)
 
-- [ ] Dodaj env vars do Vercel (prod): DATABASE_URL, DIRECT_URL, CLERK_SECRET_KEY, NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+- [x] Dodaj env vars do Vercel (prod): DATABASE_URL, DIRECT_URL, CLERK_SECRET_KEY, NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 - [ ] Branch protection na `main` (no direct push) — GitHub Settings → Branches
 - [ ] Ustawienie Clerk: Google OAuth provider — Clerk Dashboard → User & Authentication → Social connections
 - [ ] Bootstrap admin user — Clerk Dashboard → ustawić `publicMetadata: { "role": "ADMIN" }`
@@ -89,6 +89,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [ ] Stripe konto (Phase 3) — rejestracja + webhook secret
 - [ ] Cold outreach do palarni — lista kontaktowa, maile, LinkedIn
 - [ ] Decyzja SEO: URL pattern `/roasters/country/[country]` vs `/country/[country]`
+- [ ] Założenie Remote Server — hosting dla scheduled agent (Claude Code remote triggers)
 
 **⚠️ Agent: jeśli napotkasz zadanie z tej sekcji — zapisz w SESSION.md i przejdź do następnego.**
 
