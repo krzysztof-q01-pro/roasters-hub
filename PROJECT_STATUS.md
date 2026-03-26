@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-03-26 | Phase 0 complete, CI added, status audit
+2026-03-26 | Phase 1 started, types/actions.ts created
 
 ---
 
@@ -55,7 +55,7 @@
 web/src/actions/              — DOES NOT EXIST
 web/src/lib/auth.ts           — DOES NOT EXIST
 web/src/lib/slug.ts           — DOES NOT EXIST
-web/src/types/actions.ts      — DOES NOT EXIST
+web/src/types/actions.ts      — ActionResult<T> + CreateRoasterSchema (Zod)
 web/prisma/seed.ts            — DOES NOT EXIST
 ```
 
@@ -70,12 +70,12 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Active Work
 
-Phase 0 complete. Starting Phase 1 — Core Backend.
+Phase 1 in progress — types/actions.ts done, next: slug.ts
 
 ---
 
 ## Next Unblocked Task
 
-**Phase 1, Tydzień 1:** Stworzyć `web/src/types/actions.ts` — `ActionResult<T>` + `CreateRoasterSchema` (Zod)
+**Phase 1, Tydzień 1:** Stworzyć `web/src/lib/slug.ts` — obsługa kolizji slugów
 
 See `ROADMAP.md` for full task list.

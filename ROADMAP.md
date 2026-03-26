@@ -25,7 +25,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 ### Tydzień 1 — DB + Rejestracja
 - [x] [P1] Odkomentować `web/src/lib/db.ts` — Prisma singleton (export `db`)
 - [x] [P1] `prisma migrate dev --name init` — pierwsza migracja (zrobione w Phase 0)
-- [ ] [P1] Stworzyć `web/src/types/actions.ts` — `ActionResult<T>` + `CreateRoasterSchema` (Zod)
+- [x] [P1] Stworzyć `web/src/types/actions.ts` — `ActionResult<T>` + `CreateRoasterSchema` (Zod)
 - [ ] [P1] Stworzyć `web/src/lib/slug.ts` — obsługa kolizji (hard-beans → hard-beans-opole → hard-beans-opole-2)
 - [ ] [P1] Stworzyć `web/src/actions/roaster.actions.ts` → `createRoasterRegistration`
 - [ ] [P1] Podpiąć `register/page.tsx` handleSubmit do Server Action
