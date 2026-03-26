@@ -13,10 +13,10 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
   - Auth: Clerk — drop-in `@clerk/nextjs`, 30 min setup
   - Storage: Uploadthing (MVP) → Cloudflare R2 (growth)
   - Dokumentacja zaktualizowana w tym commicie
-- [ ] [P0] Utwórz Vercel Postgres (dev) → skopiuj `DATABASE_URL` + `DIRECT_URL` do `web/.env.local`
-- [ ] [P0] Utwórz konto Clerk → skopiuj `CLERK_SECRET_KEY` + `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` do `web/.env.local`
+- [x] [P0] Utwórz Vercel Postgres (dev) → skopiuj `DATABASE_URL` + `DIRECT_URL` do `web/.env.local`
+- [x] [P0] Utwórz konto Clerk → skopiuj `CLERK_SECRET_KEY` + `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` do `web/.env.local`
 - [ ] [P0] Dodaj env vars do Vercel (prod): DATABASE_URL, DIRECT_URL, CLERK_SECRET_KEY, NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-- [ ] [P0] Zweryfikuj że `prisma migrate dev` działa lokalnie
+- [x] [P0] Zweryfikuj że `prisma migrate dev` działa lokalnie — migracja `init` zastosowana (6 tabel)
 - [ ] [P0] Branch protection na `main` (no direct push) w GitHub
 - [ ] [P0] GitHub Actions: `tsc --noEmit` + `eslint` na każdym PR
 
