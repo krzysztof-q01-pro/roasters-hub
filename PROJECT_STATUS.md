@@ -54,7 +54,7 @@
 ```
 web/src/actions/              — DOES NOT EXIST
 web/src/lib/auth.ts           — DOES NOT EXIST
-web/src/lib/slug.ts           — DOES NOT EXIST
+web/src/lib/slug.ts           — generateUniqueSlug() z obsługą kolizji
 web/src/types/actions.ts      — ActionResult<T> + CreateRoasterSchema (Zod)
 web/prisma/seed.ts            — DOES NOT EXIST
 ```
@@ -70,12 +70,12 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Active Work
 
-Phase 1 in progress — types/actions.ts done, next: slug.ts
+Phase 1 in progress — types/actions.ts + slug.ts done, next: roaster.actions.ts
 
 ---
 
 ## Next Unblocked Task
 
-**Phase 1, Tydzień 1:** Stworzyć `web/src/lib/slug.ts` — obsługa kolizji slugów
+**Phase 1, Tydzień 1:** Stworzyć `web/src/actions/roaster.actions.ts` → `createRoasterRegistration`
 
 See `ROADMAP.md` for full task list.
