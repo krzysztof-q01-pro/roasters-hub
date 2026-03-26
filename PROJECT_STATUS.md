@@ -72,18 +72,12 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Active Work
 
-Stack decision confirmed. Documentation update in progress.
+Phase 0 complete. Starting Phase 1 — Core Backend.
 
 ---
 
 ## Next Unblocked Task
 
 **Phase 1, Tydzień 1:** Stworzyć `web/src/types/actions.ts` — `ActionResult<T>` + `CreateRoasterSchema` (Zod)
-```
-DATABASE_URL=...
-DIRECT_URL=...
-CLERK_SECRET_KEY=...
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=...
-```
 
 See `ROADMAP.md` for full task list.

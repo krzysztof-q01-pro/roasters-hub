@@ -16,7 +16,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] [P0] Utwórz Vercel Postgres (dev) → skopiuj `DATABASE_URL` + `DIRECT_URL` do `web/.env.local`
 - [x] [P0] Utwórz konto Clerk → skopiuj `CLERK_SECRET_KEY` + `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` do `web/.env.local`
 - [x] [P0] Zweryfikuj że `prisma migrate dev` działa lokalnie — migracja `init` zastosowana (6 tabel)
-- [ ] [P0] GitHub Actions: `tsc --noEmit` + `eslint` na każdym PR
+- [x] [P0] GitHub Actions: `tsc --noEmit` + `eslint` na każdym PR
 
 ---
 

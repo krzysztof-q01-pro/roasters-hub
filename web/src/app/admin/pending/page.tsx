@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { MOCK_ROASTERS } from "@/lib/mock-data";
 import Image from "next/image";
+import Link from "next/link";
 
 // Add some pending roasters for demo
 type RoasterStatus = "PENDING" | "VERIFIED" | "REJECTED";
@@ -121,8 +121,10 @@ export default function AdminPendingPage() {
     }
   };
 
+  const [now] = useState(() => Date.now());
+
   const timeAgo = (date: Date) => {
-    const diff = Date.now() - date.getTime();
+    const diff = now - date.getTime();
     const hours = Math.floor(diff / 3600000);
     if (hours < 24) return `${hours}h ago`;
     return `${Math.floor(hours / 24)}d ago`;
@@ -142,12 +144,12 @@ export default function AdminPendingPage() {
               Pending ({roasters.filter((r) => r.status === "PENDING").length})
             </span>
             <span className="text-on-surface-variant">All Roasters</span>
-            <a href="/" className="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1">
+            <Link href="/" className="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1">
               View Site
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
               </svg>
-            </a>
+            </Link>
           </nav>
         </div>
       </header>
