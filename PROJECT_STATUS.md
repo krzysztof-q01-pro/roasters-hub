@@ -42,7 +42,6 @@
 
 | Feature | File | What's Missing |
 |---------|------|----------------|
-| Admin verify/reject | `web/src/app/admin/pending/page.tsx` | ✅ Connected to Server Actions (verifyRoaster, rejectRoaster) |
 | Newsletter signup | `web/src/app/page.tsx` | Form exists, no handler |
 
 ---
