@@ -33,14 +33,14 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] [P1] Zastąpić importy mock-data Prisma queries na wszystkich stronach
 
 ### Tydzień 2 — Auth (Clerk) + Admin
-- [ ] [P1] Konfiguracja `ClerkProvider` w layout.tsx + sign-in/sign-up routes (pakiet już zainstalowany)
-- [ ] [P1] Zastąpić `web/src/middleware.ts` Basic Auth → `clerkMiddleware()` z route protection
-- [ ] [P1] Stworzyć `web/src/lib/auth.ts` — `requireAdmin()`, `requireRoasterOwner()` (via Clerk `auth()`)
-- [ ] [P1] Stworzyć `web/src/actions/admin.actions.ts` → `verifyRoaster()`, `rejectRoaster()` + `revalidatePath()`
-- [ ] [P1] Podpiąć admin panel UI do Server Actions
+- [x] [P1] Konfiguracja `ClerkProvider` w layout.tsx + sign-in/sign-up routes (pakiet już zainstalowany)
+- [x] [P1] Zastąpić `web/src/middleware.ts` Basic Auth → `clerkMiddleware()` z route protection
+- [x] [P1] Stworzyć `web/src/lib/auth.ts` — `requireAdmin()`, `requireRoasterOwner()` (via Clerk `auth()`)
+- [x] [P1] Stworzyć `web/src/actions/admin.actions.ts` → `verifyRoaster()`, `rejectRoaster()` + `revalidatePath()`
+- [x] [P1] Podpiąć admin panel UI do Server Actions
 - [ ] [P1] Bootstrap admin user — UserProfile w DB (po ręcznym ustawieniu roli w Clerk → patrz HUMAN ONLY)
-- [ ] [P1] Seed 50-100 palarni z `docs/seed-roasters.md`
-- [ ] [P1] Usunąć `AUTH_USER`/`AUTH_PASSWORD` z env vars
+- [x] [P1] Seed palarni PL+DE z `docs/seed-roasters.md` (22 total: 12 existing + 4 DE + 6 PL)
+- [x] [P1] Usunąć `AUTH_USER`/`AUTH_PASSWORD` z env vars
 
 **Launch Go/No-Go** (wszystkie muszą być ✅ przed publicznym launchem):
 - [ ] Formularz rejestracji zapisuje do Vercel Postgres
