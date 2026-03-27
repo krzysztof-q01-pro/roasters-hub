@@ -61,12 +61,12 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Active Work
 
-Phase 1 Tydzień 2 nearly complete. All agent tasks done. Remaining: bootstrap admin user (HUMAN ONLY — set role in Clerk Dashboard).
+Phase 1 Tydzień 2 nearly complete. All agent tasks done. Admin user bootstrapped (`marek.nadra@gmail.com` has `publicMetadata: { "role": "ADMIN" }` in Clerk). Remaining: re-seed production DB with 22 roasters (seed.ts updated, needs `prisma db seed` on prod).
 
 ---
 
 ## Next Unblocked Task
 
-**Phase 1, Tydzień 2:** Bootstrap admin user (HUMAN ONLY — Clerk Dashboard → `publicMetadata: { "role": "ADMIN" }`)
+**Phase 1, Tydzień 2:** Bootstrap admin user — UserProfile w DB (Clerk role already set for `marek.nadra@gmail.com`)
 
 See `ROADMAP.md` for full task list.

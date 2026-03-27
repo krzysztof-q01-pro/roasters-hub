@@ -113,3 +113,4 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] GitHub Actions: `tsc --noEmit` + `eslint` na każdym PR
 - [x] Odkomentować `web/src/lib/db.ts` — Prisma singleton (export `db`)
 - [x] `prisma migrate dev --name init` — pierwsza migracja (zrobione w Phase 0)
+- [x] Konfiguracja `ClerkProvider` w layout.tsx + sign-in/sign-up routes (pakiet już zainstalowany)

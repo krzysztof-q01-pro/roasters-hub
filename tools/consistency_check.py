@@ -699,6 +699,12 @@ def check_c8() -> CheckResult:
         r.skip("web/prisma/schema.prisma not found")
         return r
 
+    # Prisma 7.5+ can configure datasource via prisma.config.ts instead of schema.prisma
+    prisma_config = read_file("web/prisma.config.ts")
+    if prisma_config and "datasource" in prisma_config and "url" in prisma_config:
+        # datasource is configured in prisma.config.ts — schema.prisma doesn't need url/directUrl
+        return r
+
     # Extract datasource block
     ds_match = re.search(r"datasource\s+\w+\s*\{([^}]+)\}", schema)
     if not ds_match:
