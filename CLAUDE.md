@@ -11,6 +11,18 @@ Uprawnienia do narzędzi (git, npm, Read, Write) są auto-approved w `.claude/se
 
 ---
 
+## Scheduled Run — Branch Strategy
+
+Agenty autonomiczne (nocne/scheduled) **MUSZĄ** pracować na feature branchu:
+1. `git checkout -b feat/<opis>` — NIGDY nie commituj bezpośrednio do main
+2. Po zakończeniu pracy: `git push origin feat/<opis>`
+3. Branch zostanie zreviewowany rano przez review workflow
+
+**Review brancha przed merge:** Czytaj `workflows/review_agent_branch.md` — kompletny SOP.
+Kluczowe: każde `[x]` w ROADMAP musi mieć fizyczny dowód w kodzie (istniejący plik, import, wywołanie).
+
+---
+
 ## Post-Task Checklist (OBOWIĄZKOWE po każdym wykonanym zadaniu)
 
 Po KAŻDYM ukończonym zadaniu — zanim powiesz użytkownikowi że skończyłeś:

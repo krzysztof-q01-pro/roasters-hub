@@ -39,7 +39,7 @@ python tools/consistency_check.py
 
 ---
 
-## Krok 2: Weryfikacja przed pracą
+## Krok 2: Weryfikacja przed pracą + Branch
 
 ```bash
 git status          # czy są uncommitted changes z poprzedniej sesji
@@ -48,9 +48,16 @@ git log --oneline -3  # ostatnie commity — co było robione
 ```
 
 **Jeśli uncommitted changes:**
-- Sprawdź czy to незакінчена praca (wtedy dokończ i commituj)
+- Sprawdź czy to niedokończona praca (wtedy dokończ i commituj)
 - Lub porzucony eksperyment (wtedy `git checkout .` żeby wyczyścić)
 - Nie zostawiaj w zawieszeniu
+
+**⚠️ OBOWIĄZKOWE: Stwórz feature branch przed rozpoczęciem pracy:**
+```bash
+git checkout main && git pull origin main
+git checkout -b feat/<opis-zadania>
+```
+**NIGDY nie commituj bezpośrednio do main.** Branch zostanie zreviewowany rano (patrz `workflows/review_agent_branch.md`).
 
 ---
 
@@ -97,7 +104,7 @@ git add [pliki zadania] ROADMAP.md PROJECT_STATUS.md
 git commit -m "[SCOPE] action: opis
 
 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>"
-git push origin main   # lub feature branch
+git push origin feat/<branch-name>   # ZAWSZE feature branch, NIGDY main
 ```
 
 **Scopes:** `DB | AUTH | ACTION | UI | SEED | INFRA | DOCS | AGENT`
