@@ -29,35 +29,26 @@ Przed pisaniem kodu sprawdź: `node_modules/next/dist/docs/`
 
 ---
 
-## Wzorzec Mock Data → Real Data
-
-**Aktualny stan:** strony importują z `src/lib/mock-data.ts`
-**Cel:** strony używają Prisma przez `src/lib/db.ts`
-
-```typescript
-// Stare (do zastąpienia)
-import { MOCK_ROASTERS } from '@/lib/mock-data'
-
-// Nowe
-import { db } from '@/lib/db'
-const roasters = await db.roaster.findMany({ where: { status: 'VERIFIED' } })
-```
-
----
-
-## Pierwsza Akcja Backendu
-
-Odkomentuj `src/lib/db.ts` — Prisma client jest aktualnie zakomentowany i eksportuje `{}`.
-To jest **PIERWSZY krok** odblokowujący całą pracę backendową.
-
----
-
 ## Kluczowe Ograniczenia
 
 - **`prisma/schema.prisma` migracje muszą być sekwencyjne** — ogłoś w teamie przed uruchomieniem `prisma migrate dev`
 - **`src/middleware.ts` — jedna osoba modyfikuje na raz** — wpływa na całą aplikację
-- **Kolizje slugów** — schema ma `@unique`. Potrzebny algorytm: `hard-beans` → `hard-beans-opole` → `hard-beans-opole-2` (stworzyć `src/lib/slug.ts`)
-- **ISR + mutacje** — strony z `revalidate: 3600` potrzebują wywołania `revalidatePath()` w Server Actions po zapisie (np. `verifyRoaster` musi revalidować `/roasters/[slug]`)
+- **Kolizje slugów** — obsługuje `src/lib/slug.ts` (`hard-beans` → `hard-beans-opole` → `hard-beans-opole-2`)
+
+---
+
+## ISR + revalidation (OBOWIĄZKOWE)
+
+Wszystkie strony z zapytaniami Prisma mają `export const revalidate = 3600`.
+
+**Reguła: każda nowa strona z `db.*` musi mieć `export const revalidate = 3600`.**
+
+**Reguła: każdy Server Action zmieniający dane MUSI wywołać `revalidatePath()` dla WSZYSTKICH stron, które wyświetlają te dane.** Checklist:
+- `/` — homepage stats (roasterCount, countryCount)
+- `/roasters` — katalog
+- `/roasters/[slug]` — profil
+- `/map` — markery
+- `/admin/pending` — kolejka admina
 
 ---
 

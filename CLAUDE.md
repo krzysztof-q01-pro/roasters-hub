@@ -29,8 +29,18 @@ Po KAŻDYM ukończonym zadaniu — zanim powiesz użytkownikowi że skończyłe�
 1. `ROADMAP.md` — zaznacz `[ ]` → `[x]` przy wykonanym zadaniu
 2. `PROJECT_STATUS.md` — zaktualizuj "Active Work" i "Next Unblocked Task"
 3. Jeśli stworzono nowy plik/katalog — usuń go z "Does NOT Exist Yet"
+4. **Wersja** — jeśli zmiana jest widoczna dla użytkownika, podbij `npm run version:patch` w `web/`
 
 **Commituj aktualizację stanu W TYM SAMYM COMMICIE co zadanie, nie osobno.**
+
+---
+
+## Consistency Rules (zapobieganie driftowi)
+
+**Reguła 1 — ISR:** Każda nowa strona z `db.*` MUSI mieć `export const revalidate = 3600`.
+**Reguła 2 — Revalidation:** Każdy Server Action zmieniający dane MUSI wywołać `revalidatePath()` dla wszystkich stron wyświetlających te dane. Patrz pełna lista w `web/AGENTS.md`.
+**Reguła 3 — Docs arch. ≠ rzeczywistość:** NIE traktuj `docs/architecture/` jako source of truth. To blueprint, nie dokumentacja stanu. Rzeczywistość → `PROJECT_STATUS.md`.
+**Reguła 4 — Nie dokumentuj przyszłości jako teraźniejszości:** W `PROJECT_STATUS.md` wpisuj TYLKO to co istnieje w kodzie. Plany → `ROADMAP.md`.
 
 ---
 
