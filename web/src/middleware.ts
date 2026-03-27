@@ -1,33 +1,18 @@
-import { NextRequest, NextResponse } from "next/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-export function middleware(req: NextRequest) {
-  const user = process.env.AUTH_USER;
-  const pass = process.env.AUTH_PASSWORD;
+const isAdminRoute = createRouteMatcher(["/admin(.*))"]);
 
-  // Skip auth if credentials not configured
-  if (!user || !pass) return NextResponse.next();
-
-  const auth = req.headers.get("authorization");
-
-  if (auth) {
-    const [scheme, encoded] = auth.split(" ");
-    if (scheme === "Basic" && encoded) {
-      const decoded = Buffer.from(encoded, "base64").toString("utf-8");
-      const separatorIndex = decoded.indexOf(":");
-      const u = decoded.slice(0, separatorIndex);
-      const p = decoded.slice(separatorIndex + 1);
-      if (u === user && p === pass) {
-        return NextResponse.next();
-      }
-    }
+export default clerkMiddleware(async (auth, req) => {
+  if (isAdminRoute(req)) {
+    await auth.protect();
   }
-
-  return new NextResponse("Authentication required", {
-    status: 401,
-    headers: { "WWW-Authenticate": 'Basic realm="Bean Map Preview"' },
-  });
-}
+});
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    // Skip Next.js internals and static files
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    // Always run for API routes
+    "/(api|trpc)(.*)",
+  ],
 };

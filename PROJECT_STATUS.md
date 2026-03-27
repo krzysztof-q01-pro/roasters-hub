@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-03-26 | Phase 1 Tydzień 1 complete — backend connected, seed done
+2026-03-27 | Phase 1 Tydzień 2 in progress — Clerk auth + admin actions wired
 
 ---
 
@@ -16,9 +16,9 @@
 | Warstwa | Technologia | Status |
 |---------|-------------|--------|
 | Framework | Next.js 16.2.1 (App Router) | ✅ deployed |
-| DB | **Vercel Postgres (Neon)** | ✅ provisioned, migration `init` applied (6 tabel), 12 seed roasters |
+| DB | **Vercel Postgres (Neon)** | ✅ provisioned, migration `init` applied (6 tabel), 22 seed roasters (PL+DE focus) |
 | ORM | Prisma 7.5 + @prisma/adapter-neon | ✅ schema ready, singleton active (`db`), Neon adapter configured |
-| Auth | **Clerk** (`@clerk/nextjs`) | ✅ installed, ⏳ not configured (no ClerkProvider) |
+| Auth | **Clerk** (`@clerk/nextjs`) | ✅ ClerkProvider in layout, sign-in/sign-up routes, clerkMiddleware, auth helpers |
 | Storage | **Uploadthing** (MVP) → Cloudflare R2 (growth) | ⏳ not configured |
 | Hosting | Vercel | ✅ deployed |
 | Email | Resend | ⏳ not configured |
@@ -33,25 +33,23 @@
 - Roaster profiles `/roasters/[slug]` — **Prisma queries**, related roasters
 - Interactive map `/map` — Leaflet, **Prisma queries** for markers
 - Registration form `/register` — 3-step wizard, **connected to Server Action** (creates PENDING roaster in DB)
-- Admin panel UI `/admin/pending` — verify/reject UI, **no persistence** (Tydzień 2)
-- **Deploy:** https://beanmap-web.vercel.app (protected by Basic HTTP Auth)
+- Admin panel UI `/admin/pending` — verify/reject UI, **connected to Server Actions**
+- **Deploy:** https://beanmap-web.vercel.app (protected by Clerk auth on /admin routes)
 
 ---
 
 ## What Is Built But NOT Connected to Backend
 
 | Feature | File | What's Missing |
-|---------|------|---------------|
-| Admin verify/reject | `web/src/app/admin/pending/page.tsx` | Client-state only — no DB writes |
+|---------|------|----------------|
+| Admin verify/reject | `web/src/app/admin/pending/page.tsx` | ✅ Connected to Server Actions (verifyRoaster, rejectRoaster) |
 | Newsletter signup | `web/src/app/page.tsx` | Form exists, no handler |
 
 ---
 
 ## What Does NOT Exist Yet (despite being documented in architecture docs)
 
-```
-web/src/lib/auth.ts           — DOES NOT EXIST (Tydzień 2)
-```
+_(All planned files now exist)_
 
 **Removed (no longer needed):**
 ```
@@ -64,12 +62,12 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Active Work
 
-Phase 1 Tydzień 1 complete. Starting Tydzień 2 — Auth (Clerk) + Admin.
+Phase 1 Tydzień 2 nearly complete. All agent tasks done. Remaining: bootstrap admin user (HUMAN ONLY — set role in Clerk Dashboard).
 
 ---
 
 ## Next Unblocked Task
 
-**Phase 1, Tydzień 2:** Konfiguracja `ClerkProvider` w layout.tsx + sign-in/sign-up routes
+**Phase 1, Tydzień 2:** Bootstrap admin user (HUMAN ONLY — Clerk Dashboard → `publicMetadata: { "role": "ADMIN" }`)
 
 See `ROADMAP.md` for full task list.

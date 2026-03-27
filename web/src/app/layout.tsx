@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Newsreader, Inter } from "next/font/google";
 import "./globals.css";
 
@@ -39,7 +40,9 @@ export default function RootLayout({
       lang="en"
       className={`${newsreader.variable} ${inter.variable} h-full scroll-smooth`}
     >
-      <body className="min-h-full flex flex-col antialiased">{children}</body>
+      <body className="min-h-full flex flex-col antialiased">
+        <ClerkProvider>{children}</ClerkProvider>
+      </body>
     </html>
   );
 }
