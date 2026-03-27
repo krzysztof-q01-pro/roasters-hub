@@ -9,6 +9,8 @@ import { RoasterCard } from "@/components/roasters/RoasterCard";
 import { db } from "@/lib/db";
 import type { Metadata } from "next";
 
+export const revalidate = 3600; // re-generate every hour
+
 export async function generateMetadata({
   params,
 }: {

@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { generateUniqueSlug } from "@/lib/slug";
 import { CreateRoasterSchema, type ActionResult } from "@/types/actions";
@@ -56,6 +57,8 @@ export async function createRoasterRegistration(
         roastStyles: rest.roastStyles,
       },
     });
+
+    revalidatePath("/admin/pending");
 
     return { success: true, data: { slug: roaster.slug } };
   } catch (error) {

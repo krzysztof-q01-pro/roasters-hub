@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-03-27 | Phase 1 Tydzień 2 in progress — Clerk auth + admin actions wired
+2026-03-27 | Phase 1 Tydzień 2 in progress — Clerk auth + admin actions wired, versioning + ISR added
 
 ---
 
@@ -28,12 +28,13 @@
 
 ## What Is Deployed and Working
 
-- Homepage `/` — SSR, **Prisma queries**, fully styled
-- Catalog `/roasters` — filters, search, pagination — **Prisma queries**
-- Roaster profiles `/roasters/[slug]` — **Prisma queries**, related roasters
-- Interactive map `/map` — Leaflet, **Prisma queries** for markers
+- Homepage `/` — **ISR (1h)**, Prisma queries, fully styled
+- Catalog `/roasters` — **ISR (1h)**, filters, search, pagination — Prisma queries
+- Roaster profiles `/roasters/[slug]` — **ISR (1h)**, Prisma queries, related roasters
+- Interactive map `/map` — **ISR (1h)**, Leaflet, Prisma queries for markers
 - Registration form `/register` — 3-step wizard, **connected to Server Action** (creates PENDING roaster in DB)
 - Admin panel UI `/admin/pending` — verify/reject UI, **connected to Server Actions**
+- **Versioning:** `package.json` version displayed in footer, npm scripts `version:patch/minor/major`
 - **Deploy:** https://beanmap-web.vercel.app (protected by Clerk auth on /admin routes)
 
 ---
@@ -62,6 +63,8 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 ## Active Work
 
 Phase 1 Tydzień 2 nearly complete. All agent tasks done. Admin user bootstrapped (`marek.nadra@gmail.com` has `publicMetadata: { "role": "ADMIN" }` in Clerk). Remaining: re-seed production DB with 22 roasters (seed.ts updated, needs `prisma db seed` on prod).
+
+Latest: App versioning system added (v0.1.0). ISR (revalidate=3600) applied to all DB-backed pages. All Server Actions revalidate affected paths including homepage.
 
 ---
 

@@ -8,6 +8,8 @@ import { db } from "@/lib/db";
 import type { Metadata, } from "next";
 import type { Prisma } from "@prisma/client";
 
+export const revalidate = 3600; // re-generate every hour
+
 export const metadata: Metadata = {
   title: "Specialty Coffee Roasters",
   description: "Browse verified specialty coffee roasters worldwide. Filter by country, origin, certifications, and roast style.",
