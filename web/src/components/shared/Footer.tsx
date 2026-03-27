@@ -90,6 +90,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-8 mt-16 pt-8 border-t border-white/10 text-center md:text-left">
         <p className="text-xs font-light opacity-60">
           &copy; {new Date().getFullYear()} Bean Map. Crafted for the Sensory Curator.
+          <span className="ml-2 opacity-60">v{process.env.NEXT_PUBLIC_APP_VERSION}</span>
         </p>
       </div>
     </footer>

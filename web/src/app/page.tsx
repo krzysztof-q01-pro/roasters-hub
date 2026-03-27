@@ -5,6 +5,8 @@ import { Footer } from "@/components/shared/Footer";
 import { RoasterCard } from "@/components/roasters/RoasterCard";
 import { db } from "@/lib/db";
 
+export const revalidate = 3600; // re-generate every hour
+
 export default async function HomePage() {
   const [featuredRoasters, roasterCount, countryCount] = await Promise.all([
     db.roaster.findMany({

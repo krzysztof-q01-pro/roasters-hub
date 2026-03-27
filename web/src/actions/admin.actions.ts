@@ -22,6 +22,7 @@ export async function verifyRoaster(
       select: { slug: true },
     });
 
+    revalidatePath("/");
     revalidatePath("/roasters");
     revalidatePath(`/roasters/${roaster.slug}`);
     revalidatePath("/admin/pending");
