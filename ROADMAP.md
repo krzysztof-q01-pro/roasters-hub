@@ -56,7 +56,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 ## LATER — Phase 2: Post-Launch (2-4 tygodnie po launchu)
 
 - [ ] Email notifications — Resend (`createRoasterRegistration` + `verifyRoaster`)
-- [ ] Roaster dashboard `/dashboard/roaster` — edycja profilu
+- [x] Roaster dashboard `/dashboard/roaster` — edycja profilu
 - [ ] SEO landing pages `/roasters/country/[country]` — `generateStaticParams` z Prisma
 - [x] `trackEvent` Server Action — zapisuje `ProfileEvent` do DB
 - [ ] Image upload — Uploadthing, max 2000px, <5MB client-side (→ Cloudflare R2 przy growth)
