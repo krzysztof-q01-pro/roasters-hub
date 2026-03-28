@@ -21,7 +21,7 @@
 | Auth | **Clerk** (`@clerk/nextjs`) | ✅ ClerkProvider in layout, sign-in/sign-up routes, clerkMiddleware, auth helpers |
 | Storage | **Uploadthing** (MVP) → Cloudflare R2 (growth) | ✅ configured, route handler + dashboard upload UI |
 | Hosting | Vercel | ✅ deployed |
-| Email | Resend | ⏳ not configured |
+| Email | Resend | ✅ API key configured, no sending logic yet |
 | Analytics | Plausible | ⏳ not configured |
 
 ---
@@ -79,7 +79,7 @@ Image upload via Uploadthing — route handler, dashboard dropzone, delete actio
 
 ## Next Unblocked Task
 
-**TERAZ:** ROADMAP LATER — Phase 2 remaining (hero mobile, email notifications, image upload, analytics). Patrz ROADMAP.
+**TERAZ:** Email notifications (Resend) — RESEND_API_KEY + RESEND_FROM_EMAIL configured. Implement email module + 3 transactional emails. Patrz ROADMAP.
 
 **HUMAN ONLY blockers:** re-seed prod DB (`prisma db seed`), set Clerk Google OAuth, buy production domain.
 
