@@ -64,14 +64,12 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Active Work
 
-Phase 1 Tydzień 2 COMPLETE. Site audit przeprowadzony 2026-03-28.
+Phase 2 UI Fixes. Site audit 2026-03-28 — wszystkie 4 zadania P0/P1 ukończone 2026-03-28.
 
-**Audit findings (12 issues):** raport `.tmp/audit-2026-03-28.md`
-- CRITICAL (1): mapa na mobile — brak sidebara
-- HIGH (3): filtry /roasters mobile, broken image, /sign-in bez layoutu
-- MEDIUM+LOW (8): statystyki, breadcrumb, footer linki, map title, hero mobile, empty state, tablet layout, Clerk dev badge
-
-Raport powiązany z ROADMAP: sekcja NOW — Phase 2 (4 tasks), oraz LATER — Phase 2 (7 tasks).
+**Audit findings (12 issues):**
+- ✅ CRITICAL (1): mapa na mobile — brak sidebara → NAPRAWIONE (drawer)
+- ✅ HIGH (3): filtry /roasters mobile → NAPRAWIONE (collapsible), broken image → NAPRAWIONE (ImageWithFallback), /sign-in bez layoutu → NAPRAWIONE (Header)
+- MEDIUM+LOW (8): statystyki, breadcrumb, footer linki, map title, hero mobile, empty state, tablet layout, Clerk dev badge → ROADMAP LATER
 
 **Remaining before production seed:** run `prisma db seed` on prod to apply 50 roasters.
 
@@ -79,8 +77,7 @@ Raport powiązany z ROADMAP: sekcja NOW — Phase 2 (4 tasks), oraz LATER — Ph
 
 ## Next Unblocked Task
 
-**TERAZ:** Mapa `/map` na mobile — napraw brak sidebara (CRITICAL, site audit 2026-03-28).
-Następnie: filtry /roasters mobile, /sign-in layout, broken image. Patrz ROADMAP NOW — Phase 2.
+**TERAZ:** ROADMAP LATER — Phase 2 (medium/low priority UX issues). Patrz ROADMAP.
 
 **HUMAN ONLY blockers:** re-seed prod DB (`prisma db seed`), set Clerk Google OAuth, buy production domain.
 

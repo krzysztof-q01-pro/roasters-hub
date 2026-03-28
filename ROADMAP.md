@@ -8,16 +8,15 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ## NOW — Phase 2: UI Fixes (Site Audit 2026-03-28)
 
-- [ ] [P0] **Mapa `/map` na mobile — brak sidebara z palarniami i filtrami** (CRITICAL)
+- [x] [P0] ✅ **Mapa `/map` na mobile — brak sidebara z palarniami i filtrami** (CRITICAL)
   Panel boczny niewidoczny na 375px. Strona niefunkcjonalna na telefonach.
-  Dowód: `.tmp/screenshots/audit-2026-03-28/07-map-mobile.png`
-- [ ] [P1] **Filtry na `/roasters` — brak zwijania na mobile/tablet**
-  Sidebar inline zajmuje ~50% ekranu przed wynikami. Potrzebny drawer/toggle.
-  Dowód: `.tmp/screenshots/audit-2026-03-28/06-roasters-mobile.png`
-- [ ] [P1] **`/sign-in` bez headera i layoutu Bean Map**
-  Pusty szary ekran, brak powrotu do strony głównej. Potrzebny wrapper z navbarem.
-  Dowód: `.tmp/screenshots/audit-2026-03-28/10-signin-desktop.png`
-- [ ] [P1] **Broken image 403 na `/roasters`** — kafelek z Unsplash hash b4aefda (Market Lane Coffee)
+  Naprawiono: floating toggle button + slide-in drawer na mobile (<lg).
+- [x] [P1] ✅ **Filtry na `/roasters` — brak zwijania na mobile/tablet**
+  Sidebar inline zajmował ~50% ekranu przed wynikami. Dodano collapsible toggle na mobile.
+- [x] [P1] ✅ **`/sign-in` bez headera i layoutu Bean Map**
+  Dodano Header + padding wrapper.
+- [x] [P1] ✅ **Broken image 403 na `/roasters`** — kafelek z Unsplash hash b4aefda (Market Lane Coffee)
+  Dodano ImageWithFallback (graceful degradation) + naprawiono URL w seed.ts.
 
 ---
 

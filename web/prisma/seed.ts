@@ -88,7 +88,7 @@ const SEED_ROASTERS = [
     roastStyles: ["Light", "Filter"],
     status: "VERIFIED" as const,
     featured: false,
-    imageUrl: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefda?w=800&h=600&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop",
     imageAlt: "Hard Beans roastery",
   },
   {
@@ -341,7 +341,7 @@ const SEED_ROASTERS = [
     roastStyles: ["Light", "Medium", "Filter"],
     status: "VERIFIED" as const,
     featured: false,
-    imageUrl: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefda?w=800&h=600&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop",
     imageAlt: "19grams coffee roasting",
   },
   // --- Poland (6 additional) ---
@@ -597,7 +597,7 @@ const SEED_ROASTERS = [
     roastStyles: ["Light", "Filter"],
     status: "VERIFIED" as const,
     featured: false,
-    imageUrl: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefda?w=800&h=600&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop",
     imageAlt: "DAK Coffee Roasters Amsterdam",
   },
   {
@@ -855,7 +855,7 @@ const SEED_ROASTERS = [
     roastStyles: ["Light", "Filter", "Espresso"],
     status: "VERIFIED" as const,
     featured: false,
-    imageUrl: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefda?w=800&h=600&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop",
     imageAlt: "Market Lane Coffee Melbourne",
   },
   {

@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
 import { VerifiedBadge } from "./VerifiedBadge";
 import { CertificationBadge } from "./CertificationBadge";
+import { ImageWithFallback } from "./ImageWithFallback";
 import { cn } from "@/lib/utils";
 
 interface RoasterCardProps {
@@ -37,7 +37,7 @@ export function RoasterCard({ roaster, variant = "default", className }: Roaster
         <div className="flex gap-4">
           <div className="w-24 h-24 rounded-lg overflow-hidden shrink-0 relative bg-surface-container">
             {primaryImage ? (
-              <Image
+              <ImageWithFallback
                 src={primaryImage.url}
                 alt={primaryImage.alt || `${roaster.name} roastery`}
                 fill
@@ -83,7 +83,7 @@ export function RoasterCard({ roaster, variant = "default", className }: Roaster
       <article>
         <div className="relative mb-4 aspect-[4/5] overflow-hidden rounded-xl bg-surface-container shadow-sm group-hover:shadow-md transition-all duration-300">
           {primaryImage ? (
-            <Image
+            <ImageWithFallback
               src={primaryImage.url}
               alt={primaryImage.alt || `${roaster.name} — specialty coffee roastery in ${roaster.city}`}
               fill

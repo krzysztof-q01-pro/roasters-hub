@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { CERTIFICATIONS, CERTIFICATION_LABELS, ROAST_STYLES, ORIGINS } from "@/types/certifications";
 
 const COUNTRIES = [
@@ -18,6 +18,7 @@ const COUNTRIES = [
 export function RoasterFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [open, setOpen] = useState(false);
 
   const updateFilter = useCallback(
     (key: string, value: string | null) => {
@@ -58,10 +59,40 @@ export function RoasterFilters() {
   const activeCerts = searchParams.getAll("cert");
   const activeRoast = searchParams.get("roast");
 
+  const hasActiveFilters =
+    !!searchParams.get("country") ||
+    !!searchParams.get("q") ||
+    searchParams.getAll("origin").length > 0 ||
+    searchParams.getAll("cert").length > 0 ||
+    !!searchParams.get("roast");
+
   return (
-    <aside className="w-full md:w-[300px] shrink-0 space-y-10">
+    <aside className="w-full md:w-[300px] shrink-0">
+      {/* Mobile toggle header */}
+      <button
+        className="md:hidden w-full flex items-center justify-between py-3 border-b border-outline-variant/20 mb-6"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+      >
+        <span className="font-headline text-2xl flex items-center gap-2">
+          Filters
+          {hasActiveFilters && (
+            <span className="w-2 h-2 rounded-full bg-primary" />
+          )}
+        </span>
+        <svg
+          className={`w-5 h-5 text-on-surface-variant transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <div className={`space-y-10 ${open ? "block" : "hidden"} md:block`}>
       <div className="flex justify-between items-center mb-6">
-        <h2 className="font-headline text-2xl">Filters</h2>
+        <h2 className="font-headline text-2xl hidden md:block">Filters</h2>
         <button onClick={clearAll} className="text-sm text-primary hover:underline underline-offset-4">
           Clear all
         </button>
@@ -153,6 +184,7 @@ export function RoasterFilters() {
             </label>
           ))}
         </div>
+      </div>
       </div>
     </aside>
   );
