@@ -6,6 +6,21 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ---
 
+## NOW — Phase 2: UI Fixes (Site Audit 2026-03-28)
+
+- [ ] [P0] **Mapa `/map` na mobile — brak sidebara z palarniami i filtrami** (CRITICAL)
+  Panel boczny niewidoczny na 375px. Strona niefunkcjonalna na telefonach.
+  Dowód: `.tmp/screenshots/audit-2026-03-28/07-map-mobile.png`
+- [ ] [P1] **Filtry na `/roasters` — brak zwijania na mobile/tablet**
+  Sidebar inline zajmuje ~50% ekranu przed wynikami. Potrzebny drawer/toggle.
+  Dowód: `.tmp/screenshots/audit-2026-03-28/06-roasters-mobile.png`
+- [ ] [P1] **`/sign-in` bez headera i layoutu Bean Map**
+  Pusty szary ekran, brak powrotu do strony głównej. Potrzebny wrapper z navbarem.
+  Dowód: `.tmp/screenshots/audit-2026-03-28/10-signin-desktop.png`
+- [ ] [P1] **Broken image 403 na `/roasters`** — kafelek z Unsplash hash b4aefda (Market Lane Coffee)
+
+---
+
 ## NOW — Phase 0: Setup (przed jakimkolwiek backendem)
 
 - [x] [P0] ✅ **Stack potwierdzony: Vercel Postgres + Clerk + Uploadthing** (2026-03-26)
@@ -55,6 +70,13 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ## LATER — Phase 2: Post-Launch (2-4 tygodnie po launchu)
 
+- [ ] Statystyki homepage ("17 Countries") — zsynchronizować z realną liczbą z DB
+- [ ] Breadcrumb na profilu: ujednolicić separator `›` (obecnie `/`)
+- [ ] Linki footer i social media: zastąpić `href="#"` właściwymi URL-ami lub usunąć
+- [ ] `<title>` na `/map` — dedykowany, np. "Coffee Roasters Map | Bean Map"
+- [ ] Hero homepage mobile — dodać jedno centralne zdjęcie
+- [ ] Empty state przy 0 wynikach filtru na `/roasters`
+- [ ] Tablet `/roasters` — poprawić breakpoint siatki lub ukryć sidebar na tablet
 - [ ] Email notifications — Resend (`createRoasterRegistration` + `verifyRoaster`)
 - [x] Roaster dashboard `/dashboard/roaster` — edycja profilu
 - [ ] SEO landing pages `/roasters/country/[country]` — `generateStaticParams` z Prisma

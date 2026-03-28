@@ -16,7 +16,7 @@ python tools/consistency_check.py --fix C2,C4  # Fix wybranych checks
 
 ---
 
-## Checks (8 sztuk)
+## Checks (10 sztuk)
 
 | ID | Co sprawdza | Severity | Auto-fix? |
 |----|-------------|----------|-----------|
@@ -28,6 +28,8 @@ python tools/consistency_check.py --fix C2,C4  # Fix wybranych checks
 | C6 | prisma schema model count ↔ database-schema.md | low | ❌ human |
 | C7 | ROADMAP `[x]` items ↔ DONE section | low | ✅ |
 | C8 | prisma datasource url + directUrl | low | ✅ |
+| C9 | ISR `revalidate=3600` na stronach używających `db.*` | medium | ❌ warn |
+| C10 | Orphan screenshots + stale audit reports w `.tmp/` | low | ✅ |
 
 ---
 
@@ -100,7 +102,7 @@ W **SESSION.md** dodaj sekcję:
 
 ```markdown
 ### Consistency Check
-[PASS — all 8 checks green]
+[PASS — all 10 checks green]
 ```
 lub
 ```markdown
@@ -119,8 +121,9 @@ lub
 4. C4 — zaktualizuj wersje w AGENTS.md
 5. C7 — dodaj brakujące items do DONE
 6. C8 — dodaj url/directUrl do prisma schema
-7. Re-run check → potwierdź brak FAIL
-8. Jeden commit dla wszystkich fixów
+7. C10 — usuń orphan screenshots i stale audit raporty
+8. Re-run check → potwierdź brak FAIL
+9. Jeden commit dla wszystkich fixów
 
 ---
 

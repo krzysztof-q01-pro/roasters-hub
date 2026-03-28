@@ -790,7 +790,79 @@ def check_c9() -> CheckResult:
     return r
 
 
-ALL_CHECKS = [check_c1, check_c2, check_c3, check_c4, check_c5, check_c6, check_c7, check_c8, check_c9]
+# ---------------------------------------------------------------------------
+# C10: Audit screenshots cleanup — orphan screenshots + stale audit reports
+# ---------------------------------------------------------------------------
+
+def check_c10() -> CheckResult:
+    r = CheckResult("C10", "Audit screenshots cleanup", "low")
+
+    tmp_dir = ROOT / ".tmp"
+    if not tmp_dir.exists():
+        r.skip(".tmp directory not found")
+        return r
+
+    audit_files = sorted(tmp_dir.glob("audit-*.md"))
+    issues = []
+
+    # Stale audit reports (not the most recent)
+    if len(audit_files) > 1:
+        for old_report in audit_files[:-1]:
+            issues.append(f"Stale audit report: {old_report.name}")
+
+    # Screenshots for fully resolved audits
+    for audit_file in audit_files:
+        content = audit_file.read_text(encoding="utf-8")
+        open_issues = re.findall(r"- \[ \]", content)
+        if len(open_issues) == 0:
+            date_match = re.search(r"audit-(\d{4}-\d{2}-\d{2})", audit_file.name)
+            if date_match:
+                screenshots_dir = tmp_dir / "screenshots" / f"audit-{date_match.group(1)}"
+                if screenshots_dir.exists():
+                    issues.append(f"Orphan screenshots (all issues resolved): {screenshots_dir.relative_to(ROOT)}")
+
+    if issues:
+        r.fail(
+            f"Cleanup needed ({len(issues)} item(s)): {'; '.join(issues)}",
+            auto_fixable=True,
+            fix_action="Delete orphan screenshots and stale audit reports",
+        )
+
+    return r
+
+
+def fix_c10():
+    """Delete orphan screenshot dirs and stale audit reports."""
+    import shutil
+
+    tmp_dir = ROOT / ".tmp"
+    if not tmp_dir.exists():
+        return
+
+    audit_files = sorted(tmp_dir.glob("audit-*.md"))
+
+    # Delete stale audit reports (keep only the most recent)
+    if len(audit_files) > 1:
+        for old_report in audit_files[:-1]:
+            # Only delete if there are no open issues (safety check)
+            content = old_report.read_text(encoding="utf-8")
+            open_issues = re.findall(r"- \[ \]", content)
+            if len(open_issues) == 0:
+                old_report.unlink()
+
+    # Delete screenshots for fully resolved audits
+    for audit_file in audit_files:
+        content = audit_file.read_text(encoding="utf-8")
+        open_issues = re.findall(r"- \[ \]", content)
+        if len(open_issues) == 0:
+            date_match = re.search(r"audit-(\d{4}-\d{2}-\d{2})", audit_file.name)
+            if date_match:
+                screenshots_dir = tmp_dir / "screenshots" / f"audit-{date_match.group(1)}"
+                if screenshots_dir.exists():
+                    shutil.rmtree(screenshots_dir)
+
+
+ALL_CHECKS = [check_c1, check_c2, check_c3, check_c4, check_c5, check_c6, check_c7, check_c8, check_c9, check_c10]
 
 FIX_MAP = {
     "C2": fix_c2,
@@ -798,6 +870,7 @@ FIX_MAP = {
     "C4": fix_c4,
     "C7": fix_c7,
     "C8": fix_c8,
+    "C10": fix_c10,
 }
 
 AUTO_FIXABLE_IDS = set(FIX_MAP.keys())

@@ -64,14 +64,14 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Active Work
 
-Phase 1 Tydzień 2 COMPLETE. All Go/No-Go items satisfied:
-- Registration form → Vercel Postgres ✅
-- Admin login (Clerk) + verify/reject ✅
-- Verified roasters in catalog ✅
-- Basic HTTP Auth removed ✅
-- 50 seed roasters VERIFIED ✅ (expanded from 24 to 50: DK, SE, NL, FR, CZ, UK, US, CA, AU, JP, ET, KE, BR)
-- Error monitoring (Vercel logs) ✅
-- Admin user auto-bootstrap via `ensureUserProfile()` in `requireAdmin()` ✅
+Phase 1 Tydzień 2 COMPLETE. Site audit przeprowadzony 2026-03-28.
+
+**Audit findings (12 issues):** raport `.tmp/audit-2026-03-28.md`
+- CRITICAL (1): mapa na mobile — brak sidebara
+- HIGH (3): filtry /roasters mobile, broken image, /sign-in bez layoutu
+- MEDIUM+LOW (8): statystyki, breadcrumb, footer linki, map title, hero mobile, empty state, tablet layout, Clerk dev badge
+
+Raport powiązany z ROADMAP: sekcja NOW — Phase 2 (4 tasks), oraz LATER — Phase 2 (7 tasks).
 
 **Remaining before production seed:** run `prisma db seed` on prod to apply 50 roasters.
 
@@ -79,7 +79,8 @@ Phase 1 Tydzień 2 COMPLETE. All Go/No-Go items satisfied:
 
 ## Next Unblocked Task
 
-**Phase 2 (Post-Launch):** Email notifications via Resend, or roaster dashboard.
+**TERAZ:** Mapa `/map` na mobile — napraw brak sidebara (CRITICAL, site audit 2026-03-28).
+Następnie: filtry /roasters mobile, /sign-in layout, broken image. Patrz ROADMAP NOW — Phase 2.
 
 **HUMAN ONLY blockers:** re-seed prod DB (`prisma db seed`), set Clerk Google OAuth, buy production domain.
 
