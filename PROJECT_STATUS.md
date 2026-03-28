@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-03-27 | Phase 1 Tydzień 2 in progress — Clerk auth + admin actions wired, versioning + ISR added
+2026-03-28 | Phase 1 Tydzień 2 COMPLETE — all Go/No-Go items ✅, 50 seed roasters, admin bootstrap ready
 
 ---
 
@@ -16,7 +16,7 @@
 | Warstwa | Technologia | Status |
 |---------|-------------|--------|
 | Framework | Next.js 16.2.1 (App Router) | ✅ deployed |
-| DB | **Vercel Postgres (Neon)** | ✅ provisioned, migration `init` applied (6 tabel), 22 seed roasters (PL+DE focus) |
+| DB | **Vercel Postgres (Neon)** | ✅ provisioned, migration `init` applied (6 tabel), 50 seed roasters (global) |
 | ORM | Prisma 7.5 + @prisma/adapter-neon | ✅ schema ready, singleton active (`db`), Neon adapter configured |
 | Auth | **Clerk** (`@clerk/nextjs`) | ✅ ClerkProvider in layout, sign-in/sign-up routes, clerkMiddleware, auth helpers |
 | Storage | **Uploadthing** (MVP) → Cloudflare R2 (growth) | ⏳ not configured |
@@ -62,14 +62,23 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Active Work
 
-Phase 1 Tydzień 2 nearly complete. All agent tasks done. Admin user bootstrapped (`marek.nadra@gmail.com` has `publicMetadata: { "role": "ADMIN" }` in Clerk). Remaining: re-seed production DB with 22 roasters (seed.ts updated, needs `prisma db seed` on prod).
+Phase 1 Tydzień 2 COMPLETE. All Go/No-Go items satisfied:
+- Registration form → Vercel Postgres ✅
+- Admin login (Clerk) + verify/reject ✅
+- Verified roasters in catalog ✅
+- Basic HTTP Auth removed ✅
+- 50 seed roasters VERIFIED ✅ (expanded from 24 to 50: DK, SE, NL, FR, CZ, UK, US, CA, AU, JP, ET, KE, BR)
+- Error monitoring (Vercel logs) ✅
+- Admin user auto-bootstrap via `ensureUserProfile()` in `requireAdmin()` ✅
 
-Latest: App versioning system added (v0.1.0). ISR (revalidate=3600) applied to all DB-backed pages. All Server Actions revalidate affected paths including homepage.
+**Remaining before production seed:** run `prisma db seed` on prod to apply 50 roasters.
 
 ---
 
 ## Next Unblocked Task
 
-**Phase 1, Tydzień 2:** Bootstrap admin user — UserProfile w DB (Clerk role already set for `marek.nadra@gmail.com`)
+**Phase 2 (Post-Launch):** Email notifications via Resend, or roaster dashboard.
+
+**HUMAN ONLY blockers:** re-seed prod DB (`prisma db seed`), set Clerk Google OAuth, buy production domain.
 
 See `ROADMAP.md` for full task list.
