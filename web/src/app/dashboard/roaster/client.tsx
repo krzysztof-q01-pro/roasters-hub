@@ -9,7 +9,7 @@ import {
   deleteRoasterImage,
   revalidateAfterUpload,
 } from "@/actions/roaster.actions";
-import { UploadDropzone } from "@/lib/uploadthing";
+import { UploadButton } from "@/lib/uploadthing";
 import {
   CERTIFICATIONS,
   CERTIFICATION_LABELS,
@@ -175,23 +175,26 @@ export function DashboardClient({
           </div>
         )}
 
-        <UploadDropzone
-          endpoint="roasterImage"
-          onClientUploadComplete={async () => {
-            await revalidateAfterUpload(roaster.id);
-            setMessage({ type: "success", text: "Image uploaded!" });
-            router.refresh();
-          }}
-          onUploadError={(error: Error) => {
-            setMessage({ type: "error", text: error.message });
-          }}
-          appearance={{
-            container: "border-2 border-dashed border-outline-variant/30 rounded-xl p-8 bg-surface-container-low cursor-pointer hover:border-primary/40 transition-colors",
-            label: "text-on-surface-variant/70 text-sm",
-            allowedContent: "text-on-surface-variant/50 text-xs",
-            button: "bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-container transition-colors ut-uploading:bg-primary/50",
-          }}
-        />
+        <div className="flex flex-col items-center gap-3 border-2 border-dashed border-outline-variant/30 rounded-xl p-8 bg-surface-container-low">
+          <p className="text-on-surface-variant/70 text-sm">
+            {roaster.imageUrl ? "Replace your roaster image" : "Upload your roaster image"}
+          </p>
+          <UploadButton
+            endpoint="roasterImage"
+            onClientUploadComplete={async () => {
+              await revalidateAfterUpload(roaster.id);
+              setMessage({ type: "success", text: "Image uploaded!" });
+              router.refresh();
+            }}
+            onUploadError={(error: Error) => {
+              setMessage({ type: "error", text: error.message });
+            }}
+            appearance={{
+              button: "bg-primary text-on-primary px-6 py-3 rounded-lg text-sm font-medium hover:bg-primary-container transition-colors ut-uploading:bg-primary/50",
+              allowedContent: "text-on-surface-variant/50 text-xs mt-2",
+            }}
+          />
+        </div>
       </section>
 
       {/* Profile Section */}
