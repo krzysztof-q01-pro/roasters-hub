@@ -1,8 +1,26 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 
 /**
+ * Ensure a UserProfile exists in the DB for the given Clerk user.
+ * Creates on first call (lazy bootstrap), updates email/role on subsequent calls.
+ */
+async function ensureUserProfile(
+  userId: string,
+  email: string,
+  role: "ADMIN" | "ROASTER",
+) {
+  const { db } = await import("@/lib/db");
+  await db.userProfile.upsert({
+    where: { id: userId },
+    update: { email, role },
+    create: { id: userId, email, role },
+  });
+}
+
+/**
  * Require the caller to be an authenticated ADMIN.
  * Throws if not authenticated or role !== ADMIN.
+ * Auto-creates UserProfile in DB on first call.
  * Returns the Clerk userId.
  */
 export async function requireAdmin(): Promise<string> {
@@ -15,6 +33,8 @@ export async function requireAdmin(): Promise<string> {
   if (!user || user.publicMetadata?.role !== "ADMIN") {
     throw new Error("Forbidden: admin role required");
   }
+
+  await ensureUserProfile(userId, user.emailAddresses[0]?.emailAddress ?? "", "ADMIN");
 
   return userId;
 }

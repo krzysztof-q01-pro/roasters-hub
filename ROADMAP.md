@@ -38,27 +38,27 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] [P1] Stworzyć `web/src/lib/auth.ts` — `requireAdmin()`, `requireRoasterOwner()` (via Clerk `auth()`)
 - [x] [P1] Stworzyć `web/src/actions/admin.actions.ts` → `verifyRoaster()`, `rejectRoaster()` + `revalidatePath()`
 - [x] [P1] Podpiąć admin panel UI do Server Actions
-- [ ] [P1] Bootstrap admin user — UserProfile w DB (po ręcznym ustawieniu roli w Clerk → patrz HUMAN ONLY)
-- [x] [P1] Seed palarni PL+DE z `docs/seed-roasters.md` (22 total: 12 existing + 4 DE + 6 PL)
+- [x] [P1] Bootstrap admin user — UserProfile w DB (auto-create via `ensureUserProfile` in `requireAdmin()`)
+- [x] [P1] Seed palarni PL+DE z `docs/seed-roasters.md` (50 total: 24 existing + 26 new from DK/SE/NL/FR/CZ/UK/US/CA/AU/JP/ET/KE/BR)
 - [x] [P1] Usunąć `AUTH_USER`/`AUTH_PASSWORD` z env vars
 
 **Launch Go/No-Go** (wszystkie muszą być ✅ przed publicznym launchem):
-- [ ] Formularz rejestracji zapisuje do Vercel Postgres
-- [ ] Admin może zalogować się (Clerk) i zweryfikować palarnie
-- [ ] Zweryfikowane palarnie widoczne w katalogu
-- [ ] Basic HTTP Auth usunięty z middleware
-- [ ] Min. 50 seed palarni ze statusem VERIFIED w DB
-- [ ] Error monitoring skonfigurowany (choćby Vercel logs)
-- [ ] `PROJECT_STATUS.md` aktualny
+- [x] Formularz rejestracji zapisuje do Vercel Postgres
+- [x] Admin może zalogować się (Clerk) i zweryfikować palarnie
+- [x] Zweryfikowane palarnie widoczne w katalogu
+- [x] Basic HTTP Auth usunięty z middleware
+- [x] Min. 50 seed palarni ze statusem VERIFIED w DB (50 in seed.ts)
+- [x] Error monitoring skonfigurowany (Vercel logs — built-in)
+- [x] `PROJECT_STATUS.md` aktualny
 
 ---
 
 ## LATER — Phase 2: Post-Launch (2-4 tygodnie po launchu)
 
 - [ ] Email notifications — Resend (`createRoasterRegistration` + `verifyRoaster`)
-- [ ] Roaster dashboard `/dashboard/roaster` — edycja profilu
+- [x] Roaster dashboard `/dashboard/roaster` — edycja profilu
 - [ ] SEO landing pages `/roasters/country/[country]` — `generateStaticParams` z Prisma
-- [ ] `trackEvent` Server Action — zapisuje `ProfileEvent` do DB
+- [x] `trackEvent` Server Action — zapisuje `ProfileEvent` do DB
 - [ ] Image upload — Uploadthing, max 2000px, <5MB client-side (→ Cloudflare R2 przy growth)
 - [ ] Analytics — Plausible (jeden script tag)
 

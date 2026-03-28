@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
+import { NewsletterForm } from "@/components/shared/NewsletterForm";
 import { RoasterCard } from "@/components/roasters/RoasterCard";
 import { db } from "@/lib/db";
 
@@ -184,22 +185,7 @@ export default async function HomePage() {
           <div className="max-w-2xl mx-auto px-6 text-center">
             <h2 className="font-headline text-4xl font-bold text-on-background mb-4 italic">Fresh beans in your inbox</h2>
             <p className="text-on-surface-variant mb-10 font-light">Join 10,000+ subscribers for weekly curation of new roasters and limited releases.</p>
-            <form className="space-y-6">
-              <div className="flex flex-col sm:flex-row gap-2">
-                <input className="flex-grow bg-surface-container-low border-none rounded-lg px-6 py-4 focus:ring-2 focus:ring-primary/20 text-on-background" placeholder="Enter your email" type="email" />
-                <button className="bg-primary text-on-primary px-8 py-4 rounded-lg font-medium hover:opacity-90 transition-all" type="submit">Subscribe</button>
-              </div>
-              <div className="flex justify-center gap-6">
-                <label className="flex items-center gap-2 cursor-pointer group">
-                  <input defaultChecked className="text-primary focus:ring-primary" name="user_type" type="radio" />
-                  <span className="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors">I&apos;m a Coffee Lover</span>
-                </label>
-                <label className="flex items-center gap-2 cursor-pointer group">
-                  <input className="text-primary focus:ring-primary" name="user_type" type="radio" />
-                  <span className="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors">I&apos;m a Caf&eacute;</span>
-                </label>
-              </div>
-            </form>
+            <NewsletterForm />
           </div>
         </section>
       </main>

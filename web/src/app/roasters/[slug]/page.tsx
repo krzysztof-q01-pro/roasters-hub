@@ -6,6 +6,8 @@ import { Footer } from "@/components/shared/Footer";
 import { VerifiedBadge } from "@/components/roasters/VerifiedBadge";
 import { CertificationBadge } from "@/components/roasters/CertificationBadge";
 import { RoasterCard } from "@/components/roasters/RoasterCard";
+import { ProfileTracker } from "@/components/roasters/ProfileTracker";
+import { TrackedLink } from "@/components/roasters/TrackedLink";
 import { db } from "@/lib/db";
 import type { Metadata } from "next";
 
@@ -26,11 +28,12 @@ export async function generateMetadata({
   };
 }
 
-const FLAG_MAP: Record<string, string> = {
-  US: "\u{1F1FA}\u{1F1F8}", GB: "\u{1F1EC}\u{1F1E7}", NO: "\u{1F1F3}\u{1F1F4}",
-  PL: "\u{1F1F5}\u{1F1F1}", IT: "\u{1F1EE}\u{1F1F9}", AU: "\u{1F1E6}\u{1F1FA}",
-  JP: "\u{1F1EF}\u{1F1F5}", DE: "\u{1F1E9}\u{1F1EA}",
-};
+function countryFlag(code: string): string {
+  if (code.length !== 2) return "";
+  return String.fromCodePoint(
+    ...code.toUpperCase().split("").map((c) => 0x1f1e6 + c.charCodeAt(0) - 65)
+  );
+}
 
 export default async function RoasterProfilePage({
   params,
@@ -54,13 +57,14 @@ export default async function RoasterProfilePage({
     take: 3,
   });
 
-  const flag = FLAG_MAP[roaster.countryCode] || "";
+  const flag = countryFlag(roaster.countryCode);
   const primaryImage = roaster.images[0];
   const isVerified = roaster.status === "VERIFIED";
 
   return (
     <>
       <Header />
+      <ProfileTracker roasterId={roaster.id} />
 
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-6 pt-8">
@@ -188,37 +192,37 @@ export default async function RoasterProfilePage({
 
               <div className="space-y-3">
                 {roaster.website && (
-                  <a
+                  <TrackedLink
                     href={roaster.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    roasterId={roaster.id}
+                    eventType="WEBSITE_CLICK"
                     className="w-full bg-primary text-on-primary py-3.5 rounded-lg font-medium text-sm hover:bg-primary-container transition-all shadow-lg shadow-primary/10 block text-center"
                   >
                     Visit Website
-                  </a>
+                  </TrackedLink>
                 )}
                 {roaster.shopUrl && (
-                  <a
+                  <TrackedLink
                     href={roaster.shopUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    roasterId={roaster.id}
+                    eventType="SHOP_CLICK"
                     className="w-full border border-outline text-on-surface-variant py-3.5 rounded-lg font-medium text-sm hover:bg-surface-container-low transition-all block text-center"
                   >
                     Shop Online
-                  </a>
+                  </TrackedLink>
                 )}
               </div>
 
               {roaster.instagram && (
                 <div className="flex items-center justify-between mt-8 pt-8 border-t border-surface-container">
-                  <a
+                  <TrackedLink
                     href={`https://instagram.com/${roaster.instagram}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    roasterId={roaster.id}
+                    eventType="CONTACT_CLICK"
                     className="text-on-surface-variant/60 hover:text-primary transition-colors text-sm"
                   >
                     @{roaster.instagram}
-                  </a>
+                  </TrackedLink>
                 </div>
               )}
             </div>

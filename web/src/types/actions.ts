@@ -28,3 +28,20 @@ export const CreateRoasterSchema = z.object({
 });
 
 export type CreateRoasterInput = z.infer<typeof CreateRoasterSchema>;
+
+export const UpdateRoasterSchema = z.object({
+  description: z.string().max(2000).optional().or(z.literal("")),
+  website: z.string().url("Invalid URL").optional().or(z.literal("")),
+  email: z.string().email("Invalid email").optional().or(z.literal("")),
+  instagram: z
+    .string()
+    .regex(/^@?[a-zA-Z0-9._]{1,30}$/, "Invalid Instagram handle")
+    .optional()
+    .or(z.literal("")),
+  shopUrl: z.string().url("Invalid URL").optional().or(z.literal("")),
+  certifications: z.array(z.enum(CERTIFICATIONS)).max(10).default([]),
+  origins: z.array(z.string().min(2).max(50)).max(20).default([]),
+  roastStyles: z.array(z.enum(ROAST_STYLES)).max(5).default([]),
+});
+
+export type UpdateRoasterInput = z.infer<typeof UpdateRoasterSchema>;
