@@ -28,11 +28,12 @@ export async function generateMetadata({
   };
 }
 
-const FLAG_MAP: Record<string, string> = {
-  US: "\u{1F1FA}\u{1F1F8}", GB: "\u{1F1EC}\u{1F1E7}", NO: "\u{1F1F3}\u{1F1F4}",
-  PL: "\u{1F1F5}\u{1F1F1}", IT: "\u{1F1EE}\u{1F1F9}", AU: "\u{1F1E6}\u{1F1FA}",
-  JP: "\u{1F1EF}\u{1F1F5}", DE: "\u{1F1E9}\u{1F1EA}",
-};
+function countryFlag(code: string): string {
+  if (code.length !== 2) return "";
+  return String.fromCodePoint(
+    ...code.toUpperCase().split("").map((c) => 0x1f1e6 + c.charCodeAt(0) - 65)
+  );
+}
 
 export default async function RoasterProfilePage({
   params,
@@ -56,7 +57,7 @@ export default async function RoasterProfilePage({
     take: 3,
   });
 
-  const flag = FLAG_MAP[roaster.countryCode] || "";
+  const flag = countryFlag(roaster.countryCode);
   const primaryImage = roaster.images[0];
   const isVerified = roaster.status === "VERIFIED";
 
