@@ -73,6 +73,7 @@ export default async function RoasterDashboardPage() {
     origins: roaster.origins,
     roastStyles: roaster.roastStyles,
     imageUrl: roaster.images[0]?.url ?? null,
+    imageId: roaster.images[0]?.id ?? null,
   };
 
   return (

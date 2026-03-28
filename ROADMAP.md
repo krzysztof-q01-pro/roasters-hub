@@ -89,7 +89,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] Roaster dashboard `/dashboard/roaster` — edycja profilu
 - [x] SEO landing pages `/roasters/country/[country]` — `generateStaticParams` z Prisma
 - [x] `trackEvent` Server Action — zapisuje `ProfileEvent` do DB
-- [ ] Image upload — Uploadthing, max 2000px, <5MB client-side (→ Cloudflare R2 przy growth)
+- [x] Image upload — Uploadthing, max 4MB client-side, dashboard dropzone (→ Cloudflare R2 przy growth)
 - [x] Analytics — Plausible script tag (gated by `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` env var)
 
 **SEO URL decided:** `/roasters/country/[country]` — implemented with `generateStaticParams`.
@@ -113,8 +113,8 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 - [x] Dodaj env vars do Vercel (prod): DATABASE_URL, DIRECT_URL, CLERK_SECRET_KEY, NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 - [ ] Branch protection na `main` (no direct push) — GitHub Settings → Branches
-- [ ] Ustawienie Clerk: Google OAuth provider — Clerk Dashboard → User & Authentication → Social connections
-- [ ] Bootstrap admin user — Clerk Dashboard → ustawić `publicMetadata: { "role": "ADMIN" }`
+- [x] Ustawienie Clerk: Google OAuth provider — Clerk Dashboard → User & Authentication → Social connections
+- [x] Bootstrap admin user — Clerk Dashboard → ustawić `publicMetadata: { "role": "ADMIN" }`
 - [ ] Domena produkcyjna — zakup + konfiguracja DNS w Vercel
 - [ ] Stripe konto (Phase 3) — rejestracja + webhook secret
 - [ ] Cold outreach do palarni — lista kontaktowa, maile, LinkedIn

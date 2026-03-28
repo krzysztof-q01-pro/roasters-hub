@@ -136,3 +136,67 @@ export async function updateRoasterProfile(
     };
   }
 }
+
+export async function deleteRoasterImage(
+  roasterId: string,
+  imageId: string,
+): Promise<ActionResult> {
+  try {
+    await requireRoasterOwner(roasterId);
+
+    const image = await db.roasterImage.findFirst({
+      where: { id: imageId, roasterId },
+    });
+    if (!image) {
+      return { success: false, error: "Image not found" };
+    }
+
+    await db.roasterImage.delete({ where: { id: imageId } });
+
+    const roaster = await db.roaster.findUnique({
+      where: { id: roasterId },
+      select: { slug: true },
+    });
+
+    revalidatePath("/");
+    revalidatePath("/roasters");
+    revalidatePath(`/roasters/${roaster?.slug}`);
+    revalidatePath("/map");
+    revalidatePath("/dashboard/roaster");
+
+    return { success: true, data: undefined };
+  } catch (error) {
+    console.error("[deleteRoasterImage]", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Something went wrong",
+    };
+  }
+}
+
+export async function revalidateAfterUpload(
+  roasterId: string,
+): Promise<ActionResult> {
+  try {
+    await requireRoasterOwner(roasterId);
+
+    const roaster = await db.roaster.findUnique({
+      where: { id: roasterId },
+      select: { slug: true },
+    });
+
+    revalidatePath("/");
+    revalidatePath("/roasters");
+    revalidatePath(`/roasters/${roaster?.slug}`);
+    revalidatePath("/map");
+    revalidatePath("/dashboard/roaster");
+
+    return { success: true, data: undefined };
+  } catch (error) {
+    console.error("[revalidateAfterUpload]", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Something went wrong",
+    };
+  }
+}

@@ -19,7 +19,7 @@
 | DB | **Vercel Postgres (Neon)** | ✅ provisioned, migration `init` applied (6 tabel), 50 seed roasters (global) |
 | ORM | Prisma 7.5 + @prisma/adapter-neon | ✅ schema ready, singleton active (`db`), Neon adapter configured |
 | Auth | **Clerk** (`@clerk/nextjs`) | ✅ ClerkProvider in layout, sign-in/sign-up routes, clerkMiddleware, auth helpers |
-| Storage | **Uploadthing** (MVP) → Cloudflare R2 (growth) | ⏳ not configured |
+| Storage | **Uploadthing** (MVP) → Cloudflare R2 (growth) | ✅ configured, route handler + dashboard upload UI |
 | Hosting | Vercel | ✅ deployed |
 | Email | Resend | ⏳ not configured |
 | Analytics | Plausible | ⏳ not configured |
@@ -65,7 +65,7 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Active Work
 
-Phase 2 UI Fixes. Site audit 2026-03-28 — wszystkie 4 zadania P0/P1 ukończone 2026-03-28.
+Image upload via Uploadthing — route handler, dashboard dropzone, delete action. 2026-03-28.
 
 **Audit findings (12 issues):**
 - ✅ CRITICAL (1): mapa na mobile — brak sidebara → NAPRAWIONE (drawer)

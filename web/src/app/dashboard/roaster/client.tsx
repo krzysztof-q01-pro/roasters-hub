@@ -1,8 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { updateRoasterProfile } from "@/actions/roaster.actions";
+import Image from "next/image";
+import {
+  updateRoasterProfile,
+  deleteRoasterImage,
+  revalidateAfterUpload,
+} from "@/actions/roaster.actions";
+import { UploadDropzone } from "@/lib/uploadthing";
 import {
   CERTIFICATIONS,
   CERTIFICATION_LABELS,
@@ -26,6 +33,7 @@ interface RoasterData {
   origins: string[];
   roastStyles: string[];
   imageUrl: string | null;
+  imageId: string | null;
 }
 
 interface Stats {
@@ -42,9 +50,25 @@ export function DashboardClient({
   roaster: RoasterData;
   stats: Stats;
 }) {
+  const router = useRouter();
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [removingImage, setRemovingImage] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+
+  async function handleRemoveImage() {
+    if (!roaster.imageId) return;
+    setRemovingImage(true);
+    setMessage(null);
+    const result = await deleteRoasterImage(roaster.id, roaster.imageId);
+    if (result.success) {
+      setMessage({ type: "success", text: "Image removed." });
+      router.refresh();
+    } else {
+      setMessage({ type: "error", text: result.error });
+    }
+    setRemovingImage(false);
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -127,6 +151,48 @@ export function DashboardClient({
           {message.text}
         </div>
       )}
+
+      {/* Image Section */}
+      <section className="bg-surface-container-lowest editorial-shadow rounded-2xl p-8 border border-outline-variant/10 mb-8">
+        <h2 className="font-headline text-2xl tracking-tight mb-6">Roaster Image</h2>
+
+        {roaster.imageUrl && (
+          <div className="relative w-full aspect-[3/1] rounded-xl overflow-hidden mb-4">
+            <Image
+              src={roaster.imageUrl}
+              alt={roaster.name}
+              fill
+              sizes="(max-width: 1024px) 100vw, 960px"
+              className="object-cover"
+            />
+            <button
+              onClick={handleRemoveImage}
+              disabled={removingImage}
+              className="absolute top-3 right-3 bg-black/60 text-white text-xs font-medium px-3 py-1.5 rounded-lg hover:bg-black/80 transition-colors disabled:opacity-50"
+            >
+              {removingImage ? "Removing..." : "Remove"}
+            </button>
+          </div>
+        )}
+
+        <UploadDropzone
+          endpoint="roasterImage"
+          onClientUploadComplete={async () => {
+            await revalidateAfterUpload(roaster.id);
+            setMessage({ type: "success", text: "Image uploaded!" });
+            router.refresh();
+          }}
+          onUploadError={(error: Error) => {
+            setMessage({ type: "error", text: error.message });
+          }}
+          appearance={{
+            container: "border-2 border-dashed border-outline-variant/30 rounded-xl p-8 bg-surface-container-low cursor-pointer hover:border-primary/40 transition-colors",
+            label: "text-on-surface-variant/70 text-sm",
+            allowedContent: "text-on-surface-variant/50 text-xs",
+            button: "bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-container transition-colors ut-uploading:bg-primary/50",
+          }}
+        />
+      </section>
 
       {/* Profile Section */}
       <section className="bg-surface-container-lowest editorial-shadow rounded-2xl p-8 border border-outline-variant/10">
