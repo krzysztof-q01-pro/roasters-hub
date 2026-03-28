@@ -86,7 +86,6 @@ Na początku kolejnej sesji czytaj: `.tmp/SESSION.md` → `PROJECT_STATUS.md` �
 | Plik | Cel |
 |------|-----|
 | `prisma/schema.prisma` | Definicja DB — source of truth dla modeli |
-| `src/lib/mock-data.ts` | 12 mock roasters — wzorzec struktury danych |
 | `src/types/certifications.ts` | Typy i stałe dla certyfikatów, roast styles, origins |
 | `docs/architecture/api-design.md` | Blueprint dla `ActionResult<T>`, Zod schemas, Server Actions |
 | `docs/seed-roasters.md` | Lista 60+ palarni do seedu produkcyjnego |

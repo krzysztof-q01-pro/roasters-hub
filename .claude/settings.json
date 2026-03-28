@@ -23,7 +23,15 @@
       "Bash(npm install)",
       "Bash(ls*)",
       "Bash(cat .tmp/SESSION.md)",
+      "Bash(python tools/smoke_test.py*)",
+      "Bash(python tools/vercel_status.py*)",
       "TodoWrite"
     ]
+  },
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    }
   }
 }
