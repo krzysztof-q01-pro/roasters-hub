@@ -34,6 +34,7 @@
     "seed": "npx tsx prisma/seed.ts"
   },
   "devDependencies": {
+    "@upstash/context7-mcp": "latest",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

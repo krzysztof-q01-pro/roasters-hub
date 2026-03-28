@@ -34,8 +34,11 @@
       "args": ["@playwright/mcp@latest"]
     },
     "context7": {
-      "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp"]
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "ctx7sk-b88ad2a1-308d-4f3f-9849-a05f7d28a293"
+      }
     }
   }
 }
