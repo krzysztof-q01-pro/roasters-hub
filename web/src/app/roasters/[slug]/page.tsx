@@ -6,6 +6,8 @@ import { Footer } from "@/components/shared/Footer";
 import { VerifiedBadge } from "@/components/roasters/VerifiedBadge";
 import { CertificationBadge } from "@/components/roasters/CertificationBadge";
 import { RoasterCard } from "@/components/roasters/RoasterCard";
+import { ProfileTracker } from "@/components/roasters/ProfileTracker";
+import { TrackedLink } from "@/components/roasters/TrackedLink";
 import { db } from "@/lib/db";
 import type { Metadata } from "next";
 
@@ -61,6 +63,7 @@ export default async function RoasterProfilePage({
   return (
     <>
       <Header />
+      <ProfileTracker roasterId={roaster.id} />
 
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-6 pt-8">
@@ -188,37 +191,37 @@ export default async function RoasterProfilePage({
 
               <div className="space-y-3">
                 {roaster.website && (
-                  <a
+                  <TrackedLink
                     href={roaster.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    roasterId={roaster.id}
+                    eventType="WEBSITE_CLICK"
                     className="w-full bg-primary text-on-primary py-3.5 rounded-lg font-medium text-sm hover:bg-primary-container transition-all shadow-lg shadow-primary/10 block text-center"
                   >
                     Visit Website
-                  </a>
+                  </TrackedLink>
                 )}
                 {roaster.shopUrl && (
-                  <a
+                  <TrackedLink
                     href={roaster.shopUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    roasterId={roaster.id}
+                    eventType="SHOP_CLICK"
                     className="w-full border border-outline text-on-surface-variant py-3.5 rounded-lg font-medium text-sm hover:bg-surface-container-low transition-all block text-center"
                   >
                     Shop Online
-                  </a>
+                  </TrackedLink>
                 )}
               </div>
 
               {roaster.instagram && (
                 <div className="flex items-center justify-between mt-8 pt-8 border-t border-surface-container">
-                  <a
+                  <TrackedLink
                     href={`https://instagram.com/${roaster.instagram}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    roasterId={roaster.id}
+                    eventType="CONTACT_CLICK"
                     className="text-on-surface-variant/60 hover:text-primary transition-colors text-sm"
                   >
                     @{roaster.instagram}
-                  </a>
+                  </TrackedLink>
                 </div>
               )}
             </div>

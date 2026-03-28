@@ -58,7 +58,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [ ] Email notifications — Resend (`createRoasterRegistration` + `verifyRoaster`)
 - [ ] Roaster dashboard `/dashboard/roaster` — edycja profilu
 - [ ] SEO landing pages `/roasters/country/[country]` — `generateStaticParams` z Prisma
-- [ ] `trackEvent` Server Action — zapisuje `ProfileEvent` do DB
+- [x] `trackEvent` Server Action — zapisuje `ProfileEvent` do DB
 - [ ] Image upload — Uploadthing, max 2000px, <5MB client-side (→ Cloudflare R2 przy growth)
 - [ ] Analytics — Plausible (jeden script tag)
 

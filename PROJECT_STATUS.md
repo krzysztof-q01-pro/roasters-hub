@@ -34,6 +34,7 @@
 - Interactive map `/map` — **ISR (1h)**, Leaflet, Prisma queries for markers
 - Registration form `/register` — 3-step wizard, **connected to Server Action** (creates PENDING roaster in DB)
 - Admin panel UI `/admin/pending` — verify/reject UI, **connected to Server Actions**
+- Profile event tracking — `trackEvent` Server Action records PAGE_VIEW, WEBSITE_CLICK, SHOP_CLICK, CONTACT_CLICK to `profile_events` table
 - **Versioning:** `package.json` version displayed in footer, npm scripts `version:patch/minor/major`
 - **Deploy:** https://beanmap-web.vercel.app (protected by Clerk auth on /admin routes)
 
