@@ -69,13 +69,13 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ## LATER — Phase 2: Post-Launch (2-4 tygodnie po launchu)
 
-- [ ] Statystyki homepage ("17 Countries") — zsynchronizować z realną liczbą z DB
-- [ ] Breadcrumb na profilu: ujednolicić separator `›` (obecnie `/`)
-- [ ] Linki footer i social media: zastąpić `href="#"` właściwymi URL-ami lub usunąć
-- [ ] `<title>` na `/map` — dedykowany, np. "Coffee Roasters Map | Bean Map"
+- [x] Statystyki homepage ("17 Countries") — zsynchronizowane z realną liczbą z DB (already dynamic via Prisma queries)
+- [x] Breadcrumb na profilu: ujednolicić separator `›` (było `/`)
+- [x] Linki footer i social media: usunięto placeholder `href="#"`, zastąpiono działającymi linkami
+- [x] `<title>` na `/map` — dedykowany "Coffee Roasters Map | Bean Map"
 - [ ] Hero homepage mobile — dodać jedno centralne zdjęcie
-- [ ] Empty state przy 0 wynikach filtru na `/roasters`
-- [ ] Tablet `/roasters` — poprawić breakpoint siatki lub ukryć sidebar na tablet
+- [x] Empty state przy 0 wynikach filtru na `/roasters` (already implemented)
+- [x] Tablet `/roasters` — sidebar collapsible na tablet (breakpoint md→lg)
 - [ ] Email notifications — Resend (`createRoasterRegistration` + `verifyRoaster`)
 - [x] Roaster dashboard `/dashboard/roaster` — edycja profilu
 - [ ] SEO landing pages `/roasters/country/[country]` — `generateStaticParams` z Prisma

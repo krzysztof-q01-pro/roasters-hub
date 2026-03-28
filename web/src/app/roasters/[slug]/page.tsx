@@ -70,13 +70,13 @@ export default async function RoasterProfilePage({
       <div className="max-w-7xl mx-auto px-6 pt-8">
         <nav className="flex text-xs uppercase tracking-widest text-on-surface-variant/60 gap-2">
           <Link className="hover:text-primary transition-colors" href="/">Home</Link>
-          <span>/</span>
+          <span>›</span>
           <Link className="hover:text-primary transition-colors" href="/roasters">Roasters</Link>
-          <span>/</span>
+          <span>›</span>
           <Link className="hover:text-primary transition-colors" href={`/roasters?country=${roaster.countryCode}`}>
             {roaster.country}
           </Link>
-          <span>/</span>
+          <span>›</span>
           <span className="text-on-surface">{roaster.name}</span>
         </nav>
       </div>

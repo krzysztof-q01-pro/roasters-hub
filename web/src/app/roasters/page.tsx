@@ -74,7 +74,7 @@ export default async function CatalogPage({
           </p>
         </header>
 
-        <div className="flex flex-col md:flex-row gap-16">
+        <div className="flex flex-col lg:flex-row gap-16">
           <Suspense fallback={<div className="w-[300px]" />}>
             <RoasterFilters />
           </Suspense>

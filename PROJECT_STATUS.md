@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-03-28 | Phase 1 Tydzień 2 COMPLETE — all Go/No-Go items ✅, 50 seed roasters, admin bootstrap ready
+2026-03-28 | Phase 2 UX fixes in progress — breadcrumb, footer, map title, tablet layout done
 
 ---
 
@@ -69,7 +69,8 @@ Phase 2 UI Fixes. Site audit 2026-03-28 — wszystkie 4 zadania P0/P1 ukończone
 **Audit findings (12 issues):**
 - ✅ CRITICAL (1): mapa na mobile — brak sidebara → NAPRAWIONE (drawer)
 - ✅ HIGH (3): filtry /roasters mobile → NAPRAWIONE (collapsible), broken image → NAPRAWIONE (ImageWithFallback), /sign-in bez layoutu → NAPRAWIONE (Header)
-- MEDIUM+LOW (8): statystyki, breadcrumb, footer linki, map title, hero mobile, empty state, tablet layout, Clerk dev badge → ROADMAP LATER
+- ✅ MEDIUM (6): statystyki (already dynamic), breadcrumb separator, footer links, map title, empty state (already done), tablet layout → NAPRAWIONE
+- LOW (2): hero mobile zdjęcie, Clerk dev badge → ROADMAP LATER
 
 **Remaining before production seed:** run `prisma db seed` on prod to apply 50 roasters.
 
@@ -77,7 +78,7 @@ Phase 2 UI Fixes. Site audit 2026-03-28 — wszystkie 4 zadania P0/P1 ukończone
 
 ## Next Unblocked Task
 
-**TERAZ:** ROADMAP LATER — Phase 2 (medium/low priority UX issues). Patrz ROADMAP.
+**TERAZ:** ROADMAP LATER — Phase 2 remaining (hero mobile, email notifications, SEO pages, image upload, analytics). Patrz ROADMAP.
 
 **HUMAN ONLY blockers:** re-seed prod DB (`prisma db seed`), set Clerk Google OAuth, buy production domain.
 

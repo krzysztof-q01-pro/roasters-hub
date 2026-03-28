@@ -67,10 +67,10 @@ export function RoasterFilters() {
     !!searchParams.get("roast");
 
   return (
-    <aside className="w-full md:w-[300px] shrink-0">
+    <aside className="w-full lg:w-[300px] shrink-0">
       {/* Mobile toggle header */}
       <button
-        className="md:hidden w-full flex items-center justify-between py-3 border-b border-outline-variant/20 mb-6"
+        className="lg:hidden w-full flex items-center justify-between py-3 border-b border-outline-variant/20 mb-6"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
       >
@@ -90,9 +90,9 @@ export function RoasterFilters() {
         </svg>
       </button>
 
-      <div className={`space-y-10 ${open ? "block" : "hidden"} md:block`}>
+      <div className={`space-y-10 ${open ? "block" : "hidden"} lg:block`}>
       <div className="flex justify-between items-center mb-6">
-        <h2 className="font-headline text-2xl hidden md:block">Filters</h2>
+        <h2 className="font-headline text-2xl hidden lg:block">Filters</h2>
         <button onClick={clearAll} className="text-sm text-primary hover:underline underline-offset-4">
           Clear all
         </button>
