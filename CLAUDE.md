@@ -1,17 +1,21 @@
 # Agent Instructions
 
-## Scheduled Run Entry Point
+## Entry Point (Scheduled / Autonomous)
 
-Jeśli budzisz się ze scheduled task (loop, cron, remote trigger):
-1. **NAJPIERW czytaj:** `.tmp/SESSION.md` (jeśli istnieje) → `PROJECT_STATUS.md` → `ROADMAP.md`
-2. **POTEM uruchom:** `/scheduled-run` — kompletny SOP co robić dalej
-3. **NIE czytaj** całej dokumentacji arch. — tylko jeśli potrzebne do bieżącego zadania
+**Bootstrap (czyste środowisko — nowy Codespace, agent nocny):**
+1. `cd web && npm install` — instaluje zależności + generuje Prisma client (via postinstall)
+2. MCP serwery (Playwright + Context7) są skonfigurowane w `.claude/settings.json` — startują automatycznie
+
+**Orientacja (KAŻDA sesja):**
+1. Czytaj `.tmp/SESSION.md` (jeśli istnieje) → `PROJECT_STATUS.md` → `ROADMAP.md`
+2. Uruchom `/scheduled-run` — kompletny SOP co robić dalej
+3. NIE czytaj dokumentacji arch. — tylko jeśli potrzebne do bieżącego zadania
 
 Uprawnienia do narzędzi (git, npm, Read, Write) są auto-approved w `.claude/settings.json`.
 
 ---
 
-## Scheduled Run — Branch Strategy
+## Branch Strategy
 
 Agenty autonomiczne (nocne/scheduled) **MUSZĄ** pracować na tygodniowym feature branchu:
 
@@ -34,14 +38,44 @@ Kluczowe: każde `[x]` w ROADMAP musi mieć fizyczny dowód w kodzie (istniejąc
 
 ---
 
-## Post-Task Checklist (OBOWIĄZKOWE po każdym wykonanym zadaniu)
+## Skills — Quick Reference
+
+### Obowiązkowe (zawsze uruchamiaj)
+
+| Kiedy | Skill | Uwaga |
+|-------|-------|-------|
+| Po KAŻDEJ zmianie kodu | `/lint-and-validate` | NIE commituj jeśli lint/tsc fails |
+| Złożone zadanie (>5 tool calls) | `/planning-with-files` | Tworzy task_plan.md + progress.md w .tmp/ |
+| Bug lub test failure | `/systematic-debugging` | PRZED proponowaniem jakiegokolwiek fixa |
+| Start sesji autonomicznej | `/consistency-check` | Po orientacji, przed kodowaniem |
+
+### Rekomendowane wg typu zadania
+
+| Typ zadania | Skille |
+|-------------|--------|
+| UI / komponenty | `/frontend-design`, `/tailwind-patterns`, `/react-best-practices` |
+| Nowe strony z danymi | `/nextjs-best-practices` (ISR, Server Components) |
+| Formularze (nie signup) | `/form-cro` |
+| SEO | `/seo-audit` |
+| Pytania o biblioteki/frameworki | Context7 MCP (`resolve-library-id` → `query-docs`) |
+| QA przed merge | `/site-audit` (wymaga Playwright MCP) |
+| Commit + push | `/git-pushing` |
+| Review brancha agenta | `/review-agent-branch` |
+
+<!-- Aktualizuj tę tabelę po dodaniu/usunięciu skilli. Lista: .claude/skills/ -->
+
+---
+
+## Post-Task Checklist (OBOWIĄZKOWE po każdym zadaniu)
 
 Po KAŻDYM ukończonym zadaniu — zanim powiesz użytkownikowi że skończyłeś:
-1. `ROADMAP.md` — zaznacz `[ ]` → `[x]` przy wykonanym zadaniu
-2. `PROJECT_STATUS.md` — zaktualizuj "Active Work" i "Next Unblocked Task"
-3. Jeśli stworzono nowy plik/katalog — usuń go z "Does NOT Exist Yet"
-4. **Wersja** — jeśli zmiana jest widoczna dla użytkownika, podbij `npm run version:patch` w `web/`
+1. Uruchom `/lint-and-validate` — **NIE commituj** jeśli lint lub tsc fails
+2. `ROADMAP.md` — zaznacz `[ ]` → `[x]` przy wykonanym zadaniu
+3. `PROJECT_STATUS.md` — zaktualizuj "Active Work" i "Next Unblocked Task"
+4. Jeśli stworzono nowy plik/katalog — usuń go z "Does NOT Exist Yet"
+5. **Wersja** — jeśli zmiana jest widoczna dla użytkownika, podbij `npm run version:patch` w `web/`
 
+**Konwencja commitów:** `[SCOPE] action: description` — scopes: `DB|AUTH|ACTION|UI|SEED|INFRA|DOCS|AGENT`
 **Commituj aktualizację stanu W TYM SAMYM COMMICIE co zadanie, nie osobno.**
 
 ---
@@ -52,6 +86,20 @@ Po KAŻDYM ukończonym zadaniu — zanim powiesz użytkownikowi że skończyłe�
 **Reguła 2 — Revalidation:** Każdy Server Action zmieniający dane MUSI wywołać `revalidatePath()` dla wszystkich stron wyświetlających te dane. Patrz pełna lista w `web/AGENTS.md`.
 **Reguła 3 — Docs arch. ≠ rzeczywistość:** NIE traktuj `docs/architecture/` jako source of truth. To blueprint, nie dokumentacja stanu. Rzeczywistość → `PROJECT_STATUS.md`.
 **Reguła 4 — Nie dokumentuj przyszłości jako teraźniejszości:** W `PROJECT_STATUS.md` wpisuj TYLKO to co istnieje w kodzie. Plany → `ROADMAP.md`.
+
+---
+
+## Error Recovery
+
+| Problem | Akcja |
+|---------|-------|
+| `npx tsc --noEmit` fails | Napraw błędy typów; NIE commituj zepsutego kodu |
+| Lint fails, nie da się auto-fix | Przeczytaj błąd, napraw ręcznie, uruchom ponownie |
+| `npm run build` fails | Sprawdź output; NIE commituj; zapisz w SESSION.md |
+| Consistency C1 FAIL (manual) | Sprawdź `git log --oneline -10`; napraw ręcznie ROADMAP↔STATUS |
+| Consistency C5/C6 (human) | Zapisz w SESSION.md; kontynuuj — NIE próbuj naprawiać |
+| MCP server niedostępny | Kontynuuj bez niego; zapisz w SESSION.md |
+| Brak credentials/secrets | **STOP.** Zapisz w SESSION.md. Zakończ sesję. |
 
 ---
 
@@ -68,15 +116,8 @@ Po KAŻDYM ukończonym zadaniu — zanim powiesz użytkownikowi że skończyłe�
 | Architektura techniczna | `docs/architecture/` |
 | Design UI/UX | `docs/design/stitch-brief.md` |
 | Narzędzia Python | `tools/` + `tools/README.md` |
+| Skills (projektowe) | `.claude/skills/` |
 | Kontrola spójności | `workflows/consistency_check.md` + `tools/consistency_check.py` |
 | Workflow SOPs | `workflows/` |
 
----
-
-## WAT Framework
-
-Projekt używa architektury Workflows → Agents → Tools:
-- `workflows/` — Markdown SOPs (cel, wejście, narzędzia, obsługa błędów)
-- `tools/` — Python scripts (deterministyczne wykonanie: API, DB, pliki)
-
-Przed każdym nowym zadaniem sprawdź `tools/` — jeśli tool istnieje, użyj go zamiast robić ręcznie. Gdy coś się psuje: napraw script → zweryfikuj → zaktualizuj workflow. Nie twórz ani nie nadpisuj workflows bez pytania.
+**WAT Framework:** Projekt używa Workflows → Agents → Tools. Sprawdź `tools/` przed ręcznym budowaniem czegokolwiek. Sprawdź `workflows/` dla SOPs. Nie twórz ani nie nadpisuj workflows bez pytania.
