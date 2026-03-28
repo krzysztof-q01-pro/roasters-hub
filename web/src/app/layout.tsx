@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Newsreader, Inter } from "next/font/google";
 import "./globals.css";
@@ -42,6 +43,14 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col antialiased">
         <ClerkProvider>{children}</ClerkProvider>
+        {process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN && (
+          <Script
+            defer
+            data-domain={process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN}
+            src="https://plausible.io/js/script.js"
+            strategy="afterInteractive"
+          />
+        )}
       </body>
     </html>
   );

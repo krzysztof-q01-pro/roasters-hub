@@ -12,14 +12,7 @@ export function Footer() {
             Connecting the specialty coffee ecosystem through transparency,
             origin, and community.
           </p>
-          <div className="flex gap-4">
-            <a className="text-stone-400 hover:text-orange-400 transition-colors" href="#">
-              Instagram
-            </a>
-            <a className="text-stone-400 hover:text-orange-400 transition-colors" href="#">
-              Twitter
-            </a>
-          </div>
+          {/* Social links — add URLs when accounts are created */}
         </div>
 
         <div>
@@ -42,28 +35,23 @@ export function Footer() {
 
         <div>
           <h4 className="text-white font-bold mb-6 text-xs uppercase tracking-[0.2em]">
-            Resources
+            Quick Links
           </h4>
           <ul className="space-y-4">
             <li>
-              <a className="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="#">
-                About
-              </a>
+              <Link className="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="/register">
+                Register Roastery
+              </Link>
             </li>
             <li>
-              <a className="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="#">
-                Privacy
-              </a>
+              <Link className="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="/roasters">
+                All Roasters
+              </Link>
             </li>
             <li>
-              <a className="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="#">
-                Terms
-              </a>
-            </li>
-            <li>
-              <a className="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="#">
-                Contact
-              </a>
+              <Link className="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="/map">
+                Map
+              </Link>
             </li>
           </ul>
         </div>

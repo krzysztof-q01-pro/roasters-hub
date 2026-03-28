@@ -39,7 +39,7 @@ export default async function CatalogPage({
     ...(q && { name: { contains: q, mode: "insensitive" as const } }),
   };
 
-  const [total, roasters] = await Promise.all([
+  const [total, roasters, countryRows] = await Promise.all([
     db.roaster.count({ where }),
     db.roaster.findMany({
       where,
@@ -48,7 +48,19 @@ export default async function CatalogPage({
       skip: (page - 1) * PAGE_SIZE,
       take: PAGE_SIZE,
     }),
+    db.roaster.groupBy({
+      by: ["countryCode", "country"],
+      where: { status: "VERIFIED" },
+      _count: { _all: true },
+      orderBy: { country: "asc" },
+    }),
   ]);
+
+  const countries = countryRows.map((r) => ({
+    code: r.countryCode,
+    name: r.country,
+    count: r._count._all,
+  }));
 
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
@@ -74,9 +86,9 @@ export default async function CatalogPage({
           </p>
         </header>
 
-        <div className="flex flex-col md:flex-row gap-16">
+        <div className="flex flex-col lg:flex-row gap-16">
           <Suspense fallback={<div className="w-[300px]" />}>
-            <RoasterFilters />
+            <RoasterFilters countries={countries} />
           </Suspense>
 
           <section className="flex-1">

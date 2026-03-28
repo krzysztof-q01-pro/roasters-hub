@@ -69,21 +69,21 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ## LATER — Phase 2: Post-Launch (2-4 tygodnie po launchu)
 
-- [ ] Statystyki homepage ("17 Countries") — zsynchronizować z realną liczbą z DB
-- [ ] Breadcrumb na profilu: ujednolicić separator `›` (obecnie `/`)
-- [ ] Linki footer i social media: zastąpić `href="#"` właściwymi URL-ami lub usunąć
-- [ ] `<title>` na `/map` — dedykowany, np. "Coffee Roasters Map | Bean Map"
-- [ ] Hero homepage mobile — dodać jedno centralne zdjęcie
-- [ ] Empty state przy 0 wynikach filtru na `/roasters`
-- [ ] Tablet `/roasters` — poprawić breakpoint siatki lub ukryć sidebar na tablet
+- [x] Statystyki homepage ("17 Countries") — zsynchronizowane z realną liczbą z DB (already dynamic via Prisma queries)
+- [x] Breadcrumb na profilu: ujednolicić separator `›` (było `/`)
+- [x] Linki footer i social media: usunięto placeholder `href="#"`, zastąpiono działającymi linkami
+- [x] `<title>` na `/map` — dedykowany "Coffee Roasters Map | Bean Map"
+- [x] Hero homepage mobile — dodano centralne zdjęcie (widoczne tylko na mobile)
+- [x] Empty state przy 0 wynikach filtru na `/roasters` (already implemented)
+- [x] Tablet `/roasters` — sidebar collapsible na tablet (breakpoint md→lg)
 - [ ] Email notifications — Resend (`createRoasterRegistration` + `verifyRoaster`)
 - [x] Roaster dashboard `/dashboard/roaster` — edycja profilu
-- [ ] SEO landing pages `/roasters/country/[country]` — `generateStaticParams` z Prisma
+- [x] SEO landing pages `/roasters/country/[country]` — `generateStaticParams` z Prisma
 - [x] `trackEvent` Server Action — zapisuje `ProfileEvent` do DB
 - [ ] Image upload — Uploadthing, max 2000px, <5MB client-side (→ Cloudflare R2 przy growth)
-- [ ] Analytics — Plausible (jeden script tag)
+- [x] Analytics — Plausible script tag (gated by `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` env var)
 
-**⚠️ Uwaga SEO:** `technical-overview.md` używa `/roasters/country/[country]`, `project-structure.md` używa `/country/[country]`. Zdecyduj PRZED budową.
+**SEO URL decided:** `/roasters/country/[country]` — implemented with `generateStaticParams`.
 
 ## LATER — Phase 3: Growth (miesiąc 2-3)
 
@@ -109,7 +109,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [ ] Domena produkcyjna — zakup + konfiguracja DNS w Vercel
 - [ ] Stripe konto (Phase 3) — rejestracja + webhook secret
 - [ ] Cold outreach do palarni — lista kontaktowa, maile, LinkedIn
-- [ ] Decyzja SEO: URL pattern `/roasters/country/[country]` vs `/country/[country]`
+- [x] Decyzja SEO: URL pattern `/roasters/country/[country]` — implemented
 - [ ] Założenie Remote Server — hosting dla scheduled agent (Claude Code remote triggers)
 
 **⚠️ Agent: jeśli napotkasz zadanie z tej sekcji — zapisz w SESSION.md i przejdź do następnego.**

@@ -4,18 +4,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 import { CERTIFICATIONS, CERTIFICATION_LABELS, ROAST_STYLES, ORIGINS } from "@/types/certifications";
 
-const COUNTRIES = [
-  { code: "US", name: "United States", flag: "\u{1F1FA}\u{1F1F8}" },
-  { code: "GB", name: "United Kingdom", flag: "\u{1F1EC}\u{1F1E7}" },
-  { code: "NO", name: "Norway", flag: "\u{1F1F3}\u{1F1F4}" },
-  { code: "PL", name: "Poland", flag: "\u{1F1F5}\u{1F1F1}" },
-  { code: "IT", name: "Italy", flag: "\u{1F1EE}\u{1F1F9}" },
-  { code: "AU", name: "Australia", flag: "\u{1F1E6}\u{1F1FA}" },
-  { code: "JP", name: "Japan", flag: "\u{1F1EF}\u{1F1F5}" },
-  { code: "DE", name: "Germany", flag: "\u{1F1E9}\u{1F1EA}" },
-];
+interface RoasterFiltersProps {
+  countries: { code: string; name: string; count: number }[];
+}
 
-export function RoasterFilters() {
+export function RoasterFilters({ countries }: RoasterFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);
@@ -67,10 +60,10 @@ export function RoasterFilters() {
     !!searchParams.get("roast");
 
   return (
-    <aside className="w-full md:w-[300px] shrink-0">
+    <aside className="w-full lg:w-[300px] shrink-0">
       {/* Mobile toggle header */}
       <button
-        className="md:hidden w-full flex items-center justify-between py-3 border-b border-outline-variant/20 mb-6"
+        className="lg:hidden w-full flex items-center justify-between py-3 border-b border-outline-variant/20 mb-6"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
       >
@@ -90,9 +83,9 @@ export function RoasterFilters() {
         </svg>
       </button>
 
-      <div className={`space-y-10 ${open ? "block" : "hidden"} md:block`}>
+      <div className={`space-y-10 ${open ? "block" : "hidden"} lg:block`}>
       <div className="flex justify-between items-center mb-6">
-        <h2 className="font-headline text-2xl hidden md:block">Filters</h2>
+        <h2 className="font-headline text-2xl hidden lg:block">Filters</h2>
         <button onClick={clearAll} className="text-sm text-primary hover:underline underline-offset-4">
           Clear all
         </button>
@@ -119,9 +112,9 @@ export function RoasterFilters() {
           onChange={(e) => updateFilter("country", e.target.value || null)}
         >
           <option value="">All countries</option>
-          {COUNTRIES.map((c) => (
+          {countries.map((c) => (
             <option key={c.code} value={c.code}>
-              {c.flag} {c.name}
+              {c.name} ({c.count})
             </option>
           ))}
         </select>
