@@ -45,7 +45,7 @@
 
 | Feature | File | What's Missing |
 |---------|------|----------------|
-| Newsletter signup | `web/src/app/page.tsx` | Form exists, no handler |
+| ~~Newsletter signup~~ | ~~`web/src/app/page.tsx`~~ | **DONE** — connected to `subscribeNewsletter` action |
 
 ---
 
