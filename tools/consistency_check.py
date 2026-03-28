@@ -670,7 +670,7 @@ def fix_c7():
             result.append(line)
             continue
 
-        if in_done and not inserted and (re.match(r"^##\s+", line) and not re.match(r"^###", line) or line.strip() == ""):
+        if in_done and not inserted and (re.match(r"^##\s+", line) and not re.match(r"^###", line)):
             # Check if this is end of DONE or empty line before next section
             if re.match(r"^##\s+", line) and not re.match(r"^###", line):
                 for item in to_add:
@@ -692,7 +692,7 @@ def fix_c7():
 # ---------------------------------------------------------------------------
 
 def check_c8() -> CheckResult:
-    r = CheckResult("C8", "Prisma schema datasource url + directUrl", "low")
+    r = CheckResult("C8", "Prisma 7 datasource config (prisma.config.ts)", "low")
 
     schema = read_file("web/prisma/schema.prisma")
     if not schema:
@@ -732,7 +732,12 @@ def check_c8() -> CheckResult:
 
 
 def fix_c8():
-    """Add missing url/directUrl to prisma datasource block."""
+    """Add missing url/directUrl to prisma datasource block (Prisma 6 fallback only)."""
+    # Prisma 7+: datasource configured in prisma.config.ts — do NOT modify schema.prisma
+    prisma_config = read_file("web/prisma.config.ts")
+    if prisma_config and "datasource" in prisma_config and "url" in prisma_config:
+        return
+
     schema_path = ROOT / "web" / "prisma" / "schema.prisma"
     content = schema_path.read_text(encoding="utf-8")
 
@@ -760,7 +765,32 @@ def fix_c8():
 # Main runner
 # ---------------------------------------------------------------------------
 
-ALL_CHECKS = [check_c1, check_c2, check_c3, check_c4, check_c5, check_c6, check_c7, check_c8]
+# ---------------------------------------------------------------------------
+# C9: ISR — revalidate = 3600 on pages using db.*  (Reguła 1 z AGENTS.md)
+# ---------------------------------------------------------------------------
+
+def check_c9() -> CheckResult:
+    r = CheckResult("C9", "ISR revalidate on DB pages (Reguła 1)", "medium")
+
+    app_dir = ROOT / "web" / "src" / "app"
+    if not app_dir.exists():
+        r.skip("web/src/app not found")
+        return r
+
+    violations = []
+    for page in app_dir.rglob("page.tsx"):
+        content = page.read_text(encoding="utf-8")
+        uses_db = ('from "@/lib/db"' in content or "from '@/lib/db'" in content)
+        if uses_db and "export const revalidate" not in content:
+            violations.append(str(page.relative_to(ROOT)))
+
+    if violations:
+        r.warn(f"DB pages missing revalidate: {', '.join(violations)}")
+
+    return r
+
+
+ALL_CHECKS = [check_c1, check_c2, check_c3, check_c4, check_c5, check_c6, check_c7, check_c8, check_c9]
 
 FIX_MAP = {
     "C2": fix_c2,

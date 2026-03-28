@@ -1,6 +1,8 @@
 import { db } from "@/lib/db";
 import { AdminPendingClient } from "./client";
 
+export const revalidate = 3600;
+
 export default async function AdminPendingPage() {
   const roasters = await db.roaster.findMany({
     orderBy: { createdAt: "desc" },
