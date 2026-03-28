@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 const NAV_LINKS = [
@@ -12,7 +12,17 @@ const NAV_LINKS = [
 
 export function Header() {
   const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentQ = searchParams.get("q") || "";
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      const val = (e.target as HTMLInputElement).value.trim();
+      router.push(val ? `/roasters?q=${encodeURIComponent(val)}` : "/roasters");
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 glass-nav border-b border-surface-container-high/50">
@@ -52,9 +62,12 @@ export function Header() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             <input
+              key={currentQ}
               className="bg-transparent border-none focus:ring-0 focus:outline-none text-sm w-32 lg:w-48 placeholder:text-on-surface-variant/60"
               placeholder="Find a roaster..."
               type="text"
+              defaultValue={currentQ}
+              onKeyDown={handleSearch}
             />
           </div>
 
