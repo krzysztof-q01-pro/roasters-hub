@@ -31,6 +31,7 @@ Przed pisaniem kodu sprawdź: `node_modules/next/dist/docs/`
 
 ## Kluczowe Ograniczenia
 
+- **Prisma 7: `url`/`directUrl` NIE w `schema.prisma`** — wyłącznie w `prisma.config.ts` (blok `datasource`). Dodanie ich do schema.prisma powoduje błąd P1012 i blokuje deployment.
 - **`prisma/schema.prisma` migracje muszą być sekwencyjne** — ogłoś w teamie przed uruchomieniem `prisma migrate dev`
 - **`src/middleware.ts` — jedna osoba modyfikuje na raz** — wpływa na całą aplikację
 - **Kolizje slugów** — obsługuje `src/lib/slug.ts` (`hard-beans` → `hard-beans-opole` → `hard-beans-opole-2`)
