@@ -12,7 +12,6 @@ export function Footer() {
             Connecting the specialty coffee ecosystem through transparency,
             origin, and community.
           </p>
-          {/* Social links — add URLs when accounts are created */}
         </div>
 
         <div>

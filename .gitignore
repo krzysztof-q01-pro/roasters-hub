@@ -1,5 +1,6 @@
 # Wygenerowane pliki tymczasowe
 .tmp/
+.playwright-mcp/
 
 # Python
 __pycache__/

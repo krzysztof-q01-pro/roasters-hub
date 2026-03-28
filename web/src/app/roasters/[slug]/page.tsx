@@ -11,7 +11,7 @@ import { TrackedLink } from "@/components/roasters/TrackedLink";
 import { db } from "@/lib/db";
 import type { Metadata } from "next";
 
-export const revalidate = 3600; // re-generate every hour
+export const revalidate = 3600;
 
 export async function generateMetadata({
   params,
@@ -245,7 +245,7 @@ export default async function RoasterProfilePage({
               </div>
               <Link
                 className="text-xs uppercase tracking-widest font-bold text-primary pb-1 border-b-2 border-primary/20 hover:border-primary transition-all"
-                href={`/roasters?country=${roaster.countryCode}`}
+                href={`/roasters/country/${roaster.countryCode}`}
               >
                 View All
               </Link>

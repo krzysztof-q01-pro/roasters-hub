@@ -6,27 +6,7 @@ import { RoasterCard } from "@/components/roasters/RoasterCard";
 import { db } from "@/lib/db";
 import type { Metadata } from "next";
 
-export const revalidate = 3600; // re-generate every hour
-
-const COUNTRY_NAMES: Record<string, string> = {
-  US: "United States",
-  GB: "United Kingdom",
-  NO: "Norway",
-  PL: "Poland",
-  IT: "Italy",
-  AU: "Australia",
-  JP: "Japan",
-  DE: "Germany",
-  DK: "Denmark",
-  SE: "Sweden",
-  NL: "Netherlands",
-  FR: "France",
-  CZ: "Czech Republic",
-  CA: "Canada",
-  ET: "Ethiopia",
-  KE: "Kenya",
-  BR: "Brazil",
-};
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const countries = await db.roaster.findMany({
@@ -43,10 +23,14 @@ export async function generateMetadata({
   params: Promise<{ country: string }>;
 }): Promise<Metadata> {
   const { country } = await params;
-  const name = COUNTRY_NAMES[country] || country;
+  const row = await db.roaster.findFirst({
+    where: { countryCode: country, status: "VERIFIED" },
+    select: { country: true },
+  });
+  if (!row) return { title: "Specialty Coffee Roasters" };
   return {
-    title: `Specialty Coffee Roasters in ${name}`,
-    description: `Discover verified specialty coffee roasters in ${name}. Browse profiles, origins, certifications, and more.`,
+    title: `Specialty Coffee Roasters in ${row.country}`,
+    description: `Discover verified specialty coffee roasters in ${row.country}. Browse profiles, origins, certifications, and more.`,
   };
 }
 
@@ -56,8 +40,6 @@ export default async function CountryPage({
   params: Promise<{ country: string }>;
 }) {
   const { country } = await params;
-  const countryName = COUNTRY_NAMES[country];
-  if (!countryName) notFound();
 
   const roasters = await db.roaster.findMany({
     where: { status: "VERIFIED", countryCode: country },
@@ -67,11 +49,12 @@ export default async function CountryPage({
 
   if (roasters.length === 0) notFound();
 
+  const countryName = roasters[0].country;
+
   return (
     <>
       <Header />
       <main className="max-w-7xl mx-auto px-6 py-12">
-        {/* Breadcrumbs */}
         <nav className="mb-4 text-on-surface-variant flex items-center gap-2 text-xs uppercase tracking-widest">
           <Link className="hover:text-primary transition-colors" href="/">Home</Link>
           <span className="text-[10px]">&rsaquo;</span>
