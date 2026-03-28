@@ -81,7 +81,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] SEO landing pages `/roasters/country/[country]` — `generateStaticParams` z Prisma
 - [x] `trackEvent` Server Action — zapisuje `ProfileEvent` do DB
 - [ ] Image upload — Uploadthing, max 2000px, <5MB client-side (→ Cloudflare R2 przy growth)
-- [ ] Analytics — Plausible (jeden script tag)
+- [x] Analytics — Plausible script tag (gated by `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` env var)
 
 **SEO URL decided:** `/roasters/country/[country]` — implemented with `generateStaticParams`.
 
