@@ -6,7 +6,16 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ---
 
-## NOW — Phase 2: UI Fixes (Site Audit 2026-03-28)
+## NOW — Phase 2: UI Fixes + Audit 2026-03-28
+
+- [x] [P1] ✅ **Broken images — 7 palarni (Market Lane, Hard Beans, +5)** — naprawiono URL w DB + seed.ts (audit 2026-03-28)
+- [x] [P1] ✅ **`/map` brak `<h1>`** — dodano `<h1 className="sr-only">` SEO (audit 2026-03-28)
+- [x] [P2] ✅ **`/register` brak własnego `<title>` i `<h1>`** — dodano layout.tsx + sr-only h1 (audit 2026-03-28)
+- [x] [P2] ✅ **Homepage stat "Verified Profiles" — pokazuje tekst zamiast liczby** — naprawiono (audit 2026-03-28)
+
+---
+
+## NOW — Phase 2: UI Fixes (Site Audit poprzednia)
 
 - [x] [P0] ✅ **Mapa `/map` na mobile — brak sidebara z palarniami i filtrami** (CRITICAL)
   Panel boczny niewidoczny na 375px. Strona niefunkcjonalna na telefonach.
@@ -147,3 +156,9 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] **Mapa `/map` na mobile — brak sidebara z palarniami i filtrami** (CRITICAL)
 - [x] **Filtry na `/roasters` — brak zwijania na mobile/tablet**
 - [x] **Broken image 403 na `/roasters`** — kafelek z Unsplash hash b4aefda (Market Lane Coffee)
+- [x] Statystyki homepage ("17 Countries") — zsynchronizowane z realną liczbą z DB (already dynamic via Prisma queries)
+- [x] Breadcrumb na profilu: ujednolicić separator `›` (było `/`)
+- [x] Linki footer i social media: usunięto placeholder `href="#"`, zastąpiono działającymi linkami
+- [x] Empty state przy 0 wynikach filtru na `/roasters` (already implemented)
+- [x] SEO landing pages `/roasters/country/[country]` — `generateStaticParams` z Prisma
+- [x] Analytics — Plausible script tag (gated by `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` env var)

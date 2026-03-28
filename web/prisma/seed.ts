@@ -88,7 +88,7 @@ const SEED_ROASTERS = [
     roastStyles: ["Light", "Filter"],
     status: "VERIFIED" as const,
     featured: false,
-    imageUrl: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&auto=format&fit=crop",
     imageAlt: "Hard Beans roastery",
   },
   {
@@ -172,7 +172,7 @@ const SEED_ROASTERS = [
     roastStyles: ["Light", "Filter"],
     status: "VERIFIED" as const,
     featured: false,
-    imageUrl: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1498804103079-a6351b050096?w=800&auto=format&fit=crop",
     imageAlt: "Coffee Proficiency roastery",
   },
   {
@@ -341,7 +341,7 @@ const SEED_ROASTERS = [
     roastStyles: ["Light", "Medium", "Filter"],
     status: "VERIFIED" as const,
     featured: false,
-    imageUrl: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1504630083234-14187a9df0f5?w=800&auto=format&fit=crop",
     imageAlt: "19grams coffee roasting",
   },
   // --- Poland (6 additional) ---
@@ -597,7 +597,7 @@ const SEED_ROASTERS = [
     roastStyles: ["Light", "Filter"],
     status: "VERIFIED" as const,
     featured: false,
-    imageUrl: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1507133750040-4a8f57021571?w=800&auto=format&fit=crop",
     imageAlt: "DAK Coffee Roasters Amsterdam",
   },
   {
@@ -661,7 +661,7 @@ const SEED_ROASTERS = [
     roastStyles: ["Light", "Medium", "Espresso"],
     status: "VERIFIED" as const,
     featured: false,
-    imageUrl: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=800&auto=format&fit=crop",
     imageAlt: "Café Lomi Paris",
   },
   // --- Czech Republic (1) ---
@@ -855,7 +855,7 @@ const SEED_ROASTERS = [
     roastStyles: ["Light", "Filter", "Espresso"],
     status: "VERIFIED" as const,
     featured: false,
-    imageUrl: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&auto=format&fit=crop",
     imageAlt: "Market Lane Coffee Melbourne",
   },
   {
@@ -962,7 +962,7 @@ const SEED_ROASTERS = [
     roastStyles: ["Light", "Medium", "Dark"],
     status: "VERIFIED" as const,
     featured: false,
-    imageUrl: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&auto=format&fit=crop",
     imageAlt: "Garden of Coffee Addis Ababa",
   },
   {

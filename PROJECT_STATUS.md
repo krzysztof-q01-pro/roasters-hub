@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-03-28 | Phase 2 UX fixes in progress — breadcrumb, footer, map title, tablet layout done
+2026-03-28 | Phase 2 audit fixes complete — broken images, SEO h1/title, homepage stat fixed
 
 ---
 

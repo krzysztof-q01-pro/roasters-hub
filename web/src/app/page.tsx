@@ -113,8 +113,8 @@ export default async function HomePage() {
             </div>
             <div className="h-8 w-px bg-outline-variant/30 hidden md:block" />
             <div className="text-center">
-              <span className="block text-3xl font-headline font-bold text-primary">Verified</span>
-              <span className="text-xs uppercase tracking-widest text-on-surface-variant font-medium">Profiles</span>
+              <span className="block text-3xl font-headline font-bold text-primary">{roasterCount}</span>
+              <span className="text-xs uppercase tracking-widest text-on-surface-variant font-medium">Verified Profiles</span>
             </div>
           </div>
         </div>

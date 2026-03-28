@@ -96,6 +96,7 @@ export default function RegisterPage() {
     <>
       <Header />
       <main className="max-w-2xl mx-auto px-6 py-16">
+        <h1 className="sr-only">Register Your Roastery</h1>
         {/* Step Indicator */}
         <div className="flex items-center justify-center gap-4 mb-16">
           {STEPS.map((label, i) => (
