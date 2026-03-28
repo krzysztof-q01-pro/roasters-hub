@@ -70,8 +70,8 @@ Phase 2 UI Fixes. Site audit 2026-03-28 — wszystkie 4 zadania P0/P1 ukończone
 **Audit findings (12 issues):**
 - ✅ CRITICAL (1): mapa na mobile — brak sidebara → NAPRAWIONE (drawer)
 - ✅ HIGH (3): filtry /roasters mobile → NAPRAWIONE (collapsible), broken image → NAPRAWIONE (ImageWithFallback), /sign-in bez layoutu → NAPRAWIONE (Header)
-- ✅ MEDIUM (6): statystyki (already dynamic), breadcrumb separator, footer links, map title, empty state (already done), tablet layout → NAPRAWIONE
-- LOW (2): hero mobile zdjęcie, Clerk dev badge → ROADMAP LATER
+- ✅ MEDIUM (7): statystyki (already dynamic), breadcrumb separator, footer links, map title, empty state (already done), tablet layout, hero mobile image → NAPRAWIONE
+- LOW (1): Clerk dev badge → ROADMAP LATER
 
 **Remaining before production seed:** run `prisma db seed` on prod to apply 50 roasters.
 

@@ -54,6 +54,18 @@ export default async function HomePage() {
               </Link>
             </div>
           </div>
+          {/* Mobile hero image */}
+          <div className="md:hidden w-full h-[280px] rounded-2xl overflow-hidden relative editorial-shadow">
+            <Image
+              src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&h=500&fit=crop"
+              alt="A barista pouring latte art in a sunlit cafe"
+              fill
+              className="object-cover"
+              sizes="100vw"
+              priority
+            />
+          </div>
+
           <div className="lg:col-span-5 relative h-[500px] hidden md:block">
             <div className="absolute top-0 right-0 w-2/3 h-[300px] rounded-2xl overflow-hidden editorial-shadow rotate-2 z-10 bg-surface-container">
               <Image

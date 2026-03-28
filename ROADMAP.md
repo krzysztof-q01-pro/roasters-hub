@@ -73,7 +73,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] Breadcrumb na profilu: ujednolicić separator `›` (było `/`)
 - [x] Linki footer i social media: usunięto placeholder `href="#"`, zastąpiono działającymi linkami
 - [x] `<title>` na `/map` — dedykowany "Coffee Roasters Map | Bean Map"
-- [ ] Hero homepage mobile — dodać jedno centralne zdjęcie
+- [x] Hero homepage mobile — dodano centralne zdjęcie (widoczne tylko na mobile)
 - [x] Empty state przy 0 wynikach filtru na `/roasters` (already implemented)
 - [x] Tablet `/roasters` — sidebar collapsible na tablet (breakpoint md→lg)
 - [ ] Email notifications — Resend (`createRoasterRegistration` + `verifyRoaster`)
