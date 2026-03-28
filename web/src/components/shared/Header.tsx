@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
 const NAV_LINKS = [
   { href: "/roasters", label: "Browse Roasters" },
@@ -10,12 +10,10 @@ const NAV_LINKS = [
   { href: "/register", label: "List Your Roastery", accent: true },
 ];
 
-export function Header() {
-  const pathname = usePathname();
+function HeaderSearch() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentQ = searchParams.get("q") || "";
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -23,6 +21,27 @@ export function Header() {
       router.push(val ? `/roasters?q=${encodeURIComponent(val)}` : "/roasters");
     }
   };
+
+  return (
+    <div className="hidden sm:flex items-center bg-surface-container-low px-3 py-1.5 rounded-lg">
+      <svg className="w-4 h-4 text-on-surface-variant/60 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <input
+        key={currentQ}
+        className="bg-transparent border-none focus:ring-0 focus:outline-none text-sm w-32 lg:w-48 placeholder:text-on-surface-variant/60"
+        placeholder="Find a roaster..."
+        type="text"
+        defaultValue={currentQ}
+        onKeyDown={handleSearch}
+      />
+    </div>
+  );
+}
+
+export function Header() {
+  const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 glass-nav border-b border-surface-container-high/50">
@@ -57,19 +76,14 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="hidden sm:flex items-center bg-surface-container-low px-3 py-1.5 rounded-lg">
-            <svg className="w-4 h-4 text-on-surface-variant/60 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <input
-              key={currentQ}
-              className="bg-transparent border-none focus:ring-0 focus:outline-none text-sm w-32 lg:w-48 placeholder:text-on-surface-variant/60"
-              placeholder="Find a roaster..."
-              type="text"
-              defaultValue={currentQ}
-              onKeyDown={handleSearch}
-            />
-          </div>
+          <Suspense fallback={
+            <div className="hidden sm:flex items-center bg-surface-container-low px-3 py-1.5 rounded-lg">
+              <div className="w-4 h-4 mr-2" />
+              <div className="w-32 lg:w-48 h-4" />
+            </div>
+          }>
+            <HeaderSearch />
+          </Suspense>
 
           {/* Mobile menu button */}
           <button
