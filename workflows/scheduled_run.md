@@ -52,12 +52,30 @@ git log --oneline -3  # ostatnie commity — co było robione
 - Lub porzucony eksperyment (wtedy `git checkout .` żeby wyczyścić)
 - Nie zostawiaj w zawieszeniu
 
-**⚠️ OBOWIĄZKOWE: Stwórz feature branch przed rozpoczęciem pracy:**
+**⚠️ OBOWIĄZKOWE: Tygodniowy branch agenta (ISO week):**
+
 ```bash
-git checkout main && git pull origin main
-git checkout -b feat/<opis-zadania>
+YEAR=$(date +%Y)
+WEEK=$(date +%V)
+BRANCH="feat/agent-${YEAR}-${WEEK}"
+
+git fetch origin
+if git ls-remote --exit-code --heads origin "$BRANCH" > /dev/null 2>&1; then
+  # Branch tego tygodnia istnieje — kontynuuj pracę
+  git checkout "$BRANCH"
+  git pull origin "$BRANCH"
+  echo "Kontynuuję branch: $BRANCH"
+else
+  # Nowy tydzień — nowy branch z main
+  git checkout main && git pull origin main
+  git checkout -b "$BRANCH"
+  echo "Nowy branch: $BRANCH"
+fi
 ```
-**NIGDY nie commituj bezpośrednio do main.** Branch zostanie zreviewowany rano (patrz `workflows/review_agent_branch.md`).
+
+**Schemat nazewnictwa:** `feat/agent-YYYY-WW` (np. `feat/agent-2026-13`)
+**Zasada:** Cała praca w danym tygodniu ISO zostaje na tej samej gałęzi. Jedna PR per tydzień.
+**NIGDY nie commituj bezpośrednio do main.** Branch zostanie zreviewowany przed merge (patrz `workflows/review_agent_branch.md`).
 
 ---
 
@@ -104,12 +122,46 @@ git add [pliki zadania] ROADMAP.md PROJECT_STATUS.md
 git commit -m "[SCOPE] action: opis
 
 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>"
-git push origin feat/<branch-name>   # ZAWSZE feature branch, NIGDY main
+git push origin "$BRANCH"   # ZAWSZE feature branch, NIGDY main
 ```
 
 **Scopes:** `DB | AUTH | ACTION | UI | SEED | INFRA | DOCS | AGENT`
 
 **⚠️ NIGDY nie commituj kodu bez aktualizacji ROADMAP.md i PROJECT_STATUS.md w tym samym commicie.**
+
+---
+
+## Krok 5.5: Preview URL + Smoke Test + PR
+
+Po `git push` — sprawdź status deploymentu i utwórz PR:
+
+```bash
+# Poczekaj chwilę na rejestrację deploymentu przez vercel[bot]
+sleep 15
+
+# Pobierz preview URL przez GitHub Deployments API
+PREVIEW_URL=$(python tools/vercel_status.py --json 2>/dev/null | python3 -c "
+import json, sys
+try:
+    d = json.load(sys.stdin)
+    previews = [x for x in d if x.get('environment') == 'Preview' and x.get('url')]
+    print(previews[0]['url'] if previews else '')
+except:
+    print('')
+" 2>/dev/null || echo "")
+
+if [ -n "$PREVIEW_URL" ]; then
+  echo "Preview URL: $PREVIEW_URL"
+  python tools/smoke_test.py --url "$PREVIEW_URL"
+else
+  echo "Preview URL nie dostępny jeszcze (Vercel może jeszcze budować)"
+fi
+
+# Utwórz PR jeśli nie istnieje
+bash tools/create_agent_pr.sh
+```
+
+**Jeśli smoke test FAIL:** Zanotuj w SESSION.md (pole `smoke_test: FAIL`) i wskaż co nie działa. Nie blokuje kontynuacji pracy.
 
 ---
 
@@ -135,6 +187,11 @@ Zapisz `.tmp/SESSION.md` (nadpisz jeśli istnieje):
 
 ### Next
 [dokładny następny krok — konkretna komenda lub plik do edycji]
+
+### Metadata
+current_branch: feat/agent-YYYY-WW
+preview_url: https://... (lub "nie dostępny" jeśli Vercel jeszcze buduje)
+smoke_test: PASS / FAIL / nie sprawdzono
 ```
 
 ---
@@ -155,12 +212,13 @@ Zapisz `.tmp/SESSION.md` (nadpisz jeśli istnieje):
 ## Szybki Cheat Sheet
 
 ```
-1.   Czytaj: SESSION.md → PROJECT_STATUS.md → ROADMAP.md
-1.5  python tools/consistency_check.py → fix jeśli FAIL
-2.   git status + git branch
-3.   Jedno zadanie z ROADMAP NOW
-4.   lint + tsc
-5.   Zaktualizuj ROADMAP.md [x] + PROJECT_STATUS.md
-6.   git add [pliki + ROADMAP + STATUS] → commit [SCOPE] → push
-7.   Zapisz SESSION.md
+1.    Czytaj: SESSION.md → PROJECT_STATUS.md → ROADMAP.md
+1.5   python tools/consistency_check.py → fix jeśli FAIL
+2.    git status + ustal branch: feat/agent-YYYY-WW (kontynuuj lub utwórz)
+3.    Jedno zadanie z ROADMAP NOW
+4.    lint + tsc
+5.    Zaktualizuj ROADMAP.md [x] + PROJECT_STATUS.md
+      git add [pliki + ROADMAP + STATUS] → commit [SCOPE] → push
+5.5   sleep 15 → vercel_status.py → smoke_test.py → create_agent_pr.sh
+6.    Zapisz SESSION.md (z current_branch + preview_url + smoke_test)
 ```

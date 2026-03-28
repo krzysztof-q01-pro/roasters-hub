@@ -13,10 +13,21 @@ Uprawnienia do narzędzi (git, npm, Read, Write) są auto-approved w `.claude/se
 
 ## Scheduled Run — Branch Strategy
 
-Agenty autonomiczne (nocne/scheduled) **MUSZĄ** pracować na feature branchu:
-1. `git checkout -b feat/<opis>` — NIGDY nie commituj bezpośrednio do main
-2. Po zakończeniu pracy: `git push origin feat/<opis>`
-3. Branch zostanie zreviewowany rano przez review workflow
+Agenty autonomiczne (nocne/scheduled) **MUSZĄ** pracować na tygodniowym feature branchu:
+
+**Schemat nazewnictwa:** `feat/agent-YYYY-WW` (ISO week, np. `feat/agent-2026-13`)
+
+```bash
+YEAR=$(date +%Y) && WEEK=$(date +%V) && BRANCH="feat/agent-${YEAR}-${WEEK}"
+git fetch origin
+git ls-remote --exit-code --heads origin "$BRANCH" > /dev/null 2>&1 \
+  && (git checkout "$BRANCH" && git pull origin "$BRANCH") \
+  || (git checkout main && git pull origin main && git checkout -b "$BRANCH")
+```
+
+- Cała praca w tym samym tygodniu ISO trafia na **ten sam branch** — jedna PR per tydzień
+- NIGDY nie commituj bezpośrednio do main
+- Po zakończeniu pracy: `git push origin "$BRANCH"` + uruchom `bash tools/create_agent_pr.sh`
 
 **Review brancha przed merge:** Czytaj `workflows/review_agent_branch.md` — kompletny SOP.
 Kluczowe: każde `[x]` w ROADMAP musi mieć fizyczny dowód w kodzie (istniejący plik, import, wywołanie).

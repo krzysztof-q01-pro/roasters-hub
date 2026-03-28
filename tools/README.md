@@ -65,3 +65,78 @@ python tools/consistency_check.py --fix C2,C4
 **Nie wymaga credentiali.** Zero dependencies poza stdlib.
 
 **Workflow:** `workflows/consistency_check.md`
+
+---
+
+### `vercel_status.py`
+
+Status deploymentów Vercel przez GitHub Deployments API. Nie wymaga VERCEL_TOKEN — używa `gh` CLI (już autoryzowane). `vercel[bot]` zapisuje preview URL w GitHub po każdym pushu.
+
+```bash
+# Aktualny branch
+python tools/vercel_status.py
+
+# Konkretny branch
+python tools/vercel_status.py --branch feat/agent-2026-13
+
+# Filtruj po środowisku
+python tools/vercel_status.py --env Production
+
+# JSON (do użycia w skryptach)
+python tools/vercel_status.py --json
+
+# Czekaj na deployment (max 120s)
+python tools/vercel_status.py --wait
+```
+
+**Output:** Status (success/failure/in_progress), URL preview, czas deploymentu.
+
+**Wymaga:** `gh` CLI z aktywną sesją (`gh auth status`).
+
+---
+
+### `smoke_test.py`
+
+HTTP smoke test dla deployed URL. Sprawdza czy `/`, `/roasters`, `/map` zwracają HTTP 200.
+
+```bash
+# Test produkcji
+python tools/smoke_test.py --url https://beanmap-web.vercel.app
+
+# Test preview brancha
+python tools/smoke_test.py --url https://beanmap-web-git-feat-xxx.vercel.app
+
+# JSON output (exit code 1 jeśli FAIL)
+python tools/smoke_test.py --url <url> --json
+```
+
+**Output:** PASS/FAIL z czasami odpowiedzi per route.
+
+**Nie wymaga credentiali.** Zero dependencies poza stdlib.
+
+---
+
+### `create_agent_pr.sh`
+
+Idempotentne tworzenie PR dla branchy agenta. Bezpieczny do wielokrotnego wywołania — jeśli PR już istnieje, zwraca jego URL.
+
+```bash
+# Na branchu feat/agent-*
+bash tools/create_agent_pr.sh
+```
+
+Czyta `.tmp/SESSION.md` i wypełnia body PR. Działa tylko na branchach `feat/agent-*`.
+
+**Wymaga:** `gh` CLI z aktywną sesją.
+
+---
+
+## Setup (instalacja jednorazowa w nowym środowisku)
+
+Po sklonowaniu repo lub w nowym Codespace — zainstaluj pre-commit hook:
+
+```bash
+chmod +x .git/hooks/pre-commit
+```
+
+Hook uruchamia `consistency_check.py` przed każdym commitem i blokuje jeśli są niespójności. Bypass awaryjny: `git commit --no-verify`.
