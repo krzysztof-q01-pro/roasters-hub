@@ -144,3 +144,6 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] Error monitoring skonfigurowany (Vercel logs — built-in)
 - [x] Roaster dashboard `/dashboard/roaster` — edycja profilu
 - [x] `trackEvent` Server Action — zapisuje `ProfileEvent` do DB
+- [x] **Mapa `/map` na mobile — brak sidebara z palarniami i filtrami** (CRITICAL)
+- [x] **Filtry na `/roasters` — brak zwijania na mobile/tablet**
+- [x] **Broken image 403 na `/roasters`** — kafelek z Unsplash hash b4aefda (Market Lane Coffee)
