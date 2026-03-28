@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { generateUniqueSlug } from "@/lib/slug";
+import { resolveCountryCode } from "@/lib/country-codes";
 import { requireRoasterOwner } from "@/lib/auth";
 import {
   CreateRoasterSchema,
@@ -51,7 +52,7 @@ export async function createRoasterRegistration(
         slug,
         city,
         country: rest.country,
-        countryCode: "", // will be resolved in Phase 2 (geocoding)
+        countryCode: resolveCountryCode(rest.country),
         description: description || null,
         website: rest.website || null,
         email: rest.email || null,
