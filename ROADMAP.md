@@ -78,12 +78,12 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] Tablet `/roasters` — sidebar collapsible na tablet (breakpoint md→lg)
 - [ ] Email notifications — Resend (`createRoasterRegistration` + `verifyRoaster`)
 - [x] Roaster dashboard `/dashboard/roaster` — edycja profilu
-- [ ] SEO landing pages `/roasters/country/[country]` — `generateStaticParams` z Prisma
+- [x] SEO landing pages `/roasters/country/[country]` — `generateStaticParams` z Prisma
 - [x] `trackEvent` Server Action — zapisuje `ProfileEvent` do DB
 - [ ] Image upload — Uploadthing, max 2000px, <5MB client-side (→ Cloudflare R2 przy growth)
 - [ ] Analytics — Plausible (jeden script tag)
 
-**⚠️ Uwaga SEO:** `technical-overview.md` używa `/roasters/country/[country]`, `project-structure.md` używa `/country/[country]`. Zdecyduj PRZED budową.
+**SEO URL decided:** `/roasters/country/[country]` — implemented with `generateStaticParams`.
 
 ## LATER — Phase 3: Growth (miesiąc 2-3)
 
@@ -109,7 +109,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [ ] Domena produkcyjna — zakup + konfiguracja DNS w Vercel
 - [ ] Stripe konto (Phase 3) — rejestracja + webhook secret
 - [ ] Cold outreach do palarni — lista kontaktowa, maile, LinkedIn
-- [ ] Decyzja SEO: URL pattern `/roasters/country/[country]` vs `/country/[country]`
+- [x] Decyzja SEO: URL pattern `/roasters/country/[country]` — implemented
 - [ ] Założenie Remote Server — hosting dla scheduled agent (Claude Code remote triggers)
 
 **⚠️ Agent: jeśli napotkasz zadanie z tej sekcji — zapisz w SESSION.md i przejdź do następnego.**

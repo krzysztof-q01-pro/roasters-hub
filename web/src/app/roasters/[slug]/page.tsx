@@ -73,7 +73,7 @@ export default async function RoasterProfilePage({
           <span>›</span>
           <Link className="hover:text-primary transition-colors" href="/roasters">Roasters</Link>
           <span>›</span>
-          <Link className="hover:text-primary transition-colors" href={`/roasters?country=${roaster.countryCode}`}>
+          <Link className="hover:text-primary transition-colors" href={`/roasters/country/${roaster.countryCode}`}>
             {roaster.country}
           </Link>
           <span>›</span>

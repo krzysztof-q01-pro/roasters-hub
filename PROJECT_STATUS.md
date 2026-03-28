@@ -35,6 +35,7 @@
 - Registration form `/register` — 3-step wizard, **connected to Server Action** (creates PENDING roaster in DB)
 - Admin panel UI `/admin/pending` — verify/reject UI, **connected to Server Actions**
 - Profile event tracking — `trackEvent` Server Action records PAGE_VIEW, WEBSITE_CLICK, SHOP_CLICK, CONTACT_CLICK to `profile_events` table
+- SEO country pages `/roasters/country/[country]` — **ISR (1h)**, `generateStaticParams`, Prisma queries
 - Roaster dashboard `/dashboard/roaster` — profile editing, analytics stats, Clerk-protected
 - **Versioning:** `package.json` version displayed in footer, npm scripts `version:patch/minor/major`
 - **Deploy:** https://beanmap-web.vercel.app (protected by Clerk auth on /admin routes)
@@ -78,7 +79,7 @@ Phase 2 UI Fixes. Site audit 2026-03-28 — wszystkie 4 zadania P0/P1 ukończone
 
 ## Next Unblocked Task
 
-**TERAZ:** ROADMAP LATER — Phase 2 remaining (hero mobile, email notifications, SEO pages, image upload, analytics). Patrz ROADMAP.
+**TERAZ:** ROADMAP LATER — Phase 2 remaining (hero mobile, email notifications, image upload, analytics). Patrz ROADMAP.
 
 **HUMAN ONLY blockers:** re-seed prod DB (`prisma db seed`), set Clerk Google OAuth, buy production domain.
 
