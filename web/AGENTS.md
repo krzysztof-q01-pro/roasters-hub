@@ -21,7 +21,7 @@
 | Auth | **Clerk** (`@clerk/nextjs` ^6) |
 | DB | **Vercel Postgres** (Neon) |
 | Storage | **Uploadthing** (MVP) → Cloudflare R2 |
-| TypeScript | **5.x** | — |
+| TypeScript | **5** | — |
 
 ⚠️ **To nie jest Next.js, którego znasz z treningu.** App Router, Server Actions i konwencje plików
 mogą różnić się od danych treningowych. W razie wątpliwości sprawdź `package.json` i istniejące wzorce kodu.

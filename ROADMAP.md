@@ -114,3 +114,12 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] Odkomentować `web/src/lib/db.ts` — Prisma singleton (export `db`)
 - [x] `prisma migrate dev --name init` — pierwsza migracja (zrobione w Phase 0)
 - [x] Konfiguracja `ClerkProvider` w layout.tsx + sign-in/sign-up routes (pakiet już zainstalowany)
+- [x] Bootstrap admin user — UserProfile w DB (auto-create via `ensureUserProfile` in `requireAdmin()`)
+- [x] Seed palarni PL+DE z `docs/seed-roasters.md` (50 total: 24 existing + 26 new from DK/SE/NL/FR/CZ/UK/US/CA/AU/JP/ET/KE/BR)
+- [x] Usunąć `AUTH_USER`/`AUTH_PASSWORD` z env vars
+- [x] Zweryfikowane palarnie widoczne w katalogu
+- [x] Basic HTTP Auth usunięty z middleware
+- [x] Min. 50 seed palarni ze statusem VERIFIED w DB (50 in seed.ts)
+- [x] Error monitoring skonfigurowany (Vercel logs — built-in)
+- [x] Roaster dashboard `/dashboard/roaster` — edycja profilu
+- [x] `trackEvent` Server Action — zapisuje `ProfileEvent` do DB
