@@ -8,6 +8,10 @@ import { CertificationBadge } from "@/components/roasters/CertificationBadge";
 import { RoasterCard } from "@/components/roasters/RoasterCard";
 import { ProfileTracker } from "@/components/roasters/ProfileTracker";
 import { TrackedLink } from "@/components/roasters/TrackedLink";
+import { ReviewForm } from "@/components/roasters/ReviewForm";
+import { ReviewList } from "@/components/roasters/ReviewList";
+import { SaveRoasterButton } from "@/components/roasters/SaveRoasterButton";
+import { isRoasterSaved } from "@/actions/saved-roaster.actions";
 import { db } from "@/lib/db";
 import type { Metadata } from "next";
 
@@ -46,6 +50,25 @@ export default async function RoasterProfilePage({
     include: { images: true },
   });
   if (!roaster) notFound();
+
+  let approvedReviews: { id: string; authorName: string; rating: number; comment: string | null; createdAt: Date }[] = [];
+  try {
+    approvedReviews = await db.review.findMany({
+      where: { roasterId: roaster.id, status: "APPROVED" },
+      orderBy: { createdAt: "desc" },
+      take: 20,
+    });
+  } catch {
+    // reviews table may not exist yet (migration pending)
+  }
+
+  const avgRating =
+    approvedReviews.length > 0
+      ? approvedReviews.reduce((sum, r) => sum + r.rating, 0) /
+        approvedReviews.length
+      : null;
+
+  const saved = await isRoasterSaved(roaster.id);
 
   const relatedRoasters = await db.roaster.findMany({
     where: {
@@ -155,6 +178,16 @@ export default async function RoasterProfilePage({
               </div>
             </section>
           )}
+
+          {/* Reviews */}
+          <section>
+            <h3 className="font-headline text-3xl mb-8 tracking-tight">Reviews</h3>
+            <ReviewList reviews={approvedReviews} averageRating={avgRating} />
+            <div className="mt-10 pt-8 border-t border-outline-variant/10">
+              <h4 className="text-lg font-medium mb-4">Leave a Review</h4>
+              <ReviewForm roasterId={roaster.id} />
+            </div>
+          </section>
         </div>
 
         {/* Right Column — Sticky Sidebar */}
@@ -211,6 +244,7 @@ export default async function RoasterProfilePage({
                     Shop Online
                   </TrackedLink>
                 )}
+                <SaveRoasterButton roasterId={roaster.id} initialSaved={saved} />
               </div>
 
               {roaster.instagram && (
