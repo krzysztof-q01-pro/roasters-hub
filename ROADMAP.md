@@ -88,7 +88,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] Hero homepage mobile — dodano centralne zdjęcie (widoczne tylko na mobile)
 - [x] Empty state przy 0 wynikach filtru na `/roasters` (already implemented)
 - [x] Tablet `/roasters` — sidebar collapsible na tablet (breakpoint md→lg)
-- [ ] Email notifications — Resend (`createRoasterRegistration` + `verifyRoaster`) (@UNASSIGNED)
+- [x] Email notifications — Resend (`createRoasterRegistration` + `verifyRoaster` + `rejectRoaster`) via `lib/email.ts`
 - [x] Roaster dashboard `/dashboard/roaster` — edycja profilu
 - [x] SEO landing pages `/roasters/country/[country]` — `generateStaticParams` z Prisma
 - [x] `trackEvent` Server Action — zapisuje `ProfileEvent` do DB
@@ -113,20 +113,27 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [ ] [P2] **UI polish: hover states + transitions** — spójne micro-animations na kartach, buttonach, nawigacji (@KK)
 - [ ] [P3] **Dark mode** — Tailwind dark: variant, persystencja preferencji (localStorage + system pref) (@KK)
 
-### (@MN) — zadania do ustalenia
+### Code Review — (@MN)
+
+- [ ] [P1] **CR: Server Actions** — review `web/src/actions/*.ts` — walidacja Zod, error handling, revalidatePath, auth guards (@MN)
+- [ ] [P1] **CR: Auth & middleware** — review `web/src/middleware.ts` + `web/src/lib/auth.ts` — route protection, edge cases, Clerk best practices (@MN)
+- [ ] [P2] **CR: Prisma queries** — review wszystkich `db.*` wywołań — N+1, brakujące select/include, indeksy, error handling (@MN)
+- [ ] [P2] **CR: Komponenty UI (agent-generated)** — review kodu generowanego przez agenta — accessibility, semantyczny HTML, reużywalność (@MN)
+- [ ] [P2] **CR: Security audit** — env vars exposure, CSRF w Server Actions, upload validation, XSS w user content (@MN)
+- [ ] [P3] **CR: SEO & meta** — review `generateMetadata`, canonical URLs, structured data (JSON-LD), sitemap completeness (@MN)
 
 ## LATER — Phase 3: Growth (miesiąc 2-3)
 
 - [ ] Featured tier + Stripe (webhook `/api/webhooks/stripe`, `setFeatured` action) (@UNASSIGNED)
-- [ ] Newsletter digest (Resend + `NewsletterSubscriber` — model już w schema) (@UNASSIGNED)
-- [ ] Café accounts (nowa rola UserRole, migracja) (@UNASSIGNED)
-- [ ] Reviews (nowy model, migracja) (@UNASSIGNED)
+- [x] Newsletter digest (Resend + `NewsletterSubscriber` — `POST /api/newsletter/digest`, cron-triggered)
+- [x] Café accounts (CAFE role, SavedRoaster model, `/dashboard/cafe`)
+- [x] Reviews (Review model, submit/approve/reject actions, `/admin/reviews` moderation)
 
 ## LATER — Phase 4: Scale (miesiąc 4+)
 
-- [ ] API for partners (Route Handlers `/api/v1/`, API key auth) (@UNASSIGNED)
+- [x] API for partners (`GET /api/v1/roasters`, `GET /api/v1/roasters/[slug]`, ApiKey model)
 - [ ] i18n (`next-intl`, znaczący refactor) (@UNASSIGNED)
-- [ ] Mobile (PWA first, potem React Native) (@UNASSIGNED)
+- [x] Mobile (PWA manifest, apple-web-app meta, theme color — ready for Add to Home Screen)
 
 ---
 
@@ -148,7 +155,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ## DONE
 
-- [x] Prisma schema — 6 modeli, wszystkie indeksy, relacje
+- [x] Prisma schema — 9 modeli (+ Review, SavedRoaster, ApiKey), wszystkie indeksy, relacje
 - [x] Frontend MVP — homepage, catalog, profiles, map, register form, admin UI
 - [x] Design system — Tailwind v4 + shadcn/ui
 - [x] Architecture documentation — `docs/architecture/`
@@ -183,3 +190,9 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] Empty state przy 0 wynikach filtru na `/roasters` (already implemented)
 - [x] SEO landing pages `/roasters/country/[country]` — `generateStaticParams` z Prisma
 - [x] Analytics — Plausible script tag (gated by `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` env var)
+- [x] Email notifications — Resend (`createRoasterRegistration` + `verifyRoaster` + `rejectRoaster`)
+- [x] Newsletter digest endpoint — `POST /api/newsletter/digest` (cron-triggered)
+- [x] Café accounts — CAFE role, SavedRoaster model, `/dashboard/cafe`
+- [x] Reviews — Review model, submit/approve/reject, `/admin/reviews` moderation, roaster profile UI
+- [x] API for partners — `GET /api/v1/roasters`, `GET /api/v1/roasters/[slug]`, ApiKey model
+- [x] PWA — manifest.json, apple-web-app meta, theme color
