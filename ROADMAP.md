@@ -97,23 +97,23 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 **SEO URL decided:** `/roasters/country/[country]` — implemented with `generateStaticParams`.
 
-### Admin Dashboard — @Krzysiek
+### Admin Dashboard — (@KK)
 
-- [ ] [P1] **Admin: dashboard statystyk** — widok `/admin` z liczbą palarni (pending/verified/rejected), łączna liczba odsłon profili, ostatnie rejestracje (read-only monitoring)
-- [ ] [P2] **Admin: panel palarni** — lista wszystkich palarni z filtrem statusu, sortowanie po dacie, podgląd szczegółów
-- [ ] [P2] **Admin: logi aktywności** — ostatnie rejestracje, zmiany statusu, top profile (click-through)
+- [ ] [P1] **Admin: dashboard statystyk** — widok `/admin` z liczbą palarni (pending/verified/rejected), łączna liczba odsłon profili, ostatnie rejestracje (read-only monitoring) (@KK)
+- [ ] [P2] **Admin: panel palarni** — lista wszystkich palarni z filtrem statusu, sortowanie po dacie, podgląd szczegółów (@KK)
+- [ ] [P2] **Admin: logi aktywności** — ostatnie rejestracje, zmiany statusu, top profile (click-through) (@KK)
 
-### Logotyp — @Krzysiek
+### Logotyp — (@KK)
 
-- [ ] [P1] **Logotyp Bean Map** — projekt + implementacja SVG (wariant jasny / ciemny), podmiana placeholder w Header i favicon
+- [ ] [P1] **Logotyp Bean Map** — projekt + implementacja SVG (wariant jasny / ciemny), podmiana placeholder w Header i favicon (@KK)
 
-### Look & Feel — @Krzysiek
+### Look & Feel — (@KK)
 
-- [ ] [P2] **Typography: custom font pair** — dobór i implementacja (display + body), zastąpienie domyślnego system font
-- [ ] [P2] **UI polish: hover states + transitions** — spójne micro-animations na kartach, buttonach, nawigacji
-- [ ] [P3] **Dark mode** — Tailwind dark: variant, persystencja preferencji (localStorage + system pref)
+- [ ] [P2] **Typography: custom font pair** — dobór i implementacja (display + body), zastąpienie domyślnego system font (@KK)
+- [ ] [P2] **UI polish: hover states + transitions** — spójne micro-animations na kartach, buttonach, nawigacji (@KK)
+- [ ] [P3] **Dark mode** — Tailwind dark: variant, persystencja preferencji (localStorage + system pref) (@KK)
 
-### @Marek — zadania do ustalenia
+### (@MN) — zadania do ustalenia
 
 ## LATER — Phase 3: Growth (miesiąc 2-3)
 
