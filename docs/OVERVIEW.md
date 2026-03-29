@@ -10,8 +10,8 @@ Mapa do całej dokumentacji projektu. Znajdź właściwy dokument szybko.
 |------|-----|
 | [`/PROJECT_STATUS.md`](../PROJECT_STATUS.md) | **Ground truth** — co aktualnie istnieje i działa (vs. intencja) |
 | [`/ROADMAP.md`](../ROADMAP.md) | **Kanban** — co teraz, co następne, co zrobione |
-| [`/CLAUDE.md`](../CLAUDE.md) | Instrukcje dla agenta AI (WAT framework) |
-| [`/web/AGENTS.md`](../web/AGENTS.md) | Instrukcje orientacji agenta dla aplikacji web |
+| [`/CLAUDE.md`](../CLAUDE.md) | Instrukcje dla agenta AI (WAT framework, multi-worker, branching) |
+| [`/web/AGENTS.md`](../web/AGENTS.md) | Instrukcje agenta dla aplikacji web (wersje, ISR, constraints) |
 
 ---
 
@@ -33,7 +33,7 @@ Mapa do całej dokumentacji projektu. Znajdź właściwy dokument szybko.
 | [`architecture/project-structure.md`](architecture/project-structure.md) | Struktura katalogów, konwencje nazewnictwa, mapa routingu |
 | [`architecture/database-schema.md`](architecture/database-schema.md) | Modele Prisma, diagram ER, uzasadnienie decyzji projektowych |
 
-> ⚠️ Dokumenty architektury opisują **intencję** — nie aktualny stan kodu.
+> Dokumenty architektury opisują **intencję** — nie aktualny stan kodu.
 > Sprawdź `/PROJECT_STATUS.md` aby wiedzieć co faktycznie istnieje.
 
 ---
@@ -58,19 +58,34 @@ Mapa do całej dokumentacji projektu. Znajdź właściwy dokument szybko.
 
 | Dokument | Zawartość |
 |----------|-----------|
-| [`design/stitch-brief.md`](design/stitch-brief.md) | Pełna specyfikacja UI/UX dla każdego ekranu |
-| [`design/hearth_roast/DESIGN.md`](design/hearth_roast/DESIGN.md) | System designu (kolory, typografia, filozofia) |
-| [`design/stitch/`](design/stitch/) | Exporty z Google Stitch (HTML + screenshoty) |
+| [`design/stitch-brief.md`](design/stitch-brief.md) | Pełna specyfikacja UI/UX: paleta kolorów, typografia, komponenty |
 
 ---
 
-## Narzędzia i Procesy
+## Workflows (SOPs)
 
 | Dokument | Zawartość |
 |----------|-----------|
-| [`/tools/README.md`](../tools/README.md) | Opis skryptów Python (WAT Layer 3) |
+| [`/workflows/scheduled_run.md`](../workflows/scheduled_run.md) | SOP autonomicznej sesji agenta (6 kroków) |
+| [`/workflows/consistency_check.md`](../workflows/consistency_check.md) | 10-punktowa kontrola spójności (C1–C10) |
+| [`/workflows/review_agent_branch.md`](../workflows/review_agent_branch.md) | Protokół review PR agenta przed merge |
+| [`/workflows/site-audit.md`](../workflows/site-audit.md) | Workflow audytu wizualnego (Playwright) |
 | [`/workflows/persona_research.md`](../workflows/persona_research.md) | SOP dla badań person |
 | [`/workflows/competitive_analysis.md`](../workflows/competitive_analysis.md) | SOP dla analizy konkurencji |
+
+---
+
+## Narzędzia
+
+| Dokument | Zawartość |
+|----------|-----------|
+| [`/tools/README.md`](../tools/README.md) | Opis skryptów Python (consistency_check, smoke_test, vercel_status, create_agent_pr) |
+
+---
+
+## Skills (Claude Code)
+
+8 skilli w `.claude/skills/`: `scheduled-run`, `consistency-check`, `review-agent-branch`, `site-audit`, `frontend-design`, `planning-with-files`, `skill-builder`, `find-skills`
 
 ---
 
@@ -79,3 +94,4 @@ Mapa do całej dokumentacji projektu. Znajdź właściwy dokument szybko.
 | Dokument | Powód archiwizacji |
 |----------|-------------------|
 | [`archive/brand_name_proposals.md`](archive/brand_name_proposals.md) | Historyczne iteracje nazw v1–v4; decyzja podjęta: "Roasters Hub" / beanmap.cafe |
+| [`archive/stitch-exports/`](archive/stitch-exports/) | Legacy exporty z Google Stitch (HTML + screenshoty) |

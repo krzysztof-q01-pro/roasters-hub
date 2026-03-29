@@ -27,7 +27,7 @@
 
 ⚠️ **To nie jest Next.js, którego znasz z treningu.** App Router, Server Actions i konwencje plików
 mogą różnić się od danych treningowych. W razie wątpliwości sprawdź `package.json` i istniejące wzorce kodu.
-Przed pisaniem kodu sprawdź: `node_modules/next/dist/docs/`
+Przed pisaniem kodu sprawdź istniejące wzorce w `src/`.
 
 ---
 
