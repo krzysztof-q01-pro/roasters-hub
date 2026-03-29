@@ -56,6 +56,18 @@
 │ confirmedAt              │
 │ createdAt                │
 └──────────────────────────┘
+
+┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐
+│     Review       │  │  SavedRoaster    │  │     ApiKey       │
+│──────────────────│  │──────────────────│  │──────────────────│
+│ id               │  │ id               │  │ id               │
+│ roasterId (FK)   │  │ userId (FK)      │  │ name             │
+│ authorName       │  │ roasterId (FK)   │  │ key (unique)     │
+│ rating (1-5)     │  │ createdAt        │  │ active           │
+│ comment          │  └──────────────────┘  │ lastUsed         │
+│ status           │                         │ createdAt        │
+│ createdAt        │                         └──────────────────┘
+└──────────────────┘
 ```
 
 ---
@@ -86,7 +98,14 @@ enum RoasterStatus {
 
 enum UserRole {
   ROASTER    // Właściciel palarni
+  CAFE       // Kawiarnia / buyer
   ADMIN      // Administrator platformy
+}
+
+enum ReviewStatus {
+  PENDING    // Czeka na moderację
+  APPROVED   // Zatwierdzony, widoczny publicznie
+  REJECTED   // Odrzucony przez admina
 }
 
 enum EventType {
@@ -116,7 +135,8 @@ model UserProfile {
   roasterId String?   @unique
   createdAt DateTime  @default(now())
 
-  adminNotes AdminNote[]
+  adminNotes    AdminNote[]
+  savedRoasters SavedRoaster[]
 
   @@map("user_profiles")
 }
@@ -154,7 +174,9 @@ model Roaster {
   // Relacje
   images       RoasterImage[]
   events       ProfileEvent[]
+  reviews      Review[]
   adminNotes   AdminNote[]
+  savedBy      SavedRoaster[]
   owner        UserProfile?
 
   // Metadata
@@ -231,6 +253,51 @@ model NewsletterSubscriber {
 
   @@map("newsletter_subscribers")
 }
+
+// ─── REVIEWS ────────────────────────────────────────────────────────────────
+
+model Review {
+  id         String       @id @default(cuid())
+  roaster    Roaster      @relation(fields: [roasterId], references: [id], onDelete: Cascade)
+  roasterId  String
+  authorName String
+  rating     Int          // 1-5
+  comment    String?      @db.Text
+  status     ReviewStatus @default(PENDING)
+  createdAt  DateTime     @default(now())
+
+  @@index([roasterId])
+  @@index([roasterId, status])
+  @@map("reviews")
+}
+
+// ─── SAVED ROASTERS ─────────────────────────────────────────────────────────
+
+model SavedRoaster {
+  id        String      @id @default(cuid())
+  user      UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  roaster   Roaster     @relation(fields: [roasterId], references: [id], onDelete: Cascade)
+  roasterId String
+  createdAt DateTime    @default(now())
+
+  @@unique([userId, roasterId])
+  @@index([userId])
+  @@map("saved_roasters")
+}
+
+// ─── API KEYS ───────────────────────────────────────────────────────────────
+
+model ApiKey {
+  id        String   @id @default(cuid())
+  name      String
+  key       String   @unique
+  createdAt DateTime @default(now())
+  lastUsed  DateTime?
+  active    Boolean  @default(true)
+
+  @@map("api_keys")
+}
 ```
 
 ---
@@ -275,9 +342,12 @@ Clerk zarządza użytkownikami zewnętrznie (poza naszą DB). `UserProfile` jest
 
 Surowe IP = dane osobowe (RODO). SHA256(IP + salt) daje wystarczającą unikalność do deduplicacji wyświetleń bez przechowywania danych osobowych. Alternatywnie — analytics przez Plausible (brak problemu).
 
-### Dlaczego brak `Review` i `CafeProfile` w schemacie
+### Review, SavedRoaster, ApiKey (Phase 3)
 
-P3 features — nie implementujemy schematu dla funkcji, których nie budujemy. Dodamy migracją gdy przyjdzie czas.
+Dodane w sprincie agenta (2026-03-29):
+- **Review** — moderowane recenzje (PENDING → APPROVED/REJECTED), powiązane z Roaster
+- **SavedRoaster** — relacja M:N UserProfile↔Roaster z unique constraint (userId, roasterId)
+- **ApiKey** — uwierzytelnianie partnerów API (klucz w plaintext — do hashowania w przyszłości)
 
 ---
 
