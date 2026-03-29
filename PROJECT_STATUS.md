@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-03-28 | Phase 2 audit fixes complete — broken images, SEO h1/title, homepage stat fixed
+2026-03-29 | Integrated agent work: email notifications, reviews, cafe accounts, partner API, PWA, newsletter
 
 ---
 
@@ -16,13 +16,13 @@
 | Warstwa | Technologia | Status |
 |---------|-------------|--------|
 | Framework | Next.js 16.2.1 (App Router) | ✅ deployed |
-| DB | **Vercel Postgres (Neon)** | ✅ provisioned, migration `init` applied (6 tabel), 50 seed roasters (global) |
+| DB | **Vercel Postgres (Neon)** | ✅ provisioned, 4 migrations (init + reviews + cafe + api_keys), 9 models, 50 seed roasters |
 | ORM | Prisma 7.5 + @prisma/adapter-neon | ✅ schema ready, singleton active (`db`), Neon adapter configured |
 | Auth | **Clerk** (`@clerk/nextjs`) | ✅ ClerkProvider in layout, sign-in/sign-up routes, clerkMiddleware, auth helpers |
 | Storage | **Uploadthing** (MVP) → Cloudflare R2 (growth) | ✅ configured, route handler + dashboard upload UI |
 | Hosting | Vercel | ✅ deployed |
-| Email | Resend | ✅ API key configured, no sending logic yet |
-| Analytics | Plausible | ⏳ not configured |
+| Email | Resend | ✅ 3 transactional emails (registration, verified, rejected) + newsletter digest |
+| Analytics | Plausible | ✅ script tag gated by env var |
 
 ---
 
@@ -37,6 +37,12 @@
 - Profile event tracking — `trackEvent` Server Action records PAGE_VIEW, WEBSITE_CLICK, SHOP_CLICK, CONTACT_CLICK to `profile_events` table
 - SEO country pages `/roasters/country/[country]` — **ISR (1h)**, `generateStaticParams`, Prisma queries
 - Roaster dashboard `/dashboard/roaster` — profile editing, analytics stats, Clerk-protected
+- Email notifications — Resend: registration notification, verify/reject emails (`lib/email.ts`)
+- Reviews system — submit, approve/reject moderation, display on roaster profiles (`/admin/reviews`)
+- Cafe accounts — CAFE role, save/unsave roasters (`/dashboard/cafe`)
+- Partner API — `GET /api/v1/roasters`, `GET /api/v1/roasters/[slug]`, ApiKey auth (`lib/api-auth.ts`)
+- Newsletter digest — `POST /api/newsletter/digest` (cron-triggered)
+- PWA — manifest.json, apple-web-app meta, theme color
 - **Versioning:** `package.json` version displayed in footer, npm scripts `version:patch/minor/major`
 - **Deploy:** https://beanmap-web.vercel.app (protected by Clerk auth on /admin routes)
 
@@ -72,6 +78,7 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 _Przypisz zadania na weekly sync (poniedziałek). Format: `**@TAG:** opis — data`_
 
 **Completed recently:**
+- ✅ Agent work integrated: email, reviews, cafe, API, PWA, newsletter (2026-03-29)
 - ✅ Image upload via Uploadthing — route handler, dashboard dropzone, delete action (2026-03-28)
 - ✅ Phase 2 audit (12 issues) — all CRITICAL/HIGH/MEDIUM fixed (2026-03-28)
 
@@ -81,8 +88,8 @@ _Przypisz zadania na weekly sync (poniedziałek). Format: `**@TAG:** opis — da
 
 ## Next Unblocked Task
 
-**TERAZ:** Email notifications (Resend) — RESEND_API_KEY + RESEND_FROM_EMAIL configured. Implement email module + 3 transactional emails. Patrz ROADMAP.
+**TERAZ:** Code Review (@MN) — przegląd nowego kodu z integracji agenta (actions, auth, components, security). Patrz ROADMAP sekcja "Code Review".
 
-**HUMAN ONLY blockers:** re-seed prod DB (`prisma db seed`), set Clerk Google OAuth, buy production domain.
+**HUMAN ONLY blockers:** re-seed prod DB (`prisma db seed`), run new migrations on prod, buy production domain.
 
 See `ROADMAP.md` for full task list.

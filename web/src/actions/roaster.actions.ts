@@ -10,6 +10,7 @@ import {
   UpdateRoasterSchema,
   type ActionResult,
 } from "@/types/actions";
+import { sendNewRegistrationNotification } from "@/lib/email";
 
 export async function createRoasterRegistration(
   formData: FormData,
@@ -65,6 +66,12 @@ export async function createRoasterRegistration(
     });
 
     revalidatePath("/admin/pending");
+
+    sendNewRegistrationNotification({
+      name,
+      city,
+      country: rest.country,
+    });
 
     return { success: true, data: { slug: roaster.slug } };
   } catch (error) {

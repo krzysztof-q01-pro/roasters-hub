@@ -15,6 +15,7 @@ enum RoasterStatus {
 
 enum UserRole {
   ROASTER
+  CAFE
   ADMIN
 }
 
@@ -25,6 +26,12 @@ enum EventType {
   WEBSITE_CLICK
   MAP_CLICK
   SHARE_CLICK
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 enum NewsletterSegment {
@@ -42,7 +49,8 @@ model UserProfile {
   roasterId String?   @unique
   createdAt DateTime  @default(now())
 
-  adminNotes AdminNote[]
+  adminNotes    AdminNote[]
+  savedRoasters SavedRoaster[]
 
   @@map("user_profiles")
 }
@@ -74,7 +82,9 @@ model Roaster {
 
   images       RoasterImage[]
   events       ProfileEvent[]
+  reviews      Review[]
   adminNotes   AdminNote[]
+  savedBy      SavedRoaster[]
   owner        UserProfile?
 
   verifiedAt     DateTime?
@@ -141,4 +151,43 @@ model NewsletterSubscriber {
   createdAt    DateTime            @default(now())
 
   @@map("newsletter_subscribers")
+}
+
+model Review {
+  id         String       @id @default(cuid())
+  roaster    Roaster      @relation(fields: [roasterId], references: [id], onDelete: Cascade)
+  roasterId  String
+  authorName String
+  rating     Int          // 1-5
+  comment    String?      @db.Text
+  status     ReviewStatus @default(PENDING)
+  createdAt  DateTime     @default(now())
+
+  @@index([roasterId])
+  @@index([roasterId, status])
+  @@map("reviews")
+}
+
+model SavedRoaster {
+  id        String      @id @default(cuid())
+  user      UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  roaster   Roaster     @relation(fields: [roasterId], references: [id], onDelete: Cascade)
+  roasterId String
+  createdAt DateTime    @default(now())
+
+  @@unique([userId, roasterId])
+  @@index([userId])
+  @@map("saved_roasters")
+}
+
+model ApiKey {
+  id        String   @id @default(cuid())
+  name      String   // e.g. "Partner XYZ"
+  key       String   @unique // hashed key prefix for lookup
+  createdAt DateTime @default(now())
+  lastUsed  DateTime?
+  active    Boolean  @default(true)
+
+  @@map("api_keys")
 }

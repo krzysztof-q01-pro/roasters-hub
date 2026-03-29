@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Newsreader, Inter } from "next/font/google";
@@ -16,6 +16,10 @@ const inter = Inter({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#6f4e37",
+};
+
 export const metadata: Metadata = {
   title: {
     default: "Bean Map — Discover Specialty Coffee Roasters",
@@ -24,6 +28,12 @@ export const metadata: Metadata = {
   description:
     "The global directory connecting cafés and coffee lovers with verified specialty roasters.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://beanmap.cafe"),
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Bean Map",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",

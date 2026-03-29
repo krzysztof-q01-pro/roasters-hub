@@ -4,6 +4,10 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import type { ActionResult } from "@/types/actions";
+import {
+  sendRoasterVerifiedEmail,
+  sendRoasterRejectedEmail,
+} from "@/lib/email";
 
 export async function verifyRoaster(
   roasterId: string,
@@ -19,7 +23,7 @@ export async function verifyRoaster(
         rejectedAt: null,
         rejectedReason: null,
       },
-      select: { slug: true },
+      select: { slug: true, name: true, email: true },
     });
 
     revalidatePath("/");
@@ -27,6 +31,14 @@ export async function verifyRoaster(
     revalidatePath(`/roasters/${roaster.slug}`);
     revalidatePath("/admin/pending");
     revalidatePath("/map");
+
+    if (roaster.email) {
+      sendRoasterVerifiedEmail({
+        email: roaster.email,
+        name: roaster.name,
+        slug: roaster.slug,
+      });
+    }
 
     return { success: true, data: { slug: roaster.slug } };
   } catch (error) {
@@ -45,16 +57,25 @@ export async function rejectRoaster(
   try {
     await requireAdmin();
 
-    await db.roaster.update({
+    const roaster = await db.roaster.update({
       where: { id: roasterId },
       data: {
         status: "REJECTED",
         rejectedAt: new Date(),
         rejectedReason: reason,
       },
+      select: { name: true, email: true },
     });
 
     revalidatePath("/admin/pending");
+
+    if (roaster.email) {
+      sendRoasterRejectedEmail({
+        email: roaster.email,
+        name: roaster.name,
+        reason,
+      });
+    }
 
     return { success: true, data: undefined };
   } catch (error) {

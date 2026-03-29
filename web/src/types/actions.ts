@@ -45,3 +45,10 @@ export const UpdateRoasterSchema = z.object({
 });
 
 export type UpdateRoasterInput = z.infer<typeof UpdateRoasterSchema>;
+
+export const CreateReviewSchema = z.object({
+  roasterId: z.string().min(1, "Roaster ID is required"),
+  authorName: z.string().min(2, "Name must be at least 2 characters").max(100),
+  rating: z.coerce.number().int().min(1, "Rating must be 1-5").max(5, "Rating must be 1-5"),
+  comment: z.string().max(2000).optional().or(z.literal("")),
+});

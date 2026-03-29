@@ -7,7 +7,7 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 async function ensureUserProfile(
   userId: string,
   email: string,
-  role: "ADMIN" | "ROASTER",
+  role: "ADMIN" | "ROASTER" | "CAFE",
 ) {
   const { db } = await import("@/lib/db");
   await db.userProfile.upsert({
@@ -36,6 +36,18 @@ export async function requireAdmin(): Promise<string> {
 
   await ensureUserProfile(userId, user.emailAddresses[0]?.emailAddress ?? "", "ADMIN");
 
+  return userId;
+}
+
+/**
+ * Require the caller to be authenticated.
+ * Returns the Clerk userId. Does NOT check role.
+ */
+export async function requireAuth(): Promise<string> {
+  const { userId } = await auth();
+  if (!userId) {
+    throw new Error("Unauthorized: not signed in");
+  }
   return userId;
 }
 
