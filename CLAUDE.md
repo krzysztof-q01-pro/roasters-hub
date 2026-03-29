@@ -92,6 +92,37 @@ Zadania mają tagi assignee: `(@MN)`, `(@KK)`, `(@AGENT)`, `(@UNASSIGNED)`.
 3. Ustawienie `@AGENT` zadań na schedule
 4. Uzgodnienie okien schedule na tydzień
 
+### Agent Boundaries — co agent NIE może zmieniać
+
+Agent autonomiczny (scheduled) **NIGDY** nie modyfikuje:
+- `CLAUDE.md` — reguły procesu (zmienia tylko człowiek)
+- `workflows/*.md` — SOPs (zmienia tylko człowiek)
+- `.claude/settings.json` — config narzędzi
+- `docs/architecture/*.md` — blueprint (wymaga human review)
+- `PROJECT_STATUS.md` linie @MN / @KK w "Active Work"
+- `ROADMAP.md` zadania z tagiem `(@MN)` lub `(@KK)`
+- `docs/OVERVIEW.md` — indeks dokumentacji (zmienia przy dodaniu workflow/skilla — tylko człowiek)
+
+Agent **MOŻE** aktualizować:
+- `ROADMAP.md` — swoje zadania `[x]` + claim `(@UNASSIGNED)` → `(@AGENT)`
+- `PROJECT_STATUS.md` — sekcje "What Is Deployed", "Active Work" (linia @AGENT), "Next Unblocked Task"
+- `web/AGENTS.md` — tabela wersji (jeśli zmieni się pakiet)
+
+### Morning Integration (flow poranny)
+
+Po sesji nocnego agenta — rano:
+
+```
+1. git fetch origin
+2. git log main..origin/feat/agent-YYYY-WW --oneline
+   → Brak nowych commitów? SKIP.
+3. Otwórz PR w GitHub → sprawdź diff
+4. /review-agent-branch — weryfikacja claim ↔ kod
+5. Sprawdź CI checks (lint + tsc + test + build)
+6. Merge PR via GitHub (squash lub merge commit)
+7. git checkout main && git pull
+```
+
 ---
 
 ## Skills — Quick Reference
