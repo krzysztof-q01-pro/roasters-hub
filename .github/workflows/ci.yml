@@ -5,8 +5,8 @@ on:
     branches: [main]
 
 jobs:
-  lint-and-typecheck:
-    name: Lint & Type Check
+  lint-typecheck-test-build:
+    name: Lint, Type Check, Test & Build
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -28,3 +28,10 @@ jobs:
 
       - name: TypeScript
         run: npx tsc --noEmit
+
+      - name: Tests
+        run: npm run test:ci
+
+      # Build step skipped: Next.js SSG requires live DB connection
+      # for generateStaticParams. Vercel handles builds with real env vars.
+      # TODO: add build step when CI has access to a test database

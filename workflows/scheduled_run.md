@@ -98,7 +98,7 @@ fi
 
 | Blokada | Akcja |
 |---------|-------|
-| Brakuje credentials (Supabase URL, API key) | STOP → przejdź do Kroku 5 |
+| Brakuje credentials (DB URL, API key, Clerk keys) | STOP → przejdź do Kroku 5 |
 | Brakuje zależności npm | `npm install` w `web/` |
 | Niejasna instrukcja | Sprawdź `docs/architecture/api-design.md` |
 | Błąd kompilacji TypeScript | `npx tsc --noEmit` → napraw błędy → retry |
@@ -111,6 +111,7 @@ fi
 cd web
 npm run lint         # lint musi przejść
 npx tsc --noEmit     # TypeScript musi przejść
+npm run test         # unit testy muszą przejść
 # npm run build      # opcjonalnie - wolny, ale pewny
 ```
 
@@ -201,6 +202,7 @@ Zapisz `.tmp/SESSION.md` (nadpisz jeśli istnieje):
 current_branch: feat/agent-YYYY-WW
 preview_url: https://... (lub "nie dostępny" jeśli Vercel jeszcze buduje)
 smoke_test: PASS / FAIL / nie sprawdzono
+consistency_check: ALL PASS / WARN C9 / FAIL C1 (opis)
 ```
 
 ---
@@ -226,7 +228,7 @@ smoke_test: PASS / FAIL / nie sprawdzono
 2.    git status + git pull + ustal branch: feat/agent-YYYY-WW (kontynuuj lub utwórz)
 3.    Wybierz zadanie: TYLKO (@AGENT) lub (@UNASSIGNED) — NIGDY (@MN)/(@KK)
       Claim @UNASSIGNED → zmień na (@AGENT) przed pracą
-4.    lint + tsc
+4.    lint + tsc + test
 5.    Zaktualizuj ROADMAP.md [x] + PROJECT_STATUS.md (TYLKO swoja linia @AGENT)
       git add [pliki + ROADMAP + STATUS] → commit [SCOPE] → push
 5.5   sleep 15 → vercel_status.py → smoke_test.py → create_agent_pr.sh

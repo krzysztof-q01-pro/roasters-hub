@@ -9,93 +9,19 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ---
 
-## NOW — Phase 2: UI Fixes + Audit 2026-03-28
+## NOW
 
-- [x] [P1] ✅ **Broken images — 7 palarni (Market Lane, Hard Beans, +5)** — naprawiono URL w DB + seed.ts (audit 2026-03-28)
-- [x] [P1] ✅ **`/map` brak `<h1>`** — dodano `<h1 className="sr-only">` SEO (audit 2026-03-28)
-- [x] [P2] ✅ **`/register` brak własnego `<title>` i `<h1>`** — dodano layout.tsx + sr-only h1 (audit 2026-03-28)
-- [x] [P2] ✅ **Homepage stat "Verified Profiles" — pokazuje tekst zamiast liczby** — naprawiono (audit 2026-03-28)
+### Code Review — (@MN)
 
----
-
-## NOW — Phase 2: UI Fixes (Site Audit poprzednia)
-
-- [x] [P0] ✅ **Mapa `/map` na mobile — brak sidebara z palarniami i filtrami** (CRITICAL)
-  Panel boczny niewidoczny na 375px. Strona niefunkcjonalna na telefonach.
-  Naprawiono: floating toggle button + slide-in drawer na mobile (<lg).
-- [x] [P1] ✅ **Filtry na `/roasters` — brak zwijania na mobile/tablet**
-  Sidebar inline zajmował ~50% ekranu przed wynikami. Dodano collapsible toggle na mobile.
-- [x] [P1] ✅ **`/sign-in` bez headera i layoutu Bean Map**
-  Dodano Header + padding wrapper.
-- [x] [P1] ✅ **Broken image 403 na `/roasters`** — kafelek z Unsplash hash b4aefda (Market Lane Coffee)
-  Dodano ImageWithFallback (graceful degradation) + naprawiono URL w seed.ts.
+- [ ] [P1] **CR: Server Actions** — review `web/src/actions/*.ts` — walidacja Zod, error handling, revalidatePath, auth guards (@MN)
+- [ ] [P1] **CR: Auth & middleware** — review `web/src/middleware.ts` + `web/src/lib/auth.ts` — route protection, edge cases, Clerk best practices (@MN)
+- [ ] [P2] **CR: Prisma queries** — review wszystkich `db.*` wywołań — N+1, brakujące select/include, indeksy, error handling (@MN)
+- [ ] [P2] **CR: Komponenty UI (agent-generated)** — review kodu generowanego przez agenta — accessibility, semantyczny HTML, reużywalność (@MN)
+- [ ] [P2] **CR: Security audit** — env vars exposure, CSRF w Server Actions, upload validation, XSS w user content (@MN)
 
 ---
 
-## NOW — Phase 0: Setup (przed jakimkolwiek backendem)
-
-- [x] [P0] ✅ **Stack potwierdzony: Vercel Postgres + Clerk + Uploadthing** (2026-03-26)
-  - DB: Vercel Postgres (Neon) — brak pauzowania, auto-inject env vars
-  - Auth: Clerk — drop-in `@clerk/nextjs`, 30 min setup
-  - Storage: Uploadthing (MVP) → Cloudflare R2 (growth)
-  - Dokumentacja zaktualizowana w tym commicie
-- [x] [P0] Utwórz Vercel Postgres (dev) → skopiuj `DATABASE_URL` + `DIRECT_URL` do `web/.env.local`
-- [x] [P0] Utwórz konto Clerk → skopiuj `CLERK_SECRET_KEY` + `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` do `web/.env.local`
-- [x] [P0] Zweryfikuj że `prisma migrate dev` działa lokalnie — migracja `init` zastosowana (6 tabel)
-- [x] [P0] GitHub Actions: `tsc --noEmit` + `eslint` na każdym PR
-
----
-
-## NEXT — Phase 1: Core Backend (~2 tygodnie)
-
-### Tydzień 1 — DB + Rejestracja
-- [x] [P1] Odkomentować `web/src/lib/db.ts` — Prisma singleton (export `db`)
-- [x] [P1] `prisma migrate dev --name init` — pierwsza migracja (zrobione w Phase 0)
-- [x] [P1] Stworzyć `web/src/types/actions.ts` — `ActionResult<T>` + `CreateRoasterSchema` (Zod)
-- [x] [P1] Stworzyć `web/src/lib/slug.ts` — obsługa kolizji (hard-beans → hard-beans-opole → hard-beans-opole-2)
-- [x] [P1] Stworzyć `web/src/actions/roaster.actions.ts` → `createRoasterRegistration`
-- [x] [P1] Podpiąć `register/page.tsx` handleSubmit do Server Action
-- [x] [P1] Stworzyć `web/prisma/seed.ts` — 12 mock roasters → DB
-- [x] [P1] Zastąpić importy mock-data Prisma queries na wszystkich stronach
-
-### Tydzień 2 — Auth (Clerk) + Admin
-- [x] [P1] Konfiguracja `ClerkProvider` w layout.tsx + sign-in/sign-up routes (pakiet już zainstalowany)
-- [x] [P1] Zastąpić `web/src/middleware.ts` Basic Auth → `clerkMiddleware()` z route protection
-- [x] [P1] Stworzyć `web/src/lib/auth.ts` — `requireAdmin()`, `requireRoasterOwner()` (via Clerk `auth()`)
-- [x] [P1] Stworzyć `web/src/actions/admin.actions.ts` → `verifyRoaster()`, `rejectRoaster()` + `revalidatePath()`
-- [x] [P1] Podpiąć admin panel UI do Server Actions
-- [x] [P1] Bootstrap admin user — UserProfile w DB (auto-create via `ensureUserProfile` in `requireAdmin()`)
-- [x] [P1] Seed palarni PL+DE z `docs/seed-roasters.md` (50 total: 24 existing + 26 new from DK/SE/NL/FR/CZ/UK/US/CA/AU/JP/ET/KE/BR)
-- [x] [P1] Usunąć `AUTH_USER`/`AUTH_PASSWORD` z env vars
-
-**Launch Go/No-Go** (wszystkie muszą być ✅ przed publicznym launchem):
-- [x] Formularz rejestracji zapisuje do Vercel Postgres
-- [x] Admin może zalogować się (Clerk) i zweryfikować palarnie
-- [x] Zweryfikowane palarnie widoczne w katalogu
-- [x] Basic HTTP Auth usunięty z middleware
-- [x] Min. 50 seed palarni ze statusem VERIFIED w DB (50 in seed.ts)
-- [x] Error monitoring skonfigurowany (Vercel logs — built-in)
-- [x] `PROJECT_STATUS.md` aktualny
-
----
-
-## LATER — Phase 2: Post-Launch (2-4 tygodnie po launchu)
-
-- [x] Statystyki homepage ("17 Countries") — zsynchronizowane z realną liczbą z DB (already dynamic via Prisma queries)
-- [x] Breadcrumb na profilu: ujednolicić separator `›` (było `/`)
-- [x] Linki footer i social media: usunięto placeholder `href="#"`, zastąpiono działającymi linkami
-- [x] `<title>` na `/map` — dedykowany "Coffee Roasters Map | Bean Map"
-- [x] Hero homepage mobile — dodano centralne zdjęcie (widoczne tylko na mobile)
-- [x] Empty state przy 0 wynikach filtru na `/roasters` (already implemented)
-- [x] Tablet `/roasters` — sidebar collapsible na tablet (breakpoint md→lg)
-- [x] Email notifications — Resend (`createRoasterRegistration` + `verifyRoaster` + `rejectRoaster`) via `lib/email.ts`
-- [x] Roaster dashboard `/dashboard/roaster` — edycja profilu
-- [x] SEO landing pages `/roasters/country/[country]` — `generateStaticParams` z Prisma
-- [x] `trackEvent` Server Action — zapisuje `ProfileEvent` do DB
-- [x] Image upload — Uploadthing, max 4MB client-side, dashboard dropzone (→ Cloudflare R2 przy growth)
-- [x] Analytics — Plausible script tag (gated by `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` env var)
-
-**SEO URL decided:** `/roasters/country/[country]` — implemented with `generateStaticParams`.
+## NEXT
 
 ### Admin Dashboard — (@KK)
 
@@ -113,40 +39,28 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [ ] [P2] **UI polish: hover states + transitions** — spójne micro-animations na kartach, buttonach, nawigacji (@KK)
 - [ ] [P3] **Dark mode** — Tailwind dark: variant, persystencja preferencji (localStorage + system pref) (@KK)
 
-### Code Review — (@MN)
+### SEO & Meta — (@MN)
 
-- [ ] [P1] **CR: Server Actions** — review `web/src/actions/*.ts` — walidacja Zod, error handling, revalidatePath, auth guards (@MN)
-- [ ] [P1] **CR: Auth & middleware** — review `web/src/middleware.ts` + `web/src/lib/auth.ts` — route protection, edge cases, Clerk best practices (@MN)
-- [ ] [P2] **CR: Prisma queries** — review wszystkich `db.*` wywołań — N+1, brakujące select/include, indeksy, error handling (@MN)
-- [ ] [P2] **CR: Komponenty UI (agent-generated)** — review kodu generowanego przez agenta — accessibility, semantyczny HTML, reużywalność (@MN)
-- [ ] [P2] **CR: Security audit** — env vars exposure, CSRF w Server Actions, upload validation, XSS w user content (@MN)
 - [ ] [P3] **CR: SEO & meta** — review `generateMetadata`, canonical URLs, structured data (JSON-LD), sitemap completeness (@MN)
+
+---
 
 ## LATER — Phase 3: Growth (miesiąc 2-3)
 
 - [ ] Featured tier + Stripe (webhook `/api/webhooks/stripe`, `setFeatured` action) (@UNASSIGNED)
-- [x] Newsletter digest (Resend + `NewsletterSubscriber` — `POST /api/newsletter/digest`, cron-triggered)
-- [x] Café accounts (CAFE role, SavedRoaster model, `/dashboard/cafe`)
-- [x] Reviews (Review model, submit/approve/reject actions, `/admin/reviews` moderation)
 
 ## LATER — Phase 4: Scale (miesiąc 4+)
 
-- [x] API for partners (`GET /api/v1/roasters`, `GET /api/v1/roasters/[slug]`, ApiKey model)
 - [ ] i18n (`next-intl`, znaczący refactor) (@UNASSIGNED)
-- [x] Mobile (PWA manifest, apple-web-app meta, theme color — ready for Add to Home Screen)
 
 ---
 
 ## 🧑 HUMAN ONLY — zadania wymagające człowieka (agent NIE wykonuje)
 
-- [x] Dodaj env vars do Vercel (prod): DATABASE_URL, DIRECT_URL, CLERK_SECRET_KEY, NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 - [ ] Branch protection na `main` (no direct push) — GitHub Settings → Branches (@MN)
-- [x] Ustawienie Clerk: Google OAuth provider — Clerk Dashboard → User & Authentication → Social connections
-- [x] Bootstrap admin user — Clerk Dashboard → ustawić `publicMetadata: { "role": "ADMIN" }`
 - [ ] Domena produkcyjna — zakup + konfiguracja DNS w Vercel (@MN)
 - [ ] Stripe konto (Phase 3) — rejestracja + webhook secret (@UNASSIGNED)
 - [ ] Cold outreach do palarni — lista kontaktowa, maile, LinkedIn (@UNASSIGNED)
-- [x] Decyzja SEO: URL pattern `/roasters/country/[country]` — implemented
 - [ ] Założenie Remote Server — hosting dla scheduled agent (Claude Code remote triggers) (@MN)
 
 **⚠️ Agent: jeśli napotkasz zadanie z tej sekcji — zapisz w SESSION.md i przejdź do następnego.**
@@ -165,34 +79,51 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] Repo reorganization — PROJECT_STATUS, ROADMAP, OVERVIEW, AGENTS.md, .env.example
 - [x] Stack decision — Vercel Postgres + Clerk + Uploadthing (2026-03-26)
 - [x] Scheduled agent config — settings.json, workflows/scheduled_run.md, CLAUDE.md entry point
-- [x] Utwórz Vercel Postgres (dev) → skopiuj `DATABASE_URL` + `DIRECT_URL` do `web/.env.local`
-- [x] Utwórz konto Clerk → skopiuj `CLERK_SECRET_KEY` + `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` do `web/.env.local`
-- [x] Zweryfikuj że `prisma migrate dev` działa lokalnie — migracja `init` zastosowana (6 tabel)
-- [x] GitHub Actions: `tsc --noEmit` + `eslint` na każdym PR
-- [x] Odkomentować `web/src/lib/db.ts` — Prisma singleton (export `db`)
-- [x] `prisma migrate dev --name init` — pierwsza migracja (zrobione w Phase 0)
-- [x] Konfiguracja `ClerkProvider` w layout.tsx + sign-in/sign-up routes (pakiet już zainstalowany)
-- [x] Bootstrap admin user — UserProfile w DB (auto-create via `ensureUserProfile` in `requireAdmin()`)
-- [x] Seed palarni PL+DE z `docs/seed-roasters.md` (50 total: 24 existing + 26 new from DK/SE/NL/FR/CZ/UK/US/CA/AU/JP/ET/KE/BR)
-- [x] Usunąć `AUTH_USER`/`AUTH_PASSWORD` z env vars
-- [x] Zweryfikowane palarnie widoczne w katalogu
-- [x] Basic HTTP Auth usunięty z middleware
-- [x] Min. 50 seed palarni ze statusem VERIFIED w DB (50 in seed.ts)
-- [x] Error monitoring skonfigurowany (Vercel logs — built-in)
-- [x] Roaster dashboard `/dashboard/roaster` — edycja profilu
-- [x] `trackEvent` Server Action — zapisuje `ProfileEvent` do DB
-- [x] **Mapa `/map` na mobile — brak sidebara z palarniami i filtrami** (CRITICAL)
-- [x] **Filtry na `/roasters` — brak zwijania na mobile/tablet**
-- [x] **Broken image 403 na `/roasters`** — kafelek z Unsplash hash b4aefda (Market Lane Coffee)
-- [x] Statystyki homepage ("17 Countries") — zsynchronizowane z realną liczbą z DB (already dynamic via Prisma queries)
-- [x] Breadcrumb na profilu: ujednolicić separator `›` (było `/`)
-- [x] Linki footer i social media: usunięto placeholder `href="#"`, zastąpiono działającymi linkami
-- [x] Empty state przy 0 wynikach filtru na `/roasters` (already implemented)
-- [x] SEO landing pages `/roasters/country/[country]` — `generateStaticParams` z Prisma
-- [x] Analytics — Plausible script tag (gated by `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` env var)
-- [x] Email notifications — Resend (`createRoasterRegistration` + `verifyRoaster` + `rejectRoaster`)
-- [x] Newsletter digest endpoint — `POST /api/newsletter/digest` (cron-triggered)
-- [x] Café accounts — CAFE role, SavedRoaster model, `/dashboard/cafe`
-- [x] Reviews — Review model, submit/approve/reject, `/admin/reviews` moderation, roaster profile UI
-- [x] API for partners — `GET /api/v1/roasters`, `GET /api/v1/roasters/[slug]`, ApiKey model
-- [x] PWA — manifest.json, apple-web-app meta, theme color
+- [x] Vercel Postgres provisioned + env vars
+- [x] Clerk auth configured + Google OAuth
+- [x] Prisma migrations (init + reviews + cafe + api_keys)
+- [x] Prisma singleton (`db`) + Neon adapter
+- [x] ClerkProvider + sign-in/sign-up routes
+- [x] clerkMiddleware — route protection
+- [x] Auth helpers — requireAdmin, requireRoasterOwner
+- [x] Server Actions — createRoasterRegistration, verifyRoaster, rejectRoaster
+- [x] Admin panel connected to Server Actions
+- [x] Bootstrap admin user
+- [x] Seed 50 palarni (PL+DE+DK+SE+NL+FR+CZ+UK+US+CA+AU+JP+ET+KE+BR)
+- [x] Removed Basic HTTP Auth
+- [x] GitHub Actions CI (tsc + eslint)
+- [x] Homepage ISR + Prisma queries
+- [x] Catalog `/roasters` — ISR, filters, search, pagination
+- [x] Roaster profiles `/roasters/[slug]` — ISR, related roasters
+- [x] Interactive map `/map` — ISR, Leaflet, markers
+- [x] Registration form → Server Action (PENDING roaster)
+- [x] Profile event tracking (PAGE_VIEW, WEBSITE_CLICK, etc.)
+- [x] SEO country pages `/roasters/country/[country]`
+- [x] Roaster dashboard `/dashboard/roaster` — profile editing, analytics
+- [x] Email notifications — Resend (registration, verify, reject)
+- [x] Reviews — submit, approve/reject moderation, display on profiles
+- [x] Cafe accounts — CAFE role, save/unsave roasters
+- [x] Partner API — `GET /api/v1/roasters`, ApiKey auth
+- [x] Newsletter digest — `POST /api/newsletter/digest`
+- [x] PWA — manifest.json, apple-web-app meta
+- [x] Image upload — Uploadthing, dashboard dropzone
+- [x] Analytics — Plausible script tag
+- [x] Versioning — package.json version in footer
+- [x] Map mobile sidebar — floating toggle + slide-in drawer
+- [x] Roaster filters mobile — collapsible toggle
+- [x] Sign-in page — Header + layout wrapper
+- [x] ImageWithFallback — graceful degradation for broken images
+- [x] Homepage stats — dynamic from DB
+- [x] Map `<h1>` SEO — sr-only
+- [x] Register `<title>` + `<h1>` SEO
+- [x] Homepage stat "Verified Profiles" — fixed number display
+- [x] Broken images — fixed URLs in DB + seed.ts
+- [x] Breadcrumb separator unified
+- [x] Footer links — replaced placeholder hrefs
+- [x] Map `<title>` — "Coffee Roasters Map | Bean Map"
+- [x] Hero mobile — central image
+- [x] Empty state at 0 filter results
+- [x] Tablet roasters sidebar collapsible
+- [x] Env vars added to Vercel (prod)
+- [x] Google OAuth in Clerk
+- [x] SEO URL decision: `/roasters/country/[country]`
