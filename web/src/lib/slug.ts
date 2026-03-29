@@ -5,7 +5,7 @@ import { db } from "./db";
  * "Hard Beans" → "hard-beans"
  * "Café Świeżo" → "cafe-swiezo"
  */
-function slugify(text: string): string {
+export function slugify(text: string): string {
   return text
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "") // strip diacritics
