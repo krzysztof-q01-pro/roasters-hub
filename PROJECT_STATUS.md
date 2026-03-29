@@ -65,13 +65,15 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Active Work
 
-Image upload via Uploadthing — route handler, dashboard dropzone, delete action. 2026-03-28.
+**@MN:** —
+**@KK:** —
+**@AGENT:** —
 
-**Audit findings (12 issues):**
-- ✅ CRITICAL (1): mapa na mobile — brak sidebara → NAPRAWIONE (drawer)
-- ✅ HIGH (3): filtry /roasters mobile → NAPRAWIONE (collapsible), broken image → NAPRAWIONE (ImageWithFallback), /sign-in bez layoutu → NAPRAWIONE (Header)
-- ✅ MEDIUM (7): statystyki (already dynamic), breadcrumb separator, footer links, map title, empty state (already done), tablet layout, hero mobile image → NAPRAWIONE
-- LOW (1): Clerk dev badge → ROADMAP LATER
+_Przypisz zadania na weekly sync (poniedziałek). Format: `**@TAG:** opis — data`_
+
+**Completed recently:**
+- ✅ Image upload via Uploadthing — route handler, dashboard dropzone, delete action (2026-03-28)
+- ✅ Phase 2 audit (12 issues) — all CRITICAL/HIGH/MEDIUM fixed (2026-03-28)
 
 **Remaining before production seed:** run `prisma db seed` on prod to apply 50 roasters.
 

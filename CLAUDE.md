@@ -38,6 +38,62 @@ Kluczowe: każde `[x]` w ROADMAP musi mieć fizyczny dowód w kodzie (istniejąc
 
 ---
 
+## Multi-Worker Coordination
+
+Trzech workerów operuje na tym repo:
+- **@MN** (Marek Nadra) — sesje manualne + scheduled agent (nocny)
+- **@KK** (Krzysztof Kuczkowski) — sesje manualne + scheduled agent (wieczorny)
+- **@AGENT** — scheduled agent (autonomiczny, uruchamiany przez MN lub KK)
+
+### Task Ownership (ROADMAP.md)
+
+Zadania mają tagi assignee: `(@MN)`, `(@KK)`, `(@AGENT)`, `(@UNASSIGNED)`.
+
+- **Pracuj TYLKO na zadaniach przypisanych do Ciebie** (lub `@UNASSIGNED` jeśli jesteś agentem)
+- Aby wziąć zadanie: zmień `(@UNASSIGNED)` na swój tag w ROADMAP.md
+- Status inline: `[IN PROGRESS]`, `[BLOCKED: reason]` — przed tagiem assignee
+
+### Agent Task Selection (OBOWIĄZKOWE)
+
+1. Skanuj `[ ]` w NOW/NEXT
+2. Bierz TYLKO `(@AGENT)` lub `(@UNASSIGNED)` lub brak tagu
+3. **NIGDY** nie ruszaj zadań `(@MN)` lub `(@KK)`
+4. SKIP `[IN PROGRESS]` i `[BLOCKED]`
+5. Przy claimowaniu `@UNASSIGNED` → zmień na `(@AGENT)` ZANIM zaczniesz pracę
+6. Brak zadań → zapisz w SESSION.md i zakończ sesję
+
+### Branch Naming
+
+| Worker | Pattern | Przykład |
+|--------|---------|----------|
+| Agent | `feat/agent-YYYY-WW` | `feat/agent-2026-14` |
+| Marek | `feat/mn-<slug>` | `feat/mn-email-notifications` |
+| Krzysztof | `feat/kk-<slug>` | `feat/kk-stripe-integration` |
+
+### Dual-Schedule (obaj mogą uruchamiać agentów)
+
+- **Nigdy dwa scheduled agents naraz** — rozdzielone okna czasowe
+- MN: noce (01:00-06:00 CET) · KK: wieczory (19:00-23:00 CET)
+- Obaj używają tego samego `feat/agent-YYYY-WW` branch
+- Agent ZAWSZE robi `git pull origin $BRANCH` przed rozpoczęciem pracy
+
+### PR Review Protocol
+
+| PR | Reviewer | Metoda |
+|----|----------|--------|
+| `feat/agent-*` | MN lub KK | `/review-agent-branch` + SOP |
+| `feat/mn-*` | KK | GitHub review |
+| `feat/kk-*` | MN | GitHub review |
+
+### Weekly Sync (poniedziałek, async OK)
+
+1. Przegląd ROADMAP — przypisanie zadań na tydzień
+2. Review otwartych PRs — merge lub close
+3. Ustawienie `@AGENT` zadań na schedule
+4. Uzgodnienie okien schedule na tydzień
+
+---
+
 ## Skills — Quick Reference
 
 ### Obowiązkowe (zawsze uruchamiaj)

@@ -4,6 +4,9 @@ Framework: **Now / Next / Later** — nie sprinty. Maksymalnie 5 zadań w NOW.
 
 Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
+**Assignees:** `(@MN)` Marek Nadra · `(@KK)` Krzysztof Kuczkowski · `(@AGENT)` scheduled agent · `(@UNASSIGNED)` wolne do wzięcia
+**Status:** `[IN PROGRESS]` · `[BLOCKED: reason]` — dodaj przed tagiem assignee
+
 ---
 
 ## NOW — Phase 2: UI Fixes + Audit 2026-03-28
@@ -85,7 +88,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] Hero homepage mobile — dodano centralne zdjęcie (widoczne tylko na mobile)
 - [x] Empty state przy 0 wynikach filtru na `/roasters` (already implemented)
 - [x] Tablet `/roasters` — sidebar collapsible na tablet (breakpoint md→lg)
-- [ ] Email notifications — Resend (`createRoasterRegistration` + `verifyRoaster`)
+- [ ] Email notifications — Resend (`createRoasterRegistration` + `verifyRoaster`) (@UNASSIGNED)
 - [x] Roaster dashboard `/dashboard/roaster` — edycja profilu
 - [x] SEO landing pages `/roasters/country/[country]` — `generateStaticParams` z Prisma
 - [x] `trackEvent` Server Action — zapisuje `ProfileEvent` do DB
@@ -96,30 +99,30 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ## LATER — Phase 3: Growth (miesiąc 2-3)
 
-- [ ] Featured tier + Stripe (webhook `/api/webhooks/stripe`, `setFeatured` action)
-- [ ] Newsletter digest (Resend + `NewsletterSubscriber` — model już w schema)
-- [ ] Café accounts (nowa rola UserRole, migracja)
-- [ ] Reviews (nowy model, migracja)
+- [ ] Featured tier + Stripe (webhook `/api/webhooks/stripe`, `setFeatured` action) (@UNASSIGNED)
+- [ ] Newsletter digest (Resend + `NewsletterSubscriber` — model już w schema) (@UNASSIGNED)
+- [ ] Café accounts (nowa rola UserRole, migracja) (@UNASSIGNED)
+- [ ] Reviews (nowy model, migracja) (@UNASSIGNED)
 
 ## LATER — Phase 4: Scale (miesiąc 4+)
 
-- [ ] API for partners (Route Handlers `/api/v1/`, API key auth)
-- [ ] i18n (`next-intl`, znaczący refactor)
-- [ ] Mobile (PWA first, potem React Native)
+- [ ] API for partners (Route Handlers `/api/v1/`, API key auth) (@UNASSIGNED)
+- [ ] i18n (`next-intl`, znaczący refactor) (@UNASSIGNED)
+- [ ] Mobile (PWA first, potem React Native) (@UNASSIGNED)
 
 ---
 
 ## 🧑 HUMAN ONLY — zadania wymagające człowieka (agent NIE wykonuje)
 
 - [x] Dodaj env vars do Vercel (prod): DATABASE_URL, DIRECT_URL, CLERK_SECRET_KEY, NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-- [ ] Branch protection na `main` (no direct push) — GitHub Settings → Branches
+- [ ] Branch protection na `main` (no direct push) — GitHub Settings → Branches (@MN)
 - [x] Ustawienie Clerk: Google OAuth provider — Clerk Dashboard → User & Authentication → Social connections
 - [x] Bootstrap admin user — Clerk Dashboard → ustawić `publicMetadata: { "role": "ADMIN" }`
-- [ ] Domena produkcyjna — zakup + konfiguracja DNS w Vercel
-- [ ] Stripe konto (Phase 3) — rejestracja + webhook secret
-- [ ] Cold outreach do palarni — lista kontaktowa, maile, LinkedIn
+- [ ] Domena produkcyjna — zakup + konfiguracja DNS w Vercel (@MN)
+- [ ] Stripe konto (Phase 3) — rejestracja + webhook secret (@UNASSIGNED)
+- [ ] Cold outreach do palarni — lista kontaktowa, maile, LinkedIn (@UNASSIGNED)
 - [x] Decyzja SEO: URL pattern `/roasters/country/[country]` — implemented
-- [ ] Założenie Remote Server — hosting dla scheduled agent (Claude Code remote triggers)
+- [ ] Założenie Remote Server — hosting dla scheduled agent (Claude Code remote triggers) (@MN)
 
 **⚠️ Agent: jeśli napotkasz zadanie z tej sekcji — zapisz w SESSION.md i przejdź do następnego.**
 

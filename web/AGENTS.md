@@ -8,6 +8,8 @@
 
 **ZASADA: Dokumenty architektury opisują INTENCJĘ. `PROJECT_STATUS.md` opisuje RZECZYWISTOŚĆ.**
 
+**Multi-Worker:** Zadania w ROADMAP.md mają tagi assignee `(@MN)`, `(@KK)`, `(@AGENT)`, `(@UNASSIGNED)`. Agent bierze TYLKO `(@AGENT)` lub `(@UNASSIGNED)`. Pełne reguły → `CLAUDE.md` sekcja "Multi-Worker Coordination".
+
 ---
 
 ## Faktyczne Wersje Stack (dokumenty mogą podawać inne)

@@ -45,6 +45,7 @@ python tools/consistency_check.py
 git status          # czy są uncommitted changes z poprzedniej sesji
 git branch          # upewnij się że jesteś na właściwej gałęzi
 git log --oneline -3  # ostatnie commity — co było robione
+git pull origin "$(git branch --show-current)"  # ZAWSZE pull przed pracą (dual-schedule safety)
 ```
 
 **Jeśli uncommitted changes:**
@@ -81,8 +82,16 @@ fi
 
 ## Krok 3: Wykonaj Zadanie
 
-- Wykonaj **JEDNO** zadanie z sekcji NOW w `ROADMAP.md`
-- Zacznij od pierwszego niezaznaczonego `[ ]`
+### Selekcja zadania (Multi-Worker)
+
+1. Skanuj `[ ]` w sekcjach NOW → NEXT w `ROADMAP.md`
+2. Bierz TYLKO zadania z tagiem `(@AGENT)`, `(@UNASSIGNED)`, lub bez tagu
+3. **NIGDY nie ruszaj** zadań z `(@MN)` lub `(@KK)` — należą do ludzi
+4. SKIP zadania z `[IN PROGRESS]` lub `[BLOCKED]`
+5. Przy claimowaniu `(@UNASSIGNED)` → zmień na `(@AGENT)` w ROADMAP.md **ZANIM** zaczniesz
+6. Brak dostępnych zadań → zapisz w SESSION.md i przejdź do Kroku 6
+
+- Wykonaj **JEDNO** zadanie
 - Nie zaczynaj kolejnego zadania zanim nie zakończysz poprzedniego
 
 **Jeśli zadanie wymaga czegoś czego nie masz:**
@@ -214,10 +223,11 @@ smoke_test: PASS / FAIL / nie sprawdzono
 ```
 1.    Czytaj: SESSION.md → PROJECT_STATUS.md → ROADMAP.md
 1.5   python tools/consistency_check.py → fix jeśli FAIL
-2.    git status + ustal branch: feat/agent-YYYY-WW (kontynuuj lub utwórz)
-3.    Jedno zadanie z ROADMAP NOW
+2.    git status + git pull + ustal branch: feat/agent-YYYY-WW (kontynuuj lub utwórz)
+3.    Wybierz zadanie: TYLKO (@AGENT) lub (@UNASSIGNED) — NIGDY (@MN)/(@KK)
+      Claim @UNASSIGNED → zmień na (@AGENT) przed pracą
 4.    lint + tsc
-5.    Zaktualizuj ROADMAP.md [x] + PROJECT_STATUS.md
+5.    Zaktualizuj ROADMAP.md [x] + PROJECT_STATUS.md (TYLKO swoja linia @AGENT)
       git add [pliki + ROADMAP + STATUS] → commit [SCOPE] → push
 5.5   sleep 15 → vercel_status.py → smoke_test.py → create_agent_pr.sh
 6.    Zapisz SESSION.md (z current_branch + preview_url + smoke_test)
