@@ -28,10 +28,16 @@
       "TodoWrite"
     ]
   },
+  "enabledPlugins": {
+    "context7@claude-plugins-official": true,
+    "github@claude-plugins-official": true
+  },
   "mcpServers": {
     "playwright": {
       "command": "npx",
-      "args": ["@playwright/mcp@latest"]
+      "args": [
+        "@playwright/mcp@latest"
+      ]
     },
     "context7": {
       "type": "http",
