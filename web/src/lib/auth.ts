@@ -74,3 +74,26 @@ export async function requireRoasterOwner(roasterId: string): Promise<string> {
 
   return userId;
 }
+
+/**
+ * Require the caller to be the owner of a specific cafe.
+ * Returns the Clerk userId.
+ */
+export async function requireCafeOwner(cafeId: string): Promise<string> {
+  const { userId } = await auth();
+  if (!userId) {
+    throw new Error("Unauthorized: not signed in");
+  }
+
+  const { db } = await import("@/lib/db");
+  const profile = await db.userProfile.findUnique({
+    where: { id: userId },
+    select: { cafeId: true },
+  });
+
+  if (!profile || profile.cafeId !== cafeId) {
+    throw new Error("Forbidden: not the owner of this cafe");
+  }
+
+  return userId;
+}
