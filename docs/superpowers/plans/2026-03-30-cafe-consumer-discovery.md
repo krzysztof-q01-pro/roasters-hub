@@ -2,6 +2,32 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+---
+
+## How to Start This Plan
+
+**Zalecane wywołanie (w nowej sesji Claude Code):**
+
+```
+/superpowers:subagent-driven-development docs/superpowers/plans/2026-03-30-cafe-consumer-discovery.md
+```
+
+Skill `subagent-driven-development` wysyła świeżego subagenta per task, robi review między taskami i śledzi postęp w pliku. Każdy task to samodzielny commit.
+
+**Alternatywnie (inline, jedna sesja):**
+
+```
+/superpowers:executing-plans docs/superpowers/plans/2026-03-30-cafe-consumer-discovery.md
+```
+
+**Kontekst przed startem — agent powinien przeczytać:**
+1. `PROJECT_STATUS.md` — obecny stan
+2. `ROADMAP.md` — zadania cafe (sekcja NEXT)
+3. `docs/superpowers/specs/2026-03-30-cafe-consumer-discovery-design.md` — zatwierdzony design
+4. Ten plan (ten plik)
+
+---
+
 **Goal:** Add Cafe entity with public profiles, Roaster↔Cafe relationships declared unilaterally by cafes, and consumer discovery across map, catalog, and roaster profiles.
 
 **Architecture:** Cafe mirrors the Roaster pattern — self-service `/register/cafe` wizard → `status: PENDING` → admin VERIFY → public profile. `CafeRoasterRelation` is unilateral (cafe adds roasters, no approval). `Review` model extended with optional `cafeId`. Consumer discovers cafes via `/cafes` catalog, extended `/map` with toggle, and "Gdzie wypić" section on roaster profiles.

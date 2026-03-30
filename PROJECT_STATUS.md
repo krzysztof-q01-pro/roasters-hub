@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-03-29 | Integrated agent work: email notifications, reviews, cafe accounts, partner API, PWA, newsletter
+2026-03-30 | Brainstorming + design spec + implementation plan: Cafe Profiles + Consumer Discovery (@MN)
 
 ---
 
@@ -71,7 +71,7 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Active Work
 
-**@MN:** Code Review — wszystkie 5 zadań CR ukończone (2026-03-30)
+**@MN:** Brainstorming + design spec + plan gotowy — Cafe Profiles + Consumer Discovery (2026-03-30)
 **@KK:** —
 **@AGENT:** —
 
@@ -86,7 +86,8 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Next Unblocked Task
 
-**TERAZ:** Admin: dashboard statystyk (@KK) — widok `/admin` z liczbą palarni, odsłony profili, ostatnie rejestracje.
+**TERAZ (Agent):** Cafe Profiles + Consumer Discovery — wywołaj `/superpowers:subagent-driven-development docs/superpowers/plans/2026-03-30-cafe-consumer-discovery.md`
+**TERAZ (KK):** Admin: dashboard statystyk — widok `/admin` z liczbą palarni, odsłony profili, ostatnie rejestracje.
 
 **HUMAN ONLY blockers:** re-seed prod DB (`prisma db seed`), run new migrations on prod, buy production domain.
 
