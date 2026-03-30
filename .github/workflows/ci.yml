@@ -30,8 +30,15 @@ jobs:
       - name: TypeScript
         run: npx tsc --noEmit
 
-      - name: Unit Tests
-        run: npm run test:ci
+      - name: Unit Tests (with coverage)
+        run: npm run test:coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        continue-on-error: true
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: web/coverage/lcov.info
 
       - name: Build
         run: npm run build
