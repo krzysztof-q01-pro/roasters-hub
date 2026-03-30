@@ -75,6 +75,19 @@ Mapa do całej dokumentacji projektu. Znajdź właściwy dokument szybko.
 
 ---
 
+## Testowanie
+
+| Dokument | Zawartość |
+|----------|-----------|
+| [`testing/README.md`](testing/README.md) | Feature Visibility Matrix — wszystkie funkcje zmapowane na journeys + status testów |
+| [`testing/journeys/01-guest.md`](testing/journeys/01-guest.md) | Journey: Anonimowy gość (katalog, profil, mapa) |
+| [`testing/journeys/02-roaster.md`](testing/journeys/02-roaster.md) | Journey: Właściciel palarni (rejestracja, dashboard) |
+| [`testing/journeys/03-cafe.md`](testing/journeys/03-cafe.md) | Journey: Cafe buyer (zapisywanie palarni) |
+| [`testing/journeys/04-admin.md`](testing/journeys/04-admin.md) | Journey: Admin (weryfikacja, odrzucenie, moderacja recenzji) |
+| [`testing/journeys/05-reviewer.md`](testing/journeys/05-reviewer.md) | Journey: Recenzent (formularz recenzji) |
+
+---
+
 ## Narzędzia
 
 | Dokument | Zawartość |

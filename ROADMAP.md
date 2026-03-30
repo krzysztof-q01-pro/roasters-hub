@@ -47,7 +47,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 - [ ] [P2] **Coverage reporting** — `vitest --coverage` (v8 provider) + Codecov (free) → % pokrycia widoczny w każdym PR (~1h) (@MN)
 - [ ] [P2] **Testy Server Actions** — integration testy dla `createRoaster`, `verifyRoaster`, `rejectRoaster` — mock Clerk + prawdziwa baza Neon (~4h) (@MN)
-- [ ] [P3] **E2E Playwright** — kluczowe flows: rejestracja palarni, admin verify/reject, profil publiczny; osobny CI job tylko na `push: main` (~1-2 dni) (@MN)
+- [ ] [P3] **E2E Playwright** — implementacja specs na bazie `docs/testing/journeys/` (12 misji, 5 ról); środowisko: Vercel Preview URL; CI job na `push: main`; plan w `docs/testing/e2e/README.md` (@MN)
 - [BLOCKED: wymaga Krzysztofa — GitHub integration w Neon Console (Settings → Integrations → GitHub → Add) lub płatnego Neon] **Neon Preview Branches** — izolowana baza per PR/preview deployment (@MN)
 
 ---
