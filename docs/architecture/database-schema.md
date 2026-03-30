@@ -349,6 +349,15 @@ Dodane w sprincie agenta (2026-03-29):
 - **SavedRoaster** — relacja M:N UserProfile↔Roaster z unique constraint (userId, roasterId)
 - **ApiKey** — uwierzytelnianie partnerów API (klucz w plaintext — do hashowania w przyszłości)
 
+### Cafe, CafeRoasterRelation (Phase 4 — Cafe Profiles)
+
+Dodane 2026-03-30:
+- **Cafe** — profil kawiarni (analogiczny do Roaster): status PENDING/VERIFIED/REJECTED, pola lokalizacyjne, owner → UserProfile (1:1 via cafeId), featured flag
+- **CafeRoasterRelation** — relacja M:N Cafe↔Roaster (które palnie serwuje dana kawiarnia), z unique constraint (cafeId, roasterId) i cascade delete
+- **Review** rozszerzony: roasterId stał się nullable; dodano cafeId — recenzja dotyczy albo palarni albo kawiarni (aplikacyjny constraint: dokładnie jedno z nich != null)
+- **UserProfile** rozszerzony: dodano cafeId (unique) — właściciel kawiarni analogicznie do właściciela palarni
+- **Roaster** rozszerzony: dodano servedAt (CafeRoasterRelation[]) — lista kawiarni serwujących daną palarnię
+
 ---
 
 ## 4. Wartości dla `certifications[]`

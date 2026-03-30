@@ -34,6 +34,12 @@ enum ReviewStatus {
   REJECTED
 }
 
+enum CafeStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
 enum NewsletterSegment {
   CAFE
   CONSUMER
@@ -47,6 +53,8 @@ model UserProfile {
   role      UserRole  @default(ROASTER)
   roaster   Roaster?  @relation(fields: [roasterId], references: [id])
   roasterId String?   @unique
+  cafe      Cafe?     @relation(fields: [cafeId], references: [id])
+  cafeId    String?   @unique
   createdAt DateTime  @default(now())
 
   adminNotes    AdminNote[]
@@ -85,6 +93,7 @@ model Roaster {
   reviews      Review[]
   adminNotes   AdminNote[]
   savedBy      SavedRoaster[]
+  servedAt     CafeRoasterRelation[]
   owner        UserProfile?
 
   verifiedAt     DateTime?
@@ -155,16 +164,20 @@ model NewsletterSubscriber {
 
 model Review {
   id         String       @id @default(cuid())
-  roaster    Roaster      @relation(fields: [roasterId], references: [id], onDelete: Cascade)
-  roasterId  String
+  roaster    Roaster?     @relation(fields: [roasterId], references: [id], onDelete: Cascade)
+  roasterId  String?
+  cafe       Cafe?        @relation(fields: [cafeId], references: [id], onDelete: Cascade)
+  cafeId     String?
   authorName String
-  rating     Int          // 1-5
+  rating     Int
   comment    String?      @db.Text
   status     ReviewStatus @default(PENDING)
   createdAt  DateTime     @default(now())
 
   @@index([roasterId])
   @@index([roasterId, status])
+  @@index([cafeId])
+  @@index([cafeId, status])
   @@map("reviews")
 }
 
@@ -179,6 +192,53 @@ model SavedRoaster {
   @@unique([userId, roasterId])
   @@index([userId])
   @@map("saved_roasters")
+}
+
+model Cafe {
+  id            String     @id @default(cuid())
+  name          String
+  slug          String     @unique
+  description   String?    @db.Text
+  country       String
+  countryCode   String
+  city          String
+  address       String?
+  lat           Float?
+  lng           Float?
+  website       String?
+  instagram     String?
+  phone         String?
+  logoUrl       String?
+  coverImageUrl String?
+  status        CafeStatus @default(PENDING)
+  featured      Boolean    @default(false)
+  owner         UserProfile?
+  roasters      CafeRoasterRelation[]
+  reviews       Review[]
+  verifiedAt    DateTime?
+  rejectedAt    DateTime?
+  rejectedReason String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@index([status])
+  @@index([country])
+  @@index([city])
+  @@map("cafes")
+}
+
+model CafeRoasterRelation {
+  id        String   @id @default(cuid())
+  cafeId    String
+  cafe      Cafe     @relation(fields: [cafeId], references: [id], onDelete: Cascade)
+  roasterId String
+  roaster   Roaster  @relation(fields: [roasterId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([cafeId, roasterId])
+  @@index([cafeId])
+  @@index([roasterId])
+  @@map("cafe_roaster_relations")
 }
 
 model ApiKey {

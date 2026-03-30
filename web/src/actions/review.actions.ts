@@ -71,7 +71,9 @@ export async function approveReview(
       select: { roaster: { select: { slug: true } } },
     });
 
-    revalidatePath(`/roasters/${review.roaster.slug}`);
+    if (review.roaster?.slug) {
+      revalidatePath(`/roasters/${review.roaster.slug}`);
+    }
     revalidatePath("/admin/reviews");
 
     return { success: true, data: undefined };
@@ -96,7 +98,9 @@ export async function rejectReview(
       select: { roaster: { select: { slug: true } } },
     });
 
-    revalidatePath(`/roasters/${review.roaster.slug}`);
+    if (review.roaster?.slug) {
+      revalidatePath(`/roasters/${review.roaster.slug}`);
+    }
     revalidatePath("/admin/reviews");
 
     return { success: true, data: undefined };
