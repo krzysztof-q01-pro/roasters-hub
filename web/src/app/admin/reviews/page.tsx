@@ -15,6 +15,7 @@ export default async function AdminReviewsPage() {
     orderBy: { createdAt: "desc" },
     include: {
       roaster: { select: { name: true, slug: true } },
+      cafe: { select: { name: true, slug: true } },
     },
   });
 
@@ -25,8 +26,10 @@ export default async function AdminReviewsPage() {
     comment: r.comment,
     status: r.status,
     createdAt: r.createdAt.toISOString(),
-    roasterName: r.roaster?.name ?? "",
-    roasterSlug: r.roaster?.slug ?? "",
+    roasterName: r.roaster?.name ?? null,
+    roasterSlug: r.roaster?.slug ?? null,
+    cafeName: r.cafe?.name ?? null,
+    cafeSlug: r.cafe?.slug ?? null,
   }));
 
   return <AdminReviewsClient reviews={serialized} />;

@@ -10,11 +10,14 @@ export interface SerializedReview {
   comment: string | null;
   status: string;
   createdAt: string;
-  roasterName: string;
-  roasterSlug: string;
+  roasterName: string | null;
+  roasterSlug: string | null;
+  cafeName: string | null;
+  cafeSlug: string | null;
 }
 
 type StatusFilter = "all" | "PENDING" | "APPROVED" | "REJECTED";
+type TabFilter = "roasters" | "cafes";
 
 export function AdminReviewsClient({
   reviews: initial,
@@ -23,13 +26,19 @@ export function AdminReviewsClient({
 }) {
   const [reviews, setReviews] = useState(initial);
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("PENDING");
+  const [tab, setTab] = useState<TabFilter>("roasters");
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
+  const tabFiltered =
+    tab === "roasters"
+      ? reviews.filter((r) => r.roasterSlug !== null)
+      : reviews.filter((r) => r.cafeSlug !== null);
+
   const filtered =
     statusFilter === "all"
-      ? reviews
-      : reviews.filter((r) => r.status === statusFilter);
+      ? tabFiltered
+      : tabFiltered.filter((r) => r.status === statusFilter);
 
   const handleApprove = (id: string) => {
     setError(null);
@@ -105,6 +114,22 @@ export function AdminReviewsClient({
         </div>
       )}
 
+      <div className="flex gap-4 mb-6 border-b border-outline-variant/20">
+        {(["roasters", "cafes"] as TabFilter[]).map((t) => (
+          <button
+            key={t}
+            onClick={() => setTab(t)}
+            className={
+              tab === t
+                ? "px-4 py-2 text-sm font-semibold border-b-2 border-primary text-primary -mb-px"
+                : "px-4 py-2 text-sm font-semibold text-on-surface-variant/60 hover:text-on-surface-variant transition-colors"
+            }
+          >
+            {t === "roasters" ? "Palarnie" : "Kawiarnie"}
+          </button>
+        ))}
+      </div>
+
       <div className="flex gap-2 mb-6">
         {(["all", "PENDING", "APPROVED", "REJECTED"] as StatusFilter[]).map(
           (filter) => (
@@ -146,12 +171,21 @@ export function AdminReviewsClient({
                   </div>
                   <p className="text-xs text-on-surface-variant/60">
                     on{" "}
-                    <a
-                      href={`/roasters/${review.roasterSlug}`}
-                      className="text-primary hover:underline"
-                    >
-                      {review.roasterName}
-                    </a>{" "}
+                    {review.cafeSlug ? (
+                      <a
+                        href={`/cafes/${review.cafeSlug}`}
+                        className="text-primary hover:underline"
+                      >
+                        {review.cafeName}
+                      </a>
+                    ) : (
+                      <a
+                        href={`/roasters/${review.roasterSlug}`}
+                        className="text-primary hover:underline"
+                      >
+                        {review.roasterName}
+                      </a>
+                    )}{" "}
                     · {new Date(review.createdAt).toLocaleDateString()}
                   </p>
                 </div>
