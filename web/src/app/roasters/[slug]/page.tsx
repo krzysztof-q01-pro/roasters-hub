@@ -47,7 +47,19 @@ export default async function RoasterProfilePage({
   const { slug } = await params;
   const roaster = await db.roaster.findUnique({
     where: { slug },
-    include: { images: { orderBy: { order: "asc" }, take: 1 } },
+    include: {
+      images: { orderBy: { order: "asc" }, take: 1 },
+      servedAt: {
+        include: {
+          cafe: {
+            select: { id: true, name: true, slug: true, city: true, country: true },
+          },
+        },
+        where: {
+          cafe: { status: "VERIFIED" },
+        },
+      },
+    },
   });
   if (!roaster) notFound();
 
@@ -187,6 +199,31 @@ export default async function RoasterProfilePage({
               <h4 className="text-lg font-medium mb-4">Leave a Review</h4>
               <ReviewForm roasterId={roaster.id} />
             </div>
+          </section>
+
+          {/* Gdzie wypić */}
+          <section className="mt-16">
+            <h2 className="font-headline text-3xl italic tracking-tight mb-6">Gdzie wypić</h2>
+            {roaster.servedAt.length === 0 ? (
+              <p className="text-on-surface-variant/60 text-sm">
+                Ta palarnia nie jest jeszcze dostępna w żadnej kawiarni.
+              </p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {roaster.servedAt.map(({ cafe }) => (
+                  <Link
+                    key={cafe.id}
+                    href={`/cafes/${cafe.slug}`}
+                    className="bg-surface-container rounded-xl p-4 hover:bg-surface-container-high transition-colors"
+                  >
+                    <p className="font-medium">{cafe.name}</p>
+                    <p className="text-sm text-on-surface-variant/60">
+                      {cafe.city}, {cafe.country}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            )}
           </section>
         </div>
 
