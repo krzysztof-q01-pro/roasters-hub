@@ -10,6 +10,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ci": "vitest run --reporter=verbose",
+    "test:integration": "vitest run --config vitest.integration.config.ts --reporter=verbose",
     "postinstall": "prisma generate",
     "version:patch": "npm version patch --no-git-tag-version",
     "version:minor": "npm version minor --no-git-tag-version",
