@@ -64,10 +64,14 @@ export async function rejectRoaster(
         rejectedAt: new Date(),
         rejectedReason: reason,
       },
-      select: { name: true, email: true },
+      select: { slug: true, name: true, email: true },
     });
 
+    revalidatePath("/");
+    revalidatePath("/roasters");
+    revalidatePath(`/roasters/${roaster.slug}`);
     revalidatePath("/admin/pending");
+    revalidatePath("/map");
 
     if (roaster.email) {
       sendRoasterRejectedEmail({
