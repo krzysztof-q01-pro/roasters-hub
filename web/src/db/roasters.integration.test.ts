@@ -1,4 +1,4 @@
-import { describe, it, expect, afterEach, beforeAll } from "vitest";
+import { describe, it, expect, afterEach, afterAll, beforeAll } from "vitest";
 import { db } from "@/lib/db";
 import {
   cleanupTestRoasters,
@@ -18,6 +18,11 @@ beforeAll(() => {
 
 afterEach(async () => {
   await cleanupTestRoasters();
+});
+
+afterAll(async () => {
+  await cleanupTestRoasters();
+  await db.$disconnect();
 });
 
 // ---------------------------------------------------------------------------
