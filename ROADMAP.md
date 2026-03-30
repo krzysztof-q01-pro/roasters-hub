@@ -29,13 +29,13 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 > **Plan:** `docs/superpowers/plans/2026-03-30-cafe-consumer-discovery.md`
 > **Wywołanie:** `/superpowers:subagent-driven-development docs/superpowers/plans/2026-03-30-cafe-consumer-discovery.md`
 
-- [ ] [P1] **DB: Cafe + CafeRoasterRelation** — Prisma schema (Cafe, CafeRoasterRelation models), extend Review z cafeId, extend UserProfile z cafeId, extend Roaster z servedAt, migracja (@AGENT)
-- [ ] [P1] **Actions: cafe CRUD + admin + relations** — createCafe, updateCafe, verifyCafe, rejectCafe, addCafeRoasterRelation, removeCafeRoasterRelation, extend review.actions dla kawiarni — z testami Vitest (@AGENT)
-- [ ] [P1] **UI: /cafes catalog + /cafes/[slug] profile** — CafeCard, CafeReviewForm, CafeReviewList, ISR 3600s (@AGENT)
-- [ ] [P1] **UI: /register/cafe wizard** — 3-step analogiczny do /register/roaster (@AGENT)
-- [ ] [P2] **UI: Admin /admin/cafes + extend /admin/reviews** — panel moderacji kawiarni, zakładka "Kawiarnie" w reviews (@AGENT)
-- [ ] [P2] **UI: /dashboard/cafe owner panel** — zarządzanie relacjami z palarniami, przeniesienie saved-roasters na /dashboard/saved-roasters (@AGENT)
-- [ ] [P2] **UI: Mapa + Roaster profile + Homepage** — piny kawiarni z toggle, sekcja "Gdzie wypić" na /roasters/[slug], CTA na homepage (@AGENT)
+- [x] [P1] **DB: Cafe + CafeRoasterRelation** — Prisma schema (Cafe, CafeRoasterRelation models), extend Review z cafeId, extend UserProfile z cafeId, extend Roaster z servedAt, migracja (@MN)
+- [x] [P1] **Actions: cafe CRUD + admin + relations** — createCafe, updateCafe, verifyCafe, rejectCafe, addCafeRoasterRelation, removeCafeRoasterRelation, extend review.actions dla kawiarni — z testami Vitest (@MN)
+- [x] [P1] **UI: /cafes catalog + /cafes/[slug] profile** — CafeCard, CafeReviewForm, CafeReviewList, ISR 3600s (@MN)
+- [x] [P1] **UI: /register/cafe wizard** — 3-step analogiczny do /register/roaster (@MN)
+- [x] [P2] **UI: Admin /admin/cafes + extend /admin/reviews** — panel moderacji kawiarni, zakładka "Kawiarnie" w reviews (@MN)
+- [x] [P2] **UI: /dashboard/cafe owner panel** — zarządzanie relacjami z palarniami, przeniesienie saved-roasters na /dashboard/saved-roasters (@MN)
+- [x] [P2] **UI: Mapa + Roaster profile + Homepage** — piny kawiarni z toggle, sekcja "Gdzie wypić" na /roasters/[slug], CTA na homepage (@MN)
 
 ### Admin Dashboard — (@KK)
 
