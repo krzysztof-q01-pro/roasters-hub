@@ -71,24 +71,22 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Active Work
 
-**@MN:** —
+**@MN:** Code Review — wszystkie 5 zadań CR ukończone (2026-03-30)
 **@KK:** —
 **@AGENT:** —
 
-_Przypisz zadania na weekly sync (poniedziałek). Format: `**@TAG:** opis — data`_
-
 **Completed recently:**
+- ✅ CR: Server Actions + Auth & middleware — 1 bug fixed (rejectRoaster revalidatePath) (2026-03-30)
+- ✅ CR: Security audit — admin role check, javascript: XSS, Prisma images N+1 (2026-03-30)
+- ✅ CR: Komponenty UI — a11y: aria-label, htmlFor/id, sr-only label (2026-03-30)
+- ✅ Unit tests: auth.test.ts + api-auth.test.ts — 47 tests total (2026-03-30)
 - ✅ Agent work integrated: email, reviews, cafe, API, PWA, newsletter (2026-03-29)
-- ✅ Image upload via Uploadthing — route handler, dashboard dropzone, delete action (2026-03-28)
-- ✅ Phase 2 audit (12 issues) — all CRITICAL/HIGH/MEDIUM fixed (2026-03-28)
-
-**Remaining before production seed:** run `prisma db seed` on prod to apply 50 roasters.
 
 ---
 
 ## Next Unblocked Task
 
-**TERAZ:** Code Review (@MN) — przegląd nowego kodu z integracji agenta (actions, auth, components, security). Patrz ROADMAP sekcja "Code Review".
+**TERAZ:** Admin: dashboard statystyk (@KK) — widok `/admin` z liczbą palarni, odsłony profili, ostatnie rejestracje.
 
 **HUMAN ONLY blockers:** re-seed prod DB (`prisma db seed`), run new migrations on prod, buy production domain.
 

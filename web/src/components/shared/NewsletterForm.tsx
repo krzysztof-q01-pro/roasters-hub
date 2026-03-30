@@ -34,7 +34,9 @@ export function NewsletterForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="flex flex-col sm:flex-row gap-2">
+        <label htmlFor="newsletter-email" className="sr-only">Email address</label>
         <input
+          id="newsletter-email"
           name="email"
           type="email"
           required

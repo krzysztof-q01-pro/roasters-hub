@@ -47,8 +47,9 @@ export function ReviewForm({ roasterId }: { roasterId: string }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-sm font-medium mb-1">Your Name</label>
+        <label htmlFor="review-author" className="block text-sm font-medium mb-1">Your Name</label>
         <input
+          id="review-author"
           name="authorName"
           type="text"
           required
@@ -60,8 +61,8 @@ export function ReviewForm({ roasterId }: { roasterId: string }) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Rating</label>
-        <div className="flex gap-1">
+        <p className="block text-sm font-medium mb-1" id="rating-label">Rating</p>
+        <div className="flex gap-1" role="group" aria-labelledby="rating-label">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
               key={star}
@@ -87,10 +88,11 @@ export function ReviewForm({ roasterId }: { roasterId: string }) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">
+        <label htmlFor="review-comment" className="block text-sm font-medium mb-1">
           Comment <span className="text-on-surface-variant/50">(optional)</span>
         </label>
         <textarea
+          id="review-comment"
           name="comment"
           rows={3}
           maxLength={2000}

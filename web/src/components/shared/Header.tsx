@@ -53,7 +53,7 @@ export function Header() {
           >
             Bean Map
           </Link>
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href;
               return (
@@ -89,6 +89,8 @@ export function Header() {
           <button
             className="md:hidden text-on-surface-variant"
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {mobileOpen ? (
@@ -103,7 +105,7 @@ export function Header() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <nav className="md:hidden border-t border-surface-container-high/50 bg-white px-6 py-4 space-y-3">
+        <nav className="md:hidden border-t border-surface-container-high/50 bg-white px-6 py-4 space-y-3" aria-label="Mobile navigation">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}

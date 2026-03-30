@@ -93,8 +93,9 @@ export function RoasterFilters({ countries }: RoasterFiltersProps) {
 
       {/* Search */}
       <div>
-        <label className="text-xs font-semibold uppercase tracking-wider mb-3 block">Search name</label>
+        <label htmlFor="filter-search" className="text-xs font-semibold uppercase tracking-wider mb-3 block">Search name</label>
         <input
+          id="filter-search"
           className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
           placeholder="Roastery name..."
           type="text"
