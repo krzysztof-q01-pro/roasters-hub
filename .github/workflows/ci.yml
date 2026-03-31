@@ -22,7 +22,7 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
 
-      - run: npm ci
+      - run: npm ci --omit=optional
 
       - name: ESLint
         run: npm run lint
@@ -75,7 +75,7 @@ jobs:
           branch_name: ci-${{ github.run_id }}-${{ github.run_attempt }}
           username: neondb_owner
 
-      - run: npm ci
+      - run: npm ci --omit=optional
 
       - name: Run DB migrations
         run: npx prisma migrate deploy
