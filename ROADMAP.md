@@ -61,8 +61,19 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 - [ ] [P2] **Coverage reporting** — `vitest --coverage` (v8 provider) + Codecov (free) → % pokrycia widoczny w każdym PR (~1h) (@MN)
 - [ ] [P2] **Testy Server Actions** — integration testy dla `createRoaster`, `verifyRoaster`, `rejectRoaster` — mock Clerk + prawdziwa baza Neon (~4h) (@MN)
-- [ ] [P3] **E2E Playwright** — implementacja specs na bazie `docs/testing/journeys/` (12 misji, 5 ról); środowisko: Vercel Preview URL; CI job na `push: main`; plan w `docs/testing/e2e/README.md` (@MN)
+- [ ] [P3] **E2E Playwright** — implementacja specs na bazie `docs/testing/journeys/` (22 misji, 5 ról); środowisko: Vercel Preview URL; CI job na `push: main`; plan w `docs/testing/e2e/README.md` (@MN)
 - [BLOCKED: wymaga Krzysztofa — GitHub integration w Neon Console (Settings → Integrations → GitHub → Add) lub płatnego Neon] **Neon Preview Branches** — izolowana baza per PR/preview deployment (@MN)
+
+### Testing Documentation — (@UNASSIGNED)
+
+- [ ] [P2] **Testing docs: Feature Matrix** — dodanie 14+ wpisów cafe w `docs/testing/README.md` Feature Visibility Matrix (@UNASSIGNED)
+- [ ] [P2] **Testing docs: Journey 03 rewrite** — przepisanie `docs/testing/journeys/03-cafe.md` z 4 nowymi misjami (rejestracja, dashboard, relacje, saved roasters) (@UNASSIGNED)
+- [ ] [P2] **Testing docs: Journey 01 extend** — dodanie misji D (katalog kawiarni), E (profil kawiarni), rozszerzenie C (map toggle) w `docs/testing/journeys/01-guest.md` (@UNASSIGNED)
+- [ ] [P3] **Testing docs: Journey 02 extend** — dodanie misji C ("Gdzie wypić") w `docs/testing/journeys/02-roaster.md` (@UNASSIGNED)
+- [ ] [P2] **Testing docs: Journey 04 extend** — dodanie misji D (weryfikacja kawiarni), E (odrzucenie kawiarni), rozszerzenie C (cafe reviews tab) w `docs/testing/journeys/04-admin.md` (@UNASSIGNED)
+- [ ] [P3] **Testing docs: Journey 05 extend** — dodanie misji B (recenzja kawiarni) w `docs/testing/journeys/05-reviewer.md` (@UNASSIGNED)
+- [ ] [P2] **Testing docs: E2E README** — aktualizacja mapy specs o cafe-registration, cafe-dashboard, admin-cafes, guest-cafes, cafe-review w `docs/testing/e2e/README.md` (@UNASSIGNED)
+- [ ] [P3] **Testing docs: E2E skeletons** — szkielety speców: `cafe-registration.spec.ts`, `admin-cafes.spec.ts`, `guest-cafes.spec.ts`, `cafe-review.spec.ts` w `docs/testing/e2e/` (@UNASSIGNED)
 
 ---
 

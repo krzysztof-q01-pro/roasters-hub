@@ -106,6 +106,10 @@ _(brak dla tej misji — filtrowanie i search są po stronie klienta/ISR, bez za
 | 5 | Wróć na `/map` | Mapa wraca do poprzedniego widoku |
 | 6 | Sprawdź widok mobilny (viewport < 768px) | Sidebar/lista zwinięta, mapa zajmuje pełen ekran, przycisk toggle widoczny |
 | 7 | Kliknij przycisk toggle sidebar (mobile) | Lista palarni się pojawia/chowa |
+| 8 | Znajdź toggle dla kawiarni ("Pokaż kawiarnie" / "Cafes") | Toggle widoczny na mapie |
+| 9 | Kliknij toggle "Kawiarnie" lub "Oba" | Markery kawiarni pojawiają się na mapie (inny kolor/ikon niż palarnie) |
+| 10 | Kliknij marker kawiarni | Popup otwiera się z nazwą kawiarni, miastem, krajem |
+| 11 | W popupie kawiarni kliknij link do profilu | Przekierowanie na `/cafes/[slug]` |
 
 ### Ukryte efekty
 - Kliknięcie linku w popupie do profilu → zapisuje `MAP_CLICK` event w DB dla danej palarni
@@ -114,8 +118,90 @@ _(brak dla tej misji — filtrowanie i search są po stronie klienta/ISR, bez za
 
 | Scenariusz | Oczekiwany wynik |
 |-----------|-----------------|
-| Żaden roaster nie ma lat/lng | Mapa wyświetla się bez markerów, bez błędu |
+| Żaden roaster nie ma lat/lng | Mapa wyświetla się bez markerów palarni, bez błędu |
+| Żadna kawiarnia nie ma lat/lng | Toggle kawiarni działa, ale markery kawiarni się nie pojawiają |
 | Słabe połączenie — kafelki mapy się nie ładują | Szare tło zamiast mapy, markery i tak widoczne |
+| Toggle "Kawiarnie" odznaczony | Tylko markery palarni widoczne |
+| Toggle "Oba" zaznaczony | Zarówno palarnie jak i kawiarnie widoczne jednocześnie |
+
+### Status
+- [ ] Przetestowane manualnie
+- [ ] Pokryte E2E
+
+---
+
+## Misja D — Katalog kawiarni
+
+### Setup
+- URL bazowy: `/cafes`
+- Konto: nie wymagane
+- Stan DB: min. 3 VERIFIED cafes z różnymi krajami/miastami
+
+### Kroki
+
+| # | Akcja | Oczekiwany wynik |
+|---|-------|-----------------|
+| 1 | Wejdź na `/cafes` (katalog kawiarni) | Strona ładuje się, widoczne karty kawiarni |
+| 2 | Sprawdź kartę kawiarni | Nazwa, miasto, kraj, liczba serwowanych palarni widoczne |
+| 3 | Sprawdź average rating (jeśli dostępne) | Gwiazdki lub liczba obok karty |
+| 4 | Kliknij kartę kawiarni | Przekierowanie na `/cafes/[slug]` |
+| 5 | Kliknij link do palarni w sekcji "Roasters we serve" | Przekierowanie na `/roasters/[slug]` |
+| 6 | Wróć na `/cafes` | Katalog nadal widoczny |
+
+### Ukryte efekty
+- Wejście na stronę kawiarni zapisuje `PAGE_VIEW` event w DB (jeśli tracking zaimplementowany dla kawiarni)
+
+### Edge cases
+
+| Scenariusz | Oczekiwany wynik |
+|-----------|-----------------|
+| Katalog z 0 kawiarniami (brak VERIFIED) | Komunikat "No cafes found" lub pusty stan |
+| Kawiarnia bez serwowanych palarni | Liczba "0 roasters" lub brak sekcji na karcie |
+| Kawiarnia bez recenzji | Brak average rating na karcie |
+
+### Status
+- [ ] Przetestowane manualnie
+- [ ] Pokryte E2E
+
+---
+
+## Misja E — Profil kawiarni i recenzja
+
+### Setup
+- URL bazowy: `/cafes/[slug]`
+- Konto: nie wymagane
+- Stan DB: min. 1 VERIFIED cafe z wypełnionymi polami: website, instagram, phone, min 1 CafeRoasterRelation
+
+### Kroki
+
+| # | Akcja | Oczekiwany wynik |
+|---|-------|-----------------|
+| 1 | Z katalogu kliknij kartę kawiarni | Przekierowanie na `/cafes/[slug]` |
+| 2 | Sprawdź sekcję nagłówka | Nazwa, miasto, kraj, opis widoczne |
+| 3 | Sprawdź average rating | Gwiazdki lub liczba (jeśli kawiarnia ma recenzje) |
+| 4 | Sprawdź linki kontaktowe | Website, Instagram, Phone widoczne (jeśli uzupełnione) |
+| 5 | Kliknij link "Website" | Nowa karta otwiera się z adresem strony kawiarni |
+| 6 | Kliknij link Instagram | Przekierowanie do profilu na Instagram |
+| 7 | Sprawdź sekcję "Roasters we serve" / "Palarnie które serwujemy" | Lista palarni widoczna z nazwami i linkami |
+| 8 | Kliknij link do palarni | Przekierowanie na `/roasters/[slug]` |
+| 9 | Wróć na profil kawiarni | Profil nadal widoczny |
+| 10 | Przewiń do sekcji recenzji | Widoczne zaakceptowane recenzje (lub komunikat "no reviews yet") |
+| 11 | Sprawdź formularz recenzji | Formularz "Leave a review" widoczny na dole |
+
+### Ukryte efekty
+- Każdy klik linku website zapisuje `WEBSITE_CLICK` event w DB (jeśli tracking zaimplementowany dla kawiarni)
+- Wejście na stronę profilu zapisuje `PAGE_VIEW` event
+
+### Edge cases
+
+| Scenariusz | Oczekiwany wynik |
+|-----------|-----------------|
+| Kawiarnia bez website | Link "Website" niewidoczny lub brak |
+| Kawiarnia bez instagram | Link Instagram niewidoczny lub brak |
+| Kawiarnia bez phone | Pole phone niewidoczne lub brak |
+| Kawiarnia bez serwowanych palarni | Sekcja "Roasters we serve" pusta z komunikatem "No roasters listed yet" |
+| Kawiarnia bez recenzji | Komunikat "No reviews yet" w sekcji recenzji |
+| Slug nie istnieje (`/cafes/nieistniejaca`) | Strona 404 |
 
 ### Status
 - [ ] Przetestowane manualnie

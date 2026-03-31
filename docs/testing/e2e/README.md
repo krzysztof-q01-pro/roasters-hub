@@ -20,15 +20,20 @@ Docelowo: testy E2E uruchamiają się automatycznie na **Vercel Preview URL** dl
 
 | Plik spec | Journey | Misje | Priorytet |
 |-----------|---------|-------|-----------|
-| `guest.spec.ts` | [01-guest](../journeys/01-guest.md) | A: katalog, B: profil+kliknięcia, C: mapa | P2 |
+| `guest.spec.ts` | [01-guest](../journeys/01-guest.md) | A: katalog palarni, B: profil+kliknięcia, C: mapa | P2 |
+| `guest-cafes.spec.ts` | [01-guest](../journeys/01-guest.md) | D: katalog kawiarni, E: profil kawiarni, C: map toggle | P2 |
 | `registration.spec.ts` | [02-roaster](../journeys/02-roaster.md) | A: rejestracja 3-step wizard | P1 |
-| `admin.spec.ts` | [04-admin](../journeys/04-admin.md) | A: weryfikacja, B: odrzucenie | P1 |
 | `roaster-dashboard.spec.ts` | [02-roaster](../journeys/02-roaster.md) | B: dashboard | P2 |
-| `cafe.spec.ts` | [03-cafe](../journeys/03-cafe.md) | A: zapis/usunięcie | P2 |
-| `review.spec.ts` | [05-reviewer](../journeys/05-reviewer.md) | A: formularz recenzji | P2 |
-| `admin-reviews.spec.ts` | [04-admin](../journeys/04-admin.md) | C: moderacja recenzji | P3 |
+| `roaster-where-to-drink.spec.ts` | [02-roaster](../journeys/02-roaster.md) | C: gdzie wypić | P3 |
+| `cafe-registration.spec.ts` | [03-cafe](../journeys/03-cafe.md) | A: rejestracja kawiarni 3-step | P1 |
+| `cafe-dashboard.spec.ts` | [03-cafe](../journeys/03-cafe.md) | B: dashboard, C: relacje z palarniami, D: saved roasters | P2 |
+| `admin.spec.ts` | [04-admin](../journeys/04-admin.md) | A: weryfikacja palarni, B: odrzucenie palarni | P1 |
+| `admin-cafes.spec.ts` | [04-admin](../journeys/04-admin.md) | D: weryfikacja kawiarni, E: odrzucenie kawiarni | P1 |
+| `admin-reviews.spec.ts` | [04-admin](../journeys/04-admin.md) | C: moderacja recenzji (palarnie + kawiarnie) | P3 |
+| `review.spec.ts` | [05-reviewer](../journeys/05-reviewer.md) | A: formularz recenzji palarni | P2 |
+| `cafe-review.spec.ts` | [05-reviewer](../journeys/05-reviewer.md) | B: formularz recenzji kawiarni | P2 |
 
-Zacznij od P1 (`registration.spec.ts`, `admin.spec.ts`) — pokrywają krytyczne flow pieniężne i trust platformy.
+Zacznij od P1 (`registration.spec.ts`, `admin.spec.ts`, `cafe-registration.spec.ts`, `admin-cafes.spec.ts`) — pokrywają krytyczne flow pieniężne i trust platformy.
 
 ---
 
