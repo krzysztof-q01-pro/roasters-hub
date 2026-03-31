@@ -47,6 +47,7 @@ jobs:
           NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_placeholder
           CLERK_SECRET_KEY: sk_test_placeholder
           DATABASE_URL: postgresql://placeholder/placeholder
+          RESEND_API_KEY: re_placeholder
 
   # ─── Job 2: Integration tests (Neon ephemeral branch) ──────────────────────
   integration:
