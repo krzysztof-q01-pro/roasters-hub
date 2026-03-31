@@ -40,6 +40,43 @@ Przed pisaniem kodu sprawdź istniejące wzorce w `src/`.
 
 ---
 
+## CI — Architektura i Pułapki
+
+### Struktura jobów (DLACZEGO tak, nie inaczej)
+
+**Job 1 (lint-typecheck-test):** lint → tsc → unit tests. BEZ buildu.
+**Job 2 (integration):** create Neon branch → migrations → integration tests → **build** → delete Neon branch.
+
+Build jest w Job 2, bo `next build` wywołuje `generateStaticParams` na WSZYSTKICH stronach z `db.*` — ISR prerendering potrzebuje prawdziwego połączenia z bazą. Z placeholder URL build exploduje na 13+ stronach.
+
+### Pułapki które już spotkaliśmy
+
+**`npm ci` vs `npm install`:**
+- `npm ci` waliduje CAŁY lock file przed instalacją i pada na `@napi-rs/wasm-runtime` (opcjonalny WASM fallback dla rolldown/tailwindcss-oxide) — jego transitive deps `@emnapi/runtime` i `@emnapi/core` nie mają resolved entries w lock file bo nigdy nie były instalowane na tym OS.
+- Fix: używamy `npm install` (nie `npm ci`) w obu workflowach CI i preview-db.
+
+**Clerk publishable key:**
+- Clerk waliduje FORMAT klucza przy buildzie. `pk_test_placeholder` nie przejdzie.
+- Poprawny format: `pk_test_<base64(domain$)>`. Placeholder w CI: `pk_test_ZXhhbXBsZS5jbGVyay5hY2NvdW50cy5kZXYk` (base64 z `example.clerk.accounts.dev$`).
+
+**Resend API key:**
+- `new Resend(key)` jest wywoływane na poziomie modułu (import time) w `/api/newsletter/digest/route.ts`. Build pada bez klucza.
+- Fix: `RESEND_API_KEY: re_placeholder` w kroku Build w ci.yml.
+
+**`generateStaticParams` bez try-catch:**
+- Każda strona dynamiczna (`[slug]`, `[country]`) wywołuje `generateStaticParams` przy buildzie. Bez try-catch pada jeśli DB jest niedostępna.
+- Fix: zawsze wrap w try-catch zwracający `[]` + `export const dynamicParams = true`.
+- **Reguła: każda nowa strona z `generateStaticParams` + `db.*` MUSI mieć try-catch i `dynamicParams = true`.**
+
+### Sprawdzanie CI bez udziału człowieka
+
+```bash
+gh run list --branch <branch> --limit 5
+gh run view <run-id> --log-failed   # tylko logi nieudanych kroków
+```
+
+---
+
 ## ISR + revalidation (OBOWIĄZKOWE)
 
 Wszystkie strony z zapytaniami Prisma mają `export const revalidate = 3600`.
