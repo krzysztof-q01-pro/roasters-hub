@@ -83,6 +83,37 @@ Na początku kolejnej sesji czytaj: `.tmp/SESSION.md` → `PROJECT_STATUS.md` �
 
 ---
 
+## Preview Database Isolation
+
+Każdy PR dostaje izolowany Neon branch — preview deploye nie dotykają produkcyjnych danych.
+
+**Mechanizm:**
+1. Workflow `preview-db.yml` tworzy Neon branch `preview-<branch-name>` przy otwarciu PR
+2. Ustawia w Vercel env var `DATABASE_URL_<SANITIZED_BRANCH>` (np. `DATABASE_URL_FEAT_MN_CAFE_PROFILES`)
+3. Aplikacja czyta `VERCEL_GIT_COMMIT_REF` → szuka branch-specific URL → fallback na `DATABASE_URL`
+4. Przy zamknięciu PR: usuwa Neon branch + Vercel env var
+
+**Konwencja nazewnictwa:**
+- Neon branch: `preview-feat-mn-cafe-profiles` (lowercase, hyphens)
+- Vercel env var: `DATABASE_URL_FEAT_MN_CAFE_PROFILES` (uppercase, underscores)
+
+**Wymagane GitHub Secrets:**
+
+| Secret | Opis | Gdzie znaleźć |
+|--------|------|---------------|
+| `NEON_PROJECT_ID` | ID projektu Neon | ✅ już istnieje |
+| `NEON_API_KEY` | Neon API Key | ✅ już istnieje |
+| `VERCEL_TOKEN` | Personal Access Token | Vercel → Account Settings → Tokens |
+| `VERCEL_PROJECT_ID` | ID projektu Vercel | Vercel → Project → Settings → General |
+
+**Uwaga:** Neon Free plan ma limit 10 branchy — nie trzymaj za dużo otwartych PRów naraz.
+
+**Ręczne czyszczenie** (jeśli workflow nie wykonał się przy zamknięciu PR):
+1. Neon Dashboard → Branches → usuń `preview-<branch-name>`
+2. Vercel → Project → Settings → Environment Variables → usuń `DATABASE_URL_<BRANCH>`
+
+---
+
 ## Kluczowe Pliki Referencyjne
 
 | Plik | Cel |
