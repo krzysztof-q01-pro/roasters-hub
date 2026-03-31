@@ -60,7 +60,7 @@ jobs:
 
       - name: Install dependencies for migrations
         if: github.event.action != 'closed' && steps.migrations.outputs.has_migrations == 'true'
-        run: cd web && npm ci --omit=optional
+        run: cd web && npm install
 
       - name: Run migrations on preview branch
         if: github.event.action != 'closed' && steps.migrations.outputs.has_migrations == 'true'
