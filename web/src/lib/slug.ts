@@ -59,3 +59,29 @@ async function slugExists(slug: string): Promise<boolean> {
   const count = await db.roaster.count({ where: { slug } });
   return count > 0;
 }
+
+async function cafeSlugExists(slug: string): Promise<boolean> {
+  const count = await db.cafe.count({ where: { slug } });
+  return count > 0;
+}
+
+export async function generateUniqueCafeSlug(
+  name: string,
+  city: string,
+): Promise<string> {
+  const baseSlug = slugify(name);
+  const citySlug = slugify(city);
+
+  if (!(await cafeSlugExists(baseSlug))) return baseSlug;
+
+  const withCity = `${baseSlug}-${citySlug}`;
+  if (!(await cafeSlugExists(withCity))) return withCity;
+
+  let counter = 2;
+  while (counter <= 100) {
+    const candidate = `${withCity}-${counter}`;
+    if (!(await cafeSlugExists(candidate))) return candidate;
+    counter++;
+  }
+  throw new Error(`Cannot generate unique slug for "${name}" in "${city}"`);
+}

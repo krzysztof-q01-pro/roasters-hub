@@ -52,6 +52,12 @@ export default async function HomePage() {
               >
                 List Your Roastery
               </Link>
+              <Link
+                href="/cafes"
+                className="inline-block bg-secondary text-on-secondary px-6 py-3 rounded-lg font-medium text-sm hover:opacity-90 transition-all"
+              >
+                Find a Cafe →
+              </Link>
             </div>
           </div>
           {/* Mobile hero image */}

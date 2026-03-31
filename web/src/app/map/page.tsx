@@ -19,5 +19,10 @@ export default async function MapPage() {
     include: { images: { where: { isPrimary: true }, take: 1 } },
   });
 
-  return <MapContent roasters={roasters} />;
+  const cafes = await db.cafe.findMany({
+    where: { status: "VERIFIED", lat: { not: null }, lng: { not: null } },
+    select: { id: true, name: true, slug: true, city: true, country: true, lat: true, lng: true },
+  });
+
+  return <MapContent roasters={roasters} cafes={cafes} />;
 }

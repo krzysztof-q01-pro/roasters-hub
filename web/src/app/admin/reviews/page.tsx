@@ -15,29 +15,22 @@ export default async function AdminReviewsPage() {
     orderBy: { createdAt: "desc" },
     include: {
       roaster: { select: { name: true, slug: true } },
+      cafe: { select: { name: true, slug: true } },
     },
   });
 
-  const serialized = reviews.map(
-    (r: {
-      id: string;
-      authorName: string;
-      rating: number;
-      comment: string | null;
-      status: string;
-      createdAt: Date;
-      roaster: { name: string; slug: string };
-    }) => ({
-      id: r.id,
-      authorName: r.authorName,
-      rating: r.rating,
-      comment: r.comment,
-      status: r.status,
-      createdAt: r.createdAt.toISOString(),
-      roasterName: r.roaster.name,
-      roasterSlug: r.roaster.slug,
-    }),
-  );
+  const serialized = reviews.map((r) => ({
+    id: r.id,
+    authorName: r.authorName,
+    rating: r.rating,
+    comment: r.comment,
+    status: r.status,
+    createdAt: r.createdAt.toISOString(),
+    roasterName: r.roaster?.name ?? null,
+    roasterSlug: r.roaster?.slug ?? null,
+    cafeName: r.cafe?.name ?? null,
+    cafeSlug: r.cafe?.slug ?? null,
+  }));
 
   return <AdminReviewsClient reviews={serialized} />;
 }

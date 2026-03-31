@@ -1,5 +1,7 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
+import { UploadThingError } from "uploadthing/server";
 import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 
 const f = createUploadthing();
@@ -37,6 +39,32 @@ export const ourFileRouter = {
       });
 
       return { url: file.ufsUrl };
+    }),
+
+  cafeImage: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
+    .middleware(async ({ req }) => {
+      const { userId } = await auth();
+      if (!userId) throw new UploadThingError("Unauthorized");
+
+      const cafeId = req.headers.get("x-cafe-id");
+      if (!cafeId) throw new UploadThingError("Missing cafeId");
+
+      const profile = await db.userProfile.findUnique({
+        where: { id: userId },
+        select: { cafeId: true },
+      });
+      if (!profile || profile.cafeId !== cafeId) {
+        throw new UploadThingError("Forbidden");
+      }
+
+      return { userId, cafeId };
+    })
+    .onUploadComplete(async ({ metadata, file }) => {
+      await db.cafe.update({
+        where: { id: metadata.cafeId },
+        data: { logoUrl: file.ufsUrl },
+      });
+      revalidatePath("/cafes");
     }),
 } satisfies FileRouter;
 

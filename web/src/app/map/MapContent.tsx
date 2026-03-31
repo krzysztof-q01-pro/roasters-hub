@@ -12,9 +12,12 @@ const RoasterMap = dynamic(
 );
 
 type RoasterWithImages = Roaster & { images: RoasterImage[] };
+type CafeMapItem = { id: string; name: string; slug: string; city: string; country: string; lat: number | null; lng: number | null };
 
-export function MapContent({ roasters }: { roasters: RoasterWithImages[] }) {
+export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[]; cafes: CafeMapItem[] }) {
   const [showSidebar, setShowSidebar] = useState(false);
+  const [showRoasters, setShowRoasters] = useState(true);
+  const [showCafes, setShowCafes] = useState(true);
 
   const mapData = roasters.map((r) => ({
     id: r.id,
@@ -35,7 +38,28 @@ export function MapContent({ roasters }: { roasters: RoasterWithImages[] }) {
         <h1 className="sr-only">Coffee Roasters Map</h1>
         {/* Map Area */}
         <section className="relative w-full lg:w-[70%] h-full">
-          <RoasterMap roasters={mapData} />
+          <RoasterMap
+            roasters={showRoasters ? mapData : []}
+            cafes={showCafes ? cafes.map((c) => ({ ...c, lat: c.lat!, lng: c.lng! })) : []}
+          />
+          <div className="absolute top-4 left-4 z-[500] flex gap-2">
+            <button
+              onClick={() => setShowRoasters((v) => !v)}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors shadow ${
+                showRoasters ? "bg-primary text-on-primary" : "bg-surface text-on-surface-variant border border-outline/30"
+              }`}
+            >
+              Roasters ({roasters.length})
+            </button>
+            <button
+              onClick={() => setShowCafes((v) => !v)}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors shadow ${
+                showCafes ? "bg-secondary text-on-secondary" : "bg-surface text-on-surface-variant border border-outline/30"
+              }`}
+            >
+              Cafes ({cafes.length})
+            </button>
+          </div>
 
           {/* Mobile toggle button */}
           <button

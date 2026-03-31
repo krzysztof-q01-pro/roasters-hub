@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-03-29 | Integrated agent work: email notifications, reviews, cafe accounts, partner API, PWA, newsletter
+2026-03-30 | Cafe Profiles + Consumer Discovery — wszystkie 12 tasków ukończone (@MN, branch feat/mn-cafe-profiles)
 
 ---
 
@@ -40,6 +40,7 @@
 - Email notifications — Resend: registration notification, verify/reject emails (`lib/email.ts`)
 - Reviews system — submit, approve/reject moderation, display on roaster profiles (`/admin/reviews`)
 - Cafe accounts — CAFE role, save/unsave roasters (`/dashboard/cafe`)
+- **Cafe Profiles** — `/cafes` catalog (ISR), `/cafes/[slug]` profile, `/register/cafe` 3-step wizard, `/admin/cafes` moderation, `/dashboard/cafe` owner panel, `/dashboard/saved-roasters`, map cafe pins + toggle, "Gdzie wypić" on roaster profiles, cafe CTA on homepage
 - Partner API — `GET /api/v1/roasters`, `GET /api/v1/roasters/[slug]`, ApiKey auth (`lib/api-auth.ts`)
 - Newsletter digest — `POST /api/newsletter/digest` (cron-triggered)
 - PWA — manifest.json, apple-web-app meta, theme color
@@ -71,22 +72,22 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Active Work
 
-**@MN:** Code Review — wszystkie 5 zadań CR ukończone (2026-03-30)
+**@MN:** —
 **@KK:** —
 **@AGENT:** —
 
 **Completed recently:**
+- ✅ Cafe Profiles + Consumer Discovery — 12 tasków, 77 testów, branch feat/mn-cafe-profiles (2026-03-30)
 - ✅ CR: Server Actions + Auth & middleware — 1 bug fixed (rejectRoaster revalidatePath) (2026-03-30)
 - ✅ CR: Security audit — admin role check, javascript: XSS, Prisma images N+1 (2026-03-30)
-- ✅ CR: Komponenty UI — a11y: aria-label, htmlFor/id, sr-only label (2026-03-30)
 - ✅ Unit tests: auth.test.ts + api-auth.test.ts — 47 tests total (2026-03-30)
-- ✅ Agent work integrated: email, reviews, cafe, API, PWA, newsletter (2026-03-29)
 
 ---
 
 ## Next Unblocked Task
 
-**TERAZ:** Admin: dashboard statystyk (@KK) — widok `/admin` z liczbą palarni, odsłony profili, ostatnie rejestracje.
+**TERAZ (KK):** [P1] Admin: dashboard statystyk — widok `/admin` z liczbą palarni (pending/verified/rejected), ostatnie rejestracje.
+**TERAZ (MN):** Review + merge PR `feat/mn-cafe-profiles` → `/review-agent-branch`
 
 **HUMAN ONLY blockers:** re-seed prod DB (`prisma db seed`), run new migrations on prod, buy production domain.
 

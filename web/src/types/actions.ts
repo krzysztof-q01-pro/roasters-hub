@@ -57,3 +57,47 @@ export const CreateReviewSchema = z.object({
   rating: z.coerce.number().int().min(1, "Rating must be 1-5").max(5, "Rating must be 1-5"),
   comment: z.string().max(2000).optional().or(z.literal("")),
 });
+
+export const CreateCafeSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters").max(100),
+  description: z.string().max(2000).optional().or(z.literal("")),
+  country: z.string().min(2, "Country is required").max(60),
+  city: z.string().min(2, "City is required").max(100),
+  address: z.string().max(200).optional().or(z.literal("")),
+  lat: z.coerce.number().min(-90).max(90).optional().or(z.literal("")),
+  lng: z.coerce.number().min(-180).max(180).optional().or(z.literal("")),
+  website: httpUrl.optional().or(z.literal("")),
+  instagram: z
+    .string()
+    .regex(/^@?[a-zA-Z0-9._]{1,30}$/, "Invalid Instagram handle")
+    .optional()
+    .or(z.literal("")),
+  phone: z.string().max(30).optional().or(z.literal("")),
+});
+
+export type CreateCafeInput = z.infer<typeof CreateCafeSchema>;
+
+export const UpdateCafeSchema = z.object({
+  description: z.string().max(2000).optional().or(z.literal("")),
+  address: z.string().max(200).optional().or(z.literal("")),
+  lat: z.coerce.number().min(-90).max(90).optional().or(z.literal("")),
+  lng: z.coerce.number().min(-180).max(180).optional().or(z.literal("")),
+  website: httpUrl.optional().or(z.literal("")),
+  instagram: z
+    .string()
+    .regex(/^@?[a-zA-Z0-9._]{1,30}$/, "Invalid Instagram handle")
+    .optional()
+    .or(z.literal("")),
+  phone: z.string().max(30).optional().or(z.literal("")),
+});
+
+export type UpdateCafeInput = z.infer<typeof UpdateCafeSchema>;
+
+export const CreateCafeReviewSchema = z.object({
+  cafeId: z.string().min(1, "Cafe ID is required"),
+  authorName: z.string().min(2, "Name must be at least 2 characters").max(100),
+  rating: z.coerce.number().int().min(1, "Rating must be 1-5").max(5, "Rating must be 1-5"),
+  comment: z.string().max(2000).optional().or(z.literal("")),
+});
+
+export type CreateCafeReviewInput = z.infer<typeof CreateCafeReviewSchema>;

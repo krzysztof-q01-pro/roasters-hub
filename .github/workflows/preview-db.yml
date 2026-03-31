@@ -1,0 +1,135 @@
+name: Preview Database
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+jobs:
+  manage-preview-db:
+    runs-on: ubuntu-latest
+    steps:
+      # --- SETUP ---
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute names
+        id: names
+        run: |
+          BRANCH="${{ github.head_ref }}"
+          # Neon branch name: lowercase, hyphens, prefix
+          NEON_BRANCH="preview-$(echo "$BRANCH" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-zA-Z0-9]/-/g')"
+          # Vercel env var suffix: uppercase, underscores
+          ENV_SUFFIX="$(echo "$BRANCH" | sed 's/[^a-zA-Z0-9]/_/g' | tr '[:lower:]' '[:upper:]')"
+          echo "neon_branch=$NEON_BRANCH" >> $GITHUB_OUTPUT
+          echo "env_suffix=$ENV_SUFFIX" >> $GITHUB_OUTPUT
+
+      # --- CREATE (on open/sync/reopen) ---
+      - name: Create Neon branch
+        if: github.event.action != 'closed'
+        id: neon
+        uses: neondatabase/create-branch-action@v5
+        with:
+          project_id: ${{ secrets.NEON_PROJECT_ID }}
+          api_key: ${{ secrets.NEON_API_KEY }}
+          branch_name: ${{ steps.names.outputs.neon_branch }}
+          parent_branch_id: main
+
+      - name: Check for new migrations
+        if: github.event.action != 'closed'
+        id: migrations
+        run: |
+          NEW_MIGRATIONS=$(git diff --name-only origin/main...HEAD | grep "^web/prisma/migrations/" || true)
+          if [ -n "$NEW_MIGRATIONS" ]; then
+            echo "has_migrations=true" >> $GITHUB_OUTPUT
+            echo "Found new migrations:"
+            echo "$NEW_MIGRATIONS"
+          else
+            echo "has_migrations=false" >> $GITHUB_OUTPUT
+            echo "No new migrations found"
+          fi
+
+      - name: Setup Node.js for migrations
+        if: github.event.action != 'closed' && steps.migrations.outputs.has_migrations == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: "npm"
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies for migrations
+        if: github.event.action != 'closed' && steps.migrations.outputs.has_migrations == 'true'
+        run: cd web && npm install
+
+      - name: Run migrations on preview branch
+        if: github.event.action != 'closed' && steps.migrations.outputs.has_migrations == 'true'
+        run: cd web && npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ steps.neon.outputs.db_url }}
+          DIRECT_URL: ${{ steps.neon.outputs.db_url }}
+
+      - name: Upsert Vercel env var
+        if: github.event.action != 'closed'
+        run: |
+          ENV_KEY="DATABASE_URL_${{ steps.names.outputs.env_suffix }}"
+          ENV_VALUE="${{ steps.neon.outputs.db_url_with_pooler }}"
+          PROJECT_ID="${{ secrets.VERCEL_PROJECT_ID }}"
+          TOKEN="${{ secrets.VERCEL_TOKEN }}"
+
+          # Find existing env var ID (ignore decryption — we only need the id)
+          EXISTING_ID=$(curl -s \
+            "https://api.vercel.com/v9/projects/${PROJECT_ID}/env?decrypt=false" \
+            -H "Authorization: Bearer ${TOKEN}" \
+            | jq -r --arg key "$ENV_KEY" '.envs[] | select(.key == $key) | .id // empty')
+
+          # Delete if exists
+          if [ -n "$EXISTING_ID" ]; then
+            echo "Deleting existing env var (id: $EXISTING_ID)"
+            curl -s -X DELETE \
+              "https://api.vercel.com/v9/projects/${PROJECT_ID}/env/${EXISTING_ID}" \
+              -H "Authorization: Bearer ${TOKEN}"
+          fi
+
+          # Create new
+          echo "Creating env var $ENV_KEY"
+          curl -s -X POST \
+            "https://api.vercel.com/v9/projects/${PROJECT_ID}/env" \
+            -H "Authorization: Bearer ${TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"key\": \"${ENV_KEY}\",
+              \"value\": \"${ENV_VALUE}\",
+              \"type\": \"plain\",
+              \"target\": [\"preview\"]
+            }"
+
+      # --- DESTROY (on closed) ---
+      - name: Delete Vercel env var
+        if: github.event.action == 'closed'
+        run: |
+          ENV_KEY="DATABASE_URL_${{ steps.names.outputs.env_suffix }}"
+          PROJECT_ID="${{ secrets.VERCEL_PROJECT_ID }}"
+          TOKEN="${{ secrets.VERCEL_TOKEN }}"
+
+          EXISTING_ID=$(curl -s \
+            "https://api.vercel.com/v9/projects/${PROJECT_ID}/env?decrypt=false" \
+            -H "Authorization: Bearer ${TOKEN}" \
+            | jq -r --arg key "$ENV_KEY" '.envs[] | select(.key == $key) | .id // empty')
+
+          if [ -n "$EXISTING_ID" ]; then
+            echo "Deleting env var $ENV_KEY (id: $EXISTING_ID)"
+            curl -s -X DELETE \
+              "https://api.vercel.com/v9/projects/${PROJECT_ID}/env/${EXISTING_ID}" \
+              -H "Authorization: Bearer ${TOKEN}"
+          else
+            echo "Env var $ENV_KEY not found, skipping"
+          fi
+
+      - name: Delete Neon branch
+        if: github.event.action == 'closed'
+        uses: neondatabase/delete-branch-action@v3
+        with:
+          project_id: ${{ secrets.NEON_PROJECT_ID }}
+          api_key: ${{ secrets.NEON_API_KEY }}
+          branch: ${{ steps.names.outputs.neon_branch }}
