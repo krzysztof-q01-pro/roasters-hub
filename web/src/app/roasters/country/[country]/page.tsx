@@ -7,14 +7,19 @@ import { db } from "@/lib/db";
 import type { Metadata } from "next";
 
 export const revalidate = 3600;
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  const countries = await db.roaster.findMany({
-    where: { status: "VERIFIED" },
-    select: { countryCode: true },
-    distinct: ["countryCode"],
-  });
-  return countries.map((c) => ({ country: c.countryCode }));
+  try {
+    const countries = await db.roaster.findMany({
+      where: { status: "VERIFIED" },
+      select: { countryCode: true },
+      distinct: ["countryCode"],
+    });
+    return countries.map((c) => ({ country: c.countryCode }));
+  } catch {
+    return [];
+  }
 }
 
 export async function generateMetadata({
