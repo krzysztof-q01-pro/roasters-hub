@@ -7,13 +7,18 @@ import { CafeReviewList } from "@/components/cafes/CafeReviewList";
 import { db } from "@/lib/db";
 
 export const revalidate = 3600;
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  const cafes = await db.cafe.findMany({
-    where: { status: "VERIFIED" },
-    select: { slug: true },
-  });
-  return cafes.map((c) => ({ slug: c.slug }));
+  try {
+    const cafes = await db.cafe.findMany({
+      where: { status: "VERIFIED" },
+      select: { slug: true },
+    });
+    return cafes.map((c) => ({ slug: c.slug }));
+  } catch {
+    return [];
+  }
 }
 
 export default async function CafeProfilePage({
