@@ -40,16 +40,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: web/coverage/lcov.info
 
-      - name: Build
-        run: npm run build
-        env:
-          # Placeholder values — sufficient for build-time checks
-          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_ZXhhbXBsZS5jbGVyay5hY2NvdW50cy5kZXYk
-          CLERK_SECRET_KEY: sk_test_placeholder
-          DATABASE_URL: postgresql://placeholder/placeholder
-          RESEND_API_KEY: re_placeholder
-
-  # ─── Job 2: Integration tests (Neon ephemeral branch) ──────────────────────
+  # ─── Job 2: Integration tests + Build (Neon ephemeral branch) ──────────────
   integration:
     name: Integration Tests
     runs-on: ubuntu-latest
@@ -89,6 +80,15 @@ jobs:
         env:
           DATABASE_URL: ${{ steps.neon.outputs.db_url_with_pooler }}
           DIRECT_URL: ${{ steps.neon.outputs.db_url }}
+
+      - name: Build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_ZXhhbXBsZS5jbGVyay5hY2NvdW50cy5kZXYk
+          CLERK_SECRET_KEY: sk_test_placeholder
+          DATABASE_URL: ${{ steps.neon.outputs.db_url_with_pooler }}
+          DIRECT_URL: ${{ steps.neon.outputs.db_url }}
+          RESEND_API_KEY: re_placeholder
 
       - name: Delete ephemeral Neon branch
         if: always()
