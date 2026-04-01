@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { CafeReviewForm } from "@/components/cafes/CafeReviewForm";
@@ -45,6 +46,10 @@ export default async function CafeProfilePage({
       instagram: true,
       phone: true,
       coverImageUrl: true,
+      openingHours: true,
+      serving: true,
+      services: true,
+      sourceUrl: true,
       status: true,
       featured: true,
       createdAt: true,
@@ -82,6 +87,18 @@ export default async function CafeProfilePage({
     <>
       <Header />
       <main className="max-w-4xl mx-auto px-6 py-16">
+        {cafe.coverImageUrl && (
+          <div className="relative w-full h-72 rounded-2xl overflow-hidden mb-10">
+            <Image
+              src={cafe.coverImageUrl}
+              alt={cafe.name}
+              fill
+              className="object-cover"
+              sizes="(max-width: 896px) 100vw, 896px"
+            />
+          </div>
+        )}
+
         <div className="mb-10">
           <h1 className="font-headline text-5xl italic tracking-tight mb-2">{cafe.name}</h1>
           <p className="text-on-surface-variant/60">
@@ -122,7 +139,63 @@ export default async function CafeProfilePage({
           {cafe.address && (
             <span className="text-on-surface-variant/60">{cafe.address}</span>
           )}
+          {cafe.sourceUrl && (
+            <a
+              href={cafe.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-on-surface-variant/60 hover:underline"
+            >
+              European Coffee Trip ↗
+            </a>
+          )}
         </div>
+
+        {(cafe.serving.length > 0 || cafe.services.length > 0) && (
+          <div className="mb-12 grid gap-6 sm:grid-cols-2">
+            {cafe.serving.length > 0 && (
+              <div>
+                <h2 className="font-headline text-xl italic mb-3">What they serve</h2>
+                <div className="flex flex-wrap gap-2">
+                  {cafe.serving.map((item) => (
+                    <span key={item} className="bg-surface-container text-sm px-3 py-1 rounded-full">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+            {cafe.services.length > 0 && (
+              <div>
+                <h2 className="font-headline text-xl italic mb-3">Amenities</h2>
+                <div className="flex flex-wrap gap-2">
+                  {cafe.services.map((item) => (
+                    <span key={item} className="bg-surface-container text-sm px-3 py-1 rounded-full">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {cafe.openingHours && (
+          <div className="mb-12">
+            <h2 className="font-headline text-xl italic mb-3">Opening hours</h2>
+            <div className="text-sm text-on-surface-variant/80 space-y-1">
+              {cafe.openingHours.split("\n").map((line, i) => {
+                const [day, hours] = line.split("\t");
+                return (
+                  <div key={i} className="flex gap-4">
+                    <span className="w-28 font-medium">{day}</span>
+                    <span>{hours}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         <section className="mb-12">
           <h2 className="font-headline text-2xl italic mb-4">Roasters we serve</h2>
