@@ -80,9 +80,13 @@ async function main() {
     if (hours) lines.push('    openingHours: "' + hours.slice(0, 1000) + '",');
     if (cafe.serving && cafe.serving.length > 0) {
       lines.push('    serving: [' + cafe.serving.map(s => '"' + s.replace(/"/g, '\\"') + '"').join(', ') + '],');
+    } else {
+      lines.push('    serving: [],');
     }
     if (cafe.services && cafe.services.length > 0) {
       lines.push('    services: [' + cafe.services.map(s => '"' + s.replace(/"/g, '\\"') + '"').join(', ') + '],');
+    } else {
+      lines.push('    services: [],');
     }
     lines.push('    status: "VERIFIED" as const,');
     lines.push('    featured: ' + featured + ',');
