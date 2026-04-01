@@ -13,7 +13,16 @@ export default async function AdminCafesPage() {
 
   const cafes = await db.cafe.findMany({
     orderBy: { createdAt: "desc" },
-    include: { owner: { select: { email: true } } },
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      city: true,
+      country: true,
+      status: true,
+      createdAt: true,
+      owner: { select: { email: true } },
+    },
   });
 
   const serialized = cafes.map((c) => ({
