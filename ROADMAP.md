@@ -23,6 +23,10 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ## NEXT
 
+### Cafe Seed — Manual Enrichment — (@MN)
+
+- [ ] [P2] **Cafe addresses manual** — uzupełnienie adresów i coords dla 17 kawiarni (plik `.tmp/cafes_to_complete.json`), Google Maps lookup, aktualizacja SEED (~30min) (@MN)
+
 ### Cafe Profiles + Consumer Discovery — (@AGENT)
 
 > **Spec:** `docs/superpowers/specs/2026-03-30-cafe-consumer-discovery-design.md`

@@ -77,6 +77,7 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 **@AGENT:** —
 
 **Completed recently:**
+- ✅ Cafe SEED data enhanced — 100 cafes from ECT with addresses, coords (83%), openingHours, serving[], services[] (2026-04-01)
 - ✅ Cafe Profiles + Consumer Discovery — 12 tasków, 77 testów, branch feat/mn-cafe-profiles (2026-03-30)
 - ✅ CR: Server Actions + Auth & middleware — 1 bug fixed (rejectRoaster revalidatePath) (2026-03-30)
 - ✅ CR: Security audit — admin role check, javascript: XSS, Prisma images N+1 (2026-03-30)

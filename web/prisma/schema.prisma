@@ -210,6 +210,10 @@ model Cafe {
   phone         String?
   logoUrl       String?
   coverImageUrl String?
+  sourceUrl     String?
+  openingHours  String?    @db.Text
+  serving       String[]
+  services      String[]
   status        CafeStatus @default(PENDING)
   featured      Boolean    @default(false)
   owner         UserProfile?
@@ -224,6 +228,8 @@ model Cafe {
   @@index([status])
   @@index([country])
   @@index([city])
+  @@index([serving])
+  @@index([services])
   @@map("cafes")
 }
 
