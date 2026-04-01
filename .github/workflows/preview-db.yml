@@ -69,6 +69,13 @@ jobs:
           DATABASE_URL: ${{ steps.neon.outputs.db_url }}
           DIRECT_URL: ${{ steps.neon.outputs.db_url }}
 
+      - name: Seed cafes on preview branch
+        if: github.event.action != 'closed' && steps.migrations.outputs.has_migrations == 'true'
+        run: cd web && npx tsx prisma/seed_cafes.ts
+        env:
+          DATABASE_URL: ${{ steps.neon.outputs.db_url }}
+          DIRECT_URL: ${{ steps.neon.outputs.db_url }}
+
       - name: Upsert Vercel env var
         if: github.event.action != 'closed'
         run: |
