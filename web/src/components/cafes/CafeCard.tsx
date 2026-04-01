@@ -14,9 +14,9 @@ export function CafeCard({ cafe }: { cafe: CafeWithCounts }) {
       className="group block bg-surface-container rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300"
     >
       <div className="aspect-video bg-surface-container-high overflow-hidden relative">
-        {cafe.logoUrl ? (
+        {cafe.coverImageUrl ? (
           <Image
-            src={cafe.logoUrl}
+            src={cafe.coverImageUrl}
             alt={cafe.name}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-500"

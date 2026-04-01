@@ -14,7 +14,28 @@ export default async function CafesPage() {
   const cafes = await db.cafe.findMany({
     where: { status: "VERIFIED" },
     orderBy: { name: "asc" },
-    include: { _count: { select: { roasters: true, reviews: true } } },
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      description: true,
+      country: true,
+      countryCode: true,
+      city: true,
+      address: true,
+      lat: true,
+      lng: true,
+      website: true,
+      instagram: true,
+      phone: true,
+      logoUrl: true,
+      coverImageUrl: true,
+      status: true,
+      featured: true,
+      createdAt: true,
+      updatedAt: true,
+      _count: { select: { roasters: true, reviews: true } },
+    },
   });
 
   const cafesWithRating = await Promise.all(

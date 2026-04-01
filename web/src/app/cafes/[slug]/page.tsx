@@ -30,7 +30,25 @@ export default async function CafeProfilePage({
 
   const cafe = await db.cafe.findUnique({
     where: { slug },
-    include: {
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      description: true,
+      country: true,
+      countryCode: true,
+      city: true,
+      address: true,
+      lat: true,
+      lng: true,
+      website: true,
+      instagram: true,
+      phone: true,
+      coverImageUrl: true,
+      status: true,
+      featured: true,
+      createdAt: true,
+      updatedAt: true,
       roasters: {
         include: {
           roaster: {
