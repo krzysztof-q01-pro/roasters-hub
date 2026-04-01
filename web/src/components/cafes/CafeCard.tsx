@@ -1,13 +1,19 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { Cafe } from "@prisma/client";
 
-type CafeWithCounts = Cafe & {
+type CafeCardProps = {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  city: string;
+  country: string;
+  coverImageUrl: string | null;
   _count: { roasters: number; reviews: number };
   averageRating: number | null;
 };
 
-export function CafeCard({ cafe }: { cafe: CafeWithCounts }) {
+export function CafeCard({ cafe }: { cafe: CafeCardProps }) {
   return (
     <Link
       href={`/cafes/${cafe.slug}`}
