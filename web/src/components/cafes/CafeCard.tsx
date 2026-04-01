@@ -1,22 +1,28 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { Cafe } from "@prisma/client";
 
-type CafeWithCounts = Cafe & {
+type CafeCardProps = {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  city: string;
+  country: string;
+  coverImageUrl: string | null;
   _count: { roasters: number; reviews: number };
   averageRating: number | null;
 };
 
-export function CafeCard({ cafe }: { cafe: CafeWithCounts }) {
+export function CafeCard({ cafe }: { cafe: CafeCardProps }) {
   return (
     <Link
       href={`/cafes/${cafe.slug}`}
       className="group block bg-surface-container rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300"
     >
       <div className="aspect-video bg-surface-container-high overflow-hidden relative">
-        {cafe.logoUrl ? (
+        {cafe.coverImageUrl ? (
           <Image
-            src={cafe.logoUrl}
+            src={cafe.coverImageUrl}
             alt={cafe.name}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-500"

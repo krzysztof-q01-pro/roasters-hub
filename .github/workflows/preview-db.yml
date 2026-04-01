@@ -69,61 +69,69 @@ jobs:
           DATABASE_URL: ${{ steps.neon.outputs.db_url }}
           DIRECT_URL: ${{ steps.neon.outputs.db_url }}
 
+      - name: Seed cafes on preview branch
+        if: github.event.action != 'closed' && steps.migrations.outputs.has_migrations == 'true'
+        run: cd web && npx tsx prisma/seed_cafes.ts
+        env:
+          DATABASE_URL: ${{ steps.neon.outputs.db_url }}
+          DIRECT_URL: ${{ steps.neon.outputs.db_url }}
+
       - name: Upsert Vercel env var
         if: github.event.action != 'closed'
         run: |
-          ENV_KEY="DATABASE_URL_${{ steps.names.outputs.env_suffix }}"
+          BRANCH="${{ github.head_ref }}"
           ENV_VALUE="${{ steps.neon.outputs.db_url_with_pooler }}"
           PROJECT_ID="${{ secrets.VERCEL_PROJECT_ID }}"
           TOKEN="${{ secrets.VERCEL_TOKEN }}"
 
-          # Find existing env var ID (ignore decryption — we only need the id)
+          # Find existing branch-scoped DATABASE_URL for this branch
           EXISTING_ID=$(curl -s \
             "https://api.vercel.com/v9/projects/${PROJECT_ID}/env?decrypt=false" \
             -H "Authorization: Bearer ${TOKEN}" \
-            | jq -r --arg key "$ENV_KEY" '.envs[] | select(.key == $key) | .id // empty')
+            | jq -r --arg branch "$BRANCH" '.envs[] | select(.key == "DATABASE_URL" and .gitBranch == $branch) | .id // empty')
 
           # Delete if exists
           if [ -n "$EXISTING_ID" ]; then
-            echo "Deleting existing env var (id: $EXISTING_ID)"
+            echo "Deleting existing branch-scoped DATABASE_URL (id: $EXISTING_ID)"
             curl -s -X DELETE \
               "https://api.vercel.com/v9/projects/${PROJECT_ID}/env/${EXISTING_ID}" \
               -H "Authorization: Bearer ${TOKEN}"
           fi
 
-          # Create new
-          echo "Creating env var $ENV_KEY"
+          # Create branch-scoped DATABASE_URL — Vercel uses this for preview builds of this branch
+          echo "Creating branch-scoped DATABASE_URL for branch: $BRANCH"
           curl -s -X POST \
             "https://api.vercel.com/v9/projects/${PROJECT_ID}/env" \
             -H "Authorization: Bearer ${TOKEN}" \
             -H "Content-Type: application/json" \
             -d "{
-              \"key\": \"${ENV_KEY}\",
+              \"key\": \"DATABASE_URL\",
               \"value\": \"${ENV_VALUE}\",
               \"type\": \"plain\",
-              \"target\": [\"preview\"]
+              \"target\": [\"preview\"],
+              \"gitBranch\": \"${BRANCH}\"
             }"
 
       # --- DESTROY (on closed) ---
       - name: Delete Vercel env var
         if: github.event.action == 'closed'
         run: |
-          ENV_KEY="DATABASE_URL_${{ steps.names.outputs.env_suffix }}"
+          BRANCH="${{ github.head_ref }}"
           PROJECT_ID="${{ secrets.VERCEL_PROJECT_ID }}"
           TOKEN="${{ secrets.VERCEL_TOKEN }}"
 
           EXISTING_ID=$(curl -s \
             "https://api.vercel.com/v9/projects/${PROJECT_ID}/env?decrypt=false" \
             -H "Authorization: Bearer ${TOKEN}" \
-            | jq -r --arg key "$ENV_KEY" '.envs[] | select(.key == $key) | .id // empty')
+            | jq -r --arg branch "$BRANCH" '.envs[] | select(.key == "DATABASE_URL" and .gitBranch == $branch) | .id // empty')
 
           if [ -n "$EXISTING_ID" ]; then
-            echo "Deleting env var $ENV_KEY (id: $EXISTING_ID)"
+            echo "Deleting branch-scoped DATABASE_URL for branch: $BRANCH (id: $EXISTING_ID)"
             curl -s -X DELETE \
               "https://api.vercel.com/v9/projects/${PROJECT_ID}/env/${EXISTING_ID}" \
               -H "Authorization: Bearer ${TOKEN}"
           else
-            echo "Env var $ENV_KEY not found, skipping"
+            echo "Branch-scoped DATABASE_URL for $BRANCH not found, skipping"
           fi
 
       - name: Delete Neon branch
