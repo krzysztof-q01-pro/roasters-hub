@@ -77,6 +77,9 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 **@AGENT:** UX Consistency: Roasters ↔ Cafes — naprawa niespójności między katalogami palarni i kawiarni (branch `feat/ux-consistency-cafes`)
 
 **Completed recently:**
+- ✅ UX Consistency: Header — "Browse Cafes" link + search placeholder update (2026-04-02)
+- ✅ UX Consistency: /cafes — filtry kraju, wyszukiwanie, paginacja, breadcrumbs, result count (2026-04-02)
+- ✅ UX Consistency: Cafe profile SEO — generateMetadata z nazwą kawiarni (2026-04-02)
 - ✅ Cafe SEED data enhanced — 100 cafes from ECT with addresses, coords (83%), openingHours, serving[], services[] (2026-04-01)
 - ✅ Cafe Profiles + Consumer Discovery — 12 tasków, 77 testów, branch feat/mn-cafe-profiles (2026-03-30)
 - ✅ CR: Server Actions + Auth & middleware — 1 bug fixed (rejectRoaster revalidatePath) (2026-03-30)

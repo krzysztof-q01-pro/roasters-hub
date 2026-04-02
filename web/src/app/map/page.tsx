@@ -3,8 +3,8 @@ import { db } from "@/lib/db";
 import { MapContent } from "./MapContent";
 
 export const metadata: Metadata = {
-  title: "Coffee Roasters Map",
-  description: "Explore specialty coffee roasters around the world on an interactive map.",
+  title: "Coffee Roasters & Cafes Map",
+  description: "Explore specialty coffee roasters and cafes around the world on an interactive map.",
 };
 
 export const revalidate = 3600; // re-generate every hour

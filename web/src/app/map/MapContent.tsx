@@ -96,7 +96,7 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
           <div className="p-6 border-b border-outline-variant/10 bg-surface-container-low">
             <div className="flex justify-between items-baseline mb-4">
               <h2 className="text-2xl font-black font-headline text-on-surface leading-none">
-                {roasters.length} beans
+                {roasters.length} roasters
               </h2>
               <div className="flex items-center gap-3">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60">

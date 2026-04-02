@@ -17,14 +17,14 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 > **Branch:** `feat/ux-consistency-cafes`
 
 **HIGH Priority (krytyczne niespójności):**
-- [ ] [P1] **Header: Browse Cafes link** — dodać `/cafes` do nawigacji głównej (Header.tsx) — brak dyscovery dla kawiarni
-- [ ] [P1] **/cafes: filtry i wyszukiwanie** — dodać filtry kraju, search, paginację — parzystość z `/roasters`
-- [ ] [P1] **/cafes: zdjęcia** — seed zdjęć dla kawiarni (obecnie tylko emoji ☕)
-- [ ] [P1] **Cafe profile: "0 roasters"** — seed relacje CafeRoasterRelation — podłączyć kawiarnie z palarniami
-- [ ] [P1] **Cafe profile: SEO title** — napraw `<title>` z nazwą kawiarni (obecnie generic "Bean Map — Discover...")
+- [x] [P1] **Header: Browse Cafes link** — dodać `/cafes` do nawigacji głównej (Header.tsx) — brak discovery dla kawiarni ✅
+- [x] [P1] **/cafes: filtry i wyszukiwanie** — dodać filtry kraju, search, paginację — parzystość z `/roasters` ✅
+- [ ] [P1] **/cafes: zdjęcia** — seed zdjęć dla kawiarni (obecnie tylko emoji ☕) — wymaga scrapera lub manualnej pracy
+- [ ] [P1] **Cafe profile: "0 roasters"** — seed relacje CafeRoasterRelation — **kod gotowy** (`prisma/seed_cafe_roasters.ts`), wymaga ręcznego uruchomienia na bazie
+- [x] [P1] **Cafe profile: SEO title** — napraw `<title>` z nazwą kawiarni (obecnie generic "Bean Map — Discover...") ✅
 
 **MEDIUM Priority (ulepszenia):**
-- [ ] [P2] **Global search placeholder** — "Find a roaster..." → "Search roasters & cafes..."
+- [x] [P2] **Global search placeholder** — "Find a roaster..." → "Search roasters & cafes..." ✅
 - [ ] [P2] **Homepage hero** — "Discover the world's specialty coffee roasters" → bardziej inclusive
 - [ ] [P2] **Homepage stats** — dodać "X Cafes" do statystyk
 - [ ] [P2] **Cafe profile: hero image** — dodać zdjęcie na górze profilu
