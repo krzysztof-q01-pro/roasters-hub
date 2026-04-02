@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { Metadata } from "next";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { CafeReviewForm } from "@/components/cafes/CafeReviewForm";
@@ -9,6 +10,19 @@ import { db } from "@/lib/db";
 
 export const revalidate = 3600;
 export const dynamicParams = true;
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const cafe = await db.cafe.findUnique({
+    where: { slug },
+    select: { name: true, city: true, country: true },
+  });
+  if (!cafe) return { title: "Cafe Not Found" };
+  return {
+    title: `${cafe.name} — Specialty Coffee in ${cafe.city}, ${cafe.country} | Bean Map`,
+    description: `Discover ${cafe.name}, a specialty coffee cafe in ${cafe.city}, ${cafe.country}. See which roasters they serve and read reviews.`,
+  };
+}
 
 export async function generateStaticParams() {
   try {
