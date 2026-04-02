@@ -74,7 +74,7 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 **@MN:** —
 **@KK:** —
-**@AGENT:** —
+**@AGENT:** UX Consistency: Roasters ↔ Cafes — naprawa niespójności między katalogami palarni i kawiarni (branch `feat/ux-consistency-cafes`)
 
 **Completed recently:**
 - ✅ Cafe SEED data enhanced — 100 cafes from ECT with addresses, coords (83%), openingHours, serving[], services[] (2026-04-01)
