@@ -101,6 +101,16 @@ export default async function CafeProfilePage({
     <>
       <Header />
       <main className="max-w-4xl mx-auto px-6 py-16">
+        <nav className="mb-4 text-on-surface-variant flex items-center gap-2 text-xs uppercase tracking-widest">
+          <Link className="hover:text-primary transition-colors" href="/">Home</Link>
+          <span className="text-[10px]">&rsaquo;</span>
+          <Link className="hover:text-primary transition-colors" href="/cafes">Cafes</Link>
+          <span className="text-[10px]">&rsaquo;</span>
+          <span className="text-on-surface">{cafe.city}</span>
+          <span className="text-[10px]">&rsaquo;</span>
+          <span className="text-on-surface">{cafe.name}</span>
+        </nav>
+
         {cafe.coverImageUrl && (
           <div className="relative w-full h-72 rounded-2xl overflow-hidden mb-10">
             <Image
