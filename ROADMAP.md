@@ -11,6 +11,38 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ## NOW
 
+### UX Consistency: Roasters ↔ Cafes — (@AGENT)
+
+> **Session:** 2026-04-02 — Audit wykonał: Playwright MCP + kod review
+> **Branch:** `feat/ux-consistency-cafes`
+
+**HIGH Priority (krytyczne niespójności):**
+- [x] [P1] **Header: Browse Cafes link** — dodać `/cafes` do nawigacji głównej (Header.tsx) — brak discovery dla kawiarni ✅
+- [x] [P1] **/cafes: filtry i wyszukiwanie** — dodać filtry kraju, search, paginację — parzystość z `/roasters` ✅
+- [ ] [P1] **/cafes: zdjęcia** — seed zdjęć dla kawiarni (obecnie tylko emoji ☕) — wymaga scrapera lub manualnej pracy
+- [ ] [P1] **Cafe profile: "0 roasters"** — seed relacje CafeRoasterRelation — **kod gotowy** (`prisma/seed_cafe_roasters.ts`), wymaga ręcznego uruchomienia na bazie
+- [x] [P1] **Cafe profile: SEO title** — napraw `<title>` z nazwą kawiarni (obecnie generic "Bean Map — Discover...") ✅
+
+**MEDIUM Priority (ulepszenia):**
+- [x] [P2] **Global search placeholder** — "Find a roaster..." → "Search roasters & cafes..." ✅
+- [x] [P2] **Homepage hero** — "Discover the world's specialty coffee roasters" → bardziej inclusive
+- [x] [P2] **Homepage stats** — dodać "X Cafes" do statystyk
+- [ ] [P2] **Cafe profile: hero image** — dodać zdjęcie na górze profilu
+- [x] [P2] **Cafe profile: breadcrumbs** — Home › Cafes › [City] › Name
+- [x] [P2] **Map page title** — "Coffee Roasters Map" → "Coffee Roasters & Cafes Map" ✅
+- [x] [P2] **Map sidebar header** — "50 beans" → "50 roasters" ✅
+- [ ] [P2] **Cafe description** — zamienić generic copy zECT na unikalne opisy
+
+**LOW Priority (nice-to-have):**
+- [x] [P3] **Footer: Browse Cafes** — dodać link do stopki
+- [ ] [P3] **Cafe verified badge** —badge weryfikacji jak przy roasters
+- [ ] [P3] **Cafe amenities icons** — ikony dla Wi-Fi, Vegan, etc.
+- [x] [P3] **Register CTA** — "List Your Cafe" obok "List Your Roastery"
+- [ ] [P3] **Social proof** — "X cafes serve this roaster" na profilu palarni
+- [ ] [P3] **Cafe amenities filter** — filtr poamenities w katalogu
+
+---
+
 ### Code Review — (@MN)
 
 - [x] [P1] **CR: Server Actions** — review `web/src/actions/*.ts` — walidacja Zod, error handling, revalidatePath, auth guards (@MN)

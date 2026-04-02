@@ -25,6 +25,11 @@ export function Footer() {
               </Link>
             </li>
             <li>
+              <Link className="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="/cafes">
+                Browse Cafes
+              </Link>
+            </li>
+            <li>
               <Link className="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="/map">
                 Interactive Map
               </Link>
@@ -48,6 +53,11 @@ export function Footer() {
               </Link>
             </li>
             <li>
+              <Link className="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="/cafes">
+                All Cafes
+              </Link>
+            </li>
+            <li>
               <Link className="text-stone-400 hover:text-orange-400 transition-colors hover:translate-x-1 inline-block" href="/map">
                 Map
               </Link>
@@ -67,6 +77,18 @@ export function Footer() {
             href="/register"
           >
             List Your Roastery
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
+            </svg>
+          </Link>
+          <p className="mt-4 mb-2">
+            Own a caf&eacute;? List it on Bean Map.
+          </p>
+          <Link
+            className="text-orange-500 font-semibold hover:text-white transition-colors flex items-center gap-2"
+            href="/register/cafe"
+          >
+            List Your Cafe
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
             </svg>

@@ -6,6 +6,7 @@ import { Suspense, useState } from "react";
 
 const NAV_LINKS = [
   { href: "/roasters", label: "Browse Roasters" },
+  { href: "/cafes", label: "Browse Cafes" },
   { href: "/map", label: "Map" },
   { href: "/register", label: "List Your Roastery", accent: true },
 ];
@@ -30,7 +31,7 @@ function HeaderSearch() {
       <input
         key={currentQ}
         className="bg-transparent border-none focus:ring-0 focus:outline-none text-sm w-32 lg:w-48 placeholder:text-on-surface-variant/60"
-        placeholder="Find a roaster..."
+        placeholder="Search roasters & cafes..."
         type="text"
         defaultValue={currentQ}
         onKeyDown={handleSearch}
