@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-03-30 | Cafe Profiles + Consumer Discovery — wszystkie 12 tasków ukończone (@MN, branch feat/mn-cafe-profiles)
+2026-04-02 | UX Consistency: Roasters ↔ Cafes — 11 fixes merged to main (branch feat/ux-consistency-cafes)
 
 ---
 
