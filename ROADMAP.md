@@ -29,9 +29,9 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [ ] [P2] **Homepage stats** — dodać "X Cafes" do statystyk
 - [ ] [P2] **Cafe profile: hero image** — dodać zdjęcie na górze profilu
 - [ ] [P2] **Cafe profile: breadcrumbs** — Home › Cafes › [City] › Name
-- [ ] [P2] **Map page title** — "Coffee Roasters Map" → "Coffee Roasters & Cafes Map"
-- [ ] [P2] **Map sidebar header** — "50 beans" → "50 roasters"
-- [ ] [P2] **Cafe description** — zamienić generic copy z ECT na unikalne opisy
+- [x] [P2] **Map page title** — "Coffee Roasters Map" → "Coffee Roasters & Cafes Map" ✅
+- [x] [P2] **Map sidebar header** — "50 beans" → "50 roasters" ✅
+- [ ] [P2] **Cafe description** — zamienić generic copy zECT na unikalne opisy
 
 **LOW Priority (nice-to-have):**
 - [ ] [P3] **Footer: Browse Cafes** — dodać link do stopki
