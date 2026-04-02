@@ -9,7 +9,7 @@ import { db } from "@/lib/db";
 export const revalidate = 3600; // re-generate every hour
 
 export default async function HomePage() {
-  const [featuredRoasters, roasterCount, countryCount] = await Promise.all([
+  const [featuredRoasters, roasterCount, countryCount, cafeCount] = await Promise.all([
     db.roaster.findMany({
       where: { status: "VERIFIED", featured: true },
       include: { images: { where: { isPrimary: true }, take: 1 } },
@@ -21,6 +21,7 @@ export default async function HomePage() {
       select: { countryCode: true },
       distinct: ["countryCode"],
     }).then((r) => r.length),
+    db.cafe.count({ where: { status: "VERIFIED" } }),
   ]);
   return (
     <>
@@ -30,11 +31,11 @@ export default async function HomePage() {
         <section className="max-w-7xl mx-auto px-6 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7">
             <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tight text-on-background leading-[1.1] mb-6 italic">
-              Discover the world&apos;s specialty coffee roasters
+              Discover specialty coffee
             </h1>
             <p className="text-lg md:text-xl text-on-surface-variant max-w-xl mb-10 leading-relaxed font-light">
               The global directory connecting caf&eacute;s and coffee lovers with
-              verified specialty roasters.
+              verified specialty roasters worldwide.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
@@ -105,10 +106,15 @@ export default async function HomePage() {
 
         {/* Stats Bar */}
         <div className="bg-surface-container-low">
-          <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-center items-center gap-12 md:gap-24">
+          <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-center items-center gap-12 md:gap-20">
             <div className="text-center">
               <span className="block text-3xl font-headline font-bold text-primary">{roasterCount}+</span>
               <span className="text-xs uppercase tracking-widest text-on-surface-variant font-medium">Roasters</span>
+            </div>
+            <div className="h-8 w-px bg-outline-variant/30 hidden md:block" />
+            <div className="text-center">
+              <span className="block text-3xl font-headline font-bold text-primary">{cafeCount}</span>
+              <span className="text-xs uppercase tracking-widest text-on-surface-variant font-medium">Cafes</span>
             </div>
             <div className="h-8 w-px bg-outline-variant/30 hidden md:block" />
             <div className="text-center">
