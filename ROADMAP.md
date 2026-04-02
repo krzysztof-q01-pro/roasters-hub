@@ -25,19 +25,19 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 **MEDIUM Priority (ulepszenia):**
 - [x] [P2] **Global search placeholder** — "Find a roaster..." → "Search roasters & cafes..." ✅
-- [x] [P2] **Homepage hero** — "Discover the world's specialty coffee roasters" → bardziej inclusive
-- [x] [P2] **Homepage stats** — dodać "X Cafes" do statystyk
+- [x] [P2] **Homepage hero** — "Discover the world's specialty coffee roasters" → bardziej inclusive ✅
+- [x] [P2] **Homepage stats** — dodać "X Cafes" do statystyk ✅
 - [ ] [P2] **Cafe profile: hero image** — dodać zdjęcie na górze profilu
-- [x] [P2] **Cafe profile: breadcrumbs** — Home › Cafes › [City] › Name
+- [x] [P2] **Cafe profile: breadcrumbs** — Home › Cafes › [City] › Name ✅
 - [x] [P2] **Map page title** — "Coffee Roasters Map" → "Coffee Roasters & Cafes Map" ✅
 - [x] [P2] **Map sidebar header** — "50 beans" → "50 roasters" ✅
 - [ ] [P2] **Cafe description** — zamienić generic copy zECT na unikalne opisy
 
 **LOW Priority (nice-to-have):**
-- [x] [P3] **Footer: Browse Cafes** — dodać link do stopki
+- [x] [P3] **Footer: Browse Cafes** — dodać link do stopki ✅
 - [ ] [P3] **Cafe verified badge** —badge weryfikacji jak przy roasters
 - [ ] [P3] **Cafe amenities icons** — ikony dla Wi-Fi, Vegan, etc.
-- [x] [P3] **Register CTA** — "List Your Cafe" obok "List Your Roastery"
+- [x] [P3] **Register CTA** — "List Your Cafe" obok "List Your Roastery" ✅
 - [ ] [P3] **Social proof** — "X cafes serve this roaster" na profilu palarni
 - [ ] [P3] **Cafe amenities filter** — filtr poamenities w katalogu
 
