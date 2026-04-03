@@ -100,19 +100,7 @@ jobs:
           echo "Migrations: applied"
           echo "Seed: ${{ contains(github.event.head_commit.message, 'seed') && 'executed' || 'skipped' }}"
 
-  deploy-vercel:
-    name: Deploy to Vercel Production
-    needs: migrate-and-seed
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          working-directory: web
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-args: '--prod'
+  # Note: Vercel automatically deploys on push to main
+  # This workflow focuses on database migrations and seeding
+  # Vercel deployment status can be monitored at:
+  # https://vercel.com/krzysztof-8092s-projects/beanmap-web
