@@ -8,12 +8,71 @@
 ## 📋 Spis treści
 
 1. [Architektura Pipeline](#architektura-pipeline)
-2. [Preview Database (PR)](#preview-database-pr)
-3. [Production Deploy](#production-deploy)
-4. [Wymagane Secrets](#wymagane-secrets)
-5. [Komendy diagnostyczne](#komendy-diagnostyczne)
-6. [Rollback](#rollback)
-7. [Troubleshooting](#troubleshooting)
+2. [Git Hooks & Branch Strategy](#git-hooks--branch-strategy)
+3. [Preview Database (PR)](#preview-database-pr)
+4. [Production Deploy](#production-deploy)
+5. [Wymagane Secrets](#wymagane-secrets)
+6. [Komendy diagnostyczne](#komendy-diagnostyczne)
+7. [Rollback](#rollback)
+8. [Troubleshooting](#troubleshooting)
+
+---
+
+## Git Hooks & Branch Strategy
+
+### ZŁOTA REGUŁA
+
+**PO KAŻDEJ zmianie kodu lub bazy danych — wynik ZAWSZE na nowym branchu.**
+**NIGDY nie pushuj bezpośrednio do `main`.**
+
+Merge tylko przez PR po review. Wyjątek: zmiany TYLKO w plikach dokumentacji/instrukcji.
+
+### Git Hooks (setup)
+
+Repo używa `.githooks/` (nie husky — monorepo z `.git` w root).
+
+**Setup (raz na środowisko):**
+```bash
+git config core.hooksPath .githooks
+```
+
+**Hooki:**
+
+| Hook | Skrypt | Cel |
+|------|--------|-----|
+| `pre-commit` | `tools/consistency_check.py` | Spójność ROADMAP ↔ kod ↔ docs |
+| `pre-push` | `tools/branch-guard.sh` | Blokuje push kodu/DB do main |
+
+### Jak działa branch-guard
+
+Pre-push hook (`tools/branch-guard.sh`) analizuje pliki zmienione w commitach pushowanych do `main`:
+
+| Wymaga brancha | Dozwolone na main |
+|----------------|-------------------|
+| `web/src/**` | `CLAUDE.md`, `AGENTS.md` |
+| `web/prisma/**` | `ROADMAP.md`, `PROJECT_STATUS.md` |
+| `web/package.json`, `web/next.config.ts` | `docs/**` |
+| `tools/**`, `.github/**` | `.tmp/`, `.claude/` |
+
+**Bypass (awaryjny, NIE ZALECANY):** `git push --no-verify`
+
+### Flow pracy z branchami
+
+```
+1. git checkout -b feat/opis-zmiany        # nowy branch
+2. ... kodowanie, commity ...
+3. git push origin feat/opis-zmiany        # push na branch
+4. Otwórz PR w GitHub
+5. Review (człowiek) → merge przez PR
+6. git checkout main && git pull            # aktualizuj lokalny main
+```
+
+**Nazewnictwo branchy:**
+| Worker | Pattern | Przykład |
+|--------|---------|----------|
+| Agent | `feat/agent-YYYY-WW` | `feat/agent-2026-14` |
+| Marek | `feat/mn-<slug>` | `feat/mn-email-notifications` |
+| Krzysztof | `feat/kk-<slug>` | `feat/kk-stripe-integration` |
 
 ---
 
@@ -352,19 +411,22 @@ Przed rozpoczęciem pracy z CI/CD:
 - [ ] Czytałem `PROJECT_STATUS.md` i `ROADMAP.md`
 - [ ] Sprawdziłem `gh run list --limit 5`
 - [ ] Wszystkie wymagane secrets są ustawione (jeśli nie → zgłoś)
-- [ ] Pracuję na branchu feature (nigdy bezpośrednio na main)
+- [ ] Pracuję na branchu feature (nigdy bezpośrednio na main) — enforced przez `pre-push` hook
 - [ ] Znam komendę `gh run view <id> --log-failed` na wypadek błędów
+- [ ] Mam skonfigurowane git hooks: `git config core.hooksPath .githooks`
 
 ---
 
 ## Zobacz też
 
-- `CLAUDE.md` — ogólne instrukcje procesowe
-- `AGENTS.md` — instrukcje specyficzne dla OpenCode
+- `CLAUDE.md` — ogólne instrukcje procesowe, ZŁOTA REGUŁA
+- `AGENTS.md` — instrukcje specyficzne dla OpenCode, git hooks setup
+- `.githooks/` — pre-commit i pre-push hooki
+- `tools/branch-guard.sh` — skrypt blokujący push kodu do main
 - `.github/workflows/` — kod źródłowy workflowów
 - `web/prisma/` — migracje i seedy
 
 ---
 
-**Last Updated:** 2026-04-03  
+**Last Updated:** 2026-04-03 (added Git Hooks & Branch Strategy)  
 **Maintainer:** @MN (Marek Nadra)
