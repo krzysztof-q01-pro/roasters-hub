@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-04-03 | UX Consistency: Roasters ↔ Cafes — 17/19 tasks completed, branch merged to main
+2026-04-03 | UX Polish: Cafe Amenities — icons on profile + filter in catalog (P3 tasks complete)
 
 ---
 
@@ -74,9 +74,10 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 **@MN:** —
 **@KK:** —
-**@AGENT:** UX Consistency: Roasters ↔ Cafes — 17/19 DONE (merged). Pozostało: [P3] amenities icons, [P3] amenities filter.
+**@AGENT:** — (UX Consistency 19/19 DONE, UX Polish Amenities DONE)
 
 **Completed recently:**
+- ✅ UX Polish: Cafe Amenities — icons on profile, multi-select filter in /cafes catalog (2026-04-03)
 - ✅ UX Consistency: Header — "Browse Cafes" link + search placeholder update (2026-04-02)
 - ✅ UX Consistency: /cafes — filtry kraju, wyszukiwanie, paginacja, breadcrumbs, result count (2026-04-02)
 - ✅ UX Consistency: Cafe profile SEO — generateMetadata z nazwą kawiarni (2026-04-02)

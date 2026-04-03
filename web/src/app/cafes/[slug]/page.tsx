@@ -6,6 +6,7 @@ import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { CafeReviewForm } from "@/components/cafes/CafeReviewForm";
 import { CafeReviewList } from "@/components/cafes/CafeReviewList";
+import { AmenityIcon } from "@/components/cafes/AmenityIcon";
 import { db } from "@/lib/db";
 
 export const revalidate = 3600;
@@ -192,11 +193,12 @@ export default async function CafeProfilePage({
             {cafe.services.length > 0 && (
               <div>
                 <h2 className="font-headline text-xl italic mb-3">Amenities</h2>
-                <div className="flex flex-wrap gap-2">
+                <div className="grid grid-cols-2 gap-3">
                   {cafe.services.map((item) => (
-                    <span key={item} className="bg-surface-container text-sm px-3 py-1 rounded-full">
-                      {item}
-                    </span>
+                    <div key={item} className="flex items-center gap-2 text-sm text-on-surface-variant/80">
+                      <AmenityIcon service={item} className="w-5 h-5 text-on-surface-variant/60 shrink-0" />
+                      <span>{item}</span>
+                    </div>
                   ))}
                 </div>
               </div>
