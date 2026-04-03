@@ -26,15 +26,11 @@ export default async function CafesPage({
   const page = Number(params.page) || 1;
   const country = typeof params.country === "string" ? params.country : undefined;
   const q = typeof params.q === "string" ? params.q : undefined;
-  const amenities = typeof params.amenities === "string"
-    ? params.amenities.split(",").filter(Boolean)
-    : [];
 
   const where: Prisma.CafeWhereInput = {
     status: "VERIFIED",
     ...(country && { countryCode: country }),
     ...(q && { name: { contains: q, mode: "insensitive" as const } }),
-    ...(amenities.length > 0 && { services: { hasSome: amenities } }),
   };
 
   const [total, cafes, countryRows] = await Promise.all([

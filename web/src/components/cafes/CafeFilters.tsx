@@ -2,8 +2,6 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
-import { CAFE_SERVICES } from "@/types/cafe-services";
-import { AmenityIcon } from "./AmenityIcon";
 
 interface CafeFiltersProps {
   countries: { code: string; name: string; count: number }[];
@@ -28,29 +26,14 @@ export function CafeFilters({ countries }: CafeFiltersProps) {
     [router, searchParams]
   );
 
-  const toggleAmenity = useCallback(
-    (amenity: string) => {
-      const current = searchParams.get("amenities");
-      const amenities = current ? current.split(",") : [];
-      const updated = amenities.includes(amenity)
-        ? amenities.filter((a) => a !== amenity)
-        : [...amenities, amenity];
-      updateFilter("amenities", updated.length > 0 ? updated.join(",") : null);
-    },
-    [searchParams, updateFilter]
-  );
-
   const clearAll = useCallback(() => {
     router.push("/cafes");
   }, [router]);
 
   const activeCountry = searchParams.get("country");
-  const activeAmenities = searchParams.get("amenities")?.split(",") || [];
 
   const hasActiveFilters =
-    !!searchParams.get("country") ||
-    !!searchParams.get("q") ||
-    activeAmenities.length > 0;
+    !!searchParams.get("country") || !!searchParams.get("q");
 
   return (
     <aside className="w-full lg:w-[300px] shrink-0">
@@ -110,29 +93,6 @@ export function CafeFilters({ countries }: CafeFiltersProps) {
               </option>
             ))}
           </select>
-        </div>
-
-        <div>
-          <label className="text-xs font-semibold uppercase tracking-wider mb-3 block">Amenities</label>
-          <div className="flex flex-wrap gap-2">
-            {CAFE_SERVICES.map((service) => {
-              const isActive = activeAmenities.includes(service);
-              return (
-                <button
-                  key={service}
-                  onClick={() => toggleAmenity(service)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                    isActive
-                      ? "bg-primary text-on-primary"
-                      : "bg-surface-container text-on-surface-variant hover:bg-surface-container-high"
-                  }`}
-                >
-                  <AmenityIcon service={service} className="w-3.5 h-3.5" />
-                  {service}
-                </button>
-              );
-            })}
-          </div>
         </div>
       </div>
     </aside>
