@@ -1,0 +1,63 @@
+#!/bin/bash
+# Pre-commit consistency gate — roasters-hub
+# Runs consistency_check.py before every commit.
+# Bypass: git commit --no-verify
+
+set -e
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+SCRIPT="$REPO_ROOT/tools/consistency_check.py"
+RESULT_FILE="/tmp/consistency_result_$$.json"
+
+# Graceful degradation if script doesn't exist
+if [ ! -f "$SCRIPT" ]; then
+  echo "[pre-commit] consistency_check.py not found — skipping"
+  exit 0
+fi
+
+echo "[pre-commit] Sprawdzam spójność projektu..."
+
+# Step 1: Try to auto-fix what we can
+python3 "$SCRIPT" --fix all > "$RESULT_FILE" 2>&1
+FIX_EXIT=$?
+
+if [ $FIX_EXIT -eq 0 ]; then
+  echo "[pre-commit] ✅ Wszystkie sprawdzenia OK"
+  rm -f "$RESULT_FILE"
+  exit 0
+fi
+
+# Step 2: Re-run read-only to check if fixes resolved everything
+python3 "$SCRIPT" > "$RESULT_FILE" 2>&1
+RECHECK_EXIT=$?
+
+if [ $RECHECK_EXIT -eq 0 ]; then
+  echo "[pre-commit] ✅ Poprawki zastosowane automatycznie — staging zaktualizowanych plików"
+  git add -u
+  rm -f "$RESULT_FILE"
+  exit 0
+fi
+
+# Step 3: Still failing — show details and block commit
+echo ""
+echo "[pre-commit] ❌ BLOKADA: Niespójności projektu (--fix all nie wystarczyło)"
+echo ""
+python3 -c "
+import json, sys
+try:
+    data = json.load(open('$RESULT_FILE'))
+    for c in data.get('checks', []):
+        if c.get('status') == 'FAIL':
+            print(f'  FAIL {c[\"id\"]} [{c[\"severity\"]}]: {c.get(\"details\", \"\")}')
+            if not c.get('auto_fixable', False):
+                print(f'       → wymaga ręcznej naprawy')
+            print()
+except Exception as e:
+    print(f'  (nie udało się sparsować raportu: {e})')
+" 2>/dev/null || echo "  (nie udało się sparsować raportu — sprawdź $RESULT_FILE)"
+
+echo "Napraw ręcznie, potem ponów commit."
+echo "Awaryjnie (omija ten hook): git commit --no-verify"
+echo ""
+rm -f "$RESULT_FILE"
+exit 1

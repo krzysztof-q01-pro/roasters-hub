@@ -25,6 +25,31 @@ Dotyczy WSZYSTKICH workerów: `@MN`, `@KK`, `@AGENT`.
 
 **Wyjątek:** `git checkout main && git pull` — tylko po to żeby zaktualizować lokalny main.
 
+**Wyjątek od wyjątku:** Zmiany TYLKO w plikach dokumentacji/instrukcji (`CLAUDE.md`, `AGENTS.md`, `ROADMAP.md`, `PROJECT_STATUS.md`, `docs/`) mogą być pushowane bezpośrednio do main. Pre-push hook (`tools/branch-guard.sh`) automatycznie blokuje push kodu/DB do main, ale przepuszcza dokumentację.
+
+---
+
+## Git Hooks (setup)
+
+Repo używa `.githooks/` (nie husky — monorepo z `.git` w root).
+
+**Setup (raz na środowisko):**
+```bash
+git config core.hooksPath .githooks
+```
+
+**Hooki:**
+- `pre-commit` — consistency check (`tools/consistency_check.py`)
+- `pre-push` — branch guard (`tools/branch-guard.sh`) — blokuje push kodu do main
+
+**Kategorie plików:**
+| Wymaga brancha | Dozwolone na main |
+|----------------|-------------------|
+| `web/src/**` | `CLAUDE.md`, `AGENTS.md` |
+| `web/prisma/**` | `ROADMAP.md`, `PROJECT_STATUS.md` |
+| `web/package.json`, `web/next.config.ts` | `docs/**` |
+| `tools/**`, `.github/**` | `.tmp/`, `.claude/` |
+
 ---
 
 ## Sprawdzanie GitHub Actions / Deploymentów
