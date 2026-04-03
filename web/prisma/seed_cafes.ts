@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaNeon } from "@prisma/adapter-neon";
 
+// Production seed workflow test - 2026-04-03
 const adapter = new PrismaNeon({
   connectionString: process.env.DIRECT_URL ?? process.env.DATABASE_URL!,
 });
