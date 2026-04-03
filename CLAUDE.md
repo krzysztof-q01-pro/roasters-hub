@@ -15,7 +15,24 @@ Uprawnienia do narzędzi (git, npm, Read, Write) są auto-approved w `.claude/se
 
 ---
 
-## Branch Strategy
+## Branch Strategy — ZŁOTA REGUŁA
+
+**PO KAŻDEJ zmianie kodu lub bazy danych — wynik ZAWSZE na nowym branchu.**
+**NIGDY nie commituj i nie pushuj bezpośrednio do `main`.**
+
+Dotyczy WSZYSTKICH workerów: `@MN`, `@KK`, `@AGENT`.
+
+**Procedura:**
+1. Przed zmianami: ustal branch (`feat/agent-YYYY-WW` dla agenta, `feat/mn-*` / `feat/kk-*` dla ludzi)
+2. Cała praca tylko na branchu
+3. Push tylko na branch — nigdy na main
+4. Merge tylko przez PR po review
+
+**Wyjątek:** `git checkout main && git pull` — tylko po to żeby zaktualizować lokalny main.
+
+---
+
+## Branch Strategy (szczegóły)
 
 Agenty autonomiczne (nocne/scheduled) **MUSZĄ** pracować na tygodniowym feature branchu:
 
