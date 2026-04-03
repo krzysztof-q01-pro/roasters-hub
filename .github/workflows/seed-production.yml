@@ -1,0 +1,44 @@
+name: Seed Production Database
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "web/prisma/seed*.ts"
+
+jobs:
+  seed-production:
+    name: Seed Production DB
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - run: npm install
+
+      - name: Run migrations
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
+      - name: Seed Cafes
+        run: npx tsx prisma/seed_cafes.ts
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
+      - name: Seed Cafe-Roaster Relations
+        run: npx tsx prisma/seed_cafe_roasters_random.ts
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
