@@ -97,3 +97,27 @@ Za każdym razem gdy:
 `[SCOPE] action: description`
 
 Scopes: `DB | AUTH | ACTION | UI | SEED | INFRA | DOCS | AGENT`
+
+---
+
+## CI/CD & Deployment
+
+Szczegółowa dokumentacja: [`docs/github-workflows.md`](docs/github-workflows.md)
+
+**Kluczowe zasady:**
+- Każdy PR dostaje **własną bazę danych** (Neon branch) + Vercel Preview
+- Produkcja: migracje i seed przez GitHub Actions (sekwencyjnie)
+- Vercel deployuje automatycznie na push do main
+- Wymagane secrets: `DATABASE_URL`, `DIRECT_URL`, `NEON_API_KEY`, `VERCEL_TOKEN`
+
+**Monitorowanie:**
+```bash
+# Status workflow
+gh run list --branch main --limit 5
+
+# Logi błędów
+gh run view <id> --log-failed
+
+# Deploymenty
+gh api repos/BeanMap/roasters-hub/deployments --jq '.[0:3]'
+```

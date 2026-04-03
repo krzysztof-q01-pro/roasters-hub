@@ -66,6 +66,7 @@ Mapa do całej dokumentacji projektu. Znajdź właściwy dokument szybko.
 
 | Dokument | Zawartość |
 |----------|-----------|
+| [`github-workflows.md`](github-workflows.md) | **CI/CD Guide** — pipeline GitHub Actions, Preview DB, Production Deploy, secrets, troubleshooting |
 | [`/workflows/scheduled_run.md`](../workflows/scheduled_run.md) | SOP autonomicznej sesji agenta (6 kroków) |
 | [`/workflows/consistency_check.md`](../workflows/consistency_check.md) | 10-punktowa kontrola spójności (C1–C10) |
 | [`/workflows/review_agent_branch.md`](../workflows/review_agent_branch.md) | Protokół review PR agenta przed merge |

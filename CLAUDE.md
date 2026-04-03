@@ -208,3 +208,15 @@ Po KAŻDYM ukończonym zadaniu — zanim powiesz użytkownikowi że skończyłe�
 | Workflow SOPs | `workflows/` |
 
 **WAT Framework:** Projekt używa Workflows → Agents → Tools. Sprawdź `tools/` przed ręcznym budowaniem czegokolwiek. Sprawdź `workflows/` dla SOPs. Nie twórz ani nie nadpisuj workflows bez pytania.
+
+### CI/CD & GitHub Actions
+
+Pełna dokumentacja procesów CI/CD: [`docs/github-workflows.md`](docs/github-workflows.md)
+
+| Workflow | Trigger | Cel |
+|----------|---------|-----|
+| `preview-db.yml` | PR opened/sync | Tworzy izolowaną bazę Neon + Vercel Preview |
+| `production-deploy.yml` | Push to main | Migracje + Seed na produkcji |
+| `ci.yml` | PR to main | Lint, TypeScript, Tests |
+
+**Każdy PR dostaje własną bazę danych.** Szczegóły w dokumentacji.
