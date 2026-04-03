@@ -6,6 +6,211 @@ datasource db {
   provider = "postgresql"
 }
 
+model UserProfile {
+  id            String         @id
+  email         String         @unique
+  role          UserRole       @default(ROASTER)
+  roasterId     String?        @unique
+  createdAt     DateTime       @default(now())
+  cafeId        String?        @unique
+  adminNotes    AdminNote[]
+  savedRoasters SavedRoaster[]
+  cafe          Cafe?          @relation(fields: [cafeId], references: [id])
+  roaster       Roaster?       @relation(fields: [roasterId], references: [id])
+
+  @@map("user_profiles")
+}
+
+model Roaster {
+  id             String                @id @default(cuid())
+  name           String
+  slug           String                @unique
+  description    String?
+  country        String
+  countryCode    String
+  city           String
+  lat            Float?
+  lng            Float?
+  website        String?
+  email          String?
+  instagram      String?
+  facebook       String?
+  shopUrl        String?
+  certifications String[]
+  origins        String[]
+  roastStyles    String[]
+  status         RoasterStatus         @default(PENDING)
+  featured       Boolean               @default(false)
+  featuredUntil  DateTime?
+  verifiedAt     DateTime?
+  rejectedAt     DateTime?
+  rejectedReason String?
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+  adminNotes     AdminNote[]
+  servedAt       CafeRoasterRelation[]
+  events         ProfileEvent[]
+  reviews        Review[]
+  images         RoasterImage[]
+  savedBy        SavedRoaster[]
+  owner          UserProfile?
+
+  @@index([status])
+  @@index([country])
+  @@index([countryCode])
+  @@index([city])
+  @@index([featured])
+  @@index([status, featured])
+  @@map("roasters")
+}
+
+model RoasterImage {
+  id        String  @id @default(cuid())
+  roasterId String
+  url       String
+  alt       String?
+  order     Int     @default(0)
+  isPrimary Boolean @default(false)
+  roaster   Roaster @relation(fields: [roasterId], references: [id], onDelete: Cascade)
+
+  @@index([roasterId])
+  @@map("roaster_images")
+}
+
+model ProfileEvent {
+  id        String    @id @default(cuid())
+  roasterId String
+  type      EventType
+  ipHash    String?
+  userAgent String?
+  createdAt DateTime  @default(now())
+  roaster   Roaster   @relation(fields: [roasterId], references: [id], onDelete: Cascade)
+
+  @@index([roasterId])
+  @@index([roasterId, type])
+  @@index([createdAt])
+  @@map("profile_events")
+}
+
+model AdminNote {
+  id        String      @id @default(cuid())
+  roasterId String
+  adminId   String
+  note      String
+  createdAt DateTime    @default(now())
+  admin     UserProfile @relation(fields: [adminId], references: [id])
+  roaster   Roaster     @relation(fields: [roasterId], references: [id], onDelete: Cascade)
+
+  @@index([roasterId])
+  @@map("admin_notes")
+}
+
+model NewsletterSubscriber {
+  id          String            @id @default(cuid())
+  email       String            @unique
+  segment     NewsletterSegment @default(CONSUMER)
+  confirmedAt DateTime?
+  createdAt   DateTime          @default(now())
+
+  @@map("newsletter_subscribers")
+}
+
+model Review {
+  id         String       @id @default(cuid())
+  roasterId  String?
+  authorName String
+  rating     Int
+  comment    String?
+  status     ReviewStatus @default(PENDING)
+  createdAt  DateTime     @default(now())
+  cafeId     String?
+  cafe       Cafe?        @relation(fields: [cafeId], references: [id], onDelete: Cascade)
+  roaster    Roaster?     @relation(fields: [roasterId], references: [id], onDelete: Cascade)
+
+  @@index([roasterId])
+  @@index([roasterId, status])
+  @@index([cafeId])
+  @@index([cafeId, status])
+  @@map("reviews")
+}
+
+model SavedRoaster {
+  id        String      @id @default(cuid())
+  userId    String
+  roasterId String
+  createdAt DateTime    @default(now())
+  roaster   Roaster     @relation(fields: [roasterId], references: [id], onDelete: Cascade)
+  user      UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roasterId])
+  @@index([userId])
+  @@map("saved_roasters")
+}
+
+model Cafe {
+  id             String                @id @default(cuid())
+  name           String
+  slug           String                @unique
+  description    String?
+  country        String
+  countryCode    String
+  city           String
+  address        String?
+  lat            Float?
+  lng            Float?
+  website        String?
+  instagram      String?
+  phone          String?
+  logoUrl        String?
+  coverImageUrl  String?
+  status         CafeStatus            @default(PENDING)
+  featured       Boolean               @default(false)
+  verifiedAt     DateTime?
+  rejectedAt     DateTime?
+  rejectedReason String?
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+  sourceUrl      String?
+  openingHours   String?
+  serving        String[]              @default([])
+  services       String[]              @default([])
+  roasters       CafeRoasterRelation[]
+  reviews        Review[]
+  owner          UserProfile?
+
+  @@index([status])
+  @@index([country])
+  @@index([city])
+  @@index([serving], type: Gin)
+  @@index([services], type: Gin)
+  @@map("cafes")
+}
+
+model CafeRoasterRelation {
+  id        String   @id @default(cuid())
+  cafeId    String
+  roasterId String
+  createdAt DateTime @default(now())
+  cafe      Cafe     @relation(fields: [cafeId], references: [id], onDelete: Cascade)
+  roaster   Roaster  @relation(fields: [roasterId], references: [id], onDelete: Cascade)
+
+  @@unique([cafeId, roasterId])
+  @@index([cafeId])
+  @@index([roasterId])
+  @@map("cafe_roaster_relations")
+}
+
+model ApiKey {
+  id        String    @id @default(cuid())
+  name      String
+  key       String    @unique
+  createdAt DateTime  @default(now())
+  lastUsed  DateTime?
+  active    Boolean   @default(true)
+
+  @@map("api_keys")
+}
+
 enum RoasterStatus {
   PENDING
   VERIFIED
@@ -15,8 +220,8 @@ enum RoasterStatus {
 
 enum UserRole {
   ROASTER
-  CAFE
   ADMIN
+  CAFE
 }
 
 enum EventType {
@@ -44,216 +249,4 @@ enum NewsletterSegment {
   CAFE
   CONSUMER
   ROASTER
-}
-
-// UserProfile uzupełnia Clerk Auth — id = Clerk userId (user_xxx)
-model UserProfile {
-  id        String    @id // = Clerk userId, ustawiany przy tworzeniu profilu
-  email     String    @unique
-  role      UserRole  @default(ROASTER)
-  roaster   Roaster?  @relation(fields: [roasterId], references: [id])
-  roasterId String?   @unique
-  cafe      Cafe?     @relation(fields: [cafeId], references: [id])
-  cafeId    String?   @unique
-  createdAt DateTime  @default(now())
-
-  adminNotes    AdminNote[]
-  savedRoasters SavedRoaster[]
-
-  @@map("user_profiles")
-}
-
-model Roaster {
-  id          String        @id @default(cuid())
-  name        String
-  slug        String        @unique
-  description String?       @db.Text
-  country     String
-  countryCode String
-  city        String
-  lat         Float?
-  lng         Float?
-
-  website     String?
-  email       String?
-  instagram   String?
-  facebook    String?
-  shopUrl     String?
-
-  certifications String[]
-  origins        String[]
-  roastStyles    String[]
-
-  status       RoasterStatus @default(PENDING)
-  featured     Boolean       @default(false)
-  featuredUntil DateTime?
-
-  images       RoasterImage[]
-  events       ProfileEvent[]
-  reviews      Review[]
-  adminNotes   AdminNote[]
-  savedBy      SavedRoaster[]
-  servedAt     CafeRoasterRelation[]
-  owner        UserProfile?
-
-  verifiedAt     DateTime?
-  rejectedAt     DateTime?
-  rejectedReason String?
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-
-  @@index([status])
-  @@index([country])
-  @@index([countryCode])
-  @@index([city])
-  @@index([featured])
-  @@index([status, featured])
-  @@map("roasters")
-}
-
-model RoasterImage {
-  id         String   @id @default(cuid())
-  roaster    Roaster  @relation(fields: [roasterId], references: [id], onDelete: Cascade)
-  roasterId  String
-  url        String
-  alt        String?
-  order      Int      @default(0)
-  isPrimary  Boolean  @default(false)
-
-  @@index([roasterId])
-  @@map("roaster_images")
-}
-
-model ProfileEvent {
-  id        String    @id @default(cuid())
-  roaster   Roaster   @relation(fields: [roasterId], references: [id], onDelete: Cascade)
-  roasterId String
-  type      EventType
-  ipHash    String?
-  userAgent String?
-  createdAt DateTime  @default(now())
-
-  @@index([roasterId])
-  @@index([roasterId, type])
-  @@index([createdAt])
-  @@map("profile_events")
-}
-
-model AdminNote {
-  id        String      @id @default(cuid())
-  roaster   Roaster     @relation(fields: [roasterId], references: [id], onDelete: Cascade)
-  roasterId String
-  admin     UserProfile @relation(fields: [adminId], references: [id])
-  adminId   String
-  note      String      @db.Text
-  createdAt DateTime    @default(now())
-
-  @@index([roasterId])
-  @@map("admin_notes")
-}
-
-model NewsletterSubscriber {
-  id           String              @id @default(cuid())
-  email        String              @unique
-  segment      NewsletterSegment   @default(CONSUMER)
-  confirmedAt  DateTime?
-  createdAt    DateTime            @default(now())
-
-  @@map("newsletter_subscribers")
-}
-
-model Review {
-  id         String       @id @default(cuid())
-  roaster    Roaster?     @relation(fields: [roasterId], references: [id], onDelete: Cascade)
-  roasterId  String?
-  cafe       Cafe?        @relation(fields: [cafeId], references: [id], onDelete: Cascade)
-  cafeId     String?
-  authorName String
-  rating     Int
-  comment    String?      @db.Text
-  status     ReviewStatus @default(PENDING)
-  createdAt  DateTime     @default(now())
-
-  @@index([roasterId])
-  @@index([roasterId, status])
-  @@index([cafeId])
-  @@index([cafeId, status])
-  @@map("reviews")
-}
-
-model SavedRoaster {
-  id        String      @id @default(cuid())
-  user      UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
-  roaster   Roaster     @relation(fields: [roasterId], references: [id], onDelete: Cascade)
-  roasterId String
-  createdAt DateTime    @default(now())
-
-  @@unique([userId, roasterId])
-  @@index([userId])
-  @@map("saved_roasters")
-}
-
-model Cafe {
-  id            String     @id @default(cuid())
-  name          String
-  slug          String     @unique
-  description   String?    @db.Text
-  country       String
-  countryCode   String
-  city          String
-  address       String?
-  lat           Float?
-  lng           Float?
-  website       String?
-  instagram     String?
-  phone         String?
-  logoUrl       String?
-  coverImageUrl String?
-  sourceUrl     String?
-  openingHours  String?    @db.Text
-  serving       String[]
-  services      String[]
-  status        CafeStatus @default(PENDING)
-  featured      Boolean    @default(false)
-  owner         UserProfile?
-  roasters      CafeRoasterRelation[]
-  reviews       Review[]
-  verifiedAt    DateTime?
-  rejectedAt    DateTime?
-  rejectedReason String?
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-
-  @@index([status])
-  @@index([country])
-  @@index([city])
-  @@index([serving])
-  @@index([services])
-  @@map("cafes")
-}
-
-model CafeRoasterRelation {
-  id        String   @id @default(cuid())
-  cafeId    String
-  cafe      Cafe     @relation(fields: [cafeId], references: [id], onDelete: Cascade)
-  roasterId String
-  roaster   Roaster  @relation(fields: [roasterId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-
-  @@unique([cafeId, roasterId])
-  @@index([cafeId])
-  @@index([roasterId])
-  @@map("cafe_roaster_relations")
-}
-
-model ApiKey {
-  id        String   @id @default(cuid())
-  name      String   // e.g. "Partner XYZ"
-  key       String   @unique // hashed key prefix for lookup
-  createdAt DateTime @default(now())
-  lastUsed  DateTime?
-  active    Boolean  @default(true)
-
-  @@map("api_keys")
 }

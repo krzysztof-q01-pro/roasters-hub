@@ -1,0 +1,146 @@
+name: Production Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "web/prisma/seed*.ts"
+      - "web/prisma/migrations/**"
+      - ".github/workflows/production-deploy.yml"
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    name: Lint, Type Check & Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - run: npm install
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: TypeScript
+        run: npx tsc --noEmit
+
+      - name: Unit Tests
+        run: npm run test
+
+  migrate-and-seed:
+    name: Migrate & Seed Production DB
+    needs: ci
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Get Production DB connection string from Neon
+        id: neon
+        run: |
+          echo "Fetching production database connection from Neon API..."
+          
+          # Get the main branch ID first
+          BRANCH_ID=$(curl -s \
+            "https://console.neon.tech/api/v2/projects/${{ secrets.NEON_PROJECT_ID }}/branches" \
+            -H "Authorization: Bearer ${{ secrets.NEON_API_KEY }}" \
+            -H "Accept: application/json" \
+            | jq -r '.branches[] | select(.name == "main") | .id')
+          
+          if [ -z "$BRANCH_ID" ]; then
+            echo "Error: Could not find main branch"
+            exit 1
+          fi
+          
+          echo "Found main branch: $BRANCH_ID"
+          
+          # Get connection string
+          DB_URL=$(curl -s \
+            "https://console.neon.tech/api/v2/projects/${{ secrets.NEON_PROJECT_ID }}/connection_strings" \
+            -H "Authorization: Bearer ${{ secrets.NEON_API_KEY }}" \
+            -H "Accept: application/json" \
+            | jq -r ".connection_strings[] | select(.branch_id == \"$BRANCH_ID\") | select(.role_name == \"neondb_owner\") | .connection_string")
+          
+          if [ -z "$DB_URL" ]; then
+            # Fallback: construct connection string
+            ENDPOINT=$(curl -s \
+              "https://console.neon.tech/api/v2/projects/${{ secrets.NEON_PROJECT_ID }}/branches/$BRANCH_ID/endpoints" \
+              -H "Authorization: Bearer ${{ secrets.NEON_API_KEY }}" \
+              -H "Accept: application/json" \
+              | jq -r '.endpoints[0].host')
+            
+            DB_URL="postgresql://neondb_owner@$ENDPOINT/neondb?sslmode=require"
+          fi
+          
+          # Mask the URL in logs
+          echo "::add-mask::$DB_URL"
+          echo "db_url=$DB_URL" >> $GITHUB_OUTPUT
+          echo "✅ Successfully fetched database connection"
+
+      - name: Run database migrations
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ steps.neon.outputs.db_url }}
+          DIRECT_URL: ${{ steps.neon.outputs.db_url }}
+
+      - name: Seed Cafes (if seed_cafes.ts changed)
+        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'seed_cafes.ts')
+        run: npx tsx prisma/seed_cafes.ts
+        env:
+          DATABASE_URL: ${{ steps.neon.outputs.db_url }}
+          DIRECT_URL: ${{ steps.neon.outputs.db_url }}
+
+      - name: Seed Cafe-Roaster Relations
+        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'seed_cafe_roasters')
+        run: npx tsx prisma/seed_cafe_roasters_random.ts
+        env:
+          DATABASE_URL: ${{ steps.neon.outputs.db_url }}
+          DIRECT_URL: ${{ steps.neon.outputs.db_url }}
+
+      - name: Log deployment summary
+        run: |
+          echo "✅ Production database updated successfully"
+          echo "Migrations: applied"
+          echo "Seed: ${{ contains(github.event.head_commit.message, 'seed') && 'executed' || 'skipped' }}"
+
+  deploy-vercel:
+    name: Deploy to Vercel Production
+    needs: migrate-and-seed
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: web
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-args: '--prod'
