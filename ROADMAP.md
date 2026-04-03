@@ -76,8 +76,8 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 > Przeniesione z UX Consistency — niski priorytet, nice-to-have.
 
-- [ ] [P3] **Cafe amenities icons** — ikony dla Wi-Fi, Vegan, etc. na profilu kawiarni (@AGENT)
-- [ ] [P3] **Cafe amenities filter** — filtr po amenities w katalogu /cafes (@AGENT)
+- [x] [P3] **Cafe amenities icons** — ikony dla Wi-Fi, Vegan, etc. na profilu kawiarni (@AGENT) ✅
+- [x] [P3] **Cafe amenities filter** — filtr po amenities w katalogu /cafes (@AGENT) ✅
 
 ### Admin Dashboard — (@KK)
 
