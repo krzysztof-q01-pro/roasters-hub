@@ -195,3 +195,4 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] Env vars added to Vercel (prod)
 - [x] Google OAuth in Clerk
 - [x] SEO URL decision: `/roasters/country/[country]`
+- [x] **/cafes: filtry i wyszukiwanie** — dodać filtry kraju, search, paginację — parzystość z `/roasters` ✅
