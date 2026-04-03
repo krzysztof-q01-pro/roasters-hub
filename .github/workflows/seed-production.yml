@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "web/prisma/seed*.ts"
+  workflow_dispatch: # Allow manual trigger
 
 jobs:
   seed-production:
@@ -23,22 +24,42 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
 
+      - name: Get DATABASE_URL from Vercel
+        id: vercel-env
+        run: |
+          PROJECT_ID="${{ secrets.VERCEL_PROJECT_ID }}"
+          TOKEN="${{ secrets.VERCEL_TOKEN }}"
+
+          # Fetch DATABASE_URL from Vercel
+          DB_URL=$(curl -s \
+            "https://api.vercel.com/v9/projects/${PROJECT_ID}/env?decrypt=true" \
+            -H "Authorization: Bearer ${TOKEN}" \
+            | jq -r '.envs[] | select(.key == "DATABASE_URL" and .target | contains("production")) | .value // empty')
+
+          if [ -z "$DB_URL" ]; then
+            echo "Error: Could not fetch DATABASE_URL from Vercel"
+            exit 1
+          fi
+
+          echo "db_url=${DB_URL}" >> $GITHUB_OUTPUT
+          echo "✅ Fetched DATABASE_URL from Vercel"
+
       - run: npm install
 
       - name: Run migrations
         run: npx prisma migrate deploy
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_URL: ${{ steps.vercel-env.outputs.db_url }}
+          DIRECT_URL: ${{ steps.vercel-env.outputs.db_url }}
 
       - name: Seed Cafes
         run: npx tsx prisma/seed_cafes.ts
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_URL: ${{ steps.vercel-env.outputs.db_url }}
+          DIRECT_URL: ${{ steps.vercel-env.outputs.db_url }}
 
       - name: Seed Cafe-Roaster Relations
         run: npx tsx prisma/seed_cafe_roasters_random.ts
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_URL: ${{ steps.vercel-env.outputs.db_url }}
+          DIRECT_URL: ${{ steps.vercel-env.outputs.db_url }}
