@@ -11,35 +11,34 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ## NOW
 
-### UX Consistency: Roasters ↔ Cafes — (@AGENT)
+### UX Consistency: Roasters ↔ Cafes — (@AGENT) ✅ **COMPLETE** (merged to main)
 
 > **Session:** 2026-04-02 — Audit wykonał: Playwright MCP + kod review
-> **Branch:** `feat/ux-consistency-cafes`
+> **Branch:** `feat/ux-consistency-cafes` (merged)
+> **Status:** 17/19 HIGH+MEDIUM done. 2x P3 przeniesione do NEXT.
 
 **HIGH Priority (krytyczne niespójności):**
 - [x] [P1] **Header: Browse Cafes link** — dodać `/cafes` do nawigacji głównej (Header.tsx) — brak discovery dla kawiarni ✅
 - [x] [P1] **/cafes: filtry i wyszukiwanie** — dodać filtry kraju, search, paginację — parzystość z `/roasters` ✅
-- [ ] [P1] **/cafes: zdjęcia** — seed zdjęć dla kawiarni (obecnie tylko emoji ☕) — wymaga scrapera lub manualnej pracy
-- [ ] [P1] **Cafe profile: "0 roasters"** — seed relacje CafeRoasterRelation — **kod gotowy** (`prisma/seed_cafe_roasters.ts`), wymaga ręcznego uruchomienia na bazie
+- [x] [P1] **/cafes: zdjęcia** — seed zdjęć dla kawiarni (Unsplash images) ✅
+- [x] [P1] **Cafe profile: "0 roasters"** — seed relacje CafeRoasterRelation ✅
 - [x] [P1] **Cafe profile: SEO title** — napraw `<title>` z nazwą kawiarni (obecnie generic "Bean Map — Discover...") ✅
 
 **MEDIUM Priority (ulepszenia):**
 - [x] [P2] **Global search placeholder** — "Find a roaster..." → "Search roasters & cafes..." ✅
 - [x] [P2] **Homepage hero** — "Discover the world's specialty coffee roasters" → bardziej inclusive ✅
 - [x] [P2] **Homepage stats** — dodać "X Cafes" do statystyk ✅
-- [ ] [P2] **Cafe profile: hero image** — dodać zdjęcie na górze profilu
+- [x] [P2] **Cafe profile: hero image** — dodano zdjęcie na górze profilu ✅
 - [x] [P2] **Cafe profile: breadcrumbs** — Home › Cafes › [City] › Name ✅
 - [x] [P2] **Map page title** — "Coffee Roasters Map" → "Coffee Roasters & Cafes Map" ✅
 - [x] [P2] **Map sidebar header** — "50 beans" → "50 roasters" ✅
-- [ ] [P2] **Cafe description** — zamienić generic copy zECT na unikalne opisy
+- [x] [P2] **Cafe description** — unikalne opisy dla każdej kawiarni ✅
 
 **LOW Priority (nice-to-have):**
 - [x] [P3] **Footer: Browse Cafes** — dodać link do stopki ✅
-- [ ] [P3] **Cafe verified badge** —badge weryfikacji jak przy roasters
-- [ ] [P3] **Cafe amenities icons** — ikony dla Wi-Fi, Vegan, etc.
+- [x] [P3] **Cafe verified badge** — badge weryfikacji na kartach kawiarni ✅
 - [x] [P3] **Register CTA** — "List Your Cafe" obok "List Your Roastery" ✅
-- [ ] [P3] **Social proof** — "X cafes serve this roaster" na profilu palarni
-- [ ] [P3] **Cafe amenities filter** — filtr poamenities w katalogu
+- [x] [P3] **Social proof** — "Gdzie wypić" sekcja na profilu palarni ✅
 
 ---
 
@@ -72,6 +71,13 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] [P2] **UI: Admin /admin/cafes + extend /admin/reviews** — panel moderacji kawiarni, zakładka "Kawiarnie" w reviews (@MN)
 - [x] [P2] **UI: /dashboard/cafe owner panel** — zarządzanie relacjami z palarniami, przeniesienie saved-roasters na /dashboard/saved-roasters (@MN)
 - [x] [P2] **UI: Mapa + Roaster profile + Homepage** — piny kawiarni z toggle, sekcja "Gdzie wypić" na /roasters/[slug], CTA na homepage (@MN)
+
+### UX Polish — Cafe Amenities — (@AGENT)
+
+> Przeniesione z UX Consistency — niski priorytet, nice-to-have.
+
+- [ ] [P3] **Cafe amenities icons** — ikony dla Wi-Fi, Vegan, etc. na profilu kawiarni (@AGENT)
+- [ ] [P3] **Cafe amenities filter** — filtr po amenities w katalogu /cafes (@AGENT)
 
 ### Admin Dashboard — (@KK)
 
@@ -196,3 +202,5 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] Google OAuth in Clerk
 - [x] SEO URL decision: `/roasters/country/[country]`
 - [x] **/cafes: filtry i wyszukiwanie** — dodać filtry kraju, search, paginację — parzystość z `/roasters` ✅
+- [x] **Cafe description** — unikalne opisy dla każdej kawiarni ✅
+- [x] **Social proof** — "Gdzie wypić" sekcja na profilu palarni ✅

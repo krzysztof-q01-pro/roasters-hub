@@ -30,6 +30,7 @@ python tools/consistency_check.py --fix C2,C4  # Fix wybranych checks
 | C8 | prisma datasource url + directUrl | low | ✅ |
 | C9 | ISR `revalidate=3600` na stronach używających `db.*` | medium | ❌ warn |
 | C10 | Orphan screenshots + stale audit reports w `.tmp/` | low | ✅ |
+| C11 | ROADMAP `[x]` vs filesystem — fizyczny dowód w kodzie | critical | ❌ agent |
 
 ---
 
@@ -37,28 +38,33 @@ python tools/consistency_check.py --fix C2,C4  # Fix wybranych checks
 
 ```
 Uruchom: python tools/consistency_check.py
-         │
-         ├── Wszystko PASS → przejdź do Kroku 2 scheduled_run
-         │
-         ├── FAIL + auto_fixable=true
-         │   → python tools/consistency_check.py --fix <ids>
-         │   → Re-run check → potwierdź PASS
-         │   → Commit: [AGENT] fix: consistency drift corrections
-         │   → Przejdź do Kroku 2
-         │
-         ├── FAIL + auto_fixable=false (C1)
-         │   → Sprawdź git log --oneline -10
-         │   → Ustal które źródło (ROADMAP vs STATUS) jest poprawne
-         │   → Napraw ręcznie → commit w tym samym [AGENT] fix: commit
-         │
-         ├── FAIL + auto_fixable=false (C5, C6)
-         │   → Zaloguj w SESSION.md sekcja "Consistency Check"
-         │   → NIE naprawiaj — wymaga decyzji człowieka
-         │   → Przejdź do Kroku 2
-         │
-         └── WARN
-             → Zaloguj w SESSION.md
-             → Przejdź do Kroku 2
+          │
+          ├── Wszystko PASS → przejdź do Kroku 2 scheduled_run
+          │
+          ├── FAIL + auto_fixable=true
+          │   → python tools/consistency_check.py --fix <ids>
+          │   → Re-run check → potwierdź PASS
+          │   → Commit: [AGENT] fix: consistency drift corrections
+          │   → Przejdź do Kroku 2
+          │
+          ├── FAIL + auto_fixable=false (C1)
+          │   → Sprawdź git log --oneline -10
+          │   → Ustal które źródło (ROADMAP vs STATUS) jest poprawne
+          │   → Napraw ręcznie → commit w tym samym [AGENT] fix: commit
+          │
+          ├── FAIL + auto_fixable=false (C11)
+          │   → `[x]` w ROADMAP nie ma dowodu w kodzie
+          │   → Cofnij `[x]` → `[ ]` LUB znajdź brakujący plik/kod
+          │   → Napraw ręcznie → commit
+          │
+          ├── FAIL + auto_fixable=false (C5, C6)
+          │   → Zaloguj w SESSION.md sekcja "Consistency Check"
+          │   → NIE naprawiaj — wymaga decyzji człowieka
+          │   → Przejdź do Kroku 2
+          │
+          └── WARN
+              → Zaloguj w SESSION.md
+              → Przejdź do Kroku 2
 ```
 
 ---

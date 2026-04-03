@@ -688,6 +688,205 @@ def fix_c7():
 
 
 # ---------------------------------------------------------------------------
+# C11: ROADMAP [x] items vs filesystem — physical proof in code
+# ---------------------------------------------------------------------------
+
+# Terms that indicate a conceptual/process task, not a code deliverable
+CONCEPTUAL_INDICATORS = [
+    "review", "design", "plan", "research", "decide", "discuss",
+    "purchase", "buy", "contact", "outreach", "setup account",
+    "branch protection", "domain", "konto", "zakup",
+]
+
+# Patterns to extract from task descriptions for filesystem search
+FILE_PATH_PATTERN = re.compile(r"[\w/]+\.(tsx?|jsx?|ts|js|css|md|json|prisma|sh|py|yml|yaml|svg)")
+COMPONENT_PATTERN = re.compile(r"\b([A-Z][a-zA-Z]+(?:[A-Z][a-zA-Z]+)*(?:\.tsx?)?)\b")
+FUNCTION_PATTERN = re.compile(r"\b([a-z][a-zA-Z]*(?:Action|Handler|Query|Mutation|Fetcher|Service|Util|Helper|Middleware|Provider|Context)\b)")
+ROUTE_PATTERN = re.compile(r"`(/[^\s`]+)`")
+FEATURE_KEYWORDS = [
+    "Header", "Footer", "Hero", "Card", "Badge", "Filter", "Search",
+    "Pagination", "Breadcrumb", "Sidebar", "Modal", "Dialog", "Form",
+    "Dashboard", "Admin", "Catalog", "Profile", "Map", "Register",
+    "Login", "Sign", "Auth", "Middleware", "Action", "API", "Route",
+    "Seed", "Migration", "Schema", "Model", "Component", "Page",
+    "ISR", "revalidate", "metadata", "SEO", "generateMetadata",
+    "Clerk", "Prisma", "Upload", "Email", "Newsletter", "Stripe",
+    "PWA", "Manifest", "Analytics", "Plausible", "Resend",
+    "Cafe", "Roaster", "Review", "Saved", "Featured", "Verified",
+    "Amenity", "Amenities", "serving", "openingHours",
+]
+
+
+def check_c11() -> CheckResult:
+    r = CheckResult("C11", "ROADMAP [x] vs filesystem — physical proof", "critical")
+
+    roadmap = read_file("ROADMAP.md")
+    if not roadmap:
+        r.skip("ROADMAP.md not found")
+        return r
+
+    # Collect [x] items from NOW and NEXT (not DONE or HUMAN ONLY)
+    checked_items: list[tuple[str, str]] = []  # (section, item_text)
+    current_section = ""
+    in_done = False
+    in_human = False
+
+    for line in roadmap.splitlines():
+        if re.match(r"^##\s+DONE", line):
+            in_done = True
+            continue
+        if "HUMAN ONLY" in line:
+            in_human = True
+            continue
+        if re.match(r"^##\s+", line) and not re.match(r"^###", line):
+            in_done = False
+            in_human = False
+            continue
+        if re.match(r"^###\s+(.+)", line):
+            m = re.match(r"^###\s+(.+)", line)
+            if m:
+                current_section = m.group(1).strip()
+            continue
+
+        if not in_done and not in_human:
+            m = re.match(r"^- \[x\]\s+(.+)", line)
+            if m:
+                checked_items.append((current_section, m.group(1).strip()))
+
+    if not checked_items:
+        r.warn("No [x] items found in NOW/NEXT sections to verify")
+        return r
+
+    # Build a searchable index of all file contents
+    searchable_files: list[tuple[str, str]] = []  # (relative_path, content_lower)
+    src_dir = ROOT / "web" / "src"
+    prisma_dir = ROOT / "web" / "prisma"
+    tools_dir = ROOT / "tools"
+    docs_dir = ROOT / "docs"
+    config_files = ["package.json", "next.config.ts", "tailwind.config.ts", "prisma.config.ts"]
+
+    for directory in [src_dir, prisma_dir, tools_dir, docs_dir]:
+        if directory.exists():
+            for f in directory.rglob("*"):
+                if f.is_file() and f.suffix in (".ts", ".tsx", ".js", ".jsx", ".md", ".json", ".prisma", ".py", ".sh", ".yml", ".yaml", ".css", ".svg"):
+                    rel = str(f.relative_to(ROOT))
+                    # Skip node_modules, .next, generated files
+                    if "node_modules" in rel or "/.next/" in rel:
+                        continue
+                    try:
+                        content = f.read_text(encoding="utf-8", errors="ignore").lower()
+                        searchable_files.append((rel, content))
+                    except (OSError, UnicodeDecodeError):
+                        continue
+
+    for cfg in config_files:
+        f = ROOT / "web" / cfg
+        if f.exists():
+            try:
+                content = f.read_text(encoding="utf-8", errors="ignore").lower()
+                searchable_files.append((f"web/{cfg}", content))
+            except (OSError, UnicodeDecodeError):
+                continue
+
+    # Also check root-level files
+    for root_file in ["ROADMAP.md", "PROJECT_STATUS.md", "CLAUDE.md", "AGENTS.md"]:
+        f = ROOT / root_file
+        if f.exists():
+            try:
+                content = f.read_text(encoding="utf-8", errors="ignore").lower()
+                searchable_files.append((root_file, content))
+            except (OSError, UnicodeDecodeError):
+                continue
+
+    no_proof = []
+
+    for section, item_text in checked_items:
+        # Skip conceptual/process tasks
+        item_lower = item_text.lower()
+        if any(ind in item_lower for ind in CONCEPTUAL_INDICATORS):
+            continue
+
+        # Skip items that are clearly about future work (contain "TODO", "planned")
+        if "todo" in item_lower or "planned" in item_lower:
+            continue
+
+        proof_found = False
+
+        # Strategy 1: Look for explicit file paths in the task description
+        file_paths = FILE_PATH_PATTERN.findall(item_text)
+        for fp in file_paths:
+            for file_path, _ in searchable_files:
+                if fp in file_path:
+                    proof_found = True
+                    break
+            if proof_found:
+                break
+
+        # Strategy 2: Look for route patterns like `/cafes`, `/register`
+        if not proof_found:
+            routes = ROUTE_PATTERN.findall(item_text)
+            for route in routes:
+                route_clean = route.strip("/")
+                for file_path, content in searchable_files:
+                    if route_clean in file_path or route in content:
+                        proof_found = True
+                        break
+                if proof_found:
+                    break
+
+        # Strategy 3: Look for component/class names (PascalCase words)
+        if not proof_found:
+            components = COMPONENT_PATTERN.findall(item_text)
+            for comp in components:
+                if len(comp) < 3:
+                    continue
+                comp_lower = comp.lower()
+                for file_path, content in searchable_files:
+                    if comp_lower in file_path or comp_lower in content:
+                        proof_found = True
+                        break
+                if proof_found:
+                    break
+
+        # Strategy 4: Look for feature keywords in file names or content
+        if not proof_found:
+            words = re.findall(r"[a-zA-Z]{3,}", item_lower)
+            meaningful_words = [w for w in words if w.lower() in [f.lower() for f in FEATURE_KEYWORDS]]
+            if meaningful_words:
+                for file_path, content in searchable_files:
+                    if all(kw in content for kw in meaningful_words):
+                        proof_found = True
+                        break
+
+        # Strategy 5: Fuzzy — at least 3 unique words from task appear in same file
+        if not proof_found:
+            words = set(re.findall(r"[a-zA-Z]{4,}", item_lower))
+            stop = {"the", "and", "for", "from", "with", "this", "that", "have", "been",
+                     "add", "update", "fix", "new", "all", "each", "every", "more",
+                     "like", "just", "also", "very", "much", "some", "than", "them",
+                     "when", "then", "into", "only", "over", "such", "will", "would",
+                     "other", "their", "there", "after", "before", "between", "about"}
+            meaningful = words - stop
+            if len(meaningful) >= 3:
+                for file_path, content in searchable_files:
+                    matches = sum(1 for w in meaningful if w in content)
+                    if matches >= 3:
+                        proof_found = True
+                        break
+
+        if not proof_found:
+            no_proof.append(item_text[:80])
+
+    if no_proof:
+        r.fail(
+            f"{len(no_proof)} completed task(s) lack physical proof in code: {'; '.join(no_proof[:5])}",
+            auto_fixable=False,
+        )
+
+    return r
+
+
+# ---------------------------------------------------------------------------
 # C8: Prisma datasource url + directUrl
 # ---------------------------------------------------------------------------
 
@@ -862,7 +1061,7 @@ def fix_c10():
                     shutil.rmtree(screenshots_dir)
 
 
-ALL_CHECKS = [check_c1, check_c2, check_c3, check_c4, check_c5, check_c6, check_c7, check_c8, check_c9, check_c10]
+ALL_CHECKS = [check_c1, check_c2, check_c3, check_c4, check_c5, check_c6, check_c7, check_c8, check_c9, check_c10, check_c11]
 
 FIX_MAP = {
     "C2": fix_c2,

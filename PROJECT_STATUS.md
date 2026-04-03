@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-04-02 | UX Consistency: Roasters ↔ Cafes — 11 fixes merged to main (branch feat/ux-consistency-cafes)
+2026-04-03 | UX Consistency: Roasters ↔ Cafes — 17/19 tasks completed, branch merged to main
 
 ---
 
@@ -74,7 +74,7 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 **@MN:** —
 **@KK:** —
-**@AGENT:** UX Consistency: Roasters ↔ Cafes — naprawa niespójności między katalogami palarni i kawiarni (branch `feat/ux-consistency-cafes`)
+**@AGENT:** UX Consistency: Roasters ↔ Cafes — 17/19 DONE (merged). Pozostało: [P3] amenities icons, [P3] amenities filter.
 
 **Completed recently:**
 - ✅ UX Consistency: Header — "Browse Cafes" link + search placeholder update (2026-04-02)
@@ -90,8 +90,8 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Next Unblocked Task
 
+**TERAZ (MN):** [P2] Cafe addresses manual — uzupełnienie adresów i coords dla 17 kawiarni (~30min).
 **TERAZ (KK):** [P1] Admin: dashboard statystyk — widok `/admin` z liczbą palarni (pending/verified/rejected), ostatnie rejestracje.
-**TERAZ (MN):** Review + merge PR `feat/mn-cafe-profiles` → `/review-agent-branch`
 
 **HUMAN ONLY blockers:** re-seed prod DB (`prisma db seed`), run new migrations on prod, buy production domain.
 

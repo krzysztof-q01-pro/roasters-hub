@@ -19,12 +19,13 @@ Uruchamia `tools/consistency_check.py`, interpretuje wyniki i naprawia wykryte p
 2. Zinterpretuj wyniki według tabeli:
 
    | Wynik | Akcja |
-   |-------|-------|
-   | Wszystko PASS | Zgłoś "All checks passed" — koniec |
-   | FAIL + auto_fixable | Krok 3 |
-   | FAIL C1 (manual) | Krok 4 |
-   | FAIL C5/C6 (human) | Krok 5 |
-   | WARN | Zaloguj w SESSION.md, zgłoś użytkownikowi |
+    |-------|-------|
+    | Wszystko PASS | Zgłoś "All checks passed" — koniec |
+    | FAIL + auto_fixable | Krok 3 |
+    | FAIL C1 (manual) | Krok 4 |
+    | FAIL C11 (manual) | Krok 4b |
+    | FAIL C5/C6 (human) | Krok 5 |
+    | WARN | Zaloguj w SESSION.md, zgłoś użytkownikowi |
 
 3. **Auto-fix** (jeśli `$ARGUMENTS` podaje IDs — użyj ich; jeśli puste — fix all):
    ```bash
@@ -36,10 +37,15 @@ Uruchamia `tools/consistency_check.py`, interpretuje wyniki i naprawia wykryte p
    Re-run po fix: `python tools/consistency_check.py` — potwierdź brak FAIL.
 
 4. **C1 manual fix** (ROADMAP vs STATUS niezgodne):
-   ```bash
-   git log --oneline -10
-   ```
-   Git history jest ground truth. Napraw ręcznie ten plik który jest za, commituj razem z fix.
+    ```bash
+    git log --oneline -10
+    ```
+    Git history jest ground truth. Napraw ręcznie ten plik który jest za, commituj razem z fix.
+
+4b. **C11 manual fix** (ROADMAP `[x]` bez dowodu w kodzie):
+    - Sprawdź które `[x]` nie mają fizycznego dowodu w kodzie (plik, import, funkcja)
+    - Cofnij `[x]` → `[ ]` w ROADMAP.md LUB znajdź/dodaj brakujący kod
+    - Commituj razem z fix.
 
 5. **C5/C6** (wymaga człowieka): NIE naprawiaj. Zaloguj w `.tmp/SESSION.md` sekcja "Consistency Check" z opisem problemu.
 
@@ -64,5 +70,6 @@ Uruchamia `tools/consistency_check.py`, interpretuje wyniki i naprawia wykryte p
 
 - Nigdy nie commituj fix bez re-run potwierdzającego PASS
 - C5/C6 zawsze flaguj do człowieka — nie zgaduj poprawki
+- C11: `[x]` bez dowodu w kodzie = cofnij `[x]` lub dodaj kod — NIE ignoruj
 - Jeśli fix sam wprowadza błąd (re-run pokazuje nowe FAIL) — NIE commituj, zaloguj w SESSION.md
 - Max 2 minuty — jeśli problem jest złożony, zaloguj i przejdź dalej

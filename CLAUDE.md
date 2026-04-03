@@ -153,14 +153,20 @@ Po sesji nocnego agenta — rano:
 
 ---
 
-## Post-Task Checklist (OBOWIĄZKOWE po każdym zadaniu)
+## Post-Task Checklist (OBOWIĄZKOWE — gate przed commitem)
 
-Po KAŻDYM ukończonym zadaniu — zanim powiesz użytkownikowi że skończyłeś:
-1. Uruchom `/lint-and-validate` — **NIE commituj** jeśli lint lub tsc fails
+Po KAŻDYM ukończonym zadaniu — **ZANIM** powiesz że skończyłeś:
+1. Uruchom `/lint-and-validate` — **STOP** jeśli lint lub tsc fails
 2. `ROADMAP.md` — zaznacz `[ ]` → `[x]` przy wykonanym zadaniu
 3. `PROJECT_STATUS.md` — zaktualizuj "Active Work" i "Next Unblocked Task"
 4. Jeśli stworzono nowy plik/katalog — usuń go z "Does NOT Exist Yet"
 5. **Wersja** — jeśli zmiana jest widoczna dla użytkownika, podbij `npm run version:patch` w `web/`
+6. **Uruchom consistency check** — `python tools/consistency_check.py`
+   - Jeśli FAIL na C1/C2/C3/C4/C7/C11 → **napraw PRZED commitem**
+   - Jeśli FAIL na C11 (ROADMAP `[x]` ≠ kod) → cofnij `[x]` lub napraw kod
+7. **Commituj WSZYSTKO w jednym commicie** — kod + aktualizacja stanu docs
+
+**ZASADA: `[x]` w ROADMAP.md = kontrakt. Brak fizycznego dowodu w kodzie = błąd.**
 
 **Konwencja commitów:** `[SCOPE] action: description` — scopes: `DB|AUTH|ACTION|UI|SEED|INFRA|DOCS|AGENT`
 **Commituj aktualizację stanu W TYM SAMYM COMMICIE co zadanie, nie osobno.**
@@ -173,6 +179,7 @@ Po KAŻDYM ukończonym zadaniu — zanim powiesz użytkownikowi że skończyłe�
 **Reguła 2 — Revalidation:** Każdy Server Action zmieniający dane MUSI wywołać `revalidatePath()` dla wszystkich stron wyświetlających te dane. Patrz pełna lista w `web/AGENTS.md`.
 **Reguła 3 — Docs arch. ≠ rzeczywistość:** NIE traktuj `docs/architecture/` jako source of truth. To blueprint, nie dokumentacja stanu. Rzeczywistość → `PROJECT_STATUS.md`.
 **Reguła 4 — Nie dokumentuj przyszłości jako teraźniejszości:** W `PROJECT_STATUS.md` wpisuj TYLKO to co istnieje w kodzie. Plany → `ROADMAP.md`.
+**Reguła 5 — `[x]` = dowód w kodzie:** Każdy `[x]` w ROADMAP.md MUSI mieć fizyczny dowód w kodzie (istniejący plik, import, wywołanie funkcji, komponent). Consistency check C11 weryfikuje to automatycznie. Jeśli C11 FAIL → `[x]` jest nieprawidłowy i musi zostać cofnięty lub kod naprawiony.
 
 ---
 
