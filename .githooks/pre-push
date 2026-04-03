@@ -1,0 +1,26 @@
+#!/bin/bash
+# Pre-push hook — combines Git LFS + Branch Strategy guard
+#
+# 1. Git LFS check (if configured)
+# 2. Branch Strategy — blocks code/DB changes on main
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+BRANCH_GUARD="$REPO_ROOT/tools/branch-guard.sh"
+
+# ---------------------------------------------------------------------------
+# Part 1: Git LFS (if configured)
+# ---------------------------------------------------------------------------
+if command -v git-lfs >/dev/null 2>&1; then
+  git lfs pre-push "$@"
+fi
+
+# ---------------------------------------------------------------------------
+# Part 2: Branch Strategy guard
+# ---------------------------------------------------------------------------
+if [ -f "$BRANCH_GUARD" ]; then
+  # Pass stdin to the branch guard script
+  cat | "$BRANCH_GUARD"
+  exit $?
+fi
+
+exit 0
