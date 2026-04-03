@@ -30,11 +30,11 @@ jobs:
           PROJECT_ID="${{ secrets.VERCEL_PROJECT_ID }}"
           TOKEN="${{ secrets.VERCEL_TOKEN }}"
 
-          # Fetch DATABASE_URL from Vercel
+          # Fetch DATABASE_URL from Vercel (find env var that has "production" in targets)
           DB_URL=$(curl -s \
             "https://api.vercel.com/v9/projects/${PROJECT_ID}/env?decrypt=true" \
             -H "Authorization: Bearer ${TOKEN}" \
-            | jq -r '.envs[] | select(.key == "DATABASE_URL" and .target | contains("production")) | .value // empty')
+            | jq -r '.envs[] | select(.key == "DATABASE_URL") | select(.target | index("production")) | .value // empty')
 
           if [ -z "$DB_URL" ]; then
             echo "Error: Could not fetch DATABASE_URL from Vercel"
