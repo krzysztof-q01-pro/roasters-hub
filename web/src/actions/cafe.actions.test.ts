@@ -66,6 +66,7 @@ describe("createCafe", () => {
   it("creates cafe, updates userProfile, revalidates /cafes", async () => {
     mockCreate.mockResolvedValue({ id: "cafe_1", slug: "brew-lab" });
     mockUserUpdate.mockResolvedValue({});
+    mockUpdate.mockResolvedValue({});
 
     const fd = makeFormData(validData);
     const result = await createCafe(fd, "user_123");
@@ -74,7 +75,11 @@ describe("createCafe", () => {
     expect(mockCreate).toHaveBeenCalledOnce();
     expect(mockUserUpdate).toHaveBeenCalledWith({
       where: { id: "user_123" },
-      data: { cafeId: "cafe_1", role: "CAFE" },
+      data: { role: "CAFE" },
+    });
+    expect(mockUpdate).toHaveBeenCalledWith({
+      where: { id: "cafe_1" },
+      data: { ownerId: "user_123" },
     });
     expect(mockRevalidatePath).toHaveBeenCalledWith("/cafes");
   });

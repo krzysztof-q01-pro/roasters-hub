@@ -60,7 +60,12 @@ export async function createCafe(
 
     await db.userProfile.update({
       where: { id: userId },
-      data: { cafeId: cafe.id, role: "CAFE" },
+      data: { role: "CAFE" },
+    });
+
+    await db.cafe.update({
+      where: { id: cafe.id },
+      data: { ownerId: userId },
     });
 
     revalidatePath("/cafes");

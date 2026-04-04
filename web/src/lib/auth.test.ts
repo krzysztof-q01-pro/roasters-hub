@@ -152,15 +152,15 @@ describe("requireRoasterOwner", () => {
 
   it("throws 'Forbidden' when user owns a different roaster", async () => {
     mockAuth.mockResolvedValue({ userId: "user-123" } as never);
-    mockFindUnique.mockResolvedValue({ roasterId: "roaster-other" });
+    mockFindUnique.mockResolvedValue({ ownedRoasters: [{ id: "roaster-other" }] });
     await expect(requireRoasterOwner("roaster-1")).rejects.toThrow(
       "Forbidden: not the owner of this roaster",
     );
   });
 
-  it("throws 'Forbidden' when user has no roaster assigned (null roasterId)", async () => {
+  it("throws 'Forbidden' when user has no roasters assigned", async () => {
     mockAuth.mockResolvedValue({ userId: "user-123" } as never);
-    mockFindUnique.mockResolvedValue({ roasterId: null });
+    mockFindUnique.mockResolvedValue({ ownedRoasters: [] });
     await expect(requireRoasterOwner("roaster-1")).rejects.toThrow(
       "Forbidden: not the owner of this roaster",
     );
@@ -168,17 +168,17 @@ describe("requireRoasterOwner", () => {
 
   it("returns userId when user is the owner of the roaster", async () => {
     mockAuth.mockResolvedValue({ userId: "user-123" } as never);
-    mockFindUnique.mockResolvedValue({ roasterId: "roaster-1" });
+    mockFindUnique.mockResolvedValue({ ownedRoasters: [{ id: "roaster-1" }] });
     await expect(requireRoasterOwner("roaster-1")).resolves.toBe("user-123");
   });
 
   it("queries UserProfile by userId", async () => {
     mockAuth.mockResolvedValue({ userId: "user-123" } as never);
-    mockFindUnique.mockResolvedValue({ roasterId: "roaster-1" });
+    mockFindUnique.mockResolvedValue({ ownedRoasters: [{ id: "roaster-1" }] });
     await requireRoasterOwner("roaster-1");
     expect(mockFindUnique).toHaveBeenCalledWith({
       where: { id: "user-123" },
-      select: { roasterId: true },
+      select: { ownedRoasters: { select: { id: true } } },
     });
   });
 });

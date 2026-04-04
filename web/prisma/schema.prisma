@@ -10,13 +10,11 @@ model UserProfile {
   id            String         @id
   email         String         @unique
   role          UserRole       @default(ROASTER)
-  roasterId     String?        @unique
   createdAt     DateTime       @default(now())
-  cafeId        String?        @unique
   adminNotes    AdminNote[]
   savedRoasters SavedRoaster[]
-  cafe          Cafe?          @relation(fields: [cafeId], references: [id])
-  roaster       Roaster?       @relation(fields: [roasterId], references: [id])
+  ownedRoasters Roaster[]      @relation("RoasterOwner")
+  ownedCafes    Cafe[]         @relation("CafeOwner")
 
   @@map("user_profiles")
 }
@@ -47,13 +45,14 @@ model Roaster {
   rejectedReason String?
   createdAt      DateTime              @default(now())
   updatedAt      DateTime              @updatedAt
+  ownerId        String?
   adminNotes     AdminNote[]
   servedAt       CafeRoasterRelation[]
   events         ProfileEvent[]
   reviews        Review[]
   images         RoasterImage[]
   savedBy        SavedRoaster[]
-  owner          UserProfile?
+  owner          UserProfile?          @relation("RoasterOwner", fields: [ownerId], references: [id], onDelete: SetNull)
 
   @@index([status])
   @@index([country])
@@ -61,6 +60,7 @@ model Roaster {
   @@index([city])
   @@index([featured])
   @@index([status, featured])
+  @@index([ownerId])
   @@map("roasters")
 }
 
@@ -170,19 +170,21 @@ model Cafe {
   rejectedReason String?
   createdAt      DateTime              @default(now())
   updatedAt      DateTime              @updatedAt
+  ownerId        String?
   sourceUrl      String?
   openingHours   String?
   serving        String[]              @default([])
   services       String[]              @default([])
   roasters       CafeRoasterRelation[]
   reviews        Review[]
-  owner          UserProfile?
+  owner          UserProfile?          @relation("CafeOwner", fields: [ownerId], references: [id], onDelete: SetNull)
 
   @@index([status])
   @@index([country])
   @@index([city])
   @@index([serving], type: Gin)
   @@index([services], type: Gin)
+  @@index([ownerId])
   @@map("cafes")
 }
 
