@@ -1932,24 +1932,123 @@ const SEED_CAFES = [
     status: "VERIFIED" as const,
     featured: false,
   },
+  // --- PENDING — wnioski o dodanie kawiarni ---
+  {
+    name: "Kofeja",
+    slug: "kofeja-krakow",
+    description: "Kraków specialty coffee shop with a focus on Polish roasters and single-origin espresso. Cozy interior in the heart of Kazimierz.",
+    country: "Poland",
+    countryCode: "PL",
+    city: "Kraków",
+    lat: 50.052,
+    lng: 19.945,
+    website: "https://kofeja.pl",
+    instagram: "kofeja_krakow",
+    coverImageUrl: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&h=600&fit=crop",
+    sourceUrl: "https://europeancoffeetrip.com/cafe/kofeja-krakow/",
+    openingHours: "Monday: 08:00-18:00\nTuesday: 08:00-18:00\nWednesday: 08:00-18:00\nThursday: 08:00-18:00\nFriday: 08:00-18:00\nSaturday: 09:00-18:00\nSunday: 10:00-17:00",
+    serving: ["Espresso", "Filter Coffee", "Cold Brew/Drip", "Plant-based Milk"],
+    services: ["Free Wi-Fi", "Laptop Friendly", "Vegan Options", "Outdoor Seating"],
+    status: "PENDING" as const,
+    featured: false,
+  },
+  {
+    name: "Kontoret Coffee",
+    slug: "kontoret-coffee-copenhagen",
+    description: "Copenhagen coffee lab with a minimalist Scandinavian aesthetic. Known for precise pour-overs and rotating single origins.",
+    country: "Denmark",
+    countryCode: "DK",
+    city: "Copenhagen",
+    lat: 55.676,
+    lng: 12.568,
+    website: "https://kontoretcoffee.dk",
+    instagram: "kontoretcoffee",
+    coverImageUrl: "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&h=600&fit=crop",
+    sourceUrl: "https://europeancoffeetrip.com/cafe/kontoretcoffee-copenhagen/",
+    openingHours: "Monday: 08:00-17:00\nTuesday: 08:00-17:00\nWednesday: 08:00-17:00\nThursday: 08:00-17:00\nFriday: 08:00-17:00\nSaturday: 09:00-17:00\nSunday: Closed",
+    serving: ["Espresso", "Filter Coffee", "Plant-based Milk"],
+    services: ["Free Wi-Fi", "Laptop Friendly", "Vegan Options"],
+    status: "PENDING" as const,
+    featured: false,
+  },
+  {
+    name: "Padre Coffee",
+    slug: "padre-coffee-london",
+    description: "London specialty coffee shop with a strong community focus. Serving carefully sourced beans from top European roasters.",
+    country: "United Kingdom",
+    countryCode: "GB",
+    city: "London",
+    lat: 51.507,
+    lng: -0.127,
+    website: "https://padrecoffee.com",
+    instagram: "padrecoffee",
+    coverImageUrl: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&h=600&fit=crop",
+    sourceUrl: "https://europeancoffeetrip.com/cafe/padrecoffee-london/",
+    openingHours: "Monday: 07:30-18:00\nTuesday: 07:30-18:00\nWednesday: 07:30-18:00\nThursday: 07:30-18:00\nFriday: 07:30-18:00\nSaturday: 08:00-18:00\nSunday: 09:00-17:00",
+    serving: ["Espresso", "Filter Coffee", "Cold Brew/Drip", "Breakfast", "Plant-based Milk"],
+    services: ["Free Wi-Fi", "Laptop Friendly", "Kids Friendly", "Vegan Options", "Dog Friendly"],
+    status: "PENDING" as const,
+    featured: false,
+  },
+  {
+    name: "Vesterbro Kaffe",
+    slug: "vesterbro-kaffe-copenhagen",
+    description: "Trendy Copenhagen cafe in the heart of Vesterbro. Known for excellent flat whites and homemade pastries.",
+    country: "Denmark",
+    countryCode: "DK",
+    city: "Copenhagen",
+    lat: 55.673,
+    lng: 12.558,
+    website: "https://vesterbrokaffe.dk",
+    instagram: "vesterbrokaffe",
+    coverImageUrl: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&h=600&fit=crop",
+    sourceUrl: "https://europeancoffeetrip.com/cafe/vesterbrokaffe-copenhagen/",
+    openingHours: "Monday: 08:00-17:00\nTuesday: 08:00-17:00\nWednesday: 08:00-17:00\nThursday: 08:00-17:00\nFriday: 08:00-17:00\nSaturday: 09:00-17:00\nSunday: 09:00-16:00",
+    serving: ["Espresso", "Filter Coffee", "Breakfast", "Plant-based Milk"],
+    services: ["Free Wi-Fi", "Laptop Friendly", "Vegan Options", "Outdoor Seating"],
+    status: "PENDING" as const,
+    featured: false,
+  },
+  {
+    name: "Supergood Coffee",
+    slug: "supergood-coffee-stockholm",
+    description: "Stockholm specialty coffee bar with a focus on sustainability and quality. Serving Nordic-roasted beans and organic milk.",
+    country: "Sweden",
+    countryCode: "SE",
+    city: "Stockholm",
+    lat: 59.329,
+    lng: 18.068,
+    website: "https://supergoodcoffee.se",
+    instagram: "supergoodcoffee",
+    coverImageUrl: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=800&h=600&fit=crop",
+    sourceUrl: "https://europeancoffeetrip.com/cafe/supergoodcoffee-stockholm/",
+    openingHours: "Monday: 08:00-17:00\nTuesday: 08:00-17:00\nWednesday: 08:00-17:00\nThursday: 08:00-17:00\nFriday: 08:00-17:00\nSaturday: 09:00-17:00\nSunday: Closed",
+    serving: ["Espresso", "Filter Coffee", "Plant-based Milk"],
+    services: ["Free Wi-Fi", "Laptop Friendly", "Vegan Options", "Organic Options"],
+    status: "PENDING" as const,
+    featured: false,
+  },
 ];
 
 async function main() {
-  console.log("Seeding 100 cafes...");
+  console.log("Seeding cafes...");
 
   for (const cafe of SEED_CAFES) {
+    const isPending = cafe.status === "PENDING";
     const created = await prisma.cafe.upsert({
       where: { slug: cafe.slug },
       update: cafe,
       create: {
         ...cafe,
-        verifiedAt: new Date(),
+        verifiedAt: isPending ? null : new Date(),
       },
     });
-    console.log("  ✓ " + created.name);
+    console.log(`  ${created.status === "VERIFIED" ? "✓" : "○"} ${created.name}`);
   }
 
-  console.log("\nDone!");
+  const verified = SEED_CAFES.filter((c) => c.status === "VERIFIED").length;
+  const pending = SEED_CAFES.filter((c) => c.status === "PENDING").length;
+  console.log(`\nDone! ${verified} verified, ${pending} pending`);
 }
 
 main()

@@ -65,10 +65,11 @@ export async function requireRoasterOwner(roasterId: string): Promise<string> {
   const { db } = await import("@/lib/db");
   const profile = await db.userProfile.findUnique({
     where: { id: userId },
-    select: { roasterId: true },
+    select: { ownedRoasters: { select: { id: true } } },
   });
 
-  if (!profile || profile.roasterId !== roasterId) {
+  const owns = profile?.ownedRoasters.some((r) => r.id === roasterId);
+  if (!owns) {
     throw new Error("Forbidden: not the owner of this roaster");
   }
 
@@ -88,10 +89,11 @@ export async function requireCafeOwner(cafeId: string): Promise<string> {
   const { db } = await import("@/lib/db");
   const profile = await db.userProfile.findUnique({
     where: { id: userId },
-    select: { cafeId: true },
+    select: { ownedCafes: { select: { id: true } } },
   });
 
-  if (!profile || profile.cafeId !== cafeId) {
+  const owns = profile?.ownedCafes.some((c) => c.id === cafeId);
+  if (!owns) {
     throw new Error("Forbidden: not the owner of this cafe");
   }
 

@@ -16,11 +16,11 @@ export const ourFileRouter = {
 
       const profile = await db.userProfile.findUnique({
         where: { id: userId },
-        select: { roasterId: true },
+        select: { ownedRoasters: { select: { id: true } } },
       });
-      if (!profile?.roasterId) throw new Error("No roaster linked");
+      if (!profile?.ownedRoasters.length) throw new Error("No roaster linked");
 
-      return { roasterId: profile.roasterId };
+      return { roasterId: profile.ownedRoasters[0].id };
     })
     .onUploadComplete(async ({ metadata, file }) => {
       // Replace existing primary image
@@ -51,9 +51,10 @@ export const ourFileRouter = {
 
       const profile = await db.userProfile.findUnique({
         where: { id: userId },
-        select: { cafeId: true },
+        select: { ownedCafes: { select: { id: true } } },
       });
-      if (!profile || profile.cafeId !== cafeId) {
+      const owns = profile?.ownedCafes.some((c) => c.id === cafeId);
+      if (!owns) {
         throw new UploadThingError("Forbidden");
       }
 

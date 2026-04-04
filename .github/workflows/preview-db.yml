@@ -79,9 +79,18 @@ jobs:
           DATABASE_URL: ${{ steps.neon.outputs.db_url }}
           DIRECT_URL: ${{ steps.neon.outputs.db_url }}
 
-      - name: Seed cafes on preview branch
+      - name: Run all seed scripts
         if: github.event.action != 'closed'
-        run: cd web && npx tsx prisma/seed_cafes.ts
+        run: |
+          cd web
+          npx tsx prisma/seed.ts
+          npx tsx prisma/seed_cafes.ts
+          npx tsx prisma/seed_cafe_roasters_explicit.ts
+          npx tsx prisma/seed_user_profiles.ts
+          npx tsx prisma/seed_reviews.ts
+          npx tsx prisma/seed_profile_events.ts
+          npx tsx prisma/seed_saved_roasters.ts
+          npx tsx prisma/seed_admin_notes.ts
         env:
           DATABASE_URL: ${{ steps.neon.outputs.db_url }}
           DIRECT_URL: ${{ steps.neon.outputs.db_url }}

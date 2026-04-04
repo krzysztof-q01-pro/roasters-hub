@@ -80,16 +80,58 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
-      - name: Seed Cafes (if seed_cafes.ts changed)
-        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'seed_cafes.ts')
+      - name: Seed Roasters
+        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed.ts')
+        run: npx tsx prisma/seed.ts
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
+      - name: Seed Cafes
+        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_cafes.ts')
         run: npx tsx prisma/seed_cafes.ts
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
       - name: Seed Cafe-Roaster Relations
-        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'seed_cafe_roasters')
-        run: npx tsx prisma/seed_cafe_roasters_random.ts
+        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_cafe_roasters_explicit.ts')
+        run: npx tsx prisma/seed_cafe_roasters_explicit.ts
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
+      - name: Seed User Profiles
+        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_user_profiles.ts')
+        run: npx tsx prisma/seed_user_profiles.ts
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
+      - name: Seed Reviews
+        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_reviews.ts')
+        run: npx tsx prisma/seed_reviews.ts
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
+      - name: Seed Profile Events
+        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_profile_events.ts')
+        run: npx tsx prisma/seed_profile_events.ts
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
+      - name: Seed Saved Roasters
+        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_saved_roasters.ts')
+        run: npx tsx prisma/seed_saved_roasters.ts
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
+      - name: Seed Admin Notes
+        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_admin_notes.ts')
+        run: npx tsx prisma/seed_admin_notes.ts
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}

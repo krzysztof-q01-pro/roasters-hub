@@ -13,8 +13,12 @@ export default async function CafeDashboardPage() {
 
   const profile = await db.userProfile.findUnique({
     where: { id: userId },
-    include: {
-      cafe: {
+    select: {
+      id: true,
+      email: true,
+      role: true,
+      createdAt: true,
+      ownedCafes: {
         include: {
           roasters: {
             include: {
@@ -26,9 +30,9 @@ export default async function CafeDashboardPage() {
     },
   });
 
-  if (!profile?.cafe) redirect("/dashboard/saved-roasters");
+  if (!profile?.ownedCafes.length) redirect("/dashboard/saved-roasters");
 
-  const { cafe } = profile;
+  const cafe = profile.ownedCafes[0];
 
   return (
     <>
