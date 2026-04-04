@@ -92,6 +92,25 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] [P3] **Cafe amenities icons** — ikony dla Wi-Fi, Vegan, etc. na profilu kawiarni (@AGENT) ✅
 - [x] [P3] **Cafe amenities filter** — filtr po amenities w katalogu /cafes (@AGENT) ✅
 
+### UX Quality Audit — 2026-04-04 — (@UNASSIGNED)
+
+> **Session:** 2026-04-04 — Full UX quality test via Playwright MCP on production
+> **Report:** `.tmp/ux-quality-audit-2026-04-04.md`
+> **Method:** 14 test scenarios across all user journeys (guest, roaster, cafe, admin, reviewer)
+> **Status:** 28 PASS, 3 HIGH, 5 MEDIUM found
+
+**HIGH Priority:**
+- [ ] [HIGH] **Cafe profile: Save/Bookmark feature** — add "Save Cafe" button + extend SavedRoaster model or create SavedCafe; mirror roaster UX (`cafes/[slug]/page.tsx`, `dashboard/`) (@UNASSIGNED)
+- [ ] [HIGH] **Cafe profile: sticky sidebar / contact card** — add sticky aside with contact info, links (Website, Instagram, Phone), matching roaster profile layout (`cafes/[slug]/page.tsx`) (@UNASSIGNED)
+- [ ] [HIGH] **Cafe profile: analytics tracking** — add ProfileTracker for PAGE_VIEW, WEBSITE_CLICK, CONTACT_CLICK on cafe profiles; add stats to `/dashboard/cafe` (`cafes/[slug]/page.tsx`, `dashboard/cafe/`) (@UNASSIGNED)
+
+**MEDIUM Priority:**
+- [ ] [MEDIUM] **Title duplication on /register** — remove extra `| Bean Map` from `register/page.tsx` metadata (same fix as cafes) (`register/page.tsx`) (@UNASSIGNED)
+- [ ] [MEDIUM] **Map H1 inconsistency** — change H1 from "Coffee Roasters Map" to "Coffee Roasters & Cafes Map" to match page title (`map/page.tsx`) (@UNASSIGNED)
+- [ ] [MEDIUM] **Cafe profile: cover image** — add cover image upload for cafes in dashboard; display on cafe profile (`dashboard/cafe/`, `cafes/[slug]/page.tsx`) (@UNASSIGNED)
+- [ ] [MEDIUM] **Cafe profile: VerifiedBadge** — add VerifiedBadge component to cafe profile hero for VERIFIED cafes (`cafes/[slug]/page.tsx`) (@UNASSIGNED)
+- [ ] [MEDIUM] **Mobile filters: search always visible** — move search input outside collapsible filters on mobile; keep other filters collapsed (`RoasterFilters.tsx`, `CafeFilters.tsx`) (@UNASSIGNED)
+
 ### Admin Dashboard — (@KK)
 
 - [ ] [P1] **Admin: dashboard statystyk** — widok `/admin` z liczbą palarni (pending/verified/rejected), łączna liczba odsłon profili, ostatnie rejestracje (read-only monitoring) (@KK)
