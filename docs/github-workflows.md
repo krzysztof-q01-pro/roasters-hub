@@ -10,11 +10,12 @@
 1. [Architektura Pipeline](#architektura-pipeline)
 2. [Git Hooks & Branch Strategy](#git-hooks--branch-strategy)
 3. [Preview Database (PR)](#preview-database-pr)
-4. [Production Deploy](#production-deploy)
-5. [Wymagane Secrets](#wymagane-secrets)
-6. [Komendy diagnostyczne](#komendy-diagnostyczne)
-7. [Rollback](#rollback)
-8. [Troubleshooting](#troubleshooting)
+4. [CI z Ephemeral DB](#ci-z-ephemeral-db)
+5. [Production Deploy](#production-deploy)
+6. [Wymagane Secrets](#wymagane-secrets)
+7. [Komendy diagnostyczne](#komendy-diagnostyczne)
+8. [Rollback](#rollback)
+9. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -91,7 +92,7 @@ Pre-push hook (`tools/branch-guard.sh`) analizuje pliki zmienione w commitach pu
 ├─────────────────────────────────────────────────────────────────────────────┤
 │  1. Create Neon branch (preview-<branch-name>)                              │
 │  2. Run migrations (jeśli nowe)                                             │
-│  3. Run seed (jeśli nowe)                                                   │
+│  3. Run seed (ZAWSZE — każdy preview ma dane do testowania)                 │
 │  4. Set Vercel DATABASE_URL (scoped to branch)                              │
 │  5. Vercel Preview Deployment                                               │
 └──────────────────────┬──────────────────────────────────────────────────────┘
@@ -145,10 +146,10 @@ Każdy Pull Request automatycznie dostaje **własną, izolowaną bazę danych**.
    - Parent: `main` (kopia produkcji)
    - Automatyczne czyszczenie przy zamknięciu PR
 
-2. **Migrations & Seed** (tylko jeśli są nowe)
+2. **Migrations & Seed**
    - Sprawdza `git diff` na `web/prisma/migrations/`
-   - Odpala `prisma migrate deploy`
-   - Odpala `prisma/seed_cafes.ts` jeśli zmieniony
+   - Odpala `prisma migrate deploy` (tylko jeśli nowe migracje)
+   - Odpala `prisma/seed_cafes.ts` **ZAWSZE** (każdy preview ma dane)
 
 3. **Vercel Integration**
    - Tworzy branch-scoped `DATABASE_URL`
@@ -175,6 +176,51 @@ gh run view <run-id> --log-failed
 Przy zamknięciu PR:
 - Usuwa Neon branch `preview-<branch-name>`
 - Usuwa Vercel env var `DATABASE_URL` (scoped)
+
+---
+
+## CI z Ephemeral DB
+
+Każdy PR przechodzi **CI z izolowaną bazą danych** — testy i build uruchamiają się na tymczasowym Neon branchu.
+
+### Jak to działa
+
+**Workflow:** `.github/workflows/ci.yml`
+**Trigger:** PR do `main`
+
+**Job 1: Lint, Type Check & Unit Tests**
+- `npm run lint` — ESLint
+- `npx tsc --noEmit` — TypeScript
+- `npm run test:coverage` — Vitest z coverage → Codecov
+
+**Job 2: Integration Tests + Build** (wymaga Job 1)
+1. Tworzy **ephemeral Neon branch** (`ci-<run_id>-<attempt>`)
+2. Run `prisma migrate deploy`
+3. Run `npm run test:integration`
+4. Run `npm run build`
+5. **Usuwa ephemeral branch** (`if: always()`)
+
+### Dlaczego ephemeral?
+
+| Preview DB (preview-db.yml) | Ephemeral DB (ci.yml) |
+|------------------------------|-----------------------|
+| Trwa przez życie PR | Żyje tylko przez duration workflowu |
+| Służy do ręcznego testowania | Służy do automatycznych testów CI |
+| Nazwa: `preview-<branch>` | Nazwa: `ci-<run_id>-<attempt>` |
+
+### Outputs Neon action (v6)
+
+| Output | Opis |
+|--------|------|
+| `db_url` | Bezpośredni connection string |
+| `db_url_pooled` | Z connection pooling (zalecany dla runtime) |
+| `branch_id` | Unikalne ID brancha |
+| `password` | Hasło do bazy |
+
+**Uwaga:** W v6 nazwy outputów się zmieniły:
+- `db_url_with_pooler` → `db_url_pooled`
+- `username` → `role`
+- `parent_branch_id` → `parent_branch`
 
 ---
 
@@ -475,5 +521,5 @@ Przed rozpoczęciem pracy z CI/CD:
 
 ---
 
-**Last Updated:** 2026-04-04 (added Branch Protection checklist + Neon Actions v6)  
+**Last Updated:** 2026-04-04 (Neon Actions v6, ephemeral CI DB, seed always, branch protection)  
 **Maintainer:** @MN (Marek Nadra)
