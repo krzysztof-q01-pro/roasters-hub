@@ -114,7 +114,7 @@ Osoba rejestrująca palarnię na platformie i zarządzająca profilem po weryfik
 
 ---
 
-## Misja C — "Gdzie wypić" (kawiarnie serwujące palarnię)
+## Misja C — "Where to drink" (kawiarnie serwujące palarnię)
 
 ### Setup
 - URL bazowy: `/roasters/[slug]`
@@ -126,7 +126,7 @@ Osoba rejestrująca palarnię na platformie i zarządzająca profilem po weryfik
 | # | Akcja | Oczekiwany wynik |
 |---|-------|-----------------|
 | 1 | Wejdź na profil zweryfikowanej palarni `/roasters/[slug]` | Strona ładuje się, profil widoczny |
-| 2 | Przewiń do sekcji "Gdzie wypić" / "Where to drink" | Sekcja widoczna pod główną treścią profilu |
+| 2 | Przewiń do sekcji "Where to drink" | Sekcja widoczna pod główną treścią profilu, nagłówek w języku angielskim |
 | 3 | Sprawdź listę kawiarni | Karty kawiarni widoczne z nazwami, miastem, krajem |
 | 4 | Kliknij kartę kawiarni | Przekierowanie na `/cafes/[slug]` |
 | 5 | Na profilu kawiarni sprawdź sekcję "Roasters we serve" | Oryginalna palarnia widoczna na liście |
@@ -139,8 +139,8 @@ Osoba rejestrująca palarnię na platformie i zarządzająca profilem po weryfik
 
 | Scenariusz | Oczekiwany wynik |
 |-----------|-----------------|
-| Palarnia bez CafeRoasterRelation (brak kawiarni) | Sekcja "Gdzie wypić" pusta z komunikatem "Ta palarnia nie jest jeszcze dostępna w żadnej kawiarni" |
-| Palarnia PENDING lub REJECTED | Sekcja "Gdzie wypić" niewidoczna lub profil niedostępny publicznie |
+| Palarnia bez CafeRoasterRelation (brak kawiarni) | Sekcja "Where to drink" pusta z komunikatem "This roastery is not yet available in any cafe." |
+| Palarnia PENDING lub REJECTED | Sekcja "Where to drink" niewidoczna lub profil niedostępny publicznie |
 | Link do kawiarni z REJECTED statusem | Link niewidoczny — relacje tylko z VERIFIED cafes |
 
 ### Status

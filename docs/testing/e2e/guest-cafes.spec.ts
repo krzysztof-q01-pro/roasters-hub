@@ -45,7 +45,10 @@ test.describe('Journey 01-E: Cafe Profile', () => {
   test.skip('displays review form on cafe profile', async ({ page }) => {
     // TODO: Implement test
     // 1. Navigate to cafe profile
-    // 2. Verify "Leave a review" form visible
+    // 2. Verify "Leave a Review" section visible (shared/ReviewForm)
+    // 3. Verify form fields: "Your Name" textbox, star rating buttons (1-5 ★), "Comment (optional)" textarea, "Submit Review" button
+    // 4. Verify star hover: hover over star → amber-500 highlight
+    // 5. Verify review list above form uses same layout as roaster profile (shared/ReviewList)
   });
 
   test.skip('returns 404 for non-existent cafe slug', async ({ page }) => {
@@ -77,3 +80,5 @@ test.describe('Journey 01-C: Map Cafe Toggle', () => {
 // - No auth required
 // - DB: Min 3 VERIFIED cafes with lat/lng
 // - DB: Min 1 VERIFIED cafe with website, instagram, phone
+// - Review form on cafe profile uses shared/ReviewForm.tsx (same as roaster profile)
+// - Review list uses shared/ReviewList.tsx (same as roaster profile)

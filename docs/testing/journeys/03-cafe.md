@@ -137,11 +137,11 @@ Osoba rejestrująca kawiarnię na platformie i zarządzająca profilem po weryfi
 | 5 | Kliknij palarnię z wyników | Relacja dodana, palarnia pojawia się na liście |
 | 6 | Sprawdź komunikat sukcesu | Toast lub komunikat "Palarnia dodana" |
 | 7 | Dodaj drugą palarnię (powtórz kroki 4-5) | Dwie palarnie na liście |
-| 8 | Przejdź na profil jednej z dodanych palarni `/roasters/[slug]` | Kawiarnia widoczna w sekcji "Gdzie wypić" |
+| 8 | Przejdź na profil jednej z dodanych palarni `/roasters/[slug]` | Kawiarnia widoczna w sekcji "Where to drink" |
 | 9 | Wróć do `/dashboard/cafe` | Dashboard nadal widoczny |
 | 10 | Kliknij "Usuń" przy pierwszej palarni na liście | Palarnia znika z listy, toast sukcesu |
 | 11 | Odśwież stronę | Lista zawiera tylko jedną palarnię |
-| 12 | Przejdź na profil palarni `/roasters/[slug]` | Kawiarnia już nie widoczna w "Gdzie wypić" |
+| 12 | Przejdź na profil palarni `/roasters/[slug]` | Kawiarnia już nie widoczna w "Where to drink" |
 
 ### Ukryte efekty
 

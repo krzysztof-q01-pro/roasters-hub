@@ -86,6 +86,10 @@ Osoba zarządzająca platformą — weryfikuje wnioski palarni i kawiarni, moder
 
 ## Misja C — Moderacja recenzji (palarnie + kawiarnie)
 
+> **Uwaga:** Recenzje palarni i kawiarni korzystają z tego samego modelu `Review` w DB.
+> Formularze recenzji są ujednolicone (`shared/ReviewForm.tsx`) — ten sam UX na obu typach profili.
+> Zatwierdzone recenzje wyświetlane są tym samym komponentem (`shared/ReviewList.tsx`) z gwiazdkami ★.
+
 ### Setup
 - URL bazowy: `/admin/reviews`
 - Konto: konto Clerk z metadatą `role: ADMIN`
@@ -96,15 +100,15 @@ Osoba zarządzająca platformą — weryfikuje wnioski palarni i kawiarni, moder
 | # | Akcja | Oczekiwany wynik |
 |---|-------|-----------------|
 | 1 | Zaloguj się jako admin, przejdź na `/admin/reviews` | Lista recenzji PENDING widoczna |
-| 2 | Sprawdź dane recenzji palarni | Autor, rating (1-5), komentarz, nazwa palarni widoczne |
+| 2 | Sprawdź dane recenzji palarni | Autor, rating (gwiazdki ★ 1-5), komentarz, nazwa palarni widoczne |
 | 3 | Kliknij "Zatwierdź" / "Approve" | Loading, potem komunikat sukcesu |
 | 4 | Sprawdź że recenzja zniknęła z listy moderacji | Kolejka skrócona |
-| 5 | Przejdź na profil palarni `/roasters/[slug]` | Zatwierdzona recenzja widoczna publicznie |
+| 5 | Przejdź na profil palarni `/roasters/[slug]` | Zatwierdzona recenzja widoczna publicznie — autor, gwiazdki ★, komentarz, data (format "Apr 4, 2026") |
 | 6 | Wróć na `/admin/reviews` | Lista recenzji nadal widoczna |
 | 7 | Kliknij tab "Kawiarnie" / "Cafes" | Lista recenzji kawiarni PENDING widoczna |
-| 8 | Sprawdź dane recenzji kawiarni | Autor, rating (1-5), komentarz, nazwa kawiarni widoczne |
+| 8 | Sprawdź dane recenzji kawiarni | Autor, rating (gwiazdki ★ 1-5), komentarz, nazwa kawiarni widoczne |
 | 9 | Kliknij "Zatwierdź" przy recenzji kawiarni | Loading, potem komunikat sukcesu |
-| 10 | Przejdź na profil kawiarni `/cafes/[slug]` | Zatwierdzona recenzja widoczna publicznie |
+| 10 | Przejdź na profil kawiarni `/cafes/[slug]` | Zatwierdzona recenzja widoczna publicznie — ten sam format co na profilu palarni |
 | 11 | Wróć na `/admin/reviews`, znajdź inną recenzję | Kolejna recenzja PENDING |
 | 12 | Kliknij "Odrzuć" / "Reject" | Recenzja usunięta lub zmiana statusu na REJECTED |
 | 13 | Sprawdź profil palarni lub kawiarni | Odrzucona recenzja NIE widoczna publicznie |
@@ -113,7 +117,7 @@ Osoba zarządzająca platformą — weryfikuje wnioski palarni i kawiarni, moder
 - Zatwierdzenie recenzji palarni: status `PENDING` → `APPROVED`, revalidatePath dla `/roasters/[slug]`
 - Zatwierdzenie recenzji kawiarni: status `PENDING` → `APPROVED`, revalidatePath dla `/cafes/[slug]`
 - Odrzucenie: status recenzji `PENDING` → `REJECTED`
-- Recenzje `APPROVED` widoczne publicznie na profilach
+- Recenzje `APPROVED` widoczne publicznie na profilach — tym samym komponentem `shared/ReviewList.tsx`
 
 ### Edge cases
 

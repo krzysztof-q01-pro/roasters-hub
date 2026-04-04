@@ -62,7 +62,7 @@ _(brak dla tej misji — filtrowanie i search są po stronie klienta/ISR, bez za
 | 5 | Wróć do profilu, kliknij "Shop" | Nowa karta otwiera się ze sklepem online |
 | 6 | Kliknij "Contact" (email) | Otwiera klient email lub kopiuje adres |
 | 7 | Kliknij "Share" | Wyświetla opcje udostępnienia lub kopiuje URL |
-| 8 | Przewiń do sekcji recenzji | Widoczne zaakceptowane recenzje (lub komunikat "no reviews yet") |
+| 8 | Przewiń do sekcji recenzji | Widoczne zaakceptowane recenzje w układzie pionowym (autor, gwiazdki ★, komentarz, data). Na górze average rating z gwiazdkami i liczbą recenzji. Formularz "Leave a Review" pod listą. |
 
 ### Ukryte efekty
 - **Każdy klik przycisku** (Website, Shop, Contact, Share) zapisuje event w tabeli `ProfileEvent` w DB:
@@ -143,7 +143,7 @@ _(brak dla tej misji — filtrowanie i search są po stronie klienta/ISR, bez za
 |---|-------|-----------------|
 | 1 | Wejdź na `/cafes` (katalog kawiarni) | Strona ładuje się, widoczne karty kawiarni |
 | 2 | Sprawdź kartę kawiarni | Nazwa, miasto, kraj, liczba serwowanych palarni widoczne |
-| 3 | Sprawdź average rating (jeśli dostępne) | Gwiazdki lub liczba obok karty |
+| 3 | Sprawdź average rating (jeśli dostępne) | Gwiazdki ★ (kolor bursztynowy) + liczba obok nazwy kawiarni |
 | 4 | Kliknij kartę kawiarni | Przekierowanie na `/cafes/[slug]` |
 | 5 | Kliknij link do palarni w sekcji "Roasters we serve" | Przekierowanie na `/roasters/[slug]` |
 | 6 | Wróć na `/cafes` | Katalog nadal widoczny |
@@ -178,15 +178,15 @@ _(brak dla tej misji — filtrowanie i search są po stronie klienta/ISR, bez za
 |---|-------|-----------------|
 | 1 | Z katalogu kliknij kartę kawiarni | Przekierowanie na `/cafes/[slug]` |
 | 2 | Sprawdź sekcję nagłówka | Nazwa, miasto, kraj, opis widoczne |
-| 3 | Sprawdź average rating | Gwiazdki lub liczba (jeśli kawiarnia ma recenzje) |
+| 3 | Sprawdź average rating | Gwiazdki ★ (kolor bursztynowy) + liczba (np. "5.0 out of 5 (1 review)") |
 | 4 | Sprawdź linki kontaktowe | Website, Instagram, Phone widoczne (jeśli uzupełnione) |
 | 5 | Kliknij link "Website" | Nowa karta otwiera się z adresem strony kawiarni |
 | 6 | Kliknij link Instagram | Przekierowanie do profilu na Instagram |
 | 7 | Sprawdź sekcję "Roasters we serve" / "Palarnie które serwujemy" | Lista palarni widoczna z nazwami i linkami |
 | 8 | Kliknij link do palarni | Przekierowanie na `/roasters/[slug]` |
 | 9 | Wróć na profil kawiarni | Profil nadal widoczny |
-| 10 | Przewiń do sekcji recenzji | Widoczne zaakceptowane recenzje (lub komunikat "no reviews yet") |
-| 11 | Sprawdź formularz recenzji | Formularz "Leave a review" widoczny na dole |
+| 10 | Przewiń do sekcji recenzji | Widoczne zaakceptowane recenzje w układzie pionowym (autor, gwiazdki ★, komentarz, data). Na górze average rating z gwiazdkami i liczbą recenzji. |
+| 11 | Sprawdź formularz recenzji | Formularz "Leave a Review" widoczny pod listą recenzji — pola: "Your Name", gwiazdki z hover (1-5 ★), "Comment (optional)", przycisk "Submit Review" |
 
 ### Ukryte efekty
 - Każdy klik linku website zapisuje `WEBSITE_CLICK` event w DB (jeśli tracking zaimplementowany dla kawiarni)
