@@ -34,7 +34,7 @@ jobs:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
           api_key: ${{ secrets.NEON_API_KEY }}
           branch_name: ${{ steps.names.outputs.neon_branch }}
-          parent_branch_id: main
+          parent_branch: main
 
       - name: Check for new migrations
         if: github.event.action != 'closed'
@@ -80,7 +80,7 @@ jobs:
         if: github.event.action != 'closed'
         run: |
           BRANCH="${{ github.head_ref }}"
-          ENV_VALUE="${{ steps.neon.outputs.db_url_with_pooler }}"
+          ENV_VALUE="${{ steps.neon.outputs.db_url_pooled }}"
           PROJECT_ID="${{ secrets.VERCEL_PROJECT_ID }}"
           TOKEN="${{ secrets.VERCEL_TOKEN }}"
 
