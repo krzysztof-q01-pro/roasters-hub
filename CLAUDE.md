@@ -58,7 +58,7 @@ Kluczowe: każde `[x]` w ROADMAP musi mieć fizyczny dowód w kodzie (istniejąc
 ## Multi-Worker Coordination
 
 Trzech workerów operuje na tym repo:
-- **@MN** (Marek Nadra) — sesje manualne + scheduled agent (nocny)
+- **@MN** (Marek Nadra, marek.nadra@gmail.com) — sesje manualne + scheduled agent (nocny)
 - **@KK** (Krzysztof Kuczkowski) — sesje manualne + scheduled agent (wieczorny)
 - **@AGENT** — scheduled agent (autonomiczny, uruchamiany przez MN lub KK)
 
