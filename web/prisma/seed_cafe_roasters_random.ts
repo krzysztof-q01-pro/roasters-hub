@@ -1,6 +1,7 @@
 /**
  * Script to generate random Cafe-Roaster relations
  * Each cafe gets 3-10 random roaster connections
+ * Optimized: single createMany instead of 620 sequential upserts
  */
 
 import { PrismaClient } from "@prisma/client";
@@ -43,53 +44,36 @@ async function main() {
     return;
   }
 
-  let totalCreated = 0;
-  const createdRelations = [];
+  // Build all relations in memory
+  const relations: { cafeId: string; roasterId: string }[] = [];
+  const relationSummary: { cafe: string; count: number }[] = [];
 
-  // For each cafe, create 3-10 random roaster relations
   for (const cafe of cafes) {
     const numRelations = getRandomInt(3, 10);
     const selectedRoasters = getRandomElements(roasters, numRelations);
 
     for (const roaster of selectedRoasters) {
-      try {
-        await prisma.cafeRoasterRelation.upsert({
-          where: {
-            cafeId_roasterId: {
-              cafeId: cafe.id,
-              roasterId: roaster.id,
-            },
-          },
-          update: {},
-          create: {
-            cafeId: cafe.id,
-            roasterId: roaster.id,
-          },
-        });
-
-        createdRelations.push({
-          cafe: cafe.name,
-          roaster: roaster.name,
-        });
-        totalCreated++;
-      } catch (error) {
-        console.error(`Error creating relation: ${cafe.slug} → ${roaster.slug}`, error);
-      }
+      relations.push({
+        cafeId: cafe.id,
+        roasterId: roaster.id,
+      });
     }
 
-    console.log(`✅ ${cafe.name}: ${numRelations} roasters`);
+    relationSummary.push({ cafe: cafe.name, count: numRelations });
   }
 
-  console.log(`\n🎉 Created ${totalCreated} cafe-roaster relations`);
-
-  // Show some sample relations
-  console.log("\n📋 Sample relations:");
-  createdRelations.slice(0, 10).forEach((rel) => {
-    console.log(`   • ${rel.cafe} → ${rel.roaster}`);
+  // Single batch insert — replaces 620 sequential upserts
+  const result = await prisma.cafeRoasterRelation.createMany({
+    data: relations,
+    skipDuplicates: true,
   });
 
-  if (createdRelations.length > 10) {
-    console.log(`   ... and ${createdRelations.length - 10} more`);
+  console.log(`🎉 Created ${result.count} cafe-roaster relations (batch insert)\n`);
+
+  // Show summary
+  console.log("📋 Relations per cafe:");
+  for (const entry of relationSummary) {
+    console.log(`   ✅ ${entry.cafe}: ${entry.count} roasters`);
   }
 }
 

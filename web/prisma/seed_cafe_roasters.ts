@@ -19,7 +19,6 @@ const CAFE_ROASTER_RELATIONS = [
   { cafeSlug: "java-cafe-speciality-roasters-warsaw", roasterSlug: "java-coffee-roasters" },
   { cafeSlug: "story-coffee-warsaw", roasterSlug: "story-coffee-roasters" },
   { cafeSlug: "coffeedesk-kawiarnia-warsaw", roasterSlug: "coffeelab-warszawa" },
-  { cafeSlug: "bonanza-coffee-berlin", roasterSlug: "bonanza-coffee" },
   { cafeSlug: "green-wall-coffee-berlin", roasterSlug: "the-barn-berlin" },
   { cafeSlug: "milchhalle-berlin-coffee-berlin", roasterSlug: "bonanza-coffee" },
   { cafeSlug: "man-versus-machine-munich", roasterSlug: "man-versus-machine-munich" },
@@ -37,41 +36,50 @@ const CAFE_ROASTER_RELATIONS = [
 async function main() {
   console.log("Seeding cafe-roaster relations...");
 
+  // Collect unique slugs
+  const cafeSlugs = [...new Set(CAFE_ROASTER_RELATIONS.map((r) => r.cafeSlug))];
+  const roasterSlugs = [...new Set(CAFE_ROASTER_RELATIONS.map((r) => r.roasterSlug))];
+
+  // Single batch fetch for all cafes and roasters
+  const [cafes, roasters] = await Promise.all([
+    prisma.cafe.findMany({
+      where: { slug: { in: cafeSlugs } },
+      select: { id: true, slug: true },
+    }),
+    prisma.roaster.findMany({
+      where: { slug: { in: roasterSlugs } },
+      select: { id: true, slug: true },
+    }),
+  ]);
+
+  // Build lookup maps
+  const cafeMap = new Map(cafes.map((c) => [c.slug, c.id]));
+  const roasterMap = new Map(roasters.map((r) => [r.slug, r.id]));
+
+  // Build relations array
+  const relations: { cafeId: string; roasterId: string }[] = [];
+  let skipped = 0;
+
   for (const rel of CAFE_ROASTER_RELATIONS) {
-    try {
-      const cafe = await prisma.cafe.findUnique({
-        where: { slug: rel.cafeSlug },
-        select: { id: true },
-      });
-      const roaster = await prisma.roaster.findUnique({
-        where: { slug: rel.roasterSlug },
-        select: { id: true },
-      });
+    const cafeId = cafeMap.get(rel.cafeSlug);
+    const roasterId = roasterMap.get(rel.roasterSlug);
 
-      if (!cafe || !roaster) {
-        console.log(`Skipping: ${rel.cafeSlug} → ${rel.roasterSlug} (not found)`);
-        continue;
-      }
-
-      await prisma.cafeRoasterRelation.upsert({
-        where: {
-          cafeId_roasterId: {
-            cafeId: cafe.id,
-            roasterId: roaster.id,
-          },
-        },
-        update: {},
-        create: {
-          cafeId: cafe.id,
-          roasterId: roaster.id,
-        },
-      });
-      console.log(`Created: ${rel.cafeSlug} → ${rel.roasterSlug}`);
-    } catch (error) {
-      console.error(`Error: ${rel.cafeSlug} → ${rel.roasterSlug}`, error);
+    if (!cafeId || !roasterId) {
+      console.log(`Skipping: ${rel.cafeSlug} → ${rel.roasterSlug} (not found)`);
+      skipped++;
+      continue;
     }
+
+    relations.push({ cafeId, roasterId });
   }
 
+  // Single batch insert
+  const result = await prisma.cafeRoasterRelation.createMany({
+    data: relations,
+    skipDuplicates: true,
+  });
+
+  console.log(`Created ${result.count} relations${skipped > 0 ? ` (skipped ${skipped})` : ""}`);
   console.log("Done!");
 }
 
