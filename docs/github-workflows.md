@@ -484,17 +484,20 @@ Przed rozpoczęciem pracy z CI/CD:
 
 - [ ] **Branch name pattern:** `main`
 - [ ] ✅ **Require a pull request before merging**
-- [ ] ✅ **Require approvals** → Minimum number of approving reviews: `1`
-- [ ] ✅ **Dismiss stale pull request approvals when new commits are pushed**
 - [ ] ✅ **Require status checks to pass before merging** → wybierz:
   - `Lint, Type Check & Unit Tests` (z CI workflow)
   - `Integration Tests` (z CI workflow)
   - `manage-preview-db` (z Preview Database workflow)
 - [ ] ✅ **Require branches to be up to date before merging**
-- [ ] ✅ **Do not allow bypassing** (opcjonalnie — zalecane dla produkcji)
-- [ ] ✅ **Include administrators** (opcjonalnie — dotyczy też adminów)
+- [ ] ❌ **Require approvals** → **ODZNACZONE** (agent merge'uje automatycznie po CI ✅)
 - [ ] ❌ **Allow force pushes** → OFF (nigdy nie zezwalaj)
 - [ ] ❌ **Allow deletions** → OFF
+
+### Dlaczego bez approvals?
+
+Mały zespół (2 osoby + agent) nie potrzebuje formalnego review process.
+**CI jest gate'em jakości** — lint, tsc, testy, build, integration tests.
+Jeśli CI przechodzi → kod jest gotowy do merge.
 
 ### Dlaczego to ważne?
 
@@ -502,7 +505,6 @@ Przed rozpoczęciem pracy z CI/CD:
 |------------|----------------------|---------------------|
 | Przypadkowy push do main | ✅ Dojdzie do skutku | ❌ Zablokowane |
 | Bypass hooka (--no-verify) | ✅ Dojdzie do skutku | ❌ Zablokowane |
-| Merge bez review | ✅ Możliwy | ❌ Wymaga 1 approval |
 | Merge bez passing CI | ✅ Możliwy | ❌ Wymaga passing checks |
 
 ### Double Guard — jak działają obie blokady
@@ -515,11 +517,41 @@ Przed rozpoczęciem pracy z CI/CD:
 ├─────────────────────────────────────────────────────────────┤
 │  Linia 2: GitHub Branch Protection (server-side)            │
 │  ✅ Nie do obejścia (nawet z --no-verify)                   │
-│  ✅ Wymaga PR + approval + passing CI                       │
+│  ✅ Wymaga PR + passing CI (bez approvala)                  │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-**Last Updated:** 2026-04-04 (Neon Actions v6, ephemeral CI DB, seed always, branch protection)  
+## Auto-Flow — "Zapisz zmiany"
+
+Gdy użytkownik powie **"zapisz"**, **"commit"**, **"push"**, **"wdróż"** — agent wykonuje pełny flow w tle:
+
+```
+1. git checkout -b feat/<krótki-opis>
+2. git add + git commit
+3. git push origin <branch>
+4. gh pr create --auto
+5. Polling: gh run list --branch <branch> (czeka na CI)
+6. Jeśli CI ✅ → gh pr merge --squash --delete-branch
+7. Jeśli CI ❌ → napraw błędy + push na ten sam PR → powrót do kroku 5
+```
+
+**Użytkownik widzi tylko:** *"Zmiany zapisane, PR #X zmergowany."*
+
+### Kiedy NIE auto-merge
+
+- Zmiana struktury bazy (nowa migracja) — pokaż link do PR, poproś o potwierdzenie
+- Duża zmiana (>5 plików, >200 linii) — pokaż link do PR, poproś o review
+- Pierwszy deploy nowej funkcji — pokaż podsumowanie przed merge
+
+### NIGDY
+
+- `git push origin main` (zablokowane przez Branch Protection)
+- `gh pr merge --admin` (omija politykę repozytorium)
+- Commit bez uruchomienia consistency check
+
+---
+
+**Last Updated:** 2026-04-04 (Neon Actions v6, ephemeral CI DB, seed always, branch protection, auto-flow)  
 **Maintainer:** @MN (Marek Nadra)
