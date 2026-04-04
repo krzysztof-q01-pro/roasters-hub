@@ -149,9 +149,7 @@ jobs:
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
       - name: Verify production data integrity
-        run: |
-          cd web
-          npx tsx prisma/verify-production.ts
+        run: npx tsx prisma/verify-production.ts
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
