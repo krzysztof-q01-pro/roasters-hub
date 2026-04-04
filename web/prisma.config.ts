@@ -9,6 +9,5 @@ export default defineConfig({
   },
   datasource: {
     url: process.env.DATABASE_URL ?? "postgresql://localhost:5432/placeholder",
-    shadowDatabaseUrl: process.env.DIRECT_URL,
   },
 });
