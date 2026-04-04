@@ -11,7 +11,7 @@ import type { Prisma } from "@prisma/client";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Specialty Coffee Cafes | Bean Map",
+  title: "Specialty Coffee Cafes",
   description: "Discover specialty coffee cafes and see which roasters they serve. Filter by country and city.",
 };
 

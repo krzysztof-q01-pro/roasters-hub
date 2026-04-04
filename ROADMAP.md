@@ -72,18 +72,20 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] [P2] **UI: /dashboard/cafe owner panel** — zarządzanie relacjami z palarniami, przeniesienie saved-roasters na /dashboard/saved-roasters (@MN)
 - [x] [P2] **UI: Mapa + Roaster profile + Homepage** — piny kawiarni z toggle, sekcja "Gdzie wypić" na /roasters/[slug], CTA na homepage (@MN)
 
-### UX Consistency Audit — 2026-04-04 — (@AGENT)
+### UX Consistency Audit — 2026-04-04 — (@AGENT) ✅ **COMPLETE** (PR #32 merged)
 
 > **Session:** 2026-04-04 — Full UX audit via Playwright MCP across 6 pages
 > **Report:** `.tmp/audit-2026-04-04.md`
+> **Branch:** `feat/ux-consistency-audit-2026-04-04` (merged)
+> **Status:** All 5 CRITICAL+HIGH issues fixed and verified on production
 
-- [ ] [CRITICAL] **Duplicate reviews on profiles** — seed_reviews.ts run multiple times, no unique constraint on Review model → every review appears 2x on roaster AND cafe profiles (@AGENT)
-- [ ] [HIGH] **Polish text in roaster profile** — "Gdzie wypić" + empty state in Polish, rest of UI in English (`roasters/[slug]/page.tsx:206,209`) (@AGENT)
-- [ ] [HIGH] **SVG viewBox typo on /cafes** — `viewBox="0 0 2424"` instead of `"0 0 24 24"` in CafeFilters.tsx:72 → console error (@AGENT)
-- [ ] [HIGH] **Title duplication on cafe pages** — "| Bean Map | Bean Map" because cafe metadata already includes "| Bean Map" and layout template adds another (@AGENT)
-- [ ] [HIGH] **Unify review UX** — completely different review forms/lists for roasters vs cafes (star hover vs number buttons, different layouts, date formats, text casing) (@AGENT)
+- [x] [CRITICAL] **Duplicate reviews on profiles** — seed_reviews.ts run multiple times, no unique constraint on Review model → every review appears 2x on roaster AND cafe profiles (@AGENT) ✅
+- [x] [HIGH] **Polish text in roaster profile** — "Gdzie wypić" + empty state in Polish, rest of UI in English (`roasters/[slug]/page.tsx:206,209`) (@AGENT) ✅
+- [x] [HIGH] **SVG viewBox typo on /cafes** — `viewBox="0 0 2424"` instead of `"0 0 24 24"` in CafeFilters.tsx:72 → console error (@AGENT) ✅
+- [x] [HIGH] **Title duplication on cafe pages** — "| Bean Map | Bean Map" because cafe metadata already includes "| Bean Map" and layout template adds another (@AGENT) ✅
+- [x] [HIGH] **Unify review UX** — completely different review forms/lists for roasters vs cafes (star hover vs number buttons, different layouts, date formats, text casing) (@AGENT) ✅
 
-### UX Polish — Cafe Amenities — (@AGENT)
+### UX Polish — Cafe Amenities — (@AGENT) ✅ **COMPLETE**
 
 > Przeniesione z UX Consistency — niski priorytet, nice-to-have.
 
@@ -217,3 +219,5 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] **Social proof** — "Gdzie wypić" sekcja na profilu palarni ✅
 - [x] **Cafe addresses manual** — uzupełnienie adresów i coords dla 17 kawiarni (plik `.tmp/cafes_to_complete.json`), Google Maps lookup, aktualizacja SEED (~30min) (@MN) ✅
 - [x] **Perf: batch optimize cafe-roaster seeding** — replace 620 sequential upserts with `createMany`, production deploy 7m29s → 1m44s (@MN) ✅
+- [x] [HIGH] **SVG viewBox typo on /cafes** — `viewBox="0 0 2424"` instead of `"0 0 24 24"` in CafeFilters.tsx:72 → console error (@AGENT) ✅
+- [x] [HIGH] **Unify review UX** — completely different review forms/lists for roasters vs cafes (star hover vs number buttons, different layouts, date formats, text casing) (@AGENT) ✅
