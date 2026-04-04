@@ -259,10 +259,23 @@ Deploy na produkcję działa w **dwóch fazach**:
 
 ### Faza 2: Vercel Deployment (Auto)
 
-Vercel automatycznie deployuje na każdy push do `main`:
+Vercel automatycznie deployuje na push do `main` (pomijany dla docs-only — patrz [Vercel Ignored Build](#vercel-ignored-build)):
 - **Nie wymaga** workflow GitHub Actions
 - Deployment pojawia się w GitHub jako status check
 - Produkcja: `https://beanmap-web.vercel.app`
+
+### Vercel Ignored Build
+
+Plik `vercel.json` zawiera `ignoreCommand` który pomija build Vercel gdy push dotyczy **tylko** plików dokumentacji:
+
+```
+docs/**, ROADMAP.md, PROJECT_STATUS.md, CLAUDE.md, AGENTS.md,
+web/AGENTS.md, .tmp/**, .claude/**, .agents/**
+```
+
+**Dlaczego:** Docs-only changes nie zmieniają kodu aplikacji — nie ma potrzeby budowania Next.js. Push samego ROADMAP.md nie triggeruje ani CI GitHub Actions ani Vercel deploy (~1-2 min oszczędności).
+
+**Uwaga:** Jeśli push zmienia kod + dokumentację, Vercel deploy uruchamia się normalnie (bo kod triggeruje build).
 
 ### Monitorowanie statusu
 
@@ -567,5 +580,5 @@ Gdy użytkownik powie **"zapisz"**, **"commit"**, **"push"**, **"wdróż"** — 
 
 ---
 
-**Last Updated:** 2026-04-04 (Neon Actions v6, ephemeral CI DB, seed always, branch protection, auto-flow, docs-only CI skip, batch insert optimization)  
+**Last Updated:** 2026-04-04 (Neon Actions v6, ephemeral CI DB, seed always, branch protection, auto-flow, docs-only CI skip, batch insert optimization, Vercel ignoreCommand)  
 **Maintainer:** @MN (Marek Nadra)
