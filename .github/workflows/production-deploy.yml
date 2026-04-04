@@ -6,6 +6,7 @@ on:
     paths:
       - "web/prisma/seed*.ts"
       - "web/prisma/migrations/**"
+      - "web/prisma/schema.prisma"
       - ".github/workflows/production-deploy.yml"
 
 concurrency:
@@ -80,58 +81,77 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
+      - name: Check for new migrations
+        id: new_migrations
+        run: |
+          NEW=$(git diff --name-only HEAD~1 HEAD | grep "^web/prisma/migrations/" || true)
+          if [ -n "$NEW" ]; then
+            echo "has_new=true" >> $GITHUB_OUTPUT
+            echo "New migrations detected — running full seed"
+          else
+            echo "has_new=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Seed Roasters
-        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed.ts')
+        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed.ts') || steps.new_migrations.outputs.has_new == 'true'
         run: npx tsx prisma/seed.ts
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
       - name: Seed Cafes
-        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_cafes.ts')
+        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_cafes.ts') || steps.new_migrations.outputs.has_new == 'true'
         run: npx tsx prisma/seed_cafes.ts
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
       - name: Seed Cafe-Roaster Relations
-        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_cafe_roasters_explicit.ts')
+        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_cafe_roasters_explicit.ts') || steps.new_migrations.outputs.has_new == 'true'
         run: npx tsx prisma/seed_cafe_roasters_explicit.ts
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
       - name: Seed User Profiles
-        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_user_profiles.ts')
+        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_user_profiles.ts') || steps.new_migrations.outputs.has_new == 'true'
         run: npx tsx prisma/seed_user_profiles.ts
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
       - name: Seed Reviews
-        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_reviews.ts')
+        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_reviews.ts') || steps.new_migrations.outputs.has_new == 'true'
         run: npx tsx prisma/seed_reviews.ts
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
       - name: Seed Profile Events
-        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_profile_events.ts')
+        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_profile_events.ts') || steps.new_migrations.outputs.has_new == 'true'
         run: npx tsx prisma/seed_profile_events.ts
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
       - name: Seed Saved Roasters
-        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_saved_roasters.ts')
+        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_saved_roasters.ts') || steps.new_migrations.outputs.has_new == 'true'
         run: npx tsx prisma/seed_saved_roasters.ts
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
       - name: Seed Admin Notes
-        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_admin_notes.ts')
+        if: contains(github.event.head_commit.message, 'seed') || contains(github.event.head_commit.modified, 'prisma/seed_admin_notes.ts') || steps.new_migrations.outputs.has_new == 'true'
         run: npx tsx prisma/seed_admin_notes.ts
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
+      - name: Verify production data integrity
+        run: |
+          cd web
+          npx tsx prisma/verify-production.ts
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
@@ -140,7 +160,7 @@ jobs:
         run: |
           echo "✅ Production database updated successfully"
           echo "Migrations: applied"
-          echo "Seed: ${{ contains(github.event.head_commit.message, 'seed') && 'executed' || 'skipped' }}"
+          echo "Seed: ${{ contains(github.event.head_commit.message, 'seed') && 'executed' || 'conditional' }}"
 
   # Note: Vercel automatically deploys on push to main
   # This workflow focuses on database migrations and seeding

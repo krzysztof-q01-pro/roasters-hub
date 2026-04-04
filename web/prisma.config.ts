@@ -1,6 +1,10 @@
 import path from "node:path";
 import { defineConfig } from "prisma/config";
 
+// ⚠️ SAFETY: Never use `prisma db push` on production.
+// Always use `prisma migrate deploy` for production changes.
+// `db push` bypasses migration tracking and can corrupt production data.
+
 export default defineConfig({
   schema: path.join(__dirname, "prisma", "schema.prisma"),
   migrations: {
