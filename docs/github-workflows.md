@@ -426,7 +426,54 @@ Przed rozpoczęciem pracy z CI/CD:
 - `.github/workflows/` — kod źródłowy workflowów
 - `web/prisma/` — migracje i seedy
 
+
+## Branch Protection — Setup Checklist
+
+**Cel:** Blokada push do `main` na poziomie GitHub (nie tylko lokalny hook).
+**Uwaga:** Lokalny `branch-guard.sh` to pierwsza linia obrony — to jest druga, enforced przez GitHub.
+
+**Setup:** https://github.com/BeanMap/roasters-hub/settings/branches → Add rule → `main`
+
+### Wymagane ustawienia
+
+- [ ] **Branch name pattern:** `main`
+- [ ] ✅ **Require a pull request before merging**
+- [ ] ✅ **Require approvals** → Minimum number of approving reviews: `1`
+- [ ] ✅ **Dismiss stale pull request approvals when new commits are pushed**
+- [ ] ✅ **Require status checks to pass before merging** → wybierz:
+  - `Lint, Type Check & Unit Tests` (z CI workflow)
+  - `Integration Tests` (z CI workflow)
+  - `manage-preview-db` (z Preview Database workflow)
+- [ ] ✅ **Require branches to be up to date before merging**
+- [ ] ✅ **Do not allow bypassing** (opcjonalnie — zalecane dla produkcji)
+- [ ] ✅ **Include administrators** (opcjonalnie — dotyczy też adminów)
+- [ ] ❌ **Allow force pushes** → OFF (nigdy nie zezwalaj)
+- [ ] ❌ **Allow deletions** → OFF
+
+### Dlaczego to ważne?
+
+| Scenariusz | Bez branch protection | Z branch protection |
+|------------|----------------------|---------------------|
+| Przypadkowy push do main | ✅ Dojdzie do skutku | ❌ Zablokowane |
+| Bypass hooka (--no-verify) | ✅ Dojdzie do skutku | ❌ Zablokowane |
+| Merge bez review | ✅ Możliwy | ❌ Wymaga 1 approval |
+| Merge bez passing CI | ✅ Możliwy | ❌ Wymaga passing checks |
+
+### Double Guard — jak działają obie blokady
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Linia 1: branch-guard.sh (lokalny pre-push hook)           │
+│  ✅ Blokuje 99% przypadków (ludzie + agenty)                │
+│  ⚠️  Można obejść: --no-verify                              │
+├─────────────────────────────────────────────────────────────┤
+│  Linia 2: GitHub Branch Protection (server-side)            │
+│  ✅ Nie do obejścia (nawet z --no-verify)                   │
+│  ✅ Wymaga PR + approval + passing CI                       │
+└─────────────────────────────────────────────────────────────┘
+```
+
 ---
 
-**Last Updated:** 2026-04-03 (added Git Hooks & Branch Strategy)  
+**Last Updated:** 2026-04-04 (added Branch Protection checklist + Neon Actions v6)  
 **Maintainer:** @MN (Marek Nadra)
