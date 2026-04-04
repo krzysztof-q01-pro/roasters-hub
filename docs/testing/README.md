@@ -17,7 +17,7 @@ Dokumentacja testowa roasters-hub oparta na **User Journey Map** — czytelna dl
 | Plik | Rola | Misje |
 |------|------|-------|
 | [01-guest.md](journeys/01-guest.md) | Anonimowy gość | A: Odkryj palarnie · B: Profil i interakcje · C: Mapa · D: Katalog kawiarni · E: Profil kawiarni |
-| [02-roaster.md](journeys/02-roaster.md) | Właściciel palarni | A: Rejestracja · B: Dashboard · C: Gdzie wypić |
+| [02-roaster.md](journeys/02-roaster.md) | Właściciel palarni | A: Rejestracja · B: Dashboard · C: Where to drink |
 | [03-cafe.md](journeys/03-cafe.md) | Właściciel kawiarni | A: Rejestracja kawiarni · B: Dashboard · C: Relacje z palarniami · D: Zapisane palarnie |
 | [04-admin.md](journeys/04-admin.md) | Admin | A: Weryfikacja palarni · B: Odrzucenie palarni · C: Moderacja recenzji (palarnie + kawiarnie) · D: Weryfikacja kawiarni · E: Odrzucenie kawiarni |
 | [05-reviewer.md](journeys/05-reviewer.md) | Recenzent | A: Recenzja palarni · B: Recenzja kawiarni |
@@ -39,7 +39,7 @@ Każda funkcja systemu zmapowana na journey. Kolumna **"Gdzie w UI"** = `niewido
 | **Profile publiczne** ||||
 | Profil palarni | `/roasters/[slug]` | 01-B | ⬜ |
 | Przycisk Website / Shop / Contact | `/roasters/[slug]` | 01-B | ⬜ |
-| "Gdzie wypić" — kawiarnie serwujące palarnię | `/roasters/[slug]` | 02-C | ⬜ |
+| "Where to drink" — kawiarnie serwujące palarnię | `/roasters/[slug]` | 02-C | ⬜ |
 | Profil kawiarni | `/cafes/[slug]` | 01-E | ⬜ |
 | Profil kawiarni — lista serwowanych palarni | `/cafes/[slug]` | 01-E | ⬜ |
 | **Mapa** ||||
