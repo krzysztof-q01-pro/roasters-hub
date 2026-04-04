@@ -139,7 +139,7 @@ Każdy Pull Request automatycznie dostaje **własną, izolowaną bazę danych**.
 
 ### Jak to działa
 
-**Trigger:** PR `opened`, `synchronize`, `reopened`
+**Trigger:** PR `opened`, `synchronize`, `reopened` (pomijany dla docs-only — patrz [CI Paths Ignore](#ci-paths-ignore))
 
 1. **Neon Branch Creation**
    - Nazwa: `preview-<branch-name>`
@@ -186,7 +186,7 @@ Każdy PR przechodzi **CI z izolowaną bazą danych** — testy i build uruchami
 ### Jak to działa
 
 **Workflow:** `.github/workflows/ci.yml`
-**Trigger:** PR do `main`
+**Trigger:** PR do `main` (pomijany dla docs-only — patrz [CI Paths Ignore](#ci-paths-ignore))
 
 **Job 1: Lint, Type Check & Unit Tests**
 - `npm run lint` — ESLint
@@ -199,6 +199,19 @@ Każdy PR przechodzi **CI z izolowaną bazą danych** — testy i build uruchami
 3. Run `npm run test:integration`
 4. Run `npm run build`
 5. **Usuwa ephemeral branch** (`if: always()`)
+
+### CI Paths Ignore
+
+Oba workflowy (`ci.yml` i `preview-db.yml`) pomijają PR-y które zmieniają **tylko** pliki dokumentacji:
+
+```
+ROADMAP.md, PROJECT_STATUS.md, CLAUDE.md, AGENTS.md,
+docs/**, .tmp/**, .claude/**, .agents/**
+```
+
+**Dlaczego:** Docs-only changes nie kompilują kodu, nie zmieniają DB, nie wymagają testów. PR z samą aktualizacją ROADMAP.md można merge'ować natychmiast bez czekania na CI (~2 min oszczędności).
+
+**Uwaga:** Jeśli PR zmienia kod + dokumentację, CI uruchamia się normalnie (bo kod triggeruje workflow).
 
 ### Dlaczego ephemeral?
 
@@ -240,9 +253,9 @@ Deploy na produkcję działa w **dwóch fazach**:
 | Job | Cel | Czas |
 |-----|-----|------|
 | `ci` | Lint, TypeScript, Unit Tests | ~40s |
-| `migrate-and-seed` | Migracje + Seed na produkcji | ~30s-6min |
+| `migrate-and-seed` | Migracje + Seed na produkcji | ~30s-1min |
 
-**Uwaga:** Seed relacji cafe-roaster (600+ INSERTów) może trwać 5-6 minut na Neon Free.
+**Uwaga:** Seed używa `createMany` (batch insert) zamiast sekwencyjnych `upsert` — 620 relacji cafe-roaster w ~2s zamiast ~5 min.
 
 ### Faza 2: Vercel Deployment (Auto)
 
@@ -415,19 +428,20 @@ Error! You specified VERCEL_PROJECT_ID but forgot VERCEL_ORG_ID
 - Vercel i tak deployuje automatycznie na push do main
 - Workflow `production-deploy.yml` skupia się na bazie danych, nie na deployu
 
-### Problem: Workflow trwa bardzo długo (>10 min)
+### Problem: Workflow trwa bardzo długo (>5 min)
 
 **Objaw:**
-- Migrate & Seed wisi przez 10+ minut
+- Migrate & Seed wisi przez 5+ minut
 
 **Przyczyna:**
-- Duży seed (600+ relacji cafe-roaster)
 - Neon Free plan = wolniejsze połączenia
-- Każdy `upsert` = SELECT + INSERT/UPDATE
+- Duże migracje na istniejącej bazie
+- Cold start bazy po okresie bezczynności
 
 **Rozwiązanie:**
-- Czekaj, to normalne dla dużych seed
+- Czekaj, to normalne dla cold start (~1-2 min dodatkowego czasu)
 - Dla produkcji rozważ Neon Pro (szybsze połączenia)
+- Seed używa batch insert (`createMany`) — 620 relacji w ~2s
 
 ### Problem: Preview DB nie działa
 
@@ -553,5 +567,5 @@ Gdy użytkownik powie **"zapisz"**, **"commit"**, **"push"**, **"wdróż"** — 
 
 ---
 
-**Last Updated:** 2026-04-04 (Neon Actions v6, ephemeral CI DB, seed always, branch protection, auto-flow)  
+**Last Updated:** 2026-04-04 (Neon Actions v6, ephemeral CI DB, seed always, branch protection, auto-flow, docs-only CI skip, batch insert optimization)  
 **Maintainer:** @MN (Marek Nadra)
