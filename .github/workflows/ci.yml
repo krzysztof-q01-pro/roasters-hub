@@ -3,6 +3,16 @@ name: CI
 on:
   pull_request:
     branches: [main]
+    paths-ignore:
+      - "ROADMAP.md"
+      - "PROJECT_STATUS.md"
+      - "CLAUDE.md"
+      - "AGENTS.md"
+      - "web/AGENTS.md"
+      - "docs/**"
+      - ".tmp/**"
+      - ".claude/**"
+      - ".agents/**"
 
 jobs:
   # ─── Job 1: Lint · Type check · Unit tests ─────────────────────────────────
