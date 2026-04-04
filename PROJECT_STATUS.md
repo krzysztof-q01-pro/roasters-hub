@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-04-03 | UX Polish: Cafe Amenities — icons on profile + filter in catalog (P3 tasks complete)
+2026-04-04 | Cafe addresses manual — 17/17 cafes updated with addresses and coordinates
 
 ---
 
@@ -72,11 +72,12 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Active Work
 
-**@MN:** —
-**@KK:** —
+**@MN:** Cafe addresses manual — 17/17 done (Google Maps scraping)
+**@KK:** Admin dashboard statystyk (P1)
 **@AGENT:** — (UX Consistency 19/19 DONE, UX Polish Amenities DONE)
 
 **Completed recently:**
+- ✅ Cafe addresses manual — 17 kawiarni z adresami i coords z Google Maps (2026-04-04)
 - ✅ UX Polish: Cafe Amenities — icons on profile, multi-select filter in /cafes catalog (2026-04-03)
 - ✅ UX Consistency: Header — "Browse Cafes" link + search placeholder update (2026-04-02)
 - ✅ UX Consistency: /cafes — filtry kraju, wyszukiwanie, paginacja, breadcrumbs, result count (2026-04-02)
@@ -91,8 +92,8 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Next Unblocked Task
 
-**TERAZ (MN):** [P2] Cafe addresses manual — uzupełnienie adresów i coords dla 17 kawiarni (~30min).
-**TERAZ (KK):** [P1] Admin: dashboard statystyk — widok `/admin` z liczbą palarni (pending/verified/rejected), ostatnie rejestracje.
+**TERAZ (MN):** [P1] Admin: dashboard statystyk — widok `/admin` z liczbą palarni (pending/verified/rejected), ostatnie rejestracje.
+**TERAZ (KK):** [P2] Logo Bean Map — SVG wariant jasny i ciemny, podmiana placeholdera `Bean Map` w headerze.
 
 **HUMAN ONLY blockers:** re-seed prod DB (`prisma db seed`), run new migrations on prod, buy production domain.
 

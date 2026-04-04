@@ -56,7 +56,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ### Cafe Seed — Manual Enrichment — (@MN)
 
-- [ ] [P2] **Cafe addresses manual** — uzupełnienie adresów i coords dla 17 kawiarni (plik `.tmp/cafes_to_complete.json`), Google Maps lookup, aktualizacja SEED (~30min) (@MN)
+- [x] [P2] **Cafe addresses manual** — uzupełnienie adresów i coords dla 17 kawiarni (plik `.tmp/cafes_to_complete.json`), Google Maps lookup, aktualizacja SEED (~30min) (@MN) ✅
 
 ### Cafe Profiles + Consumer Discovery — (@AGENT)
 
@@ -131,7 +131,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ## 🧑 HUMAN ONLY — zadania wymagające człowieka (agent NIE wykonuje)
 
-- [ ] Branch protection na `main` (no direct push) — GitHub Settings → Branches (@MN)
+- [x] Branch protection na `main` (no direct push) — GitHub Settings → Branches (@MN) ✅
 - [ ] Domena produkcyjna — zakup + konfiguracja DNS w Vercel (@MN)
 - [ ] Stripe konto (Phase 3) — rejestracja + webhook secret (@UNASSIGNED)
 - [ ] Cold outreach do palarni — lista kontaktowa, maile, LinkedIn (@UNASSIGNED)
@@ -204,3 +204,4 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] **/cafes: filtry i wyszukiwanie** — dodać filtry kraju, search, paginację — parzystość z `/roasters` ✅
 - [x] **Cafe description** — unikalne opisy dla każdej kawiarni ✅
 - [x] **Social proof** — "Gdzie wypić" sekcja na profilu palarni ✅
+- [x] **Cafe addresses manual** — uzupełnienie adresów i coords dla 17 kawiarni (plik `.tmp/cafes_to_complete.json`), Google Maps lookup, aktualizacja SEED (~30min) (@MN) ✅
