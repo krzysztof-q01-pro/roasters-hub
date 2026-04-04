@@ -1,5 +1,5 @@
 import path from "node:path";
-import { defineConfig } from "prisma/config";
+import { defineConfig, env } from "prisma/config";
 
 export default defineConfig({
   schema: path.join(__dirname, "prisma", "schema.prisma"),
@@ -8,7 +8,7 @@ export default defineConfig({
     seed: "npx tsx --env-file=.env.local prisma/seed.ts",
   },
   datasource: {
-    url: process.env.DATABASE_URL!,
-    shadowDatabaseUrl: process.env.DIRECT_URL,
+    url: env("DATABASE_URL"),
+    shadowDatabaseUrl: env("DIRECT_URL"),
   },
 });

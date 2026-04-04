@@ -68,6 +68,17 @@
 │ status           │                         │ createdAt        │
 │ createdAt        │                         └──────────────────┘
 └──────────────────┘
+
+┌──────────────────┐  ┌──────────────────┐
+│   SavedCafe      │  │   CafeEvent      │
+│──────────────────│  │──────────────────│
+│ id               │  │ id               │
+│ userId (FK)      │  │ cafeId (FK)      │
+│ cafeId (FK)      │  │ type             │
+│ createdAt        │  │ ipHash           │
+└──────────────────┘  │ userAgent        │
+                      │ createdAt        │
+                      └──────────────────┘
 ```
 
 ---
@@ -357,6 +368,14 @@ Dodane 2026-03-30:
 - **Review** rozszerzony: roasterId stał się nullable; dodano cafeId — recenzja dotyczy albo palarni albo kawiarni (aplikacyjny constraint: dokładnie jedno z nich != null)
 - **UserProfile** rozszerzony: dodano cafeId (unique) — właściciel kawiarni analogicznie do właściciela palarni
 - **Roaster** rozszerzony: dodano servedAt (CafeRoasterRelation[]) — lista kawiarni serwujących daną palarnię
+
+### SavedCafe, CafeEvent (UX Polish — 2026-04-04)
+
+Dodane 2026-04-04:
+- **SavedCafe** — relacja M:N UserProfile↔Cafe z unique constraint (userId, cafeId), analogiczny do SavedRoaster
+- **CafeEvent** — śledzenie analityki dla profili kawiarni (PAGE_VIEW, WEBSITE_CLICK, CONTACT_CLICK), analogiczny do ProfileEvent
+- **UserProfile** rozszerzony: dodano savedCafes SavedCafe[]
+- **Cafe** rozszerzony: dodano savedBy SavedCafe[] i events CafeEvent[]
 
 ---
 
