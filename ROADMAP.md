@@ -205,3 +205,4 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] **Cafe description** — unikalne opisy dla każdej kawiarni ✅
 - [x] **Social proof** — "Gdzie wypić" sekcja na profilu palarni ✅
 - [x] **Cafe addresses manual** — uzupełnienie adresów i coords dla 17 kawiarni (plik `.tmp/cafes_to_complete.json`), Google Maps lookup, aktualizacja SEED (~30min) (@MN) ✅
+- [x] **Perf: batch optimize cafe-roaster seeding** — replace 620 sequential upserts with `createMany`, production deploy 7m29s → 1m44s (@MN) ✅
