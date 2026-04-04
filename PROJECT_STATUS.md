@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-04-04 | UX Consistency Audit — COMPLETE. All CRITICAL+HIGH fixes verified on production.
+2026-04-04 | UX Quality Audit COMPLETE — 28 PASS, 3 HIGH + 5 MEDIUM issues added to ROADMAP
 
 ---
 
@@ -74,9 +74,10 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 **@MN:** Cafe addresses manual — 17/17 done (Google Maps scraping)
 **@KK:** Admin dashboard statystyk (P1)
-**@AGENT:** — (UX Consistency Audit COMPLETE — PR #32 merged, all fixes verified on prod)
+**@AGENT:** — (UX Consistency Audit COMPLETE, UX Quality Audit COMPLETE — 8 issues added to ROADMAP)
 
 **Completed recently:**
+- ✅ UX Quality Audit — 14 test scenarios on production, 28 PASS, 3 HIGH + 5 MEDIUM issues documented (`.tmp/ux-quality-audit-2026-04-04.md`) (2026-04-04)
 - ✅ UX Consistency Audit — dedup reviews (47 removed), shared ReviewForm/ReviewList/StarRating, Polish→English, SVG viewBox, title fix (2026-04-04)
 - ✅ Cafe addresses manual — 17 kawiarni z adresami i coords z Google Maps (2026-04-04)
 - ✅ UX Polish: Cafe Amenities — icons on profile, multi-select filter in /cafes catalog (2026-04-03)
@@ -93,6 +94,7 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Next Unblocked Task
 
+**TERAZ (UNASSIGNED):** [HIGH] Cafe profile: Save/Bookmark, sticky sidebar, analytics tracking (UX Quality Audit findings).
 **TERAZ (MN):** [P1] Admin: dashboard statystyk — widok `/admin` z liczbą palarni (pending/verified/rejected), ostatnie rejestracje.
 **TERAZ (KK):** [P2] Logo Bean Map — SVG wariant jasny i ciemny, podmiana placeholdera `Bean Map` w headerze.
 
