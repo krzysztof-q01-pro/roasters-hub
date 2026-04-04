@@ -8,8 +8,8 @@ import { CertificationBadge } from "@/components/roasters/CertificationBadge";
 import { RoasterCard } from "@/components/roasters/RoasterCard";
 import { ProfileTracker } from "@/components/roasters/ProfileTracker";
 import { TrackedLink } from "@/components/roasters/TrackedLink";
-import { ReviewForm } from "@/components/roasters/ReviewForm";
-import { ReviewList } from "@/components/roasters/ReviewList";
+import { ReviewForm } from "@/components/shared/ReviewForm";
+import { ReviewList } from "@/components/shared/ReviewList";
 import { SaveRoasterButton } from "@/components/roasters/SaveRoasterButton";
 import { isRoasterSaved } from "@/actions/saved-roaster.actions";
 import { db } from "@/lib/db";
@@ -203,10 +203,10 @@ export default async function RoasterProfilePage({
 
           {/* Gdzie wypić */}
           <section className="mt-16">
-            <h2 className="font-headline text-3xl italic tracking-tight mb-6">Gdzie wypić</h2>
+            <h2 className="font-headline text-3xl italic tracking-tight mb-6">Where to drink</h2>
             {roaster.servedAt.length === 0 ? (
               <p className="text-on-surface-variant/60 text-sm">
-                Ta palarnia nie jest jeszcze dostępna w żadnej kawiarni.
+                This roastery is not yet available in any cafe.
               </p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

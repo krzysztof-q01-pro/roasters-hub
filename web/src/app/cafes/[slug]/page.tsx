@@ -4,8 +4,8 @@ import Image from "next/image";
 import { Metadata } from "next";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
-import { CafeReviewForm } from "@/components/cafes/CafeReviewForm";
-import { CafeReviewList } from "@/components/cafes/CafeReviewList";
+import { ReviewForm } from "@/components/shared/ReviewForm";
+import { ReviewList } from "@/components/shared/ReviewList";
 import { AmenityIcon } from "@/components/cafes/AmenityIcon";
 import { db } from "@/lib/db";
 
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   });
   if (!cafe) return { title: "Cafe Not Found" };
   return {
-    title: `${cafe.name} — Specialty Coffee in ${cafe.city}, ${cafe.country} | Bean Map`,
+    title: `${cafe.name} — Specialty Coffee in ${cafe.city}, ${cafe.country}`,
     description: `Discover ${cafe.name}, a specialty coffee cafe in ${cafe.city}, ${cafe.country}. See which roasters they serve and read reviews.`,
   };
 }
@@ -76,21 +76,24 @@ export default async function CafeProfilePage({
           },
         },
       },
-      reviews: {
-        where: { status: "APPROVED" },
-        orderBy: { createdAt: "desc" },
-      },
     },
   });
 
   if (!cafe || cafe.status !== "VERIFIED") notFound();
 
+  // Fetch reviews separately to avoid JOIN multiplication bug
+  const cafeReviews = await db.review.findMany({
+    where: { cafeId: cafe.id, status: "APPROVED" },
+    orderBy: { createdAt: "desc" },
+    take: 20,
+  });
+
   const avgRating =
-    cafe.reviews.length > 0
-      ? cafe.reviews.reduce((sum, r) => sum + r.rating, 0) / cafe.reviews.length
+    cafeReviews.length > 0
+      ? cafeReviews.reduce((sum, r) => sum + r.rating, 0) / cafeReviews.length
       : null;
 
-  const serializedReviews = cafe.reviews.map((r) => ({
+  const serializedReviews = cafeReviews.map((r) => ({
     id: r.id,
     authorName: r.authorName,
     rating: r.rating,
@@ -131,8 +134,8 @@ export default async function CafeProfilePage({
           </p>
           {avgRating !== null && (
             <p className="text-primary font-semibold mt-1">
-              ★ {avgRating.toFixed(1)} ({cafe.reviews.length} review
-              {cafe.reviews.length !== 1 ? "s" : ""})
+              ★ {avgRating.toFixed(1)} ({cafeReviews.length} review
+              {cafeReviews.length !== 1 ? "s" : ""})
             </p>
           )}
           {cafe.description && (
@@ -247,9 +250,10 @@ export default async function CafeProfilePage({
 
         <section>
           <h2 className="font-headline text-2xl italic mb-6">Reviews</h2>
-          <div className="grid gap-8 md:grid-cols-2">
-            <CafeReviewList reviews={serializedReviews} />
-            <CafeReviewForm cafeId={cafe.id} />
+          <ReviewList reviews={serializedReviews} averageRating={avgRating} />
+          <div className="mt-10 pt-8 border-t border-outline-variant/10">
+            <h4 className="text-lg font-medium mb-4">Leave a Review</h4>
+            <ReviewForm cafeId={cafe.id} />
           </div>
         </section>
       </main>

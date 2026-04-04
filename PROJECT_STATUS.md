@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-04-04 | Cafe addresses manual — 17/17 cafes updated with addresses and coordinates
+2026-04-04 | UX Consistency Audit — dedup reviews, unify review components, fix Polish text, SVG viewBox, title duplication
 
 ---
 
@@ -74,9 +74,10 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 **@MN:** Cafe addresses manual — 17/17 done (Google Maps scraping)
 **@KK:** Admin dashboard statystyk (P1)
-**@AGENT:** — (UX Consistency 19/19 DONE, UX Polish Amenities DONE)
+**@AGENT:** UX Consistency Audit — dedup reviews, unify components, fix Polish text, SVG viewBox, title duplication (IN PROGRESS)
 
 **Completed recently:**
+- ✅ UX Consistency Audit — dedup reviews (47 removed), shared ReviewForm/ReviewList/StarRating, Polish→English, SVG viewBox, title fix (2026-04-04)
 - ✅ Cafe addresses manual — 17 kawiarni z adresami i coords z Google Maps (2026-04-04)
 - ✅ UX Polish: Cafe Amenities — icons on profile, multi-select filter in /cafes catalog (2026-04-03)
 - ✅ UX Consistency: Header — "Browse Cafes" link + search placeholder update (2026-04-02)
@@ -92,6 +93,7 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Next Unblocked Task
 
+**TERAZ (AGENT):** [CRITICAL] Duplicate reviews on profiles — seed dedup, cafe JOIN fix, unified review components, Polish text fix, SVG viewBox, title duplication.
 **TERAZ (MN):** [P1] Admin: dashboard statystyk — widok `/admin` z liczbą palarni (pending/verified/rejected), ostatnie rejestracje.
 **TERAZ (KK):** [P2] Logo Bean Map — SVG wariant jasny i ciemny, podmiana placeholdera `Bean Map` w headerze.
 

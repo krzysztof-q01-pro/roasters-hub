@@ -115,6 +115,25 @@ async function main() {
     return true;
   });
 
+  // Delete existing reviews for these roasters/cafes to prevent duplicates
+  // when running the seed script multiple times
+  const existingRoasterIds = roasters.map((r) => r.id);
+  const existingCafeIds = cafes.map((c) => c.id);
+
+  if (existingRoasterIds.length > 0) {
+    const deleted = await prisma.review.deleteMany({
+      where: { roasterId: { in: existingRoasterIds } },
+    });
+    console.log(`  Deleted ${deleted.count} existing roaster reviews`);
+  }
+
+  if (existingCafeIds.length > 0) {
+    const deleted = await prisma.review.deleteMany({
+      where: { cafeId: { in: existingCafeIds } },
+    });
+    console.log(`  Deleted ${deleted.count} existing cafe reviews`);
+  }
+
   const result = await prisma.review.createMany({
     data: validData,
   });
