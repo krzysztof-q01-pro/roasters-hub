@@ -8,7 +8,6 @@ export default defineConfig({
     seed: "npx tsx --env-file=.env.local prisma/seed.ts",
   },
   datasource: {
-    url: process.env.DATABASE_URL!,
-    shadowDatabaseUrl: process.env.DIRECT_URL,
+    url: process.env.DATABASE_URL ?? "postgresql://localhost:5432/placeholder",
   },
 });

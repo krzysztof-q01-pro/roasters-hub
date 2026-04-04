@@ -168,3 +168,24 @@ export async function rejectCafe(cafeId: string, reason: string): Promise<Action
     };
   }
 }
+
+export async function updateCafeCoverImage(cafeId: string, coverImageUrl: string): Promise<ActionResult> {
+  try {
+    await requireCafeOwner(cafeId);
+
+    await db.cafe.update({
+      where: { id: cafeId },
+      data: { coverImageUrl },
+    });
+
+    revalidatePath(`/cafes/${cafeId}`);
+    revalidatePath("/cafes");
+    return { success: true, data: undefined };
+  } catch (error) {
+    console.error("[updateCafeCoverImage]", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Something went wrong",
+    };
+  }
+}

@@ -13,6 +13,7 @@ model UserProfile {
   createdAt     DateTime       @default(now())
   adminNotes    AdminNote[]
   savedRoasters SavedRoaster[]
+  savedCafes    SavedCafe[]
   ownedRoasters Roaster[]      @relation("RoasterOwner")
   ownedCafes    Cafe[]         @relation("CafeOwner")
 
@@ -92,6 +93,21 @@ model ProfileEvent {
   @@map("profile_events")
 }
 
+model CafeEvent {
+  id        String    @id @default(cuid())
+  cafeId    String
+  type      EventType
+  ipHash    String?
+  userAgent String?
+  createdAt DateTime  @default(now())
+  cafe      Cafe      @relation(fields: [cafeId], references: [id], onDelete: Cascade)
+
+  @@index([cafeId])
+  @@index([cafeId, type])
+  @@index([createdAt])
+  @@map("cafe_events")
+}
+
 model AdminNote {
   id        String      @id @default(cuid())
   roasterId String
@@ -147,6 +163,19 @@ model SavedRoaster {
   @@map("saved_roasters")
 }
 
+model SavedCafe {
+  id        String      @id @default(cuid())
+  userId    String
+  cafeId    String
+  createdAt DateTime    @default(now())
+  cafe      Cafe        @relation(fields: [cafeId], references: [id], onDelete: Cascade)
+  user      UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, cafeId])
+  @@index([userId])
+  @@map("saved_cafes")
+}
+
 model Cafe {
   id             String                @id @default(cuid())
   name           String
@@ -177,6 +206,8 @@ model Cafe {
   services       String[]              @default([])
   roasters       CafeRoasterRelation[]
   reviews        Review[]
+  savedBy        SavedCafe[]
+  events         CafeEvent[]
   owner          UserProfile?          @relation("CafeOwner", fields: [ownerId], references: [id], onDelete: SetNull)
 
   @@index([status])

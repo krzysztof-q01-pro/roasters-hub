@@ -7,6 +7,11 @@ import { Footer } from "@/components/shared/Footer";
 import { ReviewForm } from "@/components/shared/ReviewForm";
 import { ReviewList } from "@/components/shared/ReviewList";
 import { AmenityIcon } from "@/components/cafes/AmenityIcon";
+import { VerifiedBadge } from "@/components/roasters/VerifiedBadge";
+import { CafeProfileTracker } from "@/components/cafes/CafeProfileTracker";
+import { CafeTrackedLink } from "@/components/cafes/CafeTrackedLink";
+import { SaveCafeButton } from "@/components/cafes/SaveCafeButton";
+import { isCafeSaved } from "@/actions/saved-cafe.actions";
 import { db } from "@/lib/db";
 
 export const revalidate = 3600;
@@ -81,7 +86,6 @@ export default async function CafeProfilePage({
 
   if (!cafe || cafe.status !== "VERIFIED") notFound();
 
-  // Fetch reviews separately to avoid JOIN multiplication bug
   const cafeReviews = await db.review.findMany({
     where: { cafeId: cafe.id, status: "APPROVED" },
     orderBy: { createdAt: "desc" },
@@ -101,162 +105,238 @@ export default async function CafeProfilePage({
     createdAt: r.createdAt.toISOString(),
   }));
 
+  const saved = await isCafeSaved(cafe.id);
+  const isVerified = cafe.status === "VERIFIED";
+
   return (
     <>
       <Header />
-      <main className="max-w-4xl mx-auto px-6 py-16">
-        <nav className="mb-4 text-on-surface-variant flex items-center gap-2 text-xs uppercase tracking-widest">
+      <CafeProfileTracker cafeId={cafe.id} />
+
+      {/* Breadcrumb */}
+      <div className="max-w-7xl mx-auto px-6 pt-8">
+        <nav className="flex text-xs uppercase tracking-widest text-on-surface-variant/60 gap-2">
           <Link className="hover:text-primary transition-colors" href="/">Home</Link>
-          <span className="text-[10px]">&rsaquo;</span>
+          <span>›</span>
           <Link className="hover:text-primary transition-colors" href="/cafes">Cafes</Link>
-          <span className="text-[10px]">&rsaquo;</span>
+          <span>›</span>
           <span className="text-on-surface">{cafe.city}</span>
-          <span className="text-[10px]">&rsaquo;</span>
+          <span>›</span>
           <span className="text-on-surface">{cafe.name}</span>
         </nav>
+      </div>
 
-        {cafe.coverImageUrl && (
-          <div className="relative w-full h-72 rounded-2xl overflow-hidden mb-10">
+      {/* Hero */}
+      <header className="w-full h-[300px] md:h-[400px] mt-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-stone-900">
+          {cafe.coverImageUrl && (
             <Image
               src={cafe.coverImageUrl}
               alt={cafe.name}
               fill
-              className="object-cover"
-              sizes="(max-width: 896px) 100vw, 896px"
+              className="object-cover opacity-70"
+              sizes="100vw"
+              priority
             />
-          </div>
-        )}
-
-        <div className="mb-10">
-          <h1 className="font-headline text-5xl italic tracking-tight mb-2">{cafe.name}</h1>
-          <p className="text-on-surface-variant/60">
+          )}
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        <div className="max-w-7xl mx-auto h-full px-6 relative flex flex-col justify-end pb-12">
+          {isVerified && (
+            <div className="absolute top-8 right-6">
+              <VerifiedBadge size="lg" />
+            </div>
+          )}
+          <h1 className="font-headline italic text-5xl md:text-6xl lg:text-7xl text-white tracking-tighter leading-none mb-4">
+            {cafe.name}
+          </h1>
+          <div className="flex items-center text-white/90 gap-2 text-sm md:text-base">
+            <svg className="w-5 h-5 text-primary-fixed-dim" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+            </svg>
             {cafe.city}, {cafe.country}
-          </p>
-          {avgRating !== null && (
-            <p className="text-primary font-semibold mt-1">
-              ★ {avgRating.toFixed(1)} ({cafeReviews.length} review
-              {cafeReviews.length !== 1 ? "s" : ""})
-            </p>
-          )}
+            {avgRating !== null && (
+              <span className="ml-2 text-primary font-semibold">
+                ★ {avgRating.toFixed(1)} ({cafeReviews.length} review{cafeReviews.length !== 1 ? "s" : ""})
+              </span>
+            )}
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-16">
+        {/* Left Column */}
+        <div className="space-y-16">
+          {/* About */}
           {cafe.description && (
-            <p className="mt-4 text-on-surface-variant/80 leading-relaxed">{cafe.description}</p>
+            <section>
+              <h2 className="font-headline text-3xl mb-8 tracking-tight">About {cafe.name}</h2>
+              <p className="text-lg leading-relaxed text-on-surface-variant font-light">
+                {cafe.description}
+              </p>
+            </section>
           )}
-        </div>
 
-        <div className="flex flex-wrap gap-4 mb-12 text-sm">
-          {cafe.website && (
-            <a
-              href={cafe.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:underline"
-            >
-              Website ↗
-            </a>
-          )}
-          {cafe.instagram && (
-            <a
-              href={`https://instagram.com/${cafe.instagram.replace("@", "")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:underline"
-            >
-              @{cafe.instagram.replace("@", "")}
-            </a>
-          )}
-          {cafe.address && (
-            <span className="text-on-surface-variant/60">{cafe.address}</span>
-          )}
-          {cafe.sourceUrl && (
-            <a
-              href={cafe.sourceUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-on-surface-variant/60 hover:underline"
-            >
-              European Coffee Trip ↗
-            </a>
-          )}
-        </div>
-
-        {(cafe.serving.length > 0 || cafe.services.length > 0) && (
-          <div className="mb-12 grid gap-6 sm:grid-cols-2">
-            {cafe.serving.length > 0 && (
-              <div>
-                <h2 className="font-headline text-xl italic mb-3">What they serve</h2>
-                <div className="flex flex-wrap gap-2">
-                  {cafe.serving.map((item) => (
-                    <span key={item} className="bg-surface-container text-sm px-3 py-1 rounded-full">
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-            {cafe.services.length > 0 && (
-              <div>
-                <h2 className="font-headline text-xl italic mb-3">Amenities</h2>
-                <div className="grid grid-cols-2 gap-3">
-                  {cafe.services.map((item) => (
-                    <div key={item} className="flex items-center gap-2 text-sm text-on-surface-variant/80">
-                      <AmenityIcon service={item} className="w-5 h-5 text-on-surface-variant/60 shrink-0" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {cafe.openingHours && (
-          <div className="mb-12">
-            <h2 className="font-headline text-xl italic mb-3">Opening hours</h2>
-            <div className="text-sm text-on-surface-variant/80 space-y-1">
-              {cafe.openingHours.split("\n").map((line, i) => {
-                const [day, hours] = line.split("\t");
-                return (
-                  <div key={i} className="flex gap-4">
-                    <span className="w-28 font-medium">{day}</span>
-                    <span>{hours}</span>
+          {/* What they serve + Amenities */}
+          {(cafe.serving.length > 0 || cafe.services.length > 0) && (
+            <section className="grid gap-6 sm:grid-cols-2">
+              {cafe.serving.length > 0 && (
+                <div>
+                  <h3 className="font-headline text-xl italic mb-3">What they serve</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {cafe.serving.map((item) => (
+                      <span key={item} className="bg-surface-container text-sm px-3 py-1 rounded-full">
+                        {item}
+                      </span>
+                    ))}
                   </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        <section className="mb-12">
-          <h2 className="font-headline text-2xl italic mb-4">Roasters we serve</h2>
-          {cafe.roasters.length === 0 ? (
-            <p className="text-on-surface-variant/60 text-sm">No roasters listed yet.</p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {cafe.roasters.map(({ roaster }) => (
-                <Link
-                  key={roaster.id}
-                  href={`/roasters/${roaster.slug}`}
-                  className="bg-surface-container rounded-xl p-4 hover:bg-surface-container-high transition-colors"
-                >
-                  <p className="font-medium">{roaster.name}</p>
-                  <p className="text-sm text-on-surface-variant/60">
-                    {roaster.city}, {roaster.country}
-                  </p>
-                </Link>
-              ))}
-            </div>
+                </div>
+              )}
+              {cafe.services.length > 0 && (
+                <div>
+                  <h3 className="font-headline text-xl italic mb-3">Amenities</h3>
+                  <div className="grid grid-cols-2 gap-3">
+                    {cafe.services.map((item) => (
+                      <div key={item} className="flex items-center gap-2 text-sm text-on-surface-variant/80">
+                        <AmenityIcon service={item} className="w-5 h-5 text-on-surface-variant/60 shrink-0" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </section>
           )}
-        </section>
 
-        <section>
-          <h2 className="font-headline text-2xl italic mb-6">Reviews</h2>
-          <ReviewList reviews={serializedReviews} averageRating={avgRating} />
-          <div className="mt-10 pt-8 border-t border-outline-variant/10">
-            <h4 className="text-lg font-medium mb-4">Leave a Review</h4>
-            <ReviewForm cafeId={cafe.id} />
+          {/* Opening hours */}
+          {cafe.openingHours && (
+            <section>
+              <h3 className="font-headline text-xl italic mb-3">Opening hours</h3>
+              <div className="text-sm text-on-surface-variant/80 space-y-1">
+                {cafe.openingHours.split("\n").map((line, i) => {
+                  const [day, hours] = line.split("\t");
+                  return (
+                    <div key={i} className="flex gap-4">
+                      <span className="w-28 font-medium">{day}</span>
+                      <span>{hours}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+
+          {/* Reviews */}
+          <section>
+            <h3 className="font-headline text-3xl mb-8 tracking-tight">Reviews</h3>
+            <ReviewList reviews={serializedReviews} averageRating={avgRating} />
+            <div className="mt-10 pt-8 border-t border-outline-variant/10">
+              <h4 className="text-lg font-medium mb-4">Leave a Review</h4>
+              <ReviewForm cafeId={cafe.id} />
+            </div>
+          </section>
+
+          {/* Roasters we serve */}
+          <section>
+            <h2 className="font-headline text-3xl italic tracking-tight mb-6">Roasters we serve</h2>
+            {cafe.roasters.length === 0 ? (
+              <p className="text-on-surface-variant/60 text-sm">No roasters listed yet.</p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {cafe.roasters.map(({ roaster }) => (
+                  <Link
+                    key={roaster.id}
+                    href={`/roasters/${roaster.slug}`}
+                    className="bg-surface-container rounded-xl p-4 hover:bg-surface-container-high transition-colors"
+                  >
+                    <p className="font-medium">{roaster.name}</p>
+                    <p className="text-sm text-on-surface-variant/60">
+                      {roaster.city}, {roaster.country}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </section>
+        </div>
+
+        {/* Right Column — Sticky Sidebar */}
+        <aside className="relative">
+          <div className="sticky top-24 space-y-8">
+            <div className="bg-surface-container-lowest editorial-shadow rounded-2xl p-8 border border-outline-variant/10">
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h4 className="font-headline text-2xl font-bold tracking-tight">{cafe.name}</h4>
+                  <p className="text-sm text-on-surface-variant/70">Specialty Coffee Cafe</p>
+                </div>
+                {isVerified && (
+                  <svg className="w-6 h-6 text-secondary" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                  </svg>
+                )}
+              </div>
+
+              <div className="space-y-4 mb-8">
+                <div className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-on-surface-variant/40 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+                  </svg>
+                  <p className="text-sm text-on-surface-variant">{cafe.city}, {cafe.country}</p>
+                </div>
+                {cafe.address && (
+                  <div className="flex items-start gap-3">
+                    <svg className="w-5 h-5 text-on-surface-variant/40 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                    </svg>
+                    <p className="text-sm text-on-surface-variant">{cafe.address}</p>
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-3">
+                {cafe.website && (
+                  <CafeTrackedLink
+                    href={cafe.website}
+                    cafeId={cafe.id}
+                    eventType="WEBSITE_CLICK"
+                    className="w-full bg-primary text-on-primary py-3.5 rounded-lg font-medium text-sm hover:bg-primary-container transition-all shadow-lg shadow-primary/10 block text-center"
+                  >
+                    Visit Website
+                  </CafeTrackedLink>
+                )}
+                <SaveCafeButton cafeId={cafe.id} initialSaved={saved} />
+              </div>
+
+              {(cafe.instagram || cafe.phone) && (
+                <div className="flex flex-wrap items-center gap-4 mt-8 pt-8 border-t border-surface-container">
+                  {cafe.instagram && (
+                    <CafeTrackedLink
+                      href={`https://instagram.com/${cafe.instagram.replace("@", "")}`}
+                      cafeId={cafe.id}
+                      eventType="CONTACT_CLICK"
+                      className="text-on-surface-variant/60 hover:text-primary transition-colors text-sm"
+                    >
+                      @{cafe.instagram.replace("@", "")}
+                    </CafeTrackedLink>
+                  )}
+                  {cafe.phone && (
+                    <CafeTrackedLink
+                      href={`tel:${cafe.phone}`}
+                      cafeId={cafe.id}
+                      eventType="CONTACT_CLICK"
+                      className="text-on-surface-variant/60 hover:text-primary transition-colors text-sm"
+                    >
+                      {cafe.phone}
+                    </CafeTrackedLink>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-        </section>
+        </aside>
       </main>
+
       <Footer />
     </>
   );

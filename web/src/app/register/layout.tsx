@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Register Your Roastery | Bean Map",
+  title: "Register Your Roastery",
   description: "List your specialty coffee roastery on Bean Map. Reach coffee enthusiasts around the world.",
 };
 

@@ -35,7 +35,7 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
     <div className="h-screen flex flex-col">
       <Header />
       <main className="flex-1 flex overflow-hidden relative">
-        <h1 className="sr-only">Coffee Roasters Map</h1>
+        <h1 className="sr-only">Coffee Roasters & Cafes Map</h1>
         {/* Map Area */}
         <section className="relative w-full lg:w-[70%] h-full">
           <RoasterMap

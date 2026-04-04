@@ -25,6 +25,7 @@ export default async function CafeDashboardPage() {
               roaster: { select: { id: true, name: true, slug: true, city: true } },
             },
           },
+          _count: { select: { events: true } },
         },
       },
     },
@@ -33,6 +34,18 @@ export default async function CafeDashboardPage() {
   if (!profile?.ownedCafes.length) redirect("/dashboard/saved-roasters");
 
   const cafe = profile.ownedCafes[0];
+
+  const eventCounts = await db.cafeEvent.groupBy({
+    by: ["type"],
+    where: { cafeId: cafe.id },
+    _count: true,
+  });
+
+  const stats = {
+    pageViews: eventCounts.find((e) => e.type === "PAGE_VIEW")?._count ?? 0,
+    websiteClicks: eventCounts.find((e) => e.type === "WEBSITE_CLICK")?._count ?? 0,
+    contactClicks: eventCounts.find((e) => e.type === "CONTACT_CLICK")?._count ?? 0,
+  };
 
   return (
     <>
@@ -45,6 +58,7 @@ export default async function CafeDashboardPage() {
           city: cafe.city,
           country: cafe.country,
           status: cafe.status,
+          coverImageUrl: cafe.coverImageUrl ?? null,
         }}
         linkedRoasters={cafe.roasters.map(({ roaster }) => ({
           id: roaster.id,
@@ -52,6 +66,7 @@ export default async function CafeDashboardPage() {
           slug: roaster.slug,
           city: roaster.city,
         }))}
+        stats={stats}
       />
       <Footer />
     </>
