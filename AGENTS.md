@@ -21,11 +21,9 @@ Dotyczy WSZYSTKICH workerów: `@MN`, `@KK`, `@AGENT`.
 1. Przed zmianami: ustal branch (`feat/agent-YYYY-WW` dla agenta, `feat/mn-*` / `feat/kk-*` dla ludzi)
 2. Cała praca tylko na branchu
 3. Push tylko na branch — nigdy na main
-4. Merge tylko przez PR po review
+4. Merge przez PR po przejściu CI (auto-flow)
 
 **Wyjątek:** `git checkout main && git pull` — tylko po to żeby zaktualizować lokalny main.
-
-**Wyjątek od wyjątku:** Zmiany TYLKO w plikach dokumentacji/instrukcji (`CLAUDE.md`, `AGENTS.md`, `ROADMAP.md`, `PROJECT_STATUS.md`, `docs/`) mogą być pushowane bezpośrednio do main. Pre-push hook (`tools/branch-guard.sh`) automatycznie blokuje push kodu/DB do main, ale przepuszcza dokumentację.
 
 ---
 
@@ -163,3 +161,33 @@ gh run view <id> --log-failed
 # Deploymenty
 gh api repos/BeanMap/roasters-hub/deployments --jq '.[0:3]'
 ```
+
+---
+
+## Auto-Flow — "Zapisz zmiany"
+
+Gdy użytkownik powie **"zapisz"**, **"commit"**, **"push"**, **"wdróż"** — agent wykonuje pełny flow w tle:
+
+```
+1. git checkout -b feat/<krótki-opis>
+2. git add + git commit
+3. git push origin <branch>
+4. gh pr create
+5. Polling: gh run list --branch <branch> (czeka na CI ✅)
+6. Jeśli CI ✅ → gh pr merge --squash --delete-branch
+7. Jeśli CI ❌ → napraw błędy + push na ten sam PR → powrót do kroku 5
+```
+
+**Użytkownik widzi tylko:** *"Zmiany zapisane, PR #X zmergowany."*
+
+### Kiedy NIE auto-merge
+
+- Zmiana struktury bazy (nowa migracja) — pokaż link do PR, poproś o potwierdzenie
+- Duża zmiana (>5 plików, >200 linii) — pokaż link do PR, poproś o review
+- Pierwszy deploy nowej funkcji — pokaż podsumowanie przed merge
+
+### NIGDY
+
+- `git push origin main` (zablokowane przez Branch Protection)
+- `gh pr merge --admin` (omija politykę repozytorium)
+- Commit bez uruchomienia consistency check
