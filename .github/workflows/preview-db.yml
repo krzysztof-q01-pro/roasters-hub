@@ -29,12 +29,12 @@ jobs:
       - name: Create Neon branch
         if: github.event.action != 'closed'
         id: neon
-        uses: neondatabase/create-branch-action@v5
+        uses: neondatabase/create-branch-action@v6
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
           api_key: ${{ secrets.NEON_API_KEY }}
           branch_name: ${{ steps.names.outputs.neon_branch }}
-          parent_branch_id: main
+          parent_branch: main
 
       - name: Check for new migrations
         if: github.event.action != 'closed'
@@ -50,16 +50,16 @@ jobs:
             echo "No new migrations found"
           fi
 
-      - name: Setup Node.js for migrations
-        if: github.event.action != 'closed' && steps.migrations.outputs.has_migrations == 'true'
+      - name: Setup Node.js
+        if: github.event.action != 'closed'
         uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: "npm"
           cache-dependency-path: web/package-lock.json
 
-      - name: Install dependencies for migrations
-        if: github.event.action != 'closed' && steps.migrations.outputs.has_migrations == 'true'
+      - name: Install dependencies
+        if: github.event.action != 'closed'
         run: cd web && npm install
 
       - name: Run migrations on preview branch
@@ -70,7 +70,7 @@ jobs:
           DIRECT_URL: ${{ steps.neon.outputs.db_url }}
 
       - name: Seed cafes on preview branch
-        if: github.event.action != 'closed' && steps.migrations.outputs.has_migrations == 'true'
+        if: github.event.action != 'closed'
         run: cd web && npx tsx prisma/seed_cafes.ts
         env:
           DATABASE_URL: ${{ steps.neon.outputs.db_url }}
@@ -80,7 +80,7 @@ jobs:
         if: github.event.action != 'closed'
         run: |
           BRANCH="${{ github.head_ref }}"
-          ENV_VALUE="${{ steps.neon.outputs.db_url_with_pooler }}"
+          ENV_VALUE="${{ steps.neon.outputs.db_url_pooled }}"
           PROJECT_ID="${{ secrets.VERCEL_PROJECT_ID }}"
           TOKEN="${{ secrets.VERCEL_TOKEN }}"
 
