@@ -120,6 +120,16 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] [P1] **Map sidebar: toggle + cafe list + cafe filters** — zastąpienie nagłówka sidebara togglem, tryb Cafes z listą kawiarni i filtrami amenities, naprawienie martwych chipów w trybie Roasters (`app/map/MapContent.tsx`) (@MN)
 - [x] [P2] **Map page: extend cafe query** — dodanie `logoUrl` do select w zapytaniu cafes (`app/map/page.tsx`) (@MN)
 
+### Cafe Hierarchy & Map Thumbnails — (@AGENT)
+
+> **Spec:** `docs/superpowers/specs/2026-04-05-cafe-hierarchy-thumbnails-design.md`
+> **Plan:** `docs/superpowers/plans/2026-04-05-cafe-hierarchy-thumbnails.md`
+
+- [ ] [P1] **Map thumbnails: coverImageUrl fallback** — add `coverImageUrl` to map query, use as fallback in `CafeMapCard` (`app/map/page.tsx`, `app/map/MapContent.tsx`) (@AGENT)
+- [ ] [P1] **Cafe country listing page** — `/cafes/country/[country]` with city browse section, ISR 3600s (@AGENT)
+- [ ] [P1] **Cafe city listing page** — `/cafes/country/[country]/city/[city]` with slug-based routing, ISR 3600s (@AGENT)
+- [ ] [P2] **Cafe profile breadcrumb** — 4-level hierarchy: Home > Cafes > Country > City > Name (`cafes/[slug]/page.tsx`) (@AGENT)
+
 ### Admin Dashboard — (@KK)
 
 - [ ] [P1] **Admin: dashboard statystyk** — widok `/admin` z liczbą palarni (pending/verified/rejected), łączna liczba odsłon profili, ostatnie rejestracje (read-only monitoring) (@KK)
