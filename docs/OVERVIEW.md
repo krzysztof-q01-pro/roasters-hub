@@ -99,7 +99,9 @@ Mapa do całej dokumentacji projektu. Znajdź właściwy dokument szybko.
 
 ## Skills (Claude Code)
 
-8 skilli w `.claude/skills/`: `scheduled-run`, `consistency-check`, `review-agent-branch`, `site-audit`, `frontend-design`, `planning-with-files`, `skill-builder`, `find-skills`
+Skille projektowe w `.claude/skills/`: `scheduled-run`, `consistency-check`, `review-agent-branch`, `site-audit`, `frontend-design`, `planning-with-files`, `skill-builder`, `find-skills`
+
+Skille superpowers (globalne): `superpowers:verification-before-completion` — przed każdym "done"; `superpowers:finishing-a-development-branch` — koniec feature brancha; `superpowers:writing-plans` — planowanie przed kodowaniem; `superpowers:systematic-debugging` — każdy bug/failure; `superpowers:brainstorming` — zastępuje deprecated `superpowers:brainstorm`
 
 ---
 

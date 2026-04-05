@@ -152,6 +152,8 @@ Po sesji nocnego agenta — rano:
 | Złożone zadanie (>5 tool calls) | `/planning-with-files` | Tworzy task_plan.md + progress.md w .tmp/ |
 | Bug lub test failure | `/systematic-debugging` | PRZED proponowaniem jakiegokolwiek fixa |
 | Start sesji autonomicznej | `/consistency-check` | Po orientacji, przed kodowaniem |
+| Przed claimem "done" | `/superpowers:verification-before-completion` | NIE commituj bez weryfikacji |
+| Koniec feature branch | `/superpowers:finishing-a-development-branch` | po zakończeniu całej pracy |
 
 ### Rekomendowane wg typu zadania
 
@@ -230,6 +232,7 @@ Po KAŻDYM ukończonym zadaniu — **ZANIM** powiesz że skończyłeś:
 | Skills (projektowe) | `.claude/skills/` |
 | Kontrola spójności | `workflows/consistency_check.md` + `tools/consistency_check.py` |
 | Workflow SOPs | `workflows/` |
+| Agent rules (OpenCode) | `AGENTS.md` — safety guardrails dla wszystkich AI tools |
 
 **WAT Framework:** Projekt używa Workflows → Agents → Tools. Sprawdź `tools/` przed ręcznym budowaniem czegokolwiek. Sprawdź `workflows/` dla SOPs. Nie twórz ani nie nadpisuj workflows bez pytania.
 

@@ -3,6 +3,76 @@
 > Ten plik jest odpowiednikiem CLAUDE.md dla OpenCode i innych agentów.
 > Pełne reguły procesu → CLAUDE.md (czytaj jako pierwsze).
 
+---
+
+## ⛔ FORBIDDEN — Never execute these commands
+
+### Database — ABSOLUTELY FORBIDDEN on production
+- `prisma db push` — bypasses migration tracking, can corrupt production data
+- `prisma db seed` without explicit human instruction — risk of duplicate data
+- `prisma migrate resolve --applied` — marks migrations as done without executing SQL
+- `prisma migrate reset` — drops and recreates the database
+- Any direct SQL on DATABASE_URL / DIRECT_URL without explicit human approval
+
+### Git — FORBIDDEN
+- `git push origin main` — direct push to main is blocked by branch-guard.sh
+- `git commit --no-verify` — bypasses consistency checks
+- `git push --force` on any branch with open PR
+
+---
+
+## Multi-Worker Coordination
+
+Three workers operate on this repo:
+- **@MN** (Marek Nadra) — manual sessions
+- **@KK** (Krzysztof Kuczkowski) — manual sessions
+- **@AGENT** — autonomous (scheduled, nocny/wieczorny)
+
+**Task ownership (ROADMAP.md):**
+- Work ONLY on tasks tagged (@AGENT), (@UNASSIGNED), or untagged
+- NEVER modify tasks tagged (@MN) or (@KK)
+- Before starting: change @UNASSIGNED → @AGENT
+
+**Branch naming:**
+| Worker | Pattern | Example |
+|--------|---------|---------|
+| Agent | `feat/agent-YYYY-WW` | `feat/agent-2026-14` |
+| Marek | `feat/mn-<slug>` | `feat/mn-email-fix` |
+| Krzysztof | `feat/kk-<slug>` | `feat/kk-admin-panel` |
+
+**NEVER commit directly to main.**
+
+---
+
+## Session End — Required
+
+Before ending any session, write/update `.tmp/SESSION.md`:
+
+```markdown
+## Session YYYY-MM-DD
+
+### Started with
+- <task description>
+
+### Completed
+- <list of completed items>
+
+### Tested
+- lint ✅/❌, tsc ✅/❌, build ✅/❌
+
+### Blocked
+- <list of blockers or "none">
+
+### Next
+- <recommended next task>
+
+### Metadata
+- Branch: feat/...
+- PR: #<number> or "not yet created"
+```
+
+---
+
 ## Orientacja (KAŻDA sesja)
 
 1. Czytaj `PROJECT_STATUS.md` → `ROADMAP.md`
