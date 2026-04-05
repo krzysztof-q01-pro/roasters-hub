@@ -15,27 +15,66 @@ function HeaderSearch() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentQ = searchParams.get("q") || "";
+  const [entityType, setEntityType] = useState<"roasters" | "cafes">(() => {
+    if (typeof window === "undefined") return "cafes";
+    const stored = localStorage.getItem("beanmap_entity_type");
+    return stored === "roasters" || stored === "cafes" ? stored : "cafes";
+  });
+
+  const handleToggle = (type: "roasters" | "cafes") => {
+    setEntityType(type);
+    localStorage.setItem("beanmap_entity_type", type);
+  };
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       const val = (e.target as HTMLInputElement).value.trim();
-      router.push(val ? `/roasters?q=${encodeURIComponent(val)}` : "/roasters");
+      const base = entityType === "cafes" ? "/cafes" : "/roasters";
+      router.push(val ? `${base}?q=${encodeURIComponent(val)}` : base);
     }
   };
 
   return (
-    <div className="hidden sm:flex items-center bg-surface-container-low px-3 py-1.5 rounded-lg">
-      <svg className="w-4 h-4 text-on-surface-variant/60 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-      </svg>
-      <input
-        key={currentQ}
-        className="bg-transparent border-none focus:ring-0 focus:outline-none text-sm w-32 lg:w-48 placeholder:text-on-surface-variant/60"
-        placeholder="Search roasters & cafes..."
-        type="text"
-        defaultValue={currentQ}
-        onKeyDown={handleSearch}
-      />
+    <div className="hidden sm:flex items-center bg-surface-container-low rounded-lg overflow-hidden">
+      <div className="flex border-r border-outline-variant/20">
+        <button
+          onClick={() => handleToggle("roasters")}
+          className={`px-2.5 py-1.5 text-xs font-bold transition-colors ${
+            entityType === "roasters"
+              ? "bg-primary text-on-primary"
+              : "text-on-surface-variant hover:bg-surface-container-high"
+          }`}
+          aria-label="Search roasters"
+          aria-pressed={entityType === "roasters"}
+        >
+          ☕
+        </button>
+        <button
+          onClick={() => handleToggle("cafes")}
+          className={`px-2.5 py-1.5 text-xs font-bold transition-colors ${
+            entityType === "cafes"
+              ? "bg-secondary text-on-secondary"
+              : "text-on-surface-variant hover:bg-surface-container-high"
+          }`}
+          aria-label="Search cafes"
+          aria-pressed={entityType === "cafes"}
+        >
+          ☺
+        </button>
+      </div>
+      <div className="flex items-center px-3 py-1.5">
+        <svg className="w-4 h-4 text-on-surface-variant/60 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input
+          key={currentQ}
+          className="bg-transparent border-none focus:ring-0 focus:outline-none text-sm w-28 lg:w-44 placeholder:text-on-surface-variant/60"
+          placeholder={entityType === "cafes" ? "Search cafes..." : "Search roasters..."}
+          type="text"
+          defaultValue={currentQ}
+          onKeyDown={handleSearch}
+        />
+      </div>
     </div>
   );
 }
