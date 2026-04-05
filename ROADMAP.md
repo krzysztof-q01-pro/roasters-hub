@@ -111,6 +111,15 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [ ] [MEDIUM] **Cafe profile: VerifiedBadge** — add VerifiedBadge component to cafe profile hero for VERIFIED cafes (`cafes/[slug]/page.tsx`) (@UNASSIGNED)
 - [ ] [MEDIUM] **Mobile filters: search always visible** — move search input outside collapsible filters on mobile; keep other filters collapsed (`RoasterFilters.tsx`, `CafeFilters.tsx`) (@UNASSIGNED)
 
+### Map & Search UX Overhaul — (@MN)
+
+> **Spec:** `docs/superpowers/specs/2026-04-05-map-search-ux-overhaul-design.md`
+> **Plan:** `docs/superpowers/plans/2026-04-05-map-search-ux-overhaul.md` _(do stworzenia)_
+
+- [x] [P1] **Header search: pill toggle Roasters/Cafes** — toggle wewnątrz inputa, dynamiczny placeholder, redirect do właściwej strony, localStorage sync (`components/shared/Header.tsx`) (@MN)
+- [x] [P1] **Map sidebar: toggle + cafe list + cafe filters** — zastąpienie nagłówka sidebara togglem, tryb Cafes z listą kawiarni i filtrami amenities, naprawienie martwych chipów w trybie Roasters (`app/map/MapContent.tsx`) (@MN)
+- [x] [P2] **Map page: extend cafe query** — dodanie `logoUrl` do select w zapytaniu cafes (`app/map/page.tsx`) (@MN)
+
 ### Admin Dashboard — (@KK)
 
 - [ ] [P1] **Admin: dashboard statystyk** — widok `/admin` z liczbą palarni (pending/verified/rejected), łączna liczba odsłon profili, ostatnie rejestracje (read-only monitoring) (@KK)

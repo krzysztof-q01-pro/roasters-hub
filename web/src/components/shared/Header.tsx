@@ -117,10 +117,7 @@ export function Header() {
 
         <div className="flex items-center gap-4">
           <Suspense fallback={
-            <div className="hidden sm:flex items-center bg-surface-container-low px-3 py-1.5 rounded-lg">
-              <div className="w-4 h-4 mr-2" />
-              <div className="w-32 lg:w-48 h-4" />
-            </div>
+            <div className="hidden sm:flex items-center bg-surface-container-low rounded-lg overflow-hidden h-8 w-52 lg:w-64" />
           }>
             <HeaderSearch />
           </Suspense>
