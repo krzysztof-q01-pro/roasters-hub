@@ -21,7 +21,17 @@ export default async function MapPage() {
 
   const cafes = await db.cafe.findMany({
     where: { status: "VERIFIED", lat: { not: null }, lng: { not: null } },
-    select: { id: true, name: true, slug: true, city: true, country: true, lat: true, lng: true },
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      city: true,
+      country: true,
+      lat: true,
+      lng: true,
+      logoUrl: true,
+      services: true,
+    },
   });
 
   return <MapContent roasters={roasters} cafes={cafes} />;
