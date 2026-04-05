@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Header } from "@/components/shared/Header";
 import { RoasterCard } from "@/components/roasters/RoasterCard";
 import { filterByCert, filterByService } from "@/lib/map-filters";
@@ -75,14 +75,13 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
   const [showSidebar, setShowSidebar] = useState(false);
   const [showRoasters, setShowRoasters] = useState(true);
   const [showCafes, setShowCafes] = useState(true);
-  const [entityType, setEntityType] = useState<"roasters" | "cafes">("cafes");
+  const [entityType, setEntityType] = useState<"roasters" | "cafes">(() => {
+    if (typeof window === "undefined") return "cafes";
+    const stored = localStorage.getItem(ENTITY_TYPE_KEY);
+    return stored === "roasters" || stored === "cafes" ? stored : "cafes";
+  });
   const [activeCert, setActiveCert] = useState<string | null>(null);
   const [activeService, setActiveService] = useState<string | null>(null);
-
-  useEffect(() => {
-    const stored = localStorage.getItem(ENTITY_TYPE_KEY);
-    if (stored === "roasters" || stored === "cafes") setEntityType(stored);
-  }, []);
 
   const handleEntityToggle = (type: "roasters" | "cafes") => {
     setEntityType(type);
