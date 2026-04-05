@@ -30,6 +30,7 @@ export default async function MapPage() {
       lat: true,
       lng: true,
       logoUrl: true,
+      coverImageUrl: true,
       services: true,
     },
   });

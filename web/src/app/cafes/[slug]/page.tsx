@@ -120,7 +120,19 @@ export default async function CafeProfilePage({
           <span>›</span>
           <Link className="hover:text-primary transition-colors" href="/cafes">Cafes</Link>
           <span>›</span>
-          <span className="text-on-surface">{cafe.city}</span>
+          <Link
+            className="hover:text-primary transition-colors"
+            href={`/cafes/country/${cafe.countryCode}`}
+          >
+            {cafe.country}
+          </Link>
+          <span>›</span>
+          <Link
+            className="hover:text-primary transition-colors"
+            href={`/cafes/country/${cafe.countryCode}/city/${cafe.city.toLowerCase().replace(/\s+/g, "-")}`}
+          >
+            {cafe.city}
+          </Link>
           <span>›</span>
           <span className="text-on-surface">{cafe.name}</span>
         </nav>

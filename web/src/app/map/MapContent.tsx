@@ -25,6 +25,7 @@ type CafeMapItem = {
   lat: number | null;
   lng: number | null;
   logoUrl: string | null;
+  coverImageUrl: string | null;
   services: string[];
 };
 
@@ -44,9 +45,9 @@ function CafeMapCard({ cafe }: { cafe: CafeMapItem }) {
     >
       <div className="flex gap-4">
         <div className="w-24 h-24 rounded-lg overflow-hidden shrink-0 relative bg-surface-container">
-          {cafe.logoUrl ? (
+          {(cafe.logoUrl ?? cafe.coverImageUrl) ? (
             <Image
-              src={cafe.logoUrl}
+              src={(cafe.logoUrl ?? cafe.coverImageUrl)!}
               alt={cafe.name}
               fill
               className="object-cover transition-transform group-hover:scale-105"
