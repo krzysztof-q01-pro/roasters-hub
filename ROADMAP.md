@@ -114,7 +114,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 ### Map & Search UX Overhaul — (@MN)
 
 > **Spec:** `docs/superpowers/specs/2026-04-05-map-search-ux-overhaul-design.md`
-> **Plan:** `docs/superpowers/plans/2026-04-05-map-search-ux-overhaul.md` _(do stworzenia)_
+> **Plan:** `docs/superpowers/plans/2026-04-05-map-search-ux-overhaul.md`
 
 - [x] [P1] **Header search: pill toggle Roasters/Cafes** — toggle wewnątrz inputa, dynamiczny placeholder, redirect do właściwej strony, localStorage sync (`components/shared/Header.tsx`) (@MN)
 - [x] [P1] **Map sidebar: toggle + cafe list + cafe filters** — zastąpienie nagłówka sidebara togglem, tryb Cafes z listą kawiarni i filtrami amenities, naprawienie martwych chipów w trybie Roasters (`app/map/MapContent.tsx`) (@MN)
