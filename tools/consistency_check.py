@@ -1061,7 +1061,42 @@ def fix_c10():
                     shutil.rmtree(screenshots_dir)
 
 
-ALL_CHECKS = [check_c1, check_c2, check_c3, check_c4, check_c5, check_c6, check_c7, check_c8, check_c9, check_c10, check_c11]
+# ---------------------------------------------------------------------------
+# C12: AGENTS.md Safety Sections
+# ---------------------------------------------------------------------------
+
+def check_c12() -> CheckResult:
+    r = CheckResult("C12", "AGENTS.md Safety Sections", "critical")
+
+    agents = read_file("AGENTS.md")
+    if not agents:
+        r.fail("AGENTS.md not found — utwórz plik z guardrails bezpieczeństwa")
+        return r
+
+    missing = []
+
+    if "FORBIDDEN" not in agents and "⛔" not in agents:
+        missing.append("brak sekcji FORBIDDEN (⛔)")
+
+    if "prisma db push" not in agents:
+        missing.append("brak explicit zakazu 'prisma db push'")
+
+    if "Multi-Worker" not in agents and "@MN" not in agents:
+        missing.append("brak sekcji Multi-Worker Coordination")
+
+    if "SESSION" not in agents:
+        missing.append("brak protokołu Session End (SESSION)")
+
+    if missing:
+        r.fail(
+            "AGENTS.md brakuje sekcji bezpieczeństwa: " + "; ".join(missing),
+            auto_fixable=False,
+        )
+
+    return r
+
+
+ALL_CHECKS = [check_c1, check_c2, check_c3, check_c4, check_c5, check_c6, check_c7, check_c8, check_c9, check_c10, check_c11, check_c12]
 
 FIX_MAP = {
     "C2": fix_c2,
