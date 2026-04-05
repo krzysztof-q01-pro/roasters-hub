@@ -74,9 +74,10 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 **@MN:** Cafe addresses manual — 17/17 done (Google Maps scraping)
 **@KK:** Admin dashboard statystyk (P1)
-**@AGENT:** — (UX Consistency Audit COMPLETE, UX Quality Audit COMPLETE — 8 issues added to ROADMAP)
+**@AGENT:** Cafe Hierarchy & Map Thumbnails — COMPLETE (4/4 tasks: coverImageUrl fallback, country/city pages, 4-level breadcrumb)
 
 **Completed recently:**
+- ✅ Cafe Hierarchy & Map Thumbnails — coverImageUrl fallback on map, /cafes/country/[country], /cafes/country/[country]/city/[city], 4-level breadcrumb (2026-04-05)
 - ✅ UX Quality Audit — 14 test scenarios on production, 28 PASS, 3 HIGH + 5 MEDIUM issues documented (`.tmp/ux-quality-audit-2026-04-04.md`) (2026-04-04)
 - ✅ UX Consistency Audit — dedup reviews (47 removed), shared ReviewForm/ReviewList/StarRating, Polish→English, SVG viewBox, title fix (2026-04-04)
 - ✅ Cafe addresses manual — 17 kawiarni z adresami i coords z Google Maps (2026-04-04)

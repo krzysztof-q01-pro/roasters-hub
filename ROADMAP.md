@@ -125,10 +125,10 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 > **Spec:** `docs/superpowers/specs/2026-04-05-cafe-hierarchy-thumbnails-design.md`
 > **Plan:** `docs/superpowers/plans/2026-04-05-cafe-hierarchy-thumbnails.md`
 
-- [ ] [P1] **Map thumbnails: coverImageUrl fallback** — add `coverImageUrl` to map query, use as fallback in `CafeMapCard` (`app/map/page.tsx`, `app/map/MapContent.tsx`) (@AGENT)
-- [ ] [P1] **Cafe country listing page** — `/cafes/country/[country]` with city browse section, ISR 3600s (@AGENT)
-- [ ] [P1] **Cafe city listing page** — `/cafes/country/[country]/city/[city]` with slug-based routing, ISR 3600s (@AGENT)
-- [ ] [P2] **Cafe profile breadcrumb** — 4-level hierarchy: Home > Cafes > Country > City > Name (`cafes/[slug]/page.tsx`) (@AGENT)
+- [x] [P1] **Map thumbnails: coverImageUrl fallback** — add `coverImageUrl` to map query, use as fallback in `CafeMapCard` (`app/map/page.tsx`, `app/map/MapContent.tsx`) (@AGENT) ✅
+- [x] [P1] **Cafe country listing page** — `/cafes/country/[country]` with city browse section, ISR 3600s (@AGENT) ✅
+- [x] [P1] **Cafe city listing page** — `/cafes/country/[country]/city/[city]` with slug-based routing, ISR 3600s (@AGENT) ✅
+- [x] [P2] **Cafe profile breadcrumb** — 4-level hierarchy: Home > Cafes > Country > City > Name (`cafes/[slug]/page.tsx`) (@AGENT) ✅
 
 ### Admin Dashboard — (@KK)
 
