@@ -20,13 +20,17 @@ ALTER TABLE "cafes" ADD COLUMN IF NOT EXISTS "email" TEXT;
 ALTER TABLE "cafes" ADD COLUMN IF NOT EXISTS "priceRange" TEXT;
 ALTER TABLE "cafes" ADD COLUMN IF NOT EXISTS "seatingCapacity" INTEGER;
 
+-- Enums for enrichment status fields
+CREATE TYPE "EnrichmentRunStatus" AS ENUM ('RUNNING', 'DONE', 'FAILED');
+CREATE TYPE "EnrichmentProposalStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED', 'SKIPPED');
+
 -- EnrichmentRun model
 CREATE TABLE IF NOT EXISTS "enrichment_runs" (
     "id" TEXT NOT NULL,
     "entityType" TEXT NOT NULL,
     "query" JSONB NOT NULL,
     "sources" TEXT[] NOT NULL DEFAULT ARRAY[]::TEXT[],
-    "status" TEXT NOT NULL DEFAULT 'RUNNING',
+    "status" "EnrichmentRunStatus" NOT NULL DEFAULT 'RUNNING'::"EnrichmentRunStatus",
     "stats" JSONB NOT NULL DEFAULT '{}',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "completedAt" TIMESTAMP(3),
@@ -50,7 +54,7 @@ CREATE TABLE IF NOT EXISTS "enrichment_proposals" (
     "confidence" DOUBLE PRECISION NOT NULL,
     "sourceId" TEXT NOT NULL,
     "sourceUrl" TEXT,
-    "status" TEXT NOT NULL DEFAULT 'PENDING',
+    "status" "EnrichmentProposalStatus" NOT NULL DEFAULT 'PENDING'::"EnrichmentProposalStatus",
     "reviewedAt" TIMESTAMP(3),
     "reviewedBy" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

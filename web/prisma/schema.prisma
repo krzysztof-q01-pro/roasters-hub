@@ -263,7 +263,7 @@ model EnrichmentRun {
   entityType  String
   query       Json
   sources     String[]
-  status      String               @default("RUNNING")
+  status      EnrichmentRunStatus  @default(RUNNING)
   stats       Json                 @default("{}")
   proposals   EnrichmentProposal[]
   createdAt   DateTime             @default(now())
@@ -288,7 +288,7 @@ model EnrichmentProposal {
   confidence    Float
   sourceId      String
   sourceUrl     String?
-  status        String        @default("PENDING")
+  status        EnrichmentProposalStatus  @default(PENDING)
   reviewedAt    DateTime?
   reviewedBy    String?
   createdAt     DateTime      @default(now())
@@ -337,4 +337,17 @@ enum NewsletterSegment {
   CAFE
   CONSUMER
   ROASTER
+}
+
+enum EnrichmentRunStatus {
+  RUNNING
+  DONE
+  FAILED
+}
+
+enum EnrichmentProposalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  SKIPPED
 }
