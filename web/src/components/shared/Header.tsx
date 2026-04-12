@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
@@ -87,11 +88,15 @@ export function Header() {
     <header className="sticky top-0 z-50 glass-nav border-b border-surface-container-high/50">
       <div className="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
         <div className="flex items-center gap-8">
-          <Link
-            href="/"
-            className="text-2xl font-bold font-headline text-on-background tracking-tighter"
-          >
-            Bean Map
+          <Link href="/" aria-label="Bean Map — home" className="flex items-center">
+            <Image
+              src="/brand/beanmap-logo.png"
+              alt="Bean Map"
+              width={140}
+              height={53}
+              priority
+              className="h-9 w-auto"
+            />
           </Link>
           <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
             {NAV_LINKS.map((link) => {
