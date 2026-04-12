@@ -92,10 +92,10 @@ export function Header() {
             <Image
               src="/brand/beanmap-logo.png"
               alt="Bean Map"
-              width={135}
-              height={53}
+              width={230}
+              height={90}
               priority
-              className="h-9 w-auto"
+              className="h-[90px] w-auto"
             />
           </Link>
           <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
