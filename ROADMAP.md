@@ -169,6 +169,31 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [ ] [P2] **Testing docs: E2E README** — aktualizacja mapy specs o cafe-registration, cafe-dashboard, admin-cafes, guest-cafes, cafe-review w `docs/testing/e2e/README.md` (@UNASSIGNED)
 - [ ] [P3] **Testing docs: E2E skeletons** — szkielety speców: `cafe-registration.spec.ts`, `admin-cafes.spec.ts`, `guest-cafes.spec.ts`, `cafe-review.spec.ts` w `docs/testing/e2e/` (@UNASSIGNED)
 
+### Data Strategy & Taxonomy — (@MN / @KK)
+
+- [ ] [P1] **Taxonomia danych: palarnie i kawiarnie** — definicja jakie elementy pokazujemy na profilach palarni vs kawiarni; na co zwracamy uwagę; co jest ważne dla każdego typu (@MN)
+- [ ] [P1] **Zasilenie bazy kawiarni w PL** — skalowalne zasilenie bazy kawiarniami w Polsce; projekt procesu skalowalnego na inne kraje (@MN)
+- [ ] [P2] **Zdjęcia realne: palarnie i kawiarnie** — zebranie i dodanie realnych zdjęć do profili palarni i kawiarni (@KK)
+
+### Legal & Compliance — (@MN / @KK)
+
+- [ ] [P1] **Aspekt prawny scrapowania danych** — research jak legalnie pozyskiwać dane o kawiarniach/palarniach (GDPR, robots.txt, ToS, scraperzy vs API) (@MN)
+- [ ] [P1] **Cookie policy, regulamin, polityka prywatności** — implementacja stron prawnych zgodnych z AI Act + GDPR (@KK)
+
+### UX Improvements — (@MN / @KK)
+
+- [ ] [P2] **"List Your Cafe" — uspójnienie z palarnią** — wyrównanie UX/copy flow rejestracji kawiarni do standardu rejestracji palarni (@MN)
+- [ ] [P2] **UX improvements: automatyzacja + manualne + Robson** — zmiany UX wynikające z feedbacku (Robson) i audytu; automatyzacja + ręczne poprawki (@KK)
+
+### Infrastructure — (@KK)
+
+- [ ] [P1] **Podpięcie domeny** — zakup domeny + konfiguracja DNS w Vercel (@KK)
+- [ ] [P2] **Maile firmowe (cafe)** — konfiguracja firmowych skrzynek email dla kawiarni (@KK)
+
+### i18n: PL / EN / DE — (@KK)
+
+- [ ] [P2] **Wersja PL/EN/DE (modułowo)** — modułowa implementacja i18n (`next-intl`): architektura, routing per locale, tłumaczenia PL/EN/DE; podejście modularne bez pełnego refactoru na raz (@KK)
+
 ---
 
 ## LATER — Phase 3: Growth (miesiąc 2-3)
@@ -177,14 +202,14 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ## LATER — Phase 4: Scale (miesiąc 4+)
 
-- [ ] i18n (`next-intl`, znaczący refactor) (@UNASSIGNED)
+- [ ] i18n pełny rollout — rozszerzenie poza PL/EN/DE, dodatkowe języki (@UNASSIGNED)
 
 ---
 
 ## 🧑 HUMAN ONLY — zadania wymagające człowieka (agent NIE wykonuje)
 
 - [x] Branch protection na `main` (no direct push) — GitHub Settings → Branches (@MN) ✅
-- [ ] Domena produkcyjna — zakup + konfiguracja DNS w Vercel (@MN)
+- [ ] Domena produkcyjna — zakup + konfiguracja DNS w Vercel (@KK)
 - [ ] Stripe konto (Phase 3) — rejestracja + webhook secret (@UNASSIGNED)
 - [ ] Cold outreach do palarni — lista kontaktowa, maile, LinkedIn (@UNASSIGNED)
 - [ ] Założenie Remote Server — hosting dla scheduled agent (Claude Code remote triggers) (@MN)
@@ -260,3 +285,4 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] **Perf: batch optimize cafe-roaster seeding** — replace 620 sequential upserts with `createMany`, production deploy 7m29s → 1m44s (@MN) ✅
 - [x] [HIGH] **SVG viewBox typo on /cafes** — `viewBox="0 0 2424"` instead of `"0 0 24 24"` in CafeFilters.tsx:72 → console error (@AGENT) ✅
 - [x] [HIGH] **Unify review UX** — completely different review forms/lists for roasters vs cafes (star hover vs number buttons, different layouts, date formats, text casing) (@AGENT) ✅
+- [x] **Typography: custom font pair** — Fraunces (display) + Source Sans 3 (body) przez next/font/google (@KK) ✅
