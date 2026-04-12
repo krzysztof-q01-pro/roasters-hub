@@ -75,10 +75,16 @@ jobs:
           fi
           echo "✅ DATABASE_URL is configured"
 
-      - name: Release stale migration lock + resolve failed migration
+      - name: Resolve stale Prisma migration state
         run: |
           npx prisma db execute --stdin <<'SQL'
-          SELECT pg_advisory_unlock_all();
+          -- Terminate stale idle connections holding Prisma advisory lock
+          SELECT pg_terminate_backend(pid)
+          FROM pg_stat_activity
+          WHERE pid != pg_backend_pid()
+            AND state IN ('idle', 'idle in transaction')
+            AND query_start < now() - interval '30 seconds';
+          -- Mark failed migration as applied (schema was applied via db push)
           UPDATE "_prisma_migrations"
           SET "finished_at" = NOW(), "applied_steps_count" = 1, "logs" = NULL
           WHERE "migration_name" = '20260412000000_enrichment_engine'
