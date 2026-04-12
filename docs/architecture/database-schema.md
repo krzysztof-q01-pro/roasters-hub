@@ -377,6 +377,14 @@ Dodane 2026-04-04:
 - **UserProfile** rozszerzony: dodano savedCafes SavedCafe[]
 - **Cafe** rozszerzony: dodano savedBy SavedCafe[] i events CafeEvent[]
 
+### EnrichmentRun, EnrichmentProposal + taxonomy fields (Scraping Engine — 2026-04-12)
+
+Dodane 2026-04-12:
+- **EnrichmentRun** — rekord sesji scrapingu: entityType, query (Json), sources[], status (RUNNING/DONE/FAILED), stats (Json), powiązane proposals
+- **EnrichmentProposal** — pojedyncza propozycja zmiany pola encji: runId (FK→EnrichmentRun), entityType, entityId, entityName, changeType, fieldKey, fieldGroup, fieldPriority, currentValue (Json?), proposedValue (Json), confidence (Float), sourceId, sourceUrl, status (PENDING/ACCEPTED/REJECTED), reviewedAt, reviewedBy
+- **Roaster** rozszerzony: address, postalCode, phone, foundedYear, brewingMethods[], wholesaleAvailable, subscriptionAvailable, openingHours (Json), hasCafe, hasTastingRoom
+- **Cafe** rozszerzony: postalCode, email, priceRange, seatingCapacity
+
 ---
 
 ## 4. Wartości dla `certifications[]`

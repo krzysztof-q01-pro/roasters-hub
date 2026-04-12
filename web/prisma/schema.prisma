@@ -43,12 +43,22 @@ model Roaster {
   featuredUntil  DateTime?
   verifiedAt     DateTime?
   rejectedAt     DateTime?
-  rejectedReason String?
-  createdAt      DateTime              @default(now())
-  updatedAt      DateTime              @updatedAt
-  ownerId        String?
-  adminNotes     AdminNote[]
-  servedAt       CafeRoasterRelation[]
+  rejectedReason       String?
+  address              String?
+  postalCode           String?
+  phone                String?
+  foundedYear          Int?
+  brewingMethods       String[]
+  wholesaleAvailable   Boolean?
+  subscriptionAvailable Boolean?
+  openingHours         Json?
+  hasCafe              Boolean?
+  hasTastingRoom       Boolean?
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  ownerId              String?
+  adminNotes           AdminNote[]
+  servedAt             CafeRoasterRelation[]
   events         ProfileEvent[]
   reviews        Review[]
   images         RoasterImage[]
@@ -195,13 +205,17 @@ model Cafe {
   status         CafeStatus            @default(PENDING)
   featured       Boolean               @default(false)
   verifiedAt     DateTime?
-  rejectedAt     DateTime?
-  rejectedReason String?
-  createdAt      DateTime              @default(now())
-  updatedAt      DateTime              @updatedAt
-  ownerId        String?
-  sourceUrl      String?
-  openingHours   String?
+  rejectedAt      DateTime?
+  rejectedReason  String?
+  postalCode      String?
+  email           String?
+  priceRange      String?
+  seatingCapacity Int?
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+  ownerId         String?
+  sourceUrl       String?
+  openingHours    String?
   serving        String[]              @default([])
   services       String[]              @default([])
   roasters       CafeRoasterRelation[]
@@ -244,6 +258,47 @@ model ApiKey {
   @@map("api_keys")
 }
 
+model EnrichmentRun {
+  id          String               @id @default(cuid())
+  entityType  String
+  query       Json
+  sources     String[]
+  status      EnrichmentRunStatus  @default(RUNNING)
+  stats       Json                 @default("{}")
+  proposals   EnrichmentProposal[]
+  createdAt   DateTime             @default(now())
+  completedAt DateTime?
+
+  @@map("enrichment_runs")
+}
+
+model EnrichmentProposal {
+  id            String        @id @default(cuid())
+  runId         String
+  run           EnrichmentRun @relation(fields: [runId], references: [id])
+  entityType    String
+  entityId      String?
+  entityName    String
+  changeType    String
+  fieldKey      String
+  fieldGroup    String
+  fieldPriority String
+  currentValue  Json?
+  proposedValue Json
+  confidence    Float
+  sourceId      String
+  sourceUrl     String?
+  status        EnrichmentProposalStatus  @default(PENDING)
+  reviewedAt    DateTime?
+  reviewedBy    String?
+  createdAt     DateTime      @default(now())
+
+  @@index([runId])
+  @@index([entityId])
+  @@index([status])
+  @@map("enrichment_proposals")
+}
+
 enum RoasterStatus {
   PENDING
   VERIFIED
@@ -282,4 +337,17 @@ enum NewsletterSegment {
   CAFE
   CONSUMER
   ROASTER
+}
+
+enum EnrichmentRunStatus {
+  RUNNING
+  DONE
+  FAILED
+}
+
+enum EnrichmentProposalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  SKIPPED
 }
