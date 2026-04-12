@@ -4,7 +4,31 @@ import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { NewsletterForm } from "@/components/shared/NewsletterForm";
 import { RoasterCard } from "@/components/roasters/RoasterCard";
+import { CoffeeBean } from "@/components/icons/CoffeeBean";
+import { CoffeeCup } from "@/components/icons/CoffeeCup";
 import { db } from "@/lib/db";
+
+const COMMUNITY_ITEMS = [
+  {
+    title: "Coffee Roasters",
+    desc: "Showcase your beans and unique roasting philosophy to a global audience of dedicated coffee lovers.",
+    Icon: CoffeeBean,
+  },
+  {
+    title: "Cafés & Buyers",
+    desc: "Source exceptional beans for your café by connecting directly with verified specialty producers worldwide.",
+    Icon: CoffeeCup,
+  },
+  {
+    title: "Coffee Lovers",
+    desc: "Find your next favorite roast and explore the diverse world of specialty coffee through our curated map.",
+    Icon: (props: React.SVGProps<SVGSVGElement>) => (
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+        <path d="M12 21s-7-4.35-7-10.5A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 7 4.5C19 16.65 12 21 12 21Z" />
+      </svg>
+    ),
+  },
+];
 
 export const revalidate = 3600; // re-generate every hour
 
@@ -37,10 +61,10 @@ export default async function HomePage() {
               The global directory connecting caf&eacute;s and coffee lovers with
               verified specialty roasters worldwide.
             </p>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap items-center gap-4">
               <Link
                 href="/roasters"
-                className="bg-primary text-on-primary px-8 py-4 rounded-lg font-medium hover:opacity-90 transition-all flex items-center gap-2"
+                className="inline-flex items-center gap-2 bg-primary text-on-primary px-8 py-4 rounded-lg font-medium hover:opacity-90 transition-all"
               >
                 Browse Roasters
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -49,15 +73,18 @@ export default async function HomePage() {
               </Link>
               <Link
                 href="/register"
-                className="bg-surface-container text-on-surface px-8 py-4 rounded-lg font-medium hover:bg-surface-container-high transition-all"
+                className="inline-flex items-center bg-surface-container text-on-surface px-8 py-4 rounded-lg font-medium hover:bg-surface-container-high transition-all"
               >
                 List Your Roastery
               </Link>
               <Link
                 href="/cafes"
-                className="inline-block bg-secondary text-on-secondary px-6 py-3 rounded-lg font-medium text-sm hover:opacity-90 transition-all"
+                className="inline-flex items-center gap-2 bg-secondary text-on-secondary px-8 py-4 rounded-lg font-medium hover:opacity-90 transition-all"
               >
-                Find a Cafe →
+                Find a Cafe
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
               </Link>
             </div>
           </div>
@@ -159,19 +186,13 @@ export default async function HomePage() {
               Built for the specialty coffee community
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-              {[
-                { title: "Coffee Roasters", desc: "Showcase your beans and unique roasting philosophy to a global audience of dedicated coffee lovers." },
-                { title: "Cafés & Buyers", desc: "Source exceptional beans for your café by connecting directly with verified specialty producers worldwide." },
-                { title: "Coffee Lovers", desc: "Find your next favorite roast and explore the diverse world of specialty coffee through our curated map." },
-              ].map((item) => (
-                <div key={item.title} className="text-center group">
+              {COMMUNITY_ITEMS.map(({ title, desc, Icon }) => (
+                <div key={title} className="text-center group">
                   <div className="w-20 h-20 bg-surface-container-lowest rounded-full flex items-center justify-center mx-auto mb-8 editorial-shadow group-hover:bg-primary transition-colors">
-                    <svg className="w-8 h-8 text-primary group-hover:text-on-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                    </svg>
+                    <Icon className="w-9 h-9 text-primary group-hover:text-on-primary transition-colors" />
                   </div>
-                  <h3 className="font-headline text-2xl font-bold mb-4">{item.title}</h3>
-                  <p className="text-on-surface-variant font-light leading-relaxed">{item.desc}</p>
+                  <h3 className="font-headline text-2xl font-bold mb-4">{title}</h3>
+                  <p className="text-on-surface-variant font-light leading-relaxed">{desc}</p>
                 </div>
               ))}
             </div>

@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
+import { CoffeeBean } from "@/components/icons/CoffeeBean";
+import { CoffeeCup } from "@/components/icons/CoffeeCup";
 
 const NAV_LINKS = [
   { href: "/roasters", label: "Browse Roasters" },
@@ -40,7 +42,7 @@ function HeaderSearch() {
       <div className="flex border-r border-outline-variant/20">
         <button
           onClick={() => handleToggle("roasters")}
-          className={`px-2.5 py-1.5 text-xs font-bold transition-colors ${
+          className={`px-3 py-2.5 transition-colors ${
             entityType === "roasters"
               ? "bg-primary text-on-primary"
               : "text-on-surface-variant hover:bg-surface-container-high"
@@ -48,11 +50,11 @@ function HeaderSearch() {
           aria-label="Search roasters"
           aria-pressed={entityType === "roasters"}
         >
-          ☕
+          <CoffeeBean className="w-5 h-5" />
         </button>
         <button
           onClick={() => handleToggle("cafes")}
-          className={`px-2.5 py-1.5 text-xs font-bold transition-colors ${
+          className={`px-3 py-2.5 transition-colors ${
             entityType === "cafes"
               ? "bg-secondary text-on-secondary"
               : "text-on-surface-variant hover:bg-surface-container-high"
@@ -60,16 +62,16 @@ function HeaderSearch() {
           aria-label="Search cafes"
           aria-pressed={entityType === "cafes"}
         >
-          ☺
+          <CoffeeCup className="w-5 h-5" />
         </button>
       </div>
-      <div className="flex items-center px-3 py-1.5">
-        <svg className="w-4 h-4 text-on-surface-variant/60 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="flex items-center px-4 py-2.5">
+        <svg className="w-5 h-5 text-on-surface-variant/60 mr-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
         <input
           key={currentQ}
-          className="bg-transparent border-none focus:ring-0 focus:outline-none text-sm w-28 lg:w-44 placeholder:text-on-surface-variant/60"
+          className="bg-transparent border-none focus:ring-0 focus:outline-none text-base w-48 lg:w-72 placeholder:text-on-surface-variant/60"
           placeholder={entityType === "cafes" ? "Search cafes..." : "Search roasters..."}
           type="text"
           defaultValue={currentQ}
@@ -92,10 +94,10 @@ export function Header() {
             <Image
               src="/brand/beanmap-logo.png"
               alt="Bean Map"
-              width={230}
-              height={90}
+              width={166}
+              height={65}
               priority
-              className="h-[90px] w-auto"
+              className="h-[65px] w-auto"
             />
           </Link>
           <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
@@ -122,7 +124,7 @@ export function Header() {
 
         <div className="flex items-center gap-4">
           <Suspense fallback={
-            <div className="hidden sm:flex items-center bg-surface-container-low rounded-lg overflow-hidden h-8 w-52 lg:w-64" />
+            <div className="hidden sm:flex items-center bg-surface-container-low rounded-lg overflow-hidden h-11 w-80 lg:w-[26rem]" />
           }>
             <HeaderSearch />
           </Suspense>

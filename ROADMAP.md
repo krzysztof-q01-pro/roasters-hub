@@ -143,6 +143,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 ### Look & Feel — (@KK)
 
 - [x] [P2] **Typography: custom font pair** — Fraunces (display) + Source Sans 3 (body) przez next/font/google (@KK) ✅
+- [x] [P2] **Landing polish: icon system + hero CTA + header search** — reużywalne ikony bean/cup (flat SVG), powiększona wyszukiwarka w Headerze, ujednolicenie 3 CTA w hero, podmiana ikon w community section, logo Header 65px (@KK) ✅
 - [ ] [P2] **UI polish: hover states + transitions** — spójne micro-animations na kartach, buttonach, nawigacji (@KK)
 - [ ] [P3] **Dark mode** — Tailwind dark: variant, persystencja preferencji (localStorage + system pref) (@KK)
 
