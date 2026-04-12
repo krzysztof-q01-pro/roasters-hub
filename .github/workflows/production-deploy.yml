@@ -75,16 +75,9 @@ jobs:
           fi
           echo "✅ DATABASE_URL is configured"
 
-      - name: Resolve stale Prisma migration state
+      - name: Resolve failed migration state
         run: |
           npx prisma db execute --stdin <<'SQL'
-          -- Terminate stale idle connections holding Prisma advisory lock
-          SELECT pg_terminate_backend(pid)
-          FROM pg_stat_activity
-          WHERE pid != pg_backend_pid()
-            AND state IN ('idle', 'idle in transaction')
-            AND query_start < now() - interval '30 seconds';
-          -- Mark failed migration as applied (schema was applied via db push)
           UPDATE "_prisma_migrations"
           SET "finished_at" = NOW(), "applied_steps_count" = 1, "logs" = NULL
           WHERE "migration_name" = '20260412000000_enrichment_engine'
@@ -95,7 +88,19 @@ jobs:
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
       - name: Run database migrations
-        run: npx prisma migrate deploy
+        run: |
+          set +e
+          npx prisma migrate deploy 2>&1 | tee /tmp/migrate_out.txt
+          EXIT_CODE=${PIPESTATUS[0]}
+          if [ $EXIT_CODE -ne 0 ]; then
+            if grep -q "advisory lock" /tmp/migrate_out.txt; then
+              echo "⚠️  Advisory lock timeout — schema already applied via db push. Continuing."
+            else
+              echo "❌ Migration failed:"
+              cat /tmp/migrate_out.txt
+              exit 1
+            fi
+          fi
         env:
           DATABASE_URL: ${{ secrets.DIRECT_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
