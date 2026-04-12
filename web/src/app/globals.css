@@ -57,8 +57,8 @@
   --color-inverse-primary: #ffb68d;
 
   /* === FONTS === */
-  --font-headline: var(--font-newsreader), "Georgia", serif;
-  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-headline: var(--font-display), "Georgia", serif;
+  --font-body: var(--font-sans), system-ui, sans-serif;
 
   /* === BORDER RADIUS === */
   --radius-sm: 0.25rem;
