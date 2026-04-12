@@ -92,7 +92,7 @@ export function Header() {
             <Image
               src="/brand/beanmap-logo.png"
               alt="Bean Map"
-              width={140}
+              width={135}
               height={53}
               priority
               className="h-9 w-auto"
