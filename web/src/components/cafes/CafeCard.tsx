@@ -43,7 +43,7 @@ export function CafeCard({ cafe }: { cafe: CafeCardProps }) {
         )}
       </div>
       <div className="p-5">
-        <h3 className="font-headline text-xl italic tracking-tight mb-1 group-hover:text-primary transition-colors">
+        <h3 className="font-headline text-xl tracking-tight mb-1 group-hover:text-primary transition-colors">
           {cafe.name}
         </h3>
         <p className="text-sm text-on-surface-variant/60 mb-3">

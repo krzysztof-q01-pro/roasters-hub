@@ -120,7 +120,7 @@ export default async function CafesPage({
 
           <section className="flex-1">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-surface-container-low">
-              <span className="text-sm text-on-surface-variant italic">
+              <span className="text-sm text-on-surface-variant">
                 Showing {cafes.length} of {total} results
               </span>
               <div className="flex items-center gap-4">

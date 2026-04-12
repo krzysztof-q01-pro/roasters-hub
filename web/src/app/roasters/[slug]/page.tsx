@@ -137,7 +137,7 @@ export default async function RoasterProfilePage({
               <VerifiedBadge size="lg" />
             </div>
           )}
-          <h1 className="font-headline italic text-6xl md:text-7xl lg:text-8xl text-white tracking-tighter leading-none mb-4">
+          <h1 className="font-headline text-6xl md:text-7xl lg:text-8xl text-white tracking-tighter leading-none mb-4">
             {roaster.name}
           </h1>
           <div className="flex items-center text-white/90 gap-2 text-sm md:text-base">
@@ -203,7 +203,7 @@ export default async function RoasterProfilePage({
 
           {/* Gdzie wypić */}
           <section className="mt-16">
-            <h2 className="font-headline text-3xl italic tracking-tight mb-6">Where to drink</h2>
+            <h2 className="font-headline text-3xl tracking-tight mb-6">Where to drink</h2>
             {roaster.servedAt.length === 0 ? (
               <p className="text-on-surface-variant/60 text-sm">
                 This roastery is not yet available in any cafe.
@@ -307,7 +307,7 @@ export default async function RoasterProfilePage({
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex justify-between items-end mb-12">
               <div>
-                <h3 className="font-headline text-4xl italic tracking-tight mb-2">
+                <h3 className="font-headline text-4xl tracking-tight mb-2">
                   Discover {roaster.country}
                 </h3>
                 <p className="text-on-surface-variant/60 font-light">

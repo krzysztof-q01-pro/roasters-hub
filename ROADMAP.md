@@ -132,9 +132,9 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ### Admin Dashboard — (@KK)
 
-- [ ] [P1] **Admin: dashboard statystyk** — widok `/admin` z liczbą palarni (pending/verified/rejected), łączna liczba odsłon profili, ostatnie rejestracje (read-only monitoring) (@KK)
-- [ ] [P2] **Admin: panel palarni** — lista wszystkich palarni z filtrem statusu, sortowanie po dacie, podgląd szczegółów (@KK)
-- [ ] [P2] **Admin: logi aktywności** — ostatnie rejestracje, zmiany statusu, top profile (click-through) (@KK)
+- [x] [P1] **Admin: dashboard statystyk** — widok `/admin` z licznikami statusów, page views 30d/all-time, tiles nawigacyjne, tabela ostatnich 10 rejestracji (@KK) ✅
+- [x] [P2] **Admin: panel palarni** — `/admin/roasters` z filtrami statusu, sortowaniem newest/oldest, paginacją 25/page, liczbą views per palarnia (@KK) ✅
+- [x] [P2] **Admin: logi aktywności** — `/admin/activity`: ostatnie 50 rejestracji, 50 admin notes, top 10 profili po PAGE_VIEW (30d) (@KK) ✅
 
 ### Logotyp — (@KK)
 

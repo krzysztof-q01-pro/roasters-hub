@@ -118,7 +118,7 @@ export function RoasterCard({ roaster, variant = "default", className }: Roaster
           ))}
         </div>
         {roaster.description && (
-          <p className="text-sm text-on-surface-variant line-clamp-2 leading-relaxed italic">
+          <p className="text-sm text-on-surface-variant line-clamp-2 leading-relaxed">
             {roaster.description}
           </p>
         )}

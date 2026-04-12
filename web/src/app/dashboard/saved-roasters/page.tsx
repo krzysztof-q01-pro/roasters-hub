@@ -27,7 +27,7 @@ export default async function SavedRoastersPage() {
       <Header />
       <main className="max-w-7xl mx-auto px-6 py-16">
         <div className="mb-12">
-          <h1 className="font-headline text-4xl italic tracking-tight mb-2">
+          <h1 className="font-headline text-4xl tracking-tight mb-2">
             My Saved Roasters
           </h1>
           <p className="text-on-surface-variant/60 font-light">

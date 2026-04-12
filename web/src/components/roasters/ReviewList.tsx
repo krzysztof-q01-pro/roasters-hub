@@ -32,7 +32,7 @@ export function ReviewList({
 }) {
   if (reviews.length === 0) {
     return (
-      <p className="text-on-surface-variant/60 text-sm italic">
+      <p className="text-on-surface-variant/60 text-sm">
         No reviews yet. Be the first to leave one!
       </p>
     );

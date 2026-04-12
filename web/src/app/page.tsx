@@ -54,7 +54,7 @@ export default async function HomePage() {
         {/* Hero Section */}
         <section className="max-w-7xl mx-auto px-6 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7">
-            <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tight text-on-background leading-[1.1] mb-6 italic">
+            <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tight text-on-background leading-[1.1] mb-6">
               Discover specialty coffee
             </h1>
             <p className="text-lg md:text-xl text-on-surface-variant max-w-xl mb-10 leading-relaxed font-light">
@@ -162,7 +162,7 @@ export default async function HomePage() {
         <section className="max-w-7xl mx-auto px-6 py-24">
           <div className="flex justify-between items-end mb-12">
             <div>
-              <h2 className="font-headline text-4xl font-bold tracking-tight text-on-background italic">Featured Roasters</h2>
+              <h2 className="font-headline text-4xl font-bold tracking-tight text-on-background">Featured Roasters</h2>
               <p className="text-on-surface-variant mt-2">Curated selections from our global network.</p>
             </div>
             <Link className="group text-primary font-medium flex items-center gap-1 hover:gap-2 transition-all" href="/roasters">
@@ -182,7 +182,7 @@ export default async function HomePage() {
         {/* Value Props */}
         <section className="bg-surface-container py-24">
           <div className="max-w-7xl mx-auto px-6">
-            <h2 className="font-headline text-4xl font-bold text-center text-on-background mb-16 italic">
+            <h2 className="font-headline text-4xl font-bold text-center text-on-background mb-16">
               Built for the specialty coffee community
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
@@ -203,7 +203,7 @@ export default async function HomePage() {
         <section className="py-24 max-w-7xl mx-auto px-6">
           <div className="bg-surface-container-low rounded-[2rem] overflow-hidden grid grid-cols-1 lg:grid-cols-2 items-center">
             <div className="p-12 lg:p-20">
-              <h2 className="font-headline text-4xl md:text-5xl font-bold text-on-background mb-6 leading-tight italic">
+              <h2 className="font-headline text-4xl md:text-5xl font-bold text-on-background mb-6 leading-tight">
                 Find roasters wherever you go
               </h2>
               <p className="text-lg text-on-surface-variant mb-10 font-light leading-relaxed">
@@ -228,7 +228,7 @@ export default async function HomePage() {
         {/* Newsletter */}
         <section className="bg-background py-24 border-t border-outline-variant/10">
           <div className="max-w-2xl mx-auto px-6 text-center">
-            <h2 className="font-headline text-4xl font-bold text-on-background mb-4 italic">Fresh beans in your inbox</h2>
+            <h2 className="font-headline text-4xl font-bold text-on-background mb-4">Fresh beans in your inbox</h2>
             <p className="text-on-surface-variant mb-10 font-light">Join 10,000+ subscribers for weekly curation of new roasters and limited releases.</p>
             <NewsletterForm />
           </div>

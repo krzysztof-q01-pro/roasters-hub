@@ -30,6 +30,9 @@ export async function verifyRoaster(
     revalidatePath("/roasters");
     revalidatePath(`/roasters/${roaster.slug}`);
     revalidatePath("/admin/pending");
+    revalidatePath("/admin");
+    revalidatePath("/admin/roasters");
+    revalidatePath("/admin/activity");
     revalidatePath("/map");
 
     if (roaster.email) {
@@ -71,6 +74,9 @@ export async function rejectRoaster(
     revalidatePath("/roasters");
     revalidatePath(`/roasters/${roaster.slug}`);
     revalidatePath("/admin/pending");
+    revalidatePath("/admin");
+    revalidatePath("/admin/roasters");
+    revalidatePath("/admin/activity");
     revalidatePath("/map");
 
     if (roaster.email) {

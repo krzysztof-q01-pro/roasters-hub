@@ -42,7 +42,7 @@ export function AdminCafesClient({ cafes }: { cafes: Cafe[] }) {
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-12">
-      <h1 className="font-headline text-3xl italic mb-8">Cafe Applications</h1>
+      <h1 className="font-headline text-3xl mb-8">Cafe Applications</h1>
       <div className="space-y-4">
         {cafes.length === 0 && (
           <p className="text-center text-on-surface-variant/60 py-16">No cafe applications.</p>

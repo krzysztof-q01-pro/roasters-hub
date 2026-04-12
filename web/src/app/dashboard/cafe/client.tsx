@@ -87,7 +87,7 @@ export function CafeDashboardClient({
       {/* Header */}
       <div className="flex items-start justify-between mb-12">
         <div>
-          <h1 className="font-headline text-4xl italic tracking-tight mb-2">
+          <h1 className="font-headline text-4xl tracking-tight mb-2">
             {cafe.name}
           </h1>
           <div className="flex items-center gap-3">
@@ -187,7 +187,7 @@ export function CafeDashboardClient({
 
       {/* Roasters we serve */}
       <section className="bg-surface-container-lowest editorial-shadow rounded-2xl p-8 border border-outline-variant/10">
-        <h2 className="font-headline text-2xl italic mb-4">Roasters we serve</h2>
+        <h2 className="font-headline text-2xl mb-4">Roasters we serve</h2>
 
         {linked.length > 0 && (
           <div className="space-y-2 mb-5">

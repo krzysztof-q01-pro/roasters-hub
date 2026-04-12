@@ -79,7 +79,7 @@ export default function RegisterPage() {
               <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
             </svg>
           </div>
-          <h1 className="font-headline text-4xl font-bold mb-4 italic">Your profile is submitted!</h1>
+          <h1 className="font-headline text-4xl font-bold mb-4">Your profile is submitted!</h1>
           <p className="text-on-surface-variant text-lg mb-10">
             We&apos;ll review your roastery profile within 48 hours. You&apos;ll receive an email once it&apos;s verified and live.
           </p>
@@ -131,7 +131,7 @@ export default function RegisterPage() {
         {/* Step 1: Basic Info */}
         {step === 0 && (
           <div className="space-y-8">
-            <h2 className="font-headline text-3xl font-bold italic">Tell us about your roastery</h2>
+            <h2 className="font-headline text-3xl font-bold">Tell us about your roastery</h2>
             <div>
               <label className="block text-sm font-medium mb-2">Roastery name *</label>
               <input
@@ -194,7 +194,7 @@ export default function RegisterPage() {
         {/* Step 2: Contact & Links */}
         {step === 1 && (
           <div className="space-y-8">
-            <h2 className="font-headline text-3xl font-bold italic">How can people find you?</h2>
+            <h2 className="font-headline text-3xl font-bold">How can people find you?</h2>
             <p className="text-on-surface-variant text-sm">These will be displayed on your public profile.</p>
             <div>
               <label className="block text-sm font-medium mb-2">Website URL</label>
@@ -222,7 +222,7 @@ export default function RegisterPage() {
         {/* Step 3: Specialty Details */}
         {step === 2 && (
           <div className="space-y-8">
-            <h2 className="font-headline text-3xl font-bold italic">What makes your coffee special?</h2>
+            <h2 className="font-headline text-3xl font-bold">What makes your coffee special?</h2>
 
             <div>
               <label className="block text-sm font-medium mb-3">Coffee Origins</label>

@@ -99,7 +99,7 @@ export function DashboardClient({
       {/* Header */}
       <div className="flex items-start justify-between mb-12">
         <div>
-          <h1 className="font-headline text-4xl italic tracking-tight mb-2">
+          <h1 className="font-headline text-4xl tracking-tight mb-2">
             {roaster.name}
           </h1>
           <div className="flex items-center gap-3">

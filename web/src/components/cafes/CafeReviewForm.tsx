@@ -38,7 +38,7 @@ export function CafeReviewForm({ cafeId }: { cafeId: string }) {
 
   return (
     <form onSubmit={handleSubmit} className="bg-surface-container rounded-xl p-6 space-y-4">
-      <h3 className="font-headline text-xl italic">Leave a review</h3>
+      <h3 className="font-headline text-xl">Leave a review</h3>
       {error && <p className="text-error text-sm">{error}</p>}
       <div>
         <label className="block text-sm font-medium mb-1">Your name</label>

@@ -5,7 +5,7 @@ export function Footer() {
     <footer className="bg-stone-900 w-full pt-16 pb-8 text-stone-400 text-sm font-light mt-auto">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-12 px-8 max-w-7xl mx-auto">
         <div className="md:col-span-1">
-          <span className="text-3xl font-headline text-white mb-4 block italic">
+          <span className="text-3xl font-headline text-white mb-4 block">
             Bean Map
           </span>
           <p className="leading-relaxed mb-6">

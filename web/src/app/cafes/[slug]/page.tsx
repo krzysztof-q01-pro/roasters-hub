@@ -159,7 +159,7 @@ export default async function CafeProfilePage({
               <VerifiedBadge size="lg" />
             </div>
           )}
-          <h1 className="font-headline italic text-5xl md:text-6xl lg:text-7xl text-white tracking-tighter leading-none mb-4">
+          <h1 className="font-headline text-5xl md:text-6xl lg:text-7xl text-white tracking-tighter leading-none mb-4">
             {cafe.name}
           </h1>
           <div className="flex items-center text-white/90 gap-2 text-sm md:text-base">
@@ -195,7 +195,7 @@ export default async function CafeProfilePage({
             <section className="grid gap-6 sm:grid-cols-2">
               {cafe.serving.length > 0 && (
                 <div>
-                  <h3 className="font-headline text-xl italic mb-3">What they serve</h3>
+                  <h3 className="font-headline text-xl mb-3">What they serve</h3>
                   <div className="flex flex-wrap gap-2">
                     {cafe.serving.map((item) => (
                       <span key={item} className="bg-surface-container text-sm px-3 py-1 rounded-full">
@@ -207,7 +207,7 @@ export default async function CafeProfilePage({
               )}
               {cafe.services.length > 0 && (
                 <div>
-                  <h3 className="font-headline text-xl italic mb-3">Amenities</h3>
+                  <h3 className="font-headline text-xl mb-3">Amenities</h3>
                   <div className="grid grid-cols-2 gap-3">
                     {cafe.services.map((item) => (
                       <div key={item} className="flex items-center gap-2 text-sm text-on-surface-variant/80">
@@ -224,7 +224,7 @@ export default async function CafeProfilePage({
           {/* Opening hours */}
           {cafe.openingHours && (
             <section>
-              <h3 className="font-headline text-xl italic mb-3">Opening hours</h3>
+              <h3 className="font-headline text-xl mb-3">Opening hours</h3>
               <div className="text-sm text-on-surface-variant/80 space-y-1">
                 {cafe.openingHours.split("\n").map((line, i) => {
                   const [day, hours] = line.split("\t");
@@ -251,7 +251,7 @@ export default async function CafeProfilePage({
 
           {/* Roasters we serve */}
           <section>
-            <h2 className="font-headline text-3xl italic tracking-tight mb-6">Roasters we serve</h2>
+            <h2 className="font-headline text-3xl tracking-tight mb-6">Roasters we serve</h2>
             {cafe.roasters.length === 0 ? (
               <p className="text-on-surface-variant/60 text-sm">No roasters listed yet.</p>
             ) : (

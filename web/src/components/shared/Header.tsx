@@ -109,10 +109,10 @@ export function Header() {
                   href={link.href}
                   className={
                     isActive
-                      ? "text-primary font-semibold border-b-2 border-primary pb-1 text-sm font-headline italic tracking-tight"
+                      ? "text-primary font-bold border-b-2 border-primary pb-1 text-base tracking-tight"
                       : link.accent
-                        ? "text-primary hover:text-primary-container transition-colors text-sm font-headline italic tracking-tight"
-                        : "text-on-surface-variant hover:text-on-surface transition-colors text-sm font-headline italic tracking-tight"
+                        ? "text-primary hover:text-primary-container transition-colors text-base font-bold tracking-tight"
+                        : "text-on-surface-variant hover:text-on-surface transition-colors text-base font-bold tracking-tight"
                   }
                 >
                   {link.label}
@@ -154,7 +154,7 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="block text-on-surface-variant hover:text-primary transition-colors py-2 font-headline italic"
+              className="block text-on-surface-variant hover:text-primary transition-colors py-2 text-base font-bold"
               onClick={() => setMobileOpen(false)}
             >
               {link.label}

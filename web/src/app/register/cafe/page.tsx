@@ -54,7 +54,7 @@ export default function RegisterCafePage() {
       <>
         <Header />
         <main className="max-w-2xl mx-auto px-6 py-24 text-center">
-          <h1 className="font-headline text-4xl italic mb-4">Registration submitted!</h1>
+          <h1 className="font-headline text-4xl mb-4">Registration submitted!</h1>
           <p className="text-on-surface-variant/60 mb-8">
             Your cafe profile is pending review. We&apos;ll notify you once it&apos;s verified.
           </p>
@@ -93,7 +93,7 @@ export default function RegisterCafePage() {
           ))}
         </div>
 
-        <h1 className="font-headline text-4xl italic tracking-tight mb-8">Register your cafe</h1>
+        <h1 className="font-headline text-4xl tracking-tight mb-8">Register your cafe</h1>
 
         {error && (
           <div className="bg-error-container text-on-error-container rounded-xl p-4 mb-6 text-sm">
