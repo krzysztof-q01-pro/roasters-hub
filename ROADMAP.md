@@ -142,7 +142,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ### Look & Feel — (@KK)
 
-- [ ] [P2] **Typography: custom font pair** — dobór i implementacja (display + body), zastąpienie domyślnego system font (@KK)
+- [x] [P2] **Typography: custom font pair** — Instrument Serif (display) + Manrope (body) przez next/font/google (@KK) ✅
 - [ ] [P2] **UI polish: hover states + transitions** — spójne micro-animations na kartach, buttonach, nawigacji (@KK)
 - [ ] [P3] **Dark mode** — Tailwind dark: variant, persystencja preferencji (localStorage + system pref) (@KK)
 

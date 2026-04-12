@@ -1,18 +1,20 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Newsreader, Inter } from "next/font/google";
+import { Instrument_Serif, Manrope } from "next/font/google";
 import "./globals.css";
 
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-display",
   subsets: ["latin"],
+  weight: ["400"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
+const manrope = Manrope({
+  variable: "--font-sans",
+  subsets: ["latin", "latin-ext"],
   display: "swap",
 });
 
@@ -49,7 +51,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${newsreader.variable} ${inter.variable} h-full scroll-smooth`}
+      className={`${instrumentSerif.variable} ${manrope.variable} h-full scroll-smooth`}
     >
       <body className="min-h-full flex flex-col antialiased">
         <ClerkProvider>{children}</ClerkProvider>
