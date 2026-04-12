@@ -1,18 +1,18 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Instrument_Serif, Manrope } from "next/font/google";
+import { Fraunces, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 
-const instrumentSerif = Instrument_Serif({
+const fraunces = Fraunces({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400"],
+  axes: ["SOFT", "WONK", "opsz"],
   style: ["normal", "italic"],
   display: "swap",
 });
 
-const manrope = Manrope({
+const sourceSans = Source_Sans_3({
   variable: "--font-sans",
   subsets: ["latin", "latin-ext"],
   display: "swap",
@@ -51,7 +51,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSerif.variable} ${manrope.variable} h-full scroll-smooth`}
+      className={`${fraunces.variable} ${sourceSans.variable} h-full scroll-smooth`}
     >
       <body className="min-h-full flex flex-col antialiased">
         <ClerkProvider>{children}</ClerkProvider>
