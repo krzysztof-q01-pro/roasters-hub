@@ -75,6 +75,19 @@ jobs:
           fi
           echo "✅ DATABASE_URL is configured"
 
+      - name: Release stale migration lock + resolve failed migration
+        run: |
+          npx prisma db execute --stdin <<'SQL'
+          SELECT pg_advisory_unlock_all();
+          UPDATE "_prisma_migrations"
+          SET "finished_at" = NOW(), "applied_steps_count" = 1, "logs" = NULL
+          WHERE "migration_name" = '20260412000000_enrichment_engine'
+            AND "finished_at" IS NULL;
+          SQL
+        env:
+          DATABASE_URL: ${{ secrets.DIRECT_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
       - name: Run database migrations
         run: npx prisma migrate deploy
         env:
