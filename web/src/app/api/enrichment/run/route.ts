@@ -10,8 +10,9 @@ export const maxDuration = 60
 export async function POST(request: Request) {
   try {
     await requireAdmin()
-  } catch {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e)
+    return NextResponse.json({ error: msg }, { status: 401 })
   }
 
   let body: EnrichmentRunParams
