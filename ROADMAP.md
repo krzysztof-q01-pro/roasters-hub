@@ -138,7 +138,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ### Logotyp — (@KK)
 
-- [ ] [P1] **Logotyp Bean Map** — projekt + implementacja SVG (wariant jasny / ciemny), podmiana placeholder w Header i favicon (@KK)
+- [x] [P1] **Logotyp Bean Map** — implementacja PNG (wariant jasny), podmiana placeholder w Header, favicon + apple-icon wygenerowane z bean pin (@KK) ✅
 
 ### Look & Feel — (@KK)
 
