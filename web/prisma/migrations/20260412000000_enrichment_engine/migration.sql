@@ -20,9 +20,16 @@ ALTER TABLE "cafes" ADD COLUMN IF NOT EXISTS "email" TEXT;
 ALTER TABLE "cafes" ADD COLUMN IF NOT EXISTS "priceRange" TEXT;
 ALTER TABLE "cafes" ADD COLUMN IF NOT EXISTS "seatingCapacity" INTEGER;
 
--- Enums for enrichment status fields
-CREATE TYPE "EnrichmentRunStatus" AS ENUM ('RUNNING', 'DONE', 'FAILED');
-CREATE TYPE "EnrichmentProposalStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED', 'SKIPPED');
+-- Enums for enrichment status fields (idempotent)
+DO $$ BEGIN
+  CREATE TYPE "EnrichmentRunStatus" AS ENUM ('RUNNING', 'DONE', 'FAILED');
+EXCEPTION WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+  CREATE TYPE "EnrichmentProposalStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED', 'SKIPPED');
+EXCEPTION WHEN duplicate_object THEN null;
+END $$;
 
 -- EnrichmentRun model
 CREATE TABLE IF NOT EXISTS "enrichment_runs" (
@@ -62,8 +69,11 @@ CREATE TABLE IF NOT EXISTS "enrichment_proposals" (
     CONSTRAINT "enrichment_proposals_pkey" PRIMARY KEY ("id")
 );
 
--- EnrichmentProposal foreign key + indexes
-ALTER TABLE "enrichment_proposals" ADD CONSTRAINT "enrichment_proposals_runId_fkey" FOREIGN KEY ("runId") REFERENCES "enrichment_runs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+-- EnrichmentProposal foreign key + indexes (idempotent)
+DO $$ BEGIN
+  ALTER TABLE "enrichment_proposals" ADD CONSTRAINT "enrichment_proposals_runId_fkey" FOREIGN KEY ("runId") REFERENCES "enrichment_runs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN null;
+END $$;
 CREATE INDEX IF NOT EXISTS "enrichment_proposals_runId_idx" ON "enrichment_proposals"("runId");
 CREATE INDEX IF NOT EXISTS "enrichment_proposals_entityId_idx" ON "enrichment_proposals"("entityId");
 CREATE INDEX IF NOT EXISTS "enrichment_proposals_status_idx" ON "enrichment_proposals"("status");
