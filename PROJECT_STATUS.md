@@ -72,7 +72,7 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Active Work
 
-**@MN:** Cafe addresses manual — 17/17 done (Google Maps scraping)
+**@MN:** feat/mn-scraping-engine — scraping engine (enrichment pipeline, OSM/website adapters, API endpoints)
 **@KK:** Admin dashboard statystyk (P1)
 **@AGENT:** Cafe Hierarchy & Map Thumbnails — COMPLETE (4/4 tasks: coverImageUrl fallback, country/city pages, 4-level breadcrumb)
 

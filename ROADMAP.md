@@ -171,13 +171,13 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ### Data Strategy & Taxonomy — (@MN / @KK)
 
-- [ ] [P1] **Taxonomia danych: palarnie i kawiarnie** — definicja jakie elementy pokazujemy na profilach palarni vs kawiarni; na co zwracamy uwagę; co jest ważne dla każdego typu (@MN)
-- [ ] [P1] **Zasilenie bazy kawiarni w PL** — skalowalne zasilenie bazy kawiarniami w Polsce; projekt procesu skalowalnego na inne kraje (@MN)
+- [IN PROGRESS] [P1] **Taxonomia danych: palarnie i kawiarnie** — definicja jakie elementy pokazujemy na profilach palarni vs kawiarni; na co zwracamy uwagę; co jest ważne dla każdego typu (@MN)
+- [IN PROGRESS] [P1] **Zasilenie bazy kawiarni w PL** — skalowalne zasilenie bazy kawiarniami w Polsce; projekt procesu skalowalnego na inne kraje (@MN)
 - [ ] [P2] **Zdjęcia realne: palarnie i kawiarnie** — zebranie i dodanie realnych zdjęć do profili palarni i kawiarni (@KK)
 
 ### Legal & Compliance — (@MN / @KK)
 
-- [ ] [P1] **Aspekt prawny scrapowania danych** — research jak legalnie pozyskiwać dane o kawiarniach/palarniach (GDPR, robots.txt, ToS, scraperzy vs API) (@MN)
+- [IN PROGRESS] [P1] **Aspekt prawny scrapowania danych** — research jak legalnie pozyskiwać dane o kawiarniach/palarniach (GDPR, robots.txt, ToS, scraperzy vs API) (@MN)
 - [ ] [P1] **Cookie policy, regulamin, polityka prywatności** — implementacja stron prawnych zgodnych z AI Act + GDPR (@KK)
 
 ### UX Improvements — (@MN / @KK)
