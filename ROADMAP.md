@@ -173,6 +173,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 - [x] [P1] **Naprawa auth w API enrichment** — session claims zamiast currentUser() w requireAdmin(); Clerk Dashboard: session token z `{{user.public_metadata}}` (@MN)
 - [x] [P2] **Testy E2E enrichment API** — ECT consent gate ✅, OSM discover Warsaw (3 places, 18 proposals) ✅, website enrich (1 cafe, 2 proposals) ✅ (@MN)
+- [x] [P2] **Admin UI enrichment** — `/admin/enrichment`: historia runów, formularz new run, entity-first review z proposals, bulk approve by confidence, NAME_CHANGE modal z slug impact, completeness score, apply Server Action, SlugRedirect model + 301 redirects (@MN)
 - [ ] [P2] **Fix regex phone extractora** — website adapter wyciąga nieprawidłowe wartości np. "1.15045.0" zamiast numeru telefonu (@MN)
 
 ### Data Strategy & Taxonomy — (@MN / @KK)

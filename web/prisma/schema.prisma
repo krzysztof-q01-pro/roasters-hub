@@ -350,4 +350,15 @@ enum EnrichmentProposalStatus {
   APPROVED
   REJECTED
   SKIPPED
+  APPLIED
+}
+
+model SlugRedirect {
+  id         String   @id @default(cuid())
+  fromSlug   String   @unique
+  toSlug     String
+  entityType String
+  createdAt  DateTime @default(now())
+
+  @@map("slug_redirects")
 }

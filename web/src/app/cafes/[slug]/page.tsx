@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
@@ -84,7 +84,11 @@ export default async function CafeProfilePage({
     },
   });
 
-  if (!cafe || cafe.status !== "VERIFIED") notFound();
+  if (!cafe || cafe.status !== "VERIFIED") {
+    const slugRedirect = await db.slugRedirect.findUnique({ where: { fromSlug: slug } });
+    if (slugRedirect?.entityType === "cafe") redirect(`/cafes/${slugRedirect.toSlug}`);
+    notFound();
+  }
 
   const cafeReviews = await db.review.findMany({
     where: { cafeId: cafe.id, status: "APPROVED" },

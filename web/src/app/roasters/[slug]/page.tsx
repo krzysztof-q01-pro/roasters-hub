@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { VerifiedBadge } from "@/components/roasters/VerifiedBadge";
@@ -61,7 +61,11 @@ export default async function RoasterProfilePage({
       },
     },
   });
-  if (!roaster) notFound();
+  if (!roaster) {
+    const slugRedirect = await db.slugRedirect.findUnique({ where: { fromSlug: slug } });
+    if (slugRedirect?.entityType === "roaster") redirect(`/roasters/${slugRedirect.toSlug}`);
+    notFound();
+  }
 
   let approvedReviews: { id: string; authorName: string; rating: number; comment: string | null; createdAt: Date }[] = [];
   try {

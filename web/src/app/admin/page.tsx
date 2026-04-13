@@ -45,6 +45,7 @@ export default async function AdminDashboardPage() {
     { href: "/admin/cafes", label: "Cafes", value: cafeCount },
     { href: "/admin/reviews", label: "Reviews", value: "→" },
     { href: "/admin/activity", label: "Activity log", value: "→" },
+    { href: "/admin/enrichment", label: "Enrichment", value: "→" },
   ];
 
   return (

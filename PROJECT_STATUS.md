@@ -72,11 +72,12 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Active Work
 
-**@MN:** feat/mn-scraping-engine — scraping engine (enrichment pipeline, OSM/website adapters, API endpoints)
+**@MN:** feat/mn-enrichment-ui — admin UI dla enrichment engine (historia runów, review proposals, apply changes)
 **@KK:** Admin dashboard statystyk (P1)
 **@AGENT:** Cafe Hierarchy & Map Thumbnails — COMPLETE (4/4 tasks: coverImageUrl fallback, country/city pages, 4-level breadcrumb)
 
 **Completed recently:**
+- ✅ Enrichment Admin UI — `/admin/enrichment`: run history, new run form, entity-first proposal review, bulk approve by confidence, NAME_CHANGE modal, completeness score, apply Server Action, SlugRedirect model + 301 redirects (2026-04-13)
 - ✅ Cafe Hierarchy & Map Thumbnails — coverImageUrl fallback on map, /cafes/country/[country], /cafes/country/[country]/city/[city], 4-level breadcrumb (2026-04-05)
 - ✅ UX Quality Audit — 14 test scenarios on production, 28 PASS, 3 HIGH + 5 MEDIUM issues documented (`.tmp/ux-quality-audit-2026-04-04.md`) (2026-04-04)
 - ✅ UX Consistency Audit — dedup reviews (47 removed), shared ReviewForm/ReviewList/StarRating, Polish→English, SVG viewBox, title fix (2026-04-04)
