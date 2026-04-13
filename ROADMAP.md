@@ -169,6 +169,11 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [ ] [P2] **Testing docs: E2E README** — aktualizacja mapy specs o cafe-registration, cafe-dashboard, admin-cafes, guest-cafes, cafe-review w `docs/testing/e2e/README.md` (@UNASSIGNED)
 - [ ] [P3] **Testing docs: E2E skeletons** — szkielety speców: `cafe-registration.spec.ts`, `admin-cafes.spec.ts`, `guest-cafes.spec.ts`, `cafe-review.spec.ts` w `docs/testing/e2e/` (@UNASSIGNED)
 
+### Enrichment Engine — (@MN)
+
+- [ ] [P1] **Naprawa auth w API enrichment** — `auth()` zwraca pusty userId dla `/api/enrichment/run` mimo aktywnej sesji; sprawdzić `CLERK_SECRET_KEY` na Vercel + konfigurację middleware dla non-protected API routes (@MN)
+- [ ] [P2] **Testy E2E enrichment API** — przetestować endpointy `/api/enrichment/run` po naprawie auth: ECT consent gate (400), OSM discover (Warsaw), website enrich, walidacja struktury proposals, Prisma Studio review (@MN)
+
 ### Data Strategy & Taxonomy — (@MN / @KK)
 
 - [IN PROGRESS] [P1] **Taxonomia danych: palarnie i kawiarnie** — definicja jakie elementy pokazujemy na profilach palarni vs kawiarni; na co zwracamy uwagę; co jest ważne dla każdego typu (@MN)
