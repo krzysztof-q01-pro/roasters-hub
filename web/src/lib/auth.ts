@@ -24,9 +24,17 @@ async function ensureUserProfile(
  * Returns the Clerk userId.
  */
 export async function requireAdmin(): Promise<string> {
-  const { userId } = await auth();
+  const { userId, sessionClaims } = await auth();
   if (!userId) {
     throw new Error("Unauthorized: not signed in");
+  }
+
+  // Check role from session claims (set via Clerk Dashboard → Sessions → Edit session token)
+  // Falls back to currentUser() if claims not configured yet
+  const roleFromClaims = (sessionClaims as Record<string, unknown>)?.metadata as { role?: string } | undefined;
+  if (roleFromClaims?.role === "ADMIN") {
+    await ensureUserProfile(userId, "", "ADMIN");
+    return userId;
   }
 
   const user = await currentUser();
