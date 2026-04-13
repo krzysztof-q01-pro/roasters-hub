@@ -171,8 +171,9 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ### Enrichment Engine — (@MN)
 
-- [ ] [P1] **Naprawa auth w API enrichment** — `auth()` zwraca pusty userId dla `/api/enrichment/run` mimo aktywnej sesji; sprawdzić `CLERK_SECRET_KEY` na Vercel + konfigurację middleware dla non-protected API routes (@MN)
-- [ ] [P2] **Testy E2E enrichment API** — przetestować endpointy `/api/enrichment/run` po naprawie auth: ECT consent gate (400), OSM discover (Warsaw), website enrich, walidacja struktury proposals, Prisma Studio review (@MN)
+- [x] [P1] **Naprawa auth w API enrichment** — session claims zamiast currentUser() w requireAdmin(); Clerk Dashboard: session token z `{{user.public_metadata}}` (@MN)
+- [x] [P2] **Testy E2E enrichment API** — ECT consent gate ✅, OSM discover Warsaw (3 places, 18 proposals) ✅, website enrich (1 cafe, 2 proposals) ✅ (@MN)
+- [ ] [P2] **Fix regex phone extractora** — website adapter wyciąga nieprawidłowe wartości np. "1.15045.0" zamiast numeru telefonu (@MN)
 
 ### Data Strategy & Taxonomy — (@MN / @KK)
 
