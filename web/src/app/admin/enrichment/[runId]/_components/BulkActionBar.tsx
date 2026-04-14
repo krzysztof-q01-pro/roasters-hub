@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useTransition } from "react"
-import { bulkApproveByConfidence, applyEnrichmentRun } from "../../actions"
+import { bulkApplyByConfidence, applyEnrichmentRun } from "../../actions"
 import type { ProposalWithMeta } from "./types"
 
 interface BulkActionBarProps {
@@ -23,20 +23,20 @@ export function BulkActionBar({ runId, approvedCount, allProposals, onBulkApprov
     startTransition(async () => {
       setMessage(null)
       setError(null)
-      const result = await bulkApproveByConfidence(runId, threshold)
+      const result = await bulkApplyByConfidence(runId, threshold)
       if (result.success) {
-        // Optimistically mark proposals that qualify
+        // Optimistically mark proposals that qualify as APPLIED
         const eligibleIds = allProposals
           .filter(p =>
             p.status === "PENDING" &&
             p.confidence >= threshold / 100 &&
-            !(p.fieldKey === "name" && p.changeType === "UPDATE")
+            p.fieldKey !== "name"
           )
           .map(p => p.id)
         onBulkApprove(eligibleIds)
-        setMessage(`Approved ${result.data.approved} proposals`)
+        setMessage(`Applied ${result.data.applied} proposals to database`)
       } else {
-        setError(result.error ?? "Failed to bulk approve")
+        setError(result.error ?? "Failed to bulk apply")
       }
     })
   }
@@ -85,7 +85,7 @@ export function BulkActionBar({ runId, approvedCount, allProposals, onBulkApprov
           disabled={isPending || eligibleCount === 0}
           className="bg-surface-container text-on-background px-4 py-2 rounded-lg text-sm font-bold hover:bg-surface-container-high transition-colors disabled:opacity-50 whitespace-nowrap"
         >
-          {isPending ? "Approving…" : `Approve ${eligibleCount} above threshold`}
+          {isPending ? "Applying…" : `Apply ${eligibleCount} above threshold`}
         </button>
 
         <button

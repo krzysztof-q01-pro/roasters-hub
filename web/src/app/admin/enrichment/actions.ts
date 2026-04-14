@@ -55,26 +55,63 @@ export async function updateProposalStatus(
   }
 }
 
-export async function bulkApproveByConfidence(
+export async function bulkApplyByConfidence(
   runId: string,
   threshold: number,
-): Promise<ActionResult<{ approved: number }>> {
+): Promise<ActionResult<{ applied: number }>> {
   try {
-    await requireAdmin()
-    const result = await db.enrichmentProposal.updateMany({
+    await requireAdmin();
+
+    // Fetch all PENDING proposals above threshold (exclude name changes)
+    const proposals = await db.enrichmentProposal.findMany({
       where: {
         runId,
-        status: 'PENDING',
+        status: "PENDING",
         confidence: { gte: threshold / 100 },
-        // Never auto-approve name changes
-        NOT: { fieldKey: 'name', changeType: 'UPDATE' },
+        fieldKey: { not: "name" }, // name changes require manual review
       },
-      data: { status: 'APPLIED', reviewedAt: new Date() },
-    })
-    return { success: true, data: { approved: result.count } }
-  } catch (error) {
-    console.error('[bulkApproveByConfidence]', error)
-    return { success: false, error: error instanceof Error ? error.message : 'Something went wrong' }
+    });
+
+    if (proposals.length === 0) return { success: true, data: { applied: 0 } };
+
+    // Group by entity and apply each entity's proposals
+    const byEntity = new Map<string, typeof proposals>();
+    for (const p of proposals) {
+      const key = p.entityId ?? p.entityName;
+      if (!byEntity.has(key)) byEntity.set(key, []);
+      byEntity.get(key)!.push(p);
+    }
+
+    let total = 0;
+    for (const [, entityProposals] of byEntity) {
+      const { entityId, entityName, entityType } = entityProposals[0];
+      const fieldUpdates: Record<string, unknown> = {};
+      for (const p of entityProposals) fieldUpdates[p.fieldKey] = p.proposedValue;
+
+      if (entityType === "CAFE" && entityId) {
+        await db.cafe.update({ where: { id: entityId }, data: fieldUpdates });
+      } else if (entityType === "ROASTER" && entityId) {
+        await db.roaster.update({ where: { id: entityId }, data: fieldUpdates });
+      }
+
+      await db.enrichmentProposal.updateMany({
+        where: { id: { in: entityProposals.map((p) => p.id) } },
+        data: { status: "APPLIED" },
+      });
+
+      total += entityProposals.length;
+    }
+
+    revalidatePath("/cafes");
+    revalidatePath("/roasters");
+    revalidatePath("/map");
+    revalidatePath(`/admin/enrichment/${runId}`);
+    revalidatePath("/admin/enrichment");
+
+    return { success: true, data: { applied: total } };
+  } catch (err) {
+    console.error("bulkApplyByConfidence error:", err);
+    return { success: false, error: "Failed to bulk apply" };
   }
 }
 
