@@ -121,7 +121,6 @@ export default async function RunReviewPage({ params }: { params: Promise<{ runI
   })
 
   const pendingCount = run.proposals.filter(p => p.status === "PENDING").length
-  const approvedCount = run.proposals.filter(p => p.status === "APPLIED").length
   const appliedCount = run.proposals.filter(p => p.status === "APPLIED").length
 
   const durationMs = run.completedAt
@@ -145,7 +144,6 @@ export default async function RunReviewPage({ params }: { params: Promise<{ runI
           durationMs={durationMs}
           totalProposals={run.proposals.length}
           pendingCount={pendingCount}
-          approvedCount={approvedCount}
           appliedCount={appliedCount}
           entities={entities}
         />

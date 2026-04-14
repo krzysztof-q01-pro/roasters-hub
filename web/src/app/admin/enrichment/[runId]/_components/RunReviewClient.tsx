@@ -29,7 +29,6 @@ interface RunReviewClientProps {
   durationMs: number | null
   totalProposals: number
   pendingCount: number
-  approvedCount: number
   appliedCount: number
   entities: EntityData[]
 }
