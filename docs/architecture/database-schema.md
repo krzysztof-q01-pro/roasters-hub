@@ -382,6 +382,7 @@ Dodane 2026-04-04:
 Dodane 2026-04-12:
 - **EnrichmentRun** — rekord sesji scrapingu: entityType, query (Json), sources[], status (RUNNING/DONE/FAILED), stats (Json), powiązane proposals
 - **EnrichmentProposal** — pojedyncza propozycja zmiany pola encji: runId (FK→EnrichmentRun), entityType, entityId, entityName, changeType, fieldKey, fieldGroup, fieldPriority, currentValue (Json?), proposedValue (Json), confidence (Float), sourceId, sourceUrl, status (PENDING/APPROVED/REJECTED/SKIPPED/APPLIED), reviewedAt, reviewedBy
+- **EnrichmentTag** — tag/słowo kluczowe powiązane z typem encji używany jako wskazówka dla scraperek: entityType (string), value (string), unique constraint entityType_value
 - **SlugRedirect** — przekierowania slugów po zmianie nazwy encji: fromSlug (unique), toSlug, entityType ('roaster'|'cafe'). Używane przez strony roaster/cafe do 301 redirect gdy stary slug nie istnieje.
 - **Roaster** rozszerzony: address, postalCode, phone, foundedYear, brewingMethods[], wholesaleAvailable, subscriptionAvailable, openingHours (Json), hasCafe, hasTastingRoom
 - **Cafe** rozszerzony: postalCode, email, priceRange, seatingCapacity
