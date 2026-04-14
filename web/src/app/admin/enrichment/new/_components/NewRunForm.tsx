@@ -1,8 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { upsertEnrichmentTag, deleteEnrichmentTag } from "@/app/admin/enrichment/actions/tags"
 
 const SOURCES = [
   { id: "osm", label: "OSM (OpenStreetMap)" },
@@ -19,10 +20,32 @@ export function NewRunForm() {
   const [city, setCity] = useState("")
   const [limit, setLimit] = useState(20)
   const [consent, setConsent] = useState(false)
+  const [keywords, setKeywords] = useState<string[]>([])
+  const [keywordInput, setKeywordInput] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const ectSelected = sources.includes("ect")
+
+  useEffect(() => {
+    fetch(`/api/enrichment/tags?entityType=${entityType}`)
+      .then((r) => r.json())
+      .then((data: { tags: string[] }) => setKeywords(data.tags))
+      .catch(() => {})
+  }, [entityType])
+
+  async function addKeyword(value: string) {
+    const trimmed = value.trim()
+    if (!trimmed || keywords.includes(trimmed)) return
+    setKeywords((prev) => [...prev, trimmed])
+    setKeywordInput("")
+    await upsertEnrichmentTag(entityType, trimmed)
+  }
+
+  async function removeKeyword(value: string) {
+    setKeywords((prev) => prev.filter((k) => k !== value))
+    await deleteEnrichmentTag(entityType, value)
+  }
 
   function toggleSource(id: string) {
     setSources(prev =>
@@ -56,6 +79,7 @@ export function NewRunForm() {
           city: city || undefined,
           limit,
           consent: ectSelected ? consent : undefined,
+          keywords,
         }),
       })
 
@@ -138,6 +162,44 @@ export function NewRunForm() {
           ))}
         </div>
       </fieldset>
+
+      {/* Keywords / Tags */}
+      <div className="space-y-2">
+        <label className="block text-xs font-bold uppercase tracking-widest text-stone-500">
+          Keywords / Tagi specialty
+        </label>
+        <div className="flex flex-wrap gap-2 rounded-lg border border-stone-200 bg-stone-50 p-2 min-h-[42px]">
+          {keywords.map((kw) => (
+            <span
+              key={kw}
+              className="flex items-center gap-1 rounded-full bg-amber-800 px-3 py-1 text-xs font-semibold text-white"
+            >
+              {kw}
+              <button
+                type="button"
+                onClick={() => removeKeyword(kw)}
+                className="ml-1 opacity-60 hover:opacity-100"
+              >
+                ×
+              </button>
+            </span>
+          ))}
+          <input
+            type="text"
+            value={keywordInput}
+            onChange={(e) => setKeywordInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") { e.preventDefault(); addKeyword(keywordInput); }
+              if (e.key === ",") { e.preventDefault(); addKeyword(keywordInput); }
+            }}
+            placeholder="Dodaj tag…"
+            className="min-w-[100px] flex-1 bg-transparent text-sm outline-none placeholder:text-stone-300"
+          />
+        </div>
+        <p className="text-xs text-stone-400">
+          Filtruje wyniki OSM · używane jako query Unsplash przy losowaniu zdjęć
+        </p>
+      </div>
 
       {/* Filters */}
       <div className="grid grid-cols-2 gap-4">
