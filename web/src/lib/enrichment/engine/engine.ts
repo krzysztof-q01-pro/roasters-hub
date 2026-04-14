@@ -18,6 +18,7 @@ export interface EnrichmentRunParams {
   mode?: 'discover' | 'enrich' | 'both'
   limit?: number
   consent?: boolean
+  keywords?: string[]
 }
 
 export async function runEnrichment(

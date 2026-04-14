@@ -18,6 +18,7 @@ interface EntityData {
   maxConf: number
   hasLowConf: boolean
   isNewEntity: boolean
+  existingFields?: Record<string, unknown>
 }
 
 interface RunReviewClientProps {
@@ -29,9 +30,9 @@ interface RunReviewClientProps {
   durationMs: number | null
   totalProposals: number
   pendingCount: number
-  approvedCount: number
   appliedCount: number
   entities: EntityData[]
+  runKeywords?: string[]
 }
 
 const STATUS_COLORS: Record<string, string> = {
@@ -51,7 +52,7 @@ export function RunReviewClient(props: RunReviewClientProps) {
   const router = useRouter()
   const [status] = useState(props.status)
   const [approvedIds, setApprovedIds] = useState<Set<string>>(
-    new Set(props.entities.flatMap(e => e.proposals.filter(p => p.status === "APPROVED").map(p => p.id)))
+    new Set(props.entities.flatMap(e => e.proposals.filter(p => p.status === "APPLIED").map(p => p.id)))
   )
   const [rejectedIds, setRejectedIds] = useState<Set<string>>(
     new Set(props.entities.flatMap(e => e.proposals.filter(p => p.status === "REJECTED").map(p => p.id)))
@@ -130,20 +131,15 @@ export function RunReviewClient(props: RunReviewClientProps) {
         {props.entities.map(entity => (
           <EntityCard
             key={entity.key}
-            entity={entity}
-            approvedIds={approvedIds}
-            rejectedIds={rejectedIds}
-            skippedIds={skippedIds}
-            onApprove={(id) => setApprovedIds(prev => new Set([...prev, id]))}
-            onReject={(id) => {
-              setRejectedIds(prev => new Set([...prev, id]))
-              setApprovedIds(prev => { const n = new Set(prev); n.delete(id); return n })
-            }}
-            onSkip={(id) => {
-              setSkippedIds(prev => new Set([...prev, id]))
-              setApprovedIds(prev => { const n = new Set(prev); n.delete(id); return n })
-            }}
-
+            runId={props.runId}
+            entityId={entity.entityId}
+            entityName={entity.entityName}
+            entityType={entity.entityType}
+            isNew={entity.isNewEntity}
+            proposals={entity.proposals}
+            existingFields={entity.existingFields ?? {}}
+            runKeywords={props.runKeywords ?? []}
+            onAdvance={() => router.refresh()}
           />
         ))}
         {props.entities.length === 0 && (

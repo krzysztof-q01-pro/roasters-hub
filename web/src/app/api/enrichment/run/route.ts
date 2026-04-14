@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
   }
 
-  const { entityType, country, city, sources, mode, limit, consent } = body
+  const { entityType, country, city, sources, mode, limit, consent, keywords } = body
 
   if (entityType !== 'CAFE' && entityType !== 'ROASTER') {
     return NextResponse.json(
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
 
   try {
     const runId = await runEnrichment(
-      { entityType, country, city, sources, mode, limit: limit ?? 10, consent },
+      { entityType, country, city, sources, mode, limit: limit ?? 10, consent, keywords: keywords ?? [] },
       adapters,
     )
     return NextResponse.json({ runId }, { status: 200 })

@@ -1,14 +1,36 @@
 import { auth, currentUser } from "@clerk/nextjs/server"
 import { redirect, notFound } from "next/navigation"
 import Link from "next/link"
-import { Header } from "@/components/shared/Header"
-import { Footer } from "@/components/shared/Footer"
 import { db } from "@/lib/db"
-import { RunReviewClient } from "./_components/RunReviewClient"
-import { getCompleteness } from "@/lib/enrichment/completeness"
+import { SplitLayout } from "./_components/SplitLayout"
 import { stringSimilarity } from "@/lib/enrichment/similarity"
+import type { EntitySummary, ProposalWithMeta } from "./_components/types"
 
 export const revalidate = 0
+
+function buildEntitySummaries(proposals: ProposalWithMeta[]): EntitySummary[] {
+  const map = new Map<string, ProposalWithMeta[]>();
+  for (const p of proposals) {
+    const key = p.entityId ?? p.entityName;
+    if (!map.has(key)) map.set(key, []);
+    map.get(key)!.push(p);
+  }
+
+  return Array.from(map.entries()).map(([key, props]) => ({
+    key,
+    entityId: props[0].entityId,
+    entityName: props[0].entityName,
+    entityType: props[0].entityType,
+    isNew: props.some((p) => p.changeType === "NEW_PLACE"),
+    hasNameChange: props.some((p) => p.fieldKey === "name" && p.changeType === "UPDATE"),
+    proposalCount: props.length,
+    pendingCount: props.filter((p) => p.status === "PENDING").length,
+    appliedCount: props.filter((p) => p.status === "APPLIED").length,
+    minConf: props.length > 0 ? Math.min(...props.map((p) => p.confidence)) : 0,
+    sources: [...new Set(props.map((p) => p.sourceId))],
+    city: props.find((p) => p.fieldKey === "city")?.proposedValue as string | null ?? null,
+  }));
+}
 
 export default async function RunReviewPage({ params }: { params: Promise<{ runId: string }> }) {
   const { userId } = await auth()
@@ -31,126 +53,95 @@ export default async function RunReviewPage({ params }: { params: Promise<{ runI
 
   const query = run.query as Record<string, unknown>
 
-  // Group proposals by entity
-  const entityMap = new Map<string, {
-    entityName: string
-    entityType: string
-    entityId: string | null
-    proposals: typeof run.proposals
-    completeness: { score: number; missing: string[] } | null
-  }>()
-
-  for (const p of run.proposals) {
-    const key = p.entityId ?? `new:${p.entityName}:${p.entityType}`
-    if (!entityMap.has(key)) {
-      entityMap.set(key, {
-        entityName: p.entityName,
-        entityType: p.entityType,
-        entityId: p.entityId ?? null,
-        proposals: [],
-        completeness: null,
-      })
+  // Build ProposalWithMeta array (add nameSimilarity)
+  const proposalsWithMeta: ProposalWithMeta[] = run.proposals.map((p) => {
+    let nameSimilarity: number | null = null
+    if (p.fieldKey === "name" && p.changeType === "UPDATE") {
+      const curr = typeof p.currentValue === "string" ? p.currentValue : String(p.currentValue ?? "")
+      const prop = typeof p.proposedValue === "string" ? p.proposedValue : String(p.proposedValue ?? "")
+      nameSimilarity = stringSimilarity(curr, prop)
     }
-    entityMap.get(key)!.proposals.push(p)
-  }
-
-  // Fetch completeness data for existing entities
-  const roasterIds = [...entityMap.values()]
-    .filter(e => e.entityType === "ROASTER" && e.entityId)
-    .map(e => e.entityId!)
-
-  const cafeIds = [...entityMap.values()]
-    .filter(e => e.entityType === "CAFE" && e.entityId)
-    .map(e => e.entityId!)
-
-  const [roasters, cafes] = await Promise.all([
-    roasterIds.length > 0
-      ? db.roaster.findMany({ where: { id: { in: roasterIds } } })
-      : Promise.resolve([]),
-    cafeIds.length > 0
-      ? db.cafe.findMany({ where: { id: { in: cafeIds } } })
-      : Promise.resolve([]),
-  ])
-
-  const roasterMap = new Map(roasters.map(r => [r.id, r]))
-  const cafeMap = new Map(cafes.map(c => [c.id, c]))
-
-  // Compute completeness and add flags per entity
-  const entities = [...entityMap.entries()].map(([key, entity]) => {
-    let completeness = null
-    if (entity.entityId) {
-      if (entity.entityType === "ROASTER") {
-        const r = roasterMap.get(entity.entityId)
-        if (r) completeness = getCompleteness(r as Record<string, unknown>, "ROASTER")
-      } else {
-        const c = cafeMap.get(entity.entityId)
-        if (c) completeness = getCompleteness(c as Record<string, unknown>, "CAFE")
-      }
-    }
-
-    const hasNameChange = entity.proposals.some(p => p.fieldKey === "name" && p.changeType === "UPDATE")
-    const minConf = Math.min(...entity.proposals.map(p => p.confidence))
-    const maxConf = Math.max(...entity.proposals.map(p => p.confidence))
-    const hasLowConf = minConf < 0.6
-    const isNewEntity = entity.proposals.some(p => p.changeType === "NEW_PLACE")
-
-    // Compute similarity for NAME_CHANGE proposals
-    const proposalsWithMeta = entity.proposals.map(p => {
-      let nameSimilarity: number | null = null
-      if (p.fieldKey === "name" && p.changeType === "UPDATE") {
-        const curr = typeof p.currentValue === "string" ? p.currentValue : String(p.currentValue ?? "")
-        const prop = typeof p.proposedValue === "string" ? p.proposedValue : String(p.proposedValue ?? "")
-        nameSimilarity = stringSimilarity(curr, prop)
-      }
-      return { ...p, nameSimilarity }
-    })
-
     return {
-      key,
-      entityName: entity.entityName,
-      entityType: entity.entityType,
-      entityId: entity.entityId,
-      proposals: proposalsWithMeta,
-      completeness,
-      hasNameChange,
-      minConf,
-      maxConf,
-      hasLowConf,
-      isNewEntity,
+      id: p.id,
+      entityType: p.entityType,
+      entityId: p.entityId ?? null,
+      entityName: p.entityName,
+      changeType: p.changeType,
+      fieldKey: p.fieldKey,
+      fieldGroup: p.fieldGroup ?? "",
+      fieldPriority: p.fieldPriority ?? "",
+      currentValue: p.currentValue,
+      proposedValue: p.proposedValue,
+      confidence: p.confidence,
+      sourceId: p.sourceId,
+      sourceUrl: p.sourceUrl ?? null,
+      status: p.status,
+      nameSimilarity,
     }
   })
 
-  const pendingCount = run.proposals.filter(p => p.status === "PENDING").length
-  const approvedCount = run.proposals.filter(p => p.status === "APPROVED").length
-  const appliedCount = run.proposals.filter(p => p.status === "APPLIED").length
+  const entities = buildEntitySummaries(proposalsWithMeta)
 
-  const durationMs = run.completedAt
-    ? run.completedAt.getTime() - run.createdAt.getTime()
-    : null
+  const proposalsByEntity = Object.fromEntries(
+    entities.map((e) => [e.key, proposalsWithMeta.filter((p) => (p.entityId ?? p.entityName) === e.key)])
+  )
+
+  // Fetch existing entity records for non-new entities
+  const existingEntityIds = entities
+    .filter((e) => !e.isNew && e.entityId)
+    .map((e) => e.entityId!)
+
+  const entityType = (run.query as Record<string, unknown>)?.entityType as string ?? "CAFE"
+  const existingCafes = entityType === "CAFE"
+    ? await db.cafe.findMany({ where: { id: { in: existingEntityIds } } })
+    : []
+  const existingRoasters = entityType === "ROASTER"
+    ? await db.roaster.findMany({ where: { id: { in: existingEntityIds } } })
+    : []
+
+  const existingFieldsByEntity: Record<string, Record<string, unknown>> = {}
+  for (const entity of entities) {
+    if (entity.isNew || !entity.entityId) {
+      existingFieldsByEntity[entity.key] = {}
+      continue
+    }
+    const record = [...existingCafes, ...existingRoasters].find((r) => r.id === entity.entityId)
+    existingFieldsByEntity[entity.key] = record ? (record as Record<string, unknown>) : {}
+  }
+
+  const keywords = Array.isArray((run.query as Record<string, unknown>)?.keywords)
+    ? (run.query as Record<string, unknown>).keywords as string[]
+    : []
 
   return (
-    <>
-      <Header />
-      <main className="max-w-7xl mx-auto px-6 py-8">
-        <div className="mb-6">
-          <Link href="/admin/enrichment" className="text-on-surface-variant hover:text-on-background text-sm">← Back to runs</Link>
+    <div>
+      {/* Run bar */}
+      <div className="sticky top-11 z-10 flex items-center gap-4 border-b border-stone-200 bg-white px-4 py-3 flex-wrap">
+        <Link href="/admin/enrichment" className="text-xs text-amber-700">← Wróć do runów</Link>
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="text-base font-bold">{entityType} — {String((run.query as Record<string, unknown>)?.mode ?? "")}</span>
+            <span className="rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-bold text-green-700">✓ {run.status}</span>
+          </div>
+          <p className="text-xs text-stone-400">
+            {run.sources.join(" · ")}
+            {keywords.length > 0 && ` · "${keywords.slice(0, 2).join(", ")}"`}
+          </p>
         </div>
+        <div className="flex gap-4 text-center">
+          <div><div className="text-lg font-bold">{entities.length}</div><div className="text-[10px] text-stone-400">encji</div></div>
+          <div><div className="text-lg font-bold text-amber-600">{entities.reduce((s, e) => s + e.pendingCount, 0)}</div><div className="text-[10px] text-stone-400">oczekuje</div></div>
+          <div><div className="text-lg font-bold text-green-600">{entities.reduce((s, e) => s + e.appliedCount, 0)}</div><div className="text-[10px] text-stone-400">zastosowane</div></div>
+        </div>
+      </div>
 
-        <RunReviewClient
-          runId={runId}
-          status={run.status}
-          entityType={String(query.entityType ?? "")}
-          mode={String(query.mode ?? "")}
-          sources={run.sources}
-          durationMs={durationMs}
-          totalProposals={run.proposals.length}
-          pendingCount={pendingCount}
-          approvedCount={approvedCount}
-          appliedCount={appliedCount}
-          entities={entities}
-        />
-      </main>
-      <Footer />
-    </>
+      <SplitLayout
+        runId={run.id}
+        entities={entities}
+        proposalsByEntity={proposalsByEntity}
+        existingFieldsByEntity={existingFieldsByEntity}
+        runKeywords={keywords}
+      />
+    </div>
   )
 }

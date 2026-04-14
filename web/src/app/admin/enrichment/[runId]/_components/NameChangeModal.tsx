@@ -28,7 +28,7 @@ export function NameChangeModal({ proposal: p, onClose, onApprove, onReject }: N
 
   function handleApprove() {
     startTransition(async () => {
-      await updateProposalStatus(p.id, "APPROVED")
+      await updateProposalStatus(p.id, "APPLIED")
       onApprove()
     })
   }
