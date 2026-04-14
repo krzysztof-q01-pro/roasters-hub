@@ -1,5 +1,6 @@
 import { auth, currentUser } from "@clerk/nextjs/server"
 import { redirect, notFound } from "next/navigation"
+import Link from "next/link"
 import { db } from "@/lib/db"
 import { SplitLayout } from "./_components/SplitLayout"
 import { stringSimilarity } from "@/lib/enrichment/similarity"
@@ -116,7 +117,7 @@ export default async function RunReviewPage({ params }: { params: Promise<{ runI
     <div>
       {/* Run bar */}
       <div className="sticky top-11 z-10 flex items-center gap-4 border-b border-stone-200 bg-white px-4 py-3 flex-wrap">
-        <a href="/admin/enrichment" className="text-xs text-amber-700">← Wróć do runów</a>
+        <Link href="/admin/enrichment" className="text-xs text-amber-700">← Wróć do runów</Link>
         <div>
           <div className="flex items-center gap-2">
             <span className="text-base font-bold">{entityType} — {String((run.query as Record<string, unknown>)?.mode ?? "")}</span>

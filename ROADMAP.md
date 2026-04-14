@@ -227,6 +227,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ## DONE
 
+- [x] **Enrichment UX redesign** — AdminNav global nav, run list z keywords/location inline, new run form z EnrichmentTag (persistent tags per entityType), split layout (EntityListPanel + EntityCard + SplitLayout), photo selection via Unsplash + UploadThing, single-click apply (applyEntityProposals), bulkApplyByConfidence, APPROVED status removed (@MN) ✅
 - [x] Prisma schema — 9 modeli (+ Review, SavedRoaster, ApiKey), wszystkie indeksy, relacje
 - [x] Frontend MVP — homepage, catalog, profiles, map, register form, admin UI
 - [x] Design system — Tailwind v4 + shadcn/ui

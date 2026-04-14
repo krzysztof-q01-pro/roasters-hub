@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { EntityListPanel } from "./EntityListPanel";
 import { EntityCard } from "./EntityCard";
 import type { EntitySummary, ProposalWithMeta } from "./types";
@@ -53,9 +54,9 @@ export function SplitLayout({
           <div className="flex h-full flex-col items-center justify-center gap-4 text-stone-400">
             <div className="text-5xl">✓</div>
             <p className="text-lg font-semibold text-stone-600">Wszystkie encje przejrzane</p>
-            <a href="/admin/enrichment" className="text-sm text-amber-700 underline">
+            <Link href="/admin/enrichment" className="text-sm text-amber-700 underline">
               Wróć do listy runów
-            </a>
+            </Link>
           </div>
         ) : (
           <EntityCard
