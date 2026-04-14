@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import type { ActionResult } from "@/types/actions";
@@ -33,6 +34,7 @@ export async function upsertEnrichmentTag(
       create: { entityType, value: trimmed },
       update: {},
     });
+    revalidatePath("/admin/enrichment/new");
     return { success: true, data: tag };
   } catch {
     return { success: false, error: "Failed to save tag" };
@@ -48,6 +50,7 @@ export async function deleteEnrichmentTag(
     await db.enrichmentTag.delete({
       where: { entityType_value: { entityType, value } },
     });
+    revalidatePath("/admin/enrichment/new");
     return { success: true, data: undefined };
   } catch {
     return { success: false, error: "Failed to delete tag" };
