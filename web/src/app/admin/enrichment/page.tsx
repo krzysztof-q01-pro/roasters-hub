@@ -55,6 +55,12 @@ export default async function EnrichmentHistoryPage() {
                 <th className="px-5 py-3 font-bold">Date</th>
                 <th className="px-5 py-3 font-bold">Type</th>
                 <th className="px-5 py-3 font-bold">Mode</th>
+                <th className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wider text-stone-500">
+                  Keywords
+                </th>
+                <th className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wider text-stone-500">
+                  Lokalizacja
+                </th>
                 <th className="px-5 py-3 font-bold">Sources</th>
                 <th className="px-5 py-3 font-bold">Status</th>
                 <th className="px-5 py-3 font-bold">Proposals</th>
@@ -73,6 +79,24 @@ export default async function EnrichmentHistoryPage() {
                     </td>
                     <td className="px-5 py-3 font-bold">{String(query.entityType ?? "—")}</td>
                     <td className="px-5 py-3 text-on-surface-variant capitalize">{String(query.mode ?? "—")}</td>
+                    {/* Keywords */}
+                    <td className="px-3 py-3 text-sm text-stone-600">
+                      {Array.isArray((run.query as Record<string, unknown>)?.keywords) &&
+                      ((run.query as Record<string, unknown>).keywords as string[]).length > 0
+                        ? ((run.query as Record<string, unknown>).keywords as string[])
+                            .slice(0, 3)
+                            .join(", ")
+                        : <span className="text-stone-300">—</span>}
+                    </td>
+                    {/* Lokalizacja */}
+                    <td className="px-3 py-3 text-sm text-stone-600">
+                      {[
+                        (run.query as Record<string, unknown>)?.city,
+                        (run.query as Record<string, unknown>)?.country,
+                      ]
+                        .filter(Boolean)
+                        .join(", ") || <span className="text-stone-300">—</span>}
+                    </td>
                     <td className="px-5 py-3">
                       <div className="flex gap-1 flex-wrap">
                         {run.sources.map((s) => (
@@ -109,7 +133,7 @@ export default async function EnrichmentHistoryPage() {
               })}
               {runs.length === 0 && (
                 <tr>
-                  <td colSpan={8} className="px-5 py-12 text-center text-on-surface-variant">
+                  <td colSpan={10} className="px-5 py-12 text-center text-on-surface-variant">
                     No enrichment runs yet.{" "}
                     <Link href="/admin/enrichment/new" className="text-primary hover:underline">Start your first run →</Link>
                   </td>
