@@ -40,7 +40,7 @@ function castValue(value: unknown, fieldKey: string): unknown {
 
 export async function updateProposalStatus(
   proposalId: string,
-  status: 'APPROVED' | 'REJECTED' | 'SKIPPED',
+  status: 'APPLIED' | 'REJECTED' | 'SKIPPED',
 ): Promise<ActionResult> {
   try {
     await requireAdmin()
@@ -69,7 +69,7 @@ export async function bulkApproveByConfidence(
         // Never auto-approve name changes
         NOT: { fieldKey: 'name', changeType: 'UPDATE' },
       },
-      data: { status: 'APPROVED', reviewedAt: new Date() },
+      data: { status: 'APPLIED', reviewedAt: new Date() },
     })
     return { success: true, data: { approved: result.count } }
   } catch (error) {
@@ -83,7 +83,7 @@ export async function applyEnrichmentRun(runId: string): Promise<ActionResult<{ 
     await requireAdmin()
 
     const proposals = await db.enrichmentProposal.findMany({
-      where: { runId, status: 'APPROVED' },
+      where: { runId, status: 'APPLIED' },
     })
 
     if (proposals.length === 0) {

@@ -62,7 +62,7 @@ function ConfidenceBar({ confidence }: { confidence: number }) {
 
 interface ProposalRowProps {
   proposal: ProposalWithMeta
-  status: "PENDING" | "APPROVED" | "REJECTED" | "SKIPPED"
+  status: "PENDING" | "APPLIED" | "REJECTED" | "SKIPPED"
   onApprove: () => void
   onReject: () => void
   onSkip: () => void
@@ -74,14 +74,14 @@ function ProposalRow({ proposal: p, status, onApprove, onReject, onSkip }: Propo
   const warning = detectWarning(p)
   const isNameChange = p.fieldKey === "name" && p.changeType === "UPDATE"
 
-  function act(action: "APPROVED" | "REJECTED" | "SKIPPED", cb: () => void) {
+  function act(action: "APPLIED" | "REJECTED" | "SKIPPED", cb: () => void) {
     startTransition(async () => {
       await updateProposalStatus(p.id, action)
       cb()
     })
   }
 
-  const rowBg = status === "APPROVED"
+  const rowBg = status === "APPLIED"
     ? "bg-secondary-container/30"
     : status === "REJECTED"
     ? "bg-error-container/20"
@@ -131,9 +131,9 @@ function ProposalRow({ proposal: p, status, onApprove, onReject, onSkip }: Propo
           ) : (
             <div className="flex gap-1">
               <button
-                onClick={() => act("APPROVED", onApprove)}
-                disabled={isPending || status === "APPROVED"}
-                className={`w-7 h-7 rounded text-sm font-bold transition-colors ${status === "APPROVED" ? "bg-secondary text-on-secondary" : "bg-surface-container hover:bg-secondary-container text-on-surface-variant"}`}
+                onClick={() => act("APPLIED", onApprove)}
+                disabled={isPending || status === "APPLIED"}
+                className={`w-7 h-7 rounded text-sm font-bold transition-colors ${status === "APPLIED" ? "bg-secondary text-on-secondary" : "bg-surface-container hover:bg-secondary-container text-on-surface-variant"}`}
                 title="Approve"
               >✓</button>
               <button
@@ -179,11 +179,11 @@ interface ProposalTableProps {
 }
 
 export function ProposalTable({ proposals, approvedIds, rejectedIds, skippedIds, onApprove, onReject, onSkip }: ProposalTableProps) {
-  function getStatus(id: string, originalStatus: string): "PENDING" | "APPROVED" | "REJECTED" | "SKIPPED" {
-    if (approvedIds.has(id)) return "APPROVED"
+  function getStatus(id: string, originalStatus: string): "PENDING" | "APPLIED" | "REJECTED" | "SKIPPED" {
+    if (approvedIds.has(id)) return "APPLIED"
     if (rejectedIds.has(id)) return "REJECTED"
     if (skippedIds.has(id)) return "SKIPPED"
-    return originalStatus as "PENDING" | "APPROVED" | "REJECTED" | "SKIPPED"
+    return originalStatus as "PENDING" | "APPLIED" | "REJECTED" | "SKIPPED"
   }
 
   return (

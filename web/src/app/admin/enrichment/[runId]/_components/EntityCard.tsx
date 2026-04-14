@@ -42,7 +42,7 @@ export function EntityCard({ entity, approvedIds, rejectedIds, skippedIds, onApp
     if (entity.hasNameChange) return
     setApproveAllPending(true)
     const pending = pendingProposals.filter(p => !(p.fieldKey === "name" && p.changeType === "UPDATE"))
-    await Promise.all(pending.map(p => updateProposalStatus(p.id, "APPROVED")))
+    await Promise.all(pending.map(p => updateProposalStatus(p.id, "APPLIED")))
     pending.forEach(p => onApprove(p.id))
     setApproveAllPending(false)
   }

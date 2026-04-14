@@ -54,6 +54,7 @@ model Roaster {
   openingHours         Json?
   hasCafe              Boolean?
   hasTastingRoom       Boolean?
+  coverImageUrl        String?
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
   ownerId              String?
@@ -347,7 +348,6 @@ enum EnrichmentRunStatus {
 
 enum EnrichmentProposalStatus {
   PENDING
-  APPROVED
   REJECTED
   SKIPPED
   APPLIED
@@ -361,4 +361,14 @@ model SlugRedirect {
   createdAt  DateTime @default(now())
 
   @@map("slug_redirects")
+}
+
+model EnrichmentTag {
+  id         String   @id @default(cuid())
+  entityType String   // CAFE | ROASTER
+  value      String
+  createdAt  DateTime @default(now())
+
+  @@unique([entityType, value])
+  @@map("enrichment_tags")
 }

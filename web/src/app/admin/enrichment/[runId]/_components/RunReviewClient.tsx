@@ -51,7 +51,7 @@ export function RunReviewClient(props: RunReviewClientProps) {
   const router = useRouter()
   const [status] = useState(props.status)
   const [approvedIds, setApprovedIds] = useState<Set<string>>(
-    new Set(props.entities.flatMap(e => e.proposals.filter(p => p.status === "APPROVED").map(p => p.id)))
+    new Set(props.entities.flatMap(e => e.proposals.filter(p => p.status === "APPLIED").map(p => p.id)))
   )
   const [rejectedIds, setRejectedIds] = useState<Set<string>>(
     new Set(props.entities.flatMap(e => e.proposals.filter(p => p.status === "REJECTED").map(p => p.id)))
