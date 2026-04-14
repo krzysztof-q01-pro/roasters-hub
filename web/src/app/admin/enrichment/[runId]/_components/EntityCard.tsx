@@ -5,6 +5,7 @@ import type { ProposalWithMeta } from "./types";
 import { updateProposalStatus } from "../../actions";
 import { applyEntityProposals } from "@/app/admin/enrichment/actions/apply";
 import { useRouter } from "next/navigation";
+import { useUploadThing } from "@/lib/uploadthing";
 
 interface EntityCardProps {
   runId: string;
@@ -41,6 +42,7 @@ export function EntityCard({
 }: EntityCardProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const { startUpload, isUploading } = useUploadThing("adminImage");
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
   const [photoPage, setPhotoPage] = useState(1);
   const [photoCredit, setPhotoCredit] = useState<{ name: string; link: string } | null>(null);
@@ -122,10 +124,22 @@ export function EntityCard({
               ↺ Losuj
             </button>
             <label className="flex-1 cursor-pointer rounded border border-stone-200 bg-stone-50 py-0.5 text-center text-[10px] text-stone-500 hover:bg-stone-100">
-              ↑ Wgraj
-              <input type="file" accept="image/*" className="hidden" onChange={() => {
-                // UploadThing integration — Task 11
-              }} />
+              {isUploading ? "Wgrywanie…" : "↑ Wgraj"}
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                disabled={isUploading}
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const res = await startUpload([file]);
+                  if (res?.[0]?.url) {
+                    setPhotoUrl(res[0].url);
+                    setPhotoCredit(null);
+                  }
+                }}
+              />
             </label>
           </div>
           {photoCredit && (
