@@ -50,6 +50,7 @@ export async function executeEnrichmentRun(
 
   try {
     const proposals: (DiffProposal & { runId: string })[] = []
+    const adapterErrors: string[] = []
     let discovered = 0
     let enriched = 0
     let skipped = 0
@@ -59,12 +60,20 @@ export async function executeEnrichmentRun(
       for (const adapter of adapters) {
         if (!adapter.supports.includes(params.entityType)) continue
 
-        const rawPlaces = await adapter.discover({
-          entityType: params.entityType,
-          country: params.country,
-          city: params.city,
-          limit,
-        })
+        let rawPlaces: Awaited<ReturnType<typeof adapter.discover>>
+        try {
+          rawPlaces = await adapter.discover({
+            entityType: params.entityType,
+            country: params.country,
+            city: params.city,
+            limit,
+          })
+        } catch (err) {
+          const msg = `[${adapter.id}] discover error: ${err instanceof Error ? err.message : String(err)}`
+          console.error(msg)
+          adapterErrors.push(msg)
+          continue
+        }
 
         for (const raw of rawPlaces) {
           const normalized = normalize(raw, schema, { id: adapter.id, reliability: adapter.reliability })
@@ -156,8 +165,14 @@ export async function executeEnrichmentRun(
     await db.enrichmentRun.update({
       where: { id: run.id },
       data: {
-        status: 'DONE',
-        stats: { discovered, enriched, skipped, proposals: proposals.length },
+        status: adapterErrors.length > 0 && proposals.length === 0 ? 'FAILED' : 'DONE',
+        stats: {
+          discovered,
+          enriched,
+          skipped,
+          proposals: proposals.length,
+          ...(adapterErrors.length > 0 ? { errors: adapterErrors } : {}),
+        },
         completedAt: new Date(),
       },
     })

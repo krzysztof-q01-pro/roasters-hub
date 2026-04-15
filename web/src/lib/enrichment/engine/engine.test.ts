@@ -97,17 +97,22 @@ describe('runEnrichment', () => {
     )
   })
 
-  it('marks run as FAILED when adapter throws', async () => {
+  it('marks run as FAILED and records error in stats when adapter throws', async () => {
     vi.mocked(mockAdapter.discover).mockRejectedValue(new Error('network error'))
-    await expect(
-      runEnrichment(
-        { entityType: 'CAFE', city: 'Warsaw', sources: ['osm'], mode: 'discover' },
-        [mockAdapter],
-      ),
-    ).rejects.toThrow('network error')
+    // Per-adapter errors are caught and tracked — run resolves (not rejects)
+    const runId = await runEnrichment(
+      { entityType: 'CAFE', city: 'Warsaw', sources: ['osm'], mode: 'discover' },
+      [mockAdapter],
+    )
+    expect(runId).toBe('run-1')
     expect(db.enrichmentRun.update).toHaveBeenCalledWith(
       expect.objectContaining({
-        data: expect.objectContaining({ status: 'FAILED' }),
+        data: expect.objectContaining({
+          status: 'FAILED',
+          stats: expect.objectContaining({
+            errors: expect.arrayContaining([expect.stringContaining('network error')]),
+          }),
+        }),
       }),
     )
   })

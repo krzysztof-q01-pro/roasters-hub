@@ -149,17 +149,10 @@ export class ApifyAdapter implements SourceAdapter {
 
     const input = this.discoverQueryBuilder(query)
 
-    let run: { defaultDatasetId?: string; status: string; statusMessage?: string }
-    try {
-      run = await runActor(this.actorId, input, 250)
-    } catch (err) {
-      console.error(`[${this.id}] discover failed:`, err)
-      return []
-    }
+    const run = await runActor(this.actorId, input, 250)
 
     if (run.status === 'FAILED') {
-      console.error(`[${this.id}] actor run failed:`, run.statusMessage)
-      return []
+      throw new Error(`Actor run failed: ${run.statusMessage ?? 'unknown'}`)
     }
 
     if (!run.defaultDatasetId) return []
@@ -182,17 +175,10 @@ export class ApifyAdapter implements SourceAdapter {
 
     const input = this.enrichQueryBuilder(place)
 
-    let run: { defaultDatasetId?: string; status: string; statusMessage?: string }
-    try {
-      run = await runActor(this.actorId, input, 250)
-    } catch (err) {
-      console.error(`[${this.id}] enrich failed for ${place.id}:`, err)
-      return { sourceId: `apify:${this.actorId}:${place.id}`, fields: {} }
-    }
+    const run = await runActor(this.actorId, input, 250)
 
     if (run.status === 'FAILED') {
-      console.error(`[${this.id}] actor run failed:`, run.statusMessage)
-      return { sourceId: `apify:${this.actorId}:${place.id}`, fields: {} }
+      throw new Error(`Actor run failed: ${run.statusMessage ?? 'unknown'}`)
     }
 
     if (!run.defaultDatasetId) {
