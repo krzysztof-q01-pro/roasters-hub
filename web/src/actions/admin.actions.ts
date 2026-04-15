@@ -96,3 +96,45 @@ export async function rejectRoaster(
     };
   }
 }
+
+export async function adminUpdateRoaster(
+  roasterId: string,
+  data: {
+    name?: string;
+    description?: string;
+    city?: string;
+    country?: string;
+    website?: string;
+    email?: string;
+    instagram?: string;
+    phone?: string;
+    certifications?: string[];
+    origins?: string[];
+    brewingMethods?: string[];
+    foundedYear?: number | null;
+    wholesaleAvailable?: boolean | null;
+    subscriptionAvailable?: boolean | null;
+    hasCafe?: boolean | null;
+    hasTastingRoom?: boolean | null;
+  },
+): Promise<ActionResult> {
+  try {
+    await requireAdmin();
+    const roaster = await db.roaster.update({
+      where: { id: roasterId },
+      data,
+      select: { slug: true },
+    });
+    revalidatePath("/admin/roasters");
+    revalidatePath(`/admin/roasters/${roasterId}`);
+    revalidatePath(`/roasters/${roaster.slug}`);
+    revalidatePath("/roasters");
+    return { success: true, data: undefined };
+  } catch (error) {
+    console.error("[adminUpdateRoaster]", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Something went wrong",
+    };
+  }
+}

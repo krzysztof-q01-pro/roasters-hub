@@ -1,0 +1,125 @@
+<h2>Nowy run — rozszerzony formularz</h2>
+<p class="subtitle">Jak dodać filtrowanie pod specialty coffee? Dwa podejścia do keyword/tag filterów.</p>
+
+<style>
+.form-mock { background: white; border: 1.5px solid #e0d8ce; border-radius: 12px; padding: 20px 24px; max-width: 560px; font-size: 13px; }
+.form-mock + .form-mock { margin-top: 20px; }
+.fm-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: #a89880; margin-bottom: 6px; display: block; }
+.fm-section { margin-bottom: 18px; }
+.fm-input { width: 100%; background: #f5f0eb; border: 1px solid #e0d8ce; border-radius: 7px; padding: 8px 12px; font-size: 13px; color: #444; margin-bottom: 0; }
+.fm-row { display: flex; gap: 10px; }
+.fm-row > * { flex: 1; }
+.toggle-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.toggle-btn { padding: 7px 16px; border-radius: 7px; border: 1.5px solid #e0d8ce; background: #f5f0eb; font-size: 12px; font-weight: 600; color: #666; cursor: default; }
+.toggle-btn.on { background: #8B4513; color: #fff; border-color: #8B4513; }
+.checkbox-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 12px; color: #555; }
+.checkbox-mock { width: 14px; height: 14px; border: 1.5px solid #8B4513; border-radius: 3px; background: #8B4513; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.checkbox-mock::after { content: "✓"; color: white; font-size: 9px; }
+.checkbox-mock.off { background: #f5f0eb; border-color: #d4c5b0; }
+.checkbox-mock.off::after { content: ""; }
+
+.tag-wrap { display: flex; flex-wrap: wrap; gap: 6px; background: #f5f0eb; border: 1px solid #e0d8ce; border-radius: 7px; padding: 8px 10px; min-height: 40px; }
+.tag-chip { display: flex; align-items: center; gap: 4px; background: #8B4513; color: #fff; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.tag-chip .x { opacity: .6; font-size: 10px; cursor: pointer; }
+.tag-chip.gray { background: #d4c5b0; color: #555; }
+.tag-input-inline { border: none; background: transparent; font-size: 12px; color: #444; outline: none; min-width: 80px; }
+
+.hint { font-size: 10px; color: #aaa; margin-top: 5px; }
+.badge-new { display: inline-block; background: #e8faf0; color: #2d8a4e; font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 4px; margin-left: 4px; vertical-align: middle; }
+.section-divider { border: none; border-top: 1px solid #f0ebe4; margin: 16px 0; }
+
+.source-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.source-icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+.source-icon.osm { background: #e8f4fd; color: #1a6fa8; }
+.source-icon.ect { background: #f0faf0; color: #2d8a4e; }
+.source-icon.web { background: #fdf5e8; color: #b45309; }
+.source-desc { flex: 1; }
+.source-name { font-size: 12px; font-weight: 600; }
+.source-sub { font-size: 10px; color: #aaa; }
+</style>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Keywords jako OSM query tags + Unsplash hint</h3>
+      <p style="font-size:11px;color:#666;margin-bottom:12px;">Keywords działają podwójnie: filtrują wyniki OSM (np. szukaj kawiarni z tagiem <code>cuisine=coffee_shop</code>) i są wskazówką do losowania zdjęć z Unsplash. Prosto i konkretnie.</p>
+      <div class="form-mock">
+        <div class="fm-section">
+          <span class="fm-label">Keywords / tagi specialty <span class="badge-new">NOWE</span></span>
+          <div class="tag-wrap">
+            <div class="tag-chip">specialty coffee <span class="x">×</span></div>
+            <div class="tag-chip">third wave <span class="x">×</span></div>
+            <div class="tag-chip gray">filter coffee <span class="x">×</span></div>
+            <input class="tag-input-inline" placeholder="Dodaj tag…">
+          </div>
+          <div class="hint">Filtruje wyniki OSM po tagach + używane jako query do Unsplash przy losowaniu zdjęć</div>
+        </div>
+        <hr class="section-divider">
+        <div class="fm-section">
+          <span class="fm-label">Lokalizacja (opcjonalnie)</span>
+          <div class="fm-row">
+            <div><input class="fm-input" placeholder="Kraj (np. PL)"></div>
+            <div><input class="fm-input" placeholder="Miasto (np. Warsaw)"></div>
+          </div>
+        </div>
+        <div class="fm-section">
+          <span class="fm-label">Limit encji</span>
+          <input class="fm-input" value="20" style="width:100px;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Konfiguracja per źródło — każde źródło ma własny filtr</h3>
+      <p style="font-size:11px;color:#666;margin-bottom:12px;">OSM ma własne tagi, ECT własne kategorie, website własne słowa kluczowe do scrapowania. Maksymalna kontrola — większa złożoność.</p>
+      <div class="form-mock">
+        <div class="fm-section">
+          <span class="fm-label">Źródła</span>
+          <div class="source-row">
+            <div class="checkbox-mock"></div>
+            <div class="source-icon osm">OSM</div>
+            <div class="source-desc">
+              <div class="source-name">OpenStreetMap</div>
+              <div class="source-sub">OSM tags: <strong>amenity=cafe, cuisine=coffee_shop</strong></div>
+            </div>
+          </div>
+          <div class="source-row" style="margin-left:22px;margin-bottom:8px;">
+            <div class="tag-wrap" style="flex:1;">
+              <div class="tag-chip">amenity=cafe <span class="x">×</span></div>
+              <div class="tag-chip">cuisine=coffee_shop <span class="x">×</span></div>
+              <input class="tag-input-inline" placeholder="Dodaj OSM tag…">
+            </div>
+          </div>
+          <div class="source-row">
+            <div class="checkbox-mock"></div>
+            <div class="source-icon ect">ECT</div>
+            <div class="source-desc">
+              <div class="source-name">Ethical Coffee Trade</div>
+              <div class="source-sub">Kategorie: specialty only</div>
+            </div>
+          </div>
+          <div class="source-row">
+            <div class="checkbox-mock off"></div>
+            <div class="source-icon web">WEB</div>
+            <div class="source-desc">
+              <div class="source-name">Website scraper</div>
+              <div class="source-sub">Keywords: <em>specialty, filter, third wave</em></div>
+            </div>
+          </div>
+        </div>
+        <hr class="section-divider">
+        <div class="fm-section">
+          <span class="fm-label">Lokalizacja (opcjonalnie)</span>
+          <div class="fm-row">
+            <div><input class="fm-input" placeholder="Kraj (np. PL)"></div>
+            <div><input class="fm-input" placeholder="Miasto (np. Warsaw)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

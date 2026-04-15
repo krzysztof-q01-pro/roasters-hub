@@ -1,0 +1,63 @@
+<h2>Problem: Approval / Apply flow</h2>
+<p class="subtitle">Teraz są 2 oddzielne kroki które mylą użytkownika. Który model rozwiązuje to najlepiej?</p>
+
+<style>
+.flow-wrap { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 8px; }
+.flow-box { background: var(--surface, #f5f0eb); border: 1.5px solid #d4c5b0; border-radius: 10px; padding: 16px 20px; flex: 1; min-width: 220px; }
+.flow-box h4 { margin: 0 0 12px; font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: #7a6a58; }
+.step { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+.step-num { background: #8B4513; color: #fff; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+.step-num.gray { background: #bbb; }
+.step-num.green { background: #2d8a4e; }
+.step-label { font-size: 13px; line-height: 1.45; }
+.step-label small { display: block; color: #999; font-size: 11px; margin-top: 2px; }
+.pain { color: #c0392b; font-size: 11px; font-weight: 600; margin-top: 4px; display: block; }
+.arrow-down { text-align: center; color: #aaa; font-size: 18px; margin: 2px 0; }
+</style>
+
+<div class="flow-wrap">
+  <div class="flow-box">
+    <h4>🔴 Obecny flow (problem)</h4>
+    <div class="step"><div class="step-num">1</div><div class="step-label">Przejrzyj propozycje<small>✓ / ✗ / – per propozycja lub bulk po confidence</small></div></div>
+    <div class="arrow-down">↓</div>
+    <div class="step"><div class="step-num">2</div><div class="step-label">Zatwierdź (APPROVED)<small>Stan pośredni — nic się nie dzieje w bazie</small><span class="pain">⚠ Po co ten stan?</span></div></div>
+    <div class="arrow-down">↓</div>
+    <div class="step"><div class="step-num">3</div><div class="step-label">Kliknij "Apply approved →"<small>Dopiero tutaj dane trafiają do bazy</small><span class="pain">⚠ Drugie klikanie tego samego</span></div></div>
+  </div>
+</div>
+
+<div class="options" style="margin-top: 24px;">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Merge Approve + Apply</h3>
+      <p>Zamiast "Zatwierdź" → "Zastosuj do bazy" od razu. Jeden klik zamiast dwóch. Propozycje mają stan PENDING lub APPLIED/REJECTED. Brak stanu pośredniego APPROVED.</p>
+      <div class="pros-cons" style="margin-top:8px;">
+        <div class="pros"><h4>Za</h4><ul><li>Najprostszy flow — 1 krok mniej</li><li>Zero nieporozumień</li></ul></div>
+        <div class="cons"><h4>Przeciw</h4><ul><li>Brak możliwości "przejrzenia przed zatwierdzeniem"</li><li>Nie można zaplanować i zostawić na później</li></ul></div>
+      </div>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Zachowaj 2 kroki, ale wyjaśnij cel</h3>
+      <p>Zostawamy stan APPROVED jako "koszyk" — reviewer może przejrzeć wszystko, a admin klika "Apply" jako ostateczne zatwierdzenie. Lepsza informacja o tym co czeka na apply.</p>
+      <div class="pros-cons" style="margin-top:8px;">
+        <div class="pros"><h4>Za</h4><ul><li>Możliwość review przed committem do bazy</li><li>Jeden admin przegląda, drugi zatwierdza</li></ul></div>
+        <div class="cons"><h4>Przeciw</h4><ul><li>Nadal 2 kliknięcia</li><li>Wymaga lepszego UI żeby nie mylić</li></ul></div>
+      </div>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Auto-Apply powyżej progu</h3>
+      <p>Propozycje ≥ X% confidence są automatycznie aplikowane po zakończeniu runu. Reviewer widzi co zostało zastosowane i może cofnąć (undo). Ręczna review tylko dla poniżej progu.</p>
+      <div class="pros-cons" style="margin-top:8px;">
+        <div class="pros"><h4>Za</h4><ul><li>Maksymalnie szybki flow dla wysokiej jakości danych</li><li>Mniej pracy manualnej</li></ul></div>
+        <div class="cons"><h4>Przeciw</h4><ul><li>Ryzyko złych danych w bazie</li><li>Undo może być skomplikowany</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>

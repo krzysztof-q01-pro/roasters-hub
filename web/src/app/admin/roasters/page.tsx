@@ -18,7 +18,7 @@ const STATUS_COLORS: Record<string, string> = {
 const PAGE_SIZE = 25;
 const STATUS_OPTIONS = ["ALL", "PENDING", "VERIFIED", "REJECTED", "INACTIVE"] as const;
 
-type SearchParams = Promise<{ status?: string; sort?: string; page?: string }>;
+type SearchParams = Promise<{ status?: string; sort?: string; page?: string; q?: string }>;
 
 export default async function AdminRoastersPage({ searchParams }: { searchParams: SearchParams }) {
   const { userId } = await auth();
@@ -30,8 +30,13 @@ export default async function AdminRoastersPage({ searchParams }: { searchParams
   const statusFilter = (STATUS_OPTIONS as readonly string[]).includes(sp.status ?? "") ? sp.status! : "ALL";
   const sort = sp.sort === "oldest" ? "oldest" : "newest";
   const page = Math.max(1, parseInt(sp.page ?? "1", 10) || 1);
+  const q = sp.q?.trim() ?? "";
 
-  const where = statusFilter === "ALL" ? {} : { status: statusFilter as RoasterStatus };
+  const where = {
+    ...(statusFilter !== "ALL" ? { status: statusFilter as RoasterStatus } : {}),
+    ...(q ? { name: { contains: q, mode: "insensitive" as const } } : {}),
+  };
+
   const [total, roasters] = await Promise.all([
     db.roaster.count({ where }),
     db.roaster.findMany({
@@ -41,7 +46,8 @@ export default async function AdminRoastersPage({ searchParams }: { searchParams
       take: PAGE_SIZE,
       select: {
         id: true, name: true, slug: true, city: true, country: true, status: true,
-        createdAt: true, _count: { select: { events: { where: { type: "PAGE_VIEW" } } } },
+        createdAt: true, updatedAt: true,
+        _count: { select: { events: { where: { type: "PAGE_VIEW" } } } },
       },
     }),
   ]);
@@ -49,7 +55,7 @@ export default async function AdminRoastersPage({ searchParams }: { searchParams
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const buildQuery = (overrides: Record<string, string | number>) => {
     const params = new URLSearchParams();
-    const merged = { status: statusFilter, sort, page, ...overrides };
+    const merged = { status: statusFilter, sort, page, q, ...overrides };
     for (const [k, v] of Object.entries(merged)) {
       if (v && v !== "ALL" && !(k === "page" && v === 1)) params.set(k, String(v));
     }
@@ -69,6 +75,35 @@ export default async function AdminRoastersPage({ searchParams }: { searchParams
           <Link href="/admin" className="text-primary font-bold hover:underline">← Back to dashboard</Link>
         </div>
 
+        {/* Search */}
+        <form action="/admin/roasters" method="get" className="mb-4">
+          {statusFilter !== "ALL" && <input type="hidden" name="status" value={statusFilter} />}
+          {sort !== "newest" && <input type="hidden" name="sort" value={sort} />}
+          <div className="flex gap-2">
+            <input
+              name="q"
+              defaultValue={q}
+              placeholder="Search by name…"
+              className="flex-1 max-w-sm border border-outline/30 rounded-lg px-3 py-2 text-sm bg-surface focus:outline-none focus:border-primary"
+            />
+            <button
+              type="submit"
+              className="px-4 py-2 rounded-lg bg-surface-container-low text-on-surface-variant text-sm font-bold hover:bg-surface-container transition-colors"
+            >
+              Search
+            </button>
+            {q && (
+              <Link
+                href={`/admin/roasters${buildQuery({ q: "", page: 1 })}`}
+                className="px-4 py-2 rounded-lg text-sm text-on-surface-variant hover:text-on-surface transition-colors"
+              >
+                Clear
+              </Link>
+            )}
+          </div>
+        </form>
+
+        {/* Filters & Sort */}
         <div className="flex flex-wrap items-center gap-3 mb-6">
           <span className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Status:</span>
           {STATUS_OPTIONS.map((s) => (
@@ -101,27 +136,23 @@ export default async function AdminRoastersPage({ searchParams }: { searchParams
                 <th className="px-5 py-3 font-bold">Location</th>
                 <th className="px-5 py-3 font-bold">Status</th>
                 <th className="px-5 py-3 font-bold">Views</th>
+                <th className="px-5 py-3 font-bold">Modified</th>
                 <th className="px-5 py-3 font-bold">Registered</th>
-                <th className="px-5 py-3 font-bold"></th>
               </tr>
             </thead>
             <tbody>
               {roasters.map((r) => (
-                <tr key={r.id} className="border-t border-outline-variant/20">
+                <tr key={r.id} className="border-t border-outline-variant/20 hover:bg-surface-container-lowest/50">
                   <td className="px-5 py-3">
-                    <Link href={`/roasters/${r.slug}`} className="font-bold text-primary hover:underline">{r.name}</Link>
+                    <Link href={`/admin/roasters/${r.id}`} className="font-bold text-primary hover:underline">{r.name}</Link>
                   </td>
                   <td className="px-5 py-3 text-on-surface-variant">{r.city}, {r.country}</td>
                   <td className="px-5 py-3">
                     <span className={`inline-block px-2 py-0.5 rounded text-xs font-bold ${STATUS_COLORS[r.status]}`}>{r.status}</span>
                   </td>
                   <td className="px-5 py-3 text-on-surface-variant">{r._count.events}</td>
+                  <td className="px-5 py-3 text-on-surface-variant">{r.updatedAt.toLocaleDateString()}</td>
                   <td className="px-5 py-3 text-on-surface-variant">{r.createdAt.toLocaleDateString()}</td>
-                  <td className="px-5 py-3">
-                    {r.status === "PENDING" && (
-                      <Link href={`/admin/pending`} className="text-xs font-bold text-primary hover:underline">Review →</Link>
-                    )}
-                  </td>
                 </tr>
               ))}
               {roasters.length === 0 && (

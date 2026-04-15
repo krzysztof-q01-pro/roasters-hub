@@ -5,10 +5,17 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { upsertEnrichmentTag, deleteEnrichmentTag } from "@/app/admin/enrichment/actions/tags"
 
-const SOURCES = [
-  { id: "osm", label: "OSM (OpenStreetMap)" },
-  { id: "ect", label: "ECT (Ethical Coffee Trade)", requiresConsent: true },
-  { id: "website", label: "Website scraper" },
+const SOURCES: Array<{
+  id: string
+  label: string
+  requiresConsent?: boolean
+  requiresApify?: boolean
+}> = [
+  { id: "osm",              label: "OSM (OpenStreetMap)" },
+  { id: "ect",              label: "ECT Scraper",           requiresConsent: true },
+  { id: "website",          label: "Website scraper" },
+  { id: "apify-enrichment", label: "Google Maps (Apify)",   requiresConsent: true, requiresApify: true },
+  { id: "apify-ect-leads",  label: "ECT Leads (Apify)",     requiresConsent: true, requiresApify: true },
 ]
 
 export function NewRunForm() {
@@ -25,7 +32,13 @@ export function NewRunForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const ectSelected = sources.includes("ect")
+  const consentRequired = SOURCES
+    .filter((s) => s.requiresConsent)
+    .some((s) => sources.includes(s.id))
+
+  const apifySelected = SOURCES
+    .filter((s) => s.requiresApify)
+    .some((s) => sources.includes(s.id))
 
   useEffect(() => {
     fetch(`/api/enrichment/tags?entityType=${entityType}`)
@@ -61,8 +74,8 @@ export function NewRunForm() {
       setError("Select at least one source.")
       return
     }
-    if (ectSelected && !consent) {
-      setError("Consent required to use ECT data.")
+    if (consentRequired && !consent) {
+      setError("Consent required for the selected sources.")
       return
     }
 
@@ -78,7 +91,7 @@ export function NewRunForm() {
           country: country || undefined,
           city: city || undefined,
           limit,
-          consent: ectSelected ? consent : undefined,
+          consent: consentRequired ? consent : undefined,
           keywords,
         }),
       })
@@ -239,18 +252,27 @@ export function NewRunForm() {
       </label>
 
       {/* ECT consent */}
-      {ectSelected && (
-        <label className="flex items-start gap-3 cursor-pointer bg-amber-50 border border-amber-200 rounded-xl p-4">
-          <input
-            type="checkbox"
-            checked={consent}
-            onChange={e => setConsent(e.target.checked)}
-            className="mt-0.5 w-4 h-4 accent-primary flex-shrink-0"
-          />
-          <span className="text-sm text-amber-900">
-            I consent to use ECT (Ethical Coffee Trade) data in this enrichment run. ECT requires explicit consent for each use.
-          </span>
-        </label>
+      {consentRequired && (
+        <div className="space-y-2">
+          <label className="flex items-start gap-3 cursor-pointer bg-amber-50 border border-amber-200 rounded-xl p-4">
+            <input
+              type="checkbox"
+              checked={consent}
+              onChange={e => setConsent(e.target.checked)}
+              className="mt-0.5 w-4 h-4 accent-primary flex-shrink-0"
+            />
+            <span className="text-sm text-amber-900">
+              I consent to use data from third-party sources (ECT, Apify) in this enrichment run.
+            </span>
+          </label>
+          {apifySelected && (
+            <p className="text-xs text-on-surface-variant px-1">
+              Google Maps and ECT Leads use the Apify API (paid per run). Ensure{" "}
+              <code className="font-mono bg-surface-container px-1 rounded">APIFY_TOKEN</code>{" "}
+              is configured in the environment.
+            </p>
+          )}
+        </div>
       )}
 
       {error && (

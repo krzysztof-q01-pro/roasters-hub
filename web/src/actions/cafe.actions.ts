@@ -138,6 +138,8 @@ export async function verifyCafe(cafeId: string): Promise<ActionResult> {
     revalidatePath(`/cafes/${cafe.slug}`);
     revalidatePath("/map");
     revalidatePath("/admin/cafes");
+    revalidatePath(`/admin/cafes/${cafeId}`);
+    revalidatePath("/admin");
     return { success: true, data: undefined };
   } catch (error) {
     console.error("[verifyCafe]", error);
@@ -159,9 +161,48 @@ export async function rejectCafe(cafeId: string, reason: string): Promise<Action
     revalidatePath("/cafes");
     revalidatePath(`/cafes/${cafe.slug}`);
     revalidatePath("/admin/cafes");
+    revalidatePath(`/admin/cafes/${cafeId}`);
+    revalidatePath("/admin");
     return { success: true, data: undefined };
   } catch (error) {
     console.error("[rejectCafe]", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Something went wrong",
+    };
+  }
+}
+
+export async function adminUpdateCafe(
+  cafeId: string,
+  data: {
+    name?: string;
+    description?: string;
+    city?: string;
+    country?: string;
+    website?: string;
+    email?: string;
+    instagram?: string;
+    phone?: string;
+    address?: string;
+    priceRange?: string;
+    seatingCapacity?: number | null;
+  },
+): Promise<ActionResult> {
+  try {
+    await requireAdmin();
+    const cafe = await db.cafe.update({
+      where: { id: cafeId },
+      data,
+      select: { slug: true },
+    });
+    revalidatePath("/admin/cafes");
+    revalidatePath(`/admin/cafes/${cafeId}`);
+    revalidatePath(`/cafes/${cafe.slug}`);
+    revalidatePath("/cafes");
+    return { success: true, data: undefined };
+  } catch (error) {
+    console.error("[adminUpdateCafe]", error);
     return {
       success: false,
       error: error instanceof Error ? error.message : "Something went wrong",

@@ -13,6 +13,7 @@ export interface ApifyAdapterConfig {
   discoverQueryBuilder?: (q: DiscoveryQuery) => Record<string, unknown>
   enrichQueryBuilder?: (p: KnownPlace) => Record<string, unknown>
   fieldMapping?: Record<string, string>
+  transformItem?: (item: Record<string, unknown>) => Record<string, unknown>
 }
 
 function getApifyToken(): string {
@@ -49,11 +50,11 @@ async function runActor(
 ): Promise<{ defaultDatasetId?: string; status: string; statusMessage?: string }> {
   const token = getApifyToken()
 
-  const url = `https://api.apify.com/v2/acts/${actorId}/runs?token=${token}`
+  const url = `https://api.apify.com/v2/acts/${actorId}/runs?token=${token}&waitForFinish=${waitSecs}`
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ...input, waitForFinish: waitSecs }),
+    body: JSON.stringify(input),
   })
 
   if (!response.ok) {
@@ -75,6 +76,10 @@ async function runActor(
 
   while (Date.now() - startTime < maxWait) {
     const statusResponse = await fetch(statusUrl)
+    if (!statusResponse.ok) {
+      console.error(`[apify] poll status error ${statusResponse.status}`)
+      return { status: 'FAILED', statusMessage: `poll error ${statusResponse.status}` }
+    }
     const statusData = await statusResponse.json()
     const status = statusData.data?.status
 
@@ -123,6 +128,7 @@ export class ApifyAdapter implements SourceAdapter {
   private discoverQueryBuilder?: (q: DiscoveryQuery) => Record<string, unknown>
   private enrichQueryBuilder?: (p: KnownPlace) => Record<string, unknown>
   private fieldMapping?: Record<string, string>
+  private transformItem?: (item: Record<string, unknown>) => Record<string, unknown>
 
   constructor(config: ApifyAdapterConfig) {
     this.id = config.id
@@ -134,6 +140,7 @@ export class ApifyAdapter implements SourceAdapter {
     this.discoverQueryBuilder = config.discoverQueryBuilder
     this.enrichQueryBuilder = config.enrichQueryBuilder
     this.fieldMapping = config.fieldMapping
+    this.transformItem = config.transformItem
   }
 
   async discover(query: DiscoveryQuery): Promise<RawPlace[]> {
@@ -144,7 +151,7 @@ export class ApifyAdapter implements SourceAdapter {
 
     let run: { defaultDatasetId?: string; status: string; statusMessage?: string }
     try {
-      run = await runActor(this.actorId, input, 60)
+      run = await runActor(this.actorId, input, 250)
     } catch (err) {
       console.error(`[${this.id}] discover failed:`, err)
       return []
@@ -158,11 +165,14 @@ export class ApifyAdapter implements SourceAdapter {
     if (!run.defaultDatasetId) return []
 
     const items = await getDatasetItems(run.defaultDatasetId)
-    return items.map((item) => ({
-      sourceId: buildSourceId(this.actorId, item),
-      fields: mapFields(item, this.fieldMapping),
-      sourceUrl: (item['url'] as string) ?? (item['website'] as string),
-    }))
+    return items.map((item) => {
+      const processed = this.transformItem ? this.transformItem(item) : item
+      return {
+        sourceId: buildSourceId(this.actorId, item),
+        fields: mapFields(processed, this.fieldMapping),
+        sourceUrl: (processed['url'] as string) ?? (processed['website'] as string),
+      }
+    })
   }
 
   async enrich(place: KnownPlace): Promise<RawPlace> {
@@ -174,7 +184,7 @@ export class ApifyAdapter implements SourceAdapter {
 
     let run: { defaultDatasetId?: string; status: string; statusMessage?: string }
     try {
-      run = await runActor(this.actorId, input, 60)
+      run = await runActor(this.actorId, input, 250)
     } catch (err) {
       console.error(`[${this.id}] enrich failed for ${place.id}:`, err)
       return { sourceId: `apify:${this.actorId}:${place.id}`, fields: {} }
@@ -196,13 +206,14 @@ export class ApifyAdapter implements SourceAdapter {
       return { sourceId: `apify:${this.actorId}:${place.id}`, fields: {} }
     }
 
-    const fields = mapFields(item, this.fieldMapping)
+    const processed = this.transformItem ? this.transformItem(item) : item
+    const fields = mapFields(processed, this.fieldMapping)
     fields['_existingId'] = place.id
 
     return {
       sourceId: buildSourceId(this.actorId, item),
       fields,
-      sourceUrl: (item['url'] as string) ?? (item['website'] as string),
+      sourceUrl: (processed['url'] as string) ?? (processed['website'] as string),
     }
   }
 }
@@ -210,36 +221,43 @@ export class ApifyAdapter implements SourceAdapter {
 export function createApifyEnrichmentAdapter(): ApifyAdapter {
   return new ApifyAdapter({
     id: 'apify-enrichment',
-    name: 'Google Places Crawler',
+    name: 'Google Maps Scraper',
     actorId: 'nwua9Gu5YrADL7ZDj',
     supports: ['CAFE', 'ROASTER'],
     reliability: 0.8,
     requiresConsent: true,
     discoverQueryBuilder: (q: DiscoveryQuery) => ({
       searchStringsArray: [
-        q.entityType === 'CAFE'
-          ? `cafe ${q.city ?? ''} ${q.country ?? ''}`.trim()
-          : `coffee roaster ${q.city ?? ''} ${q.country ?? ''}`.trim(),
+        q.entityType === 'CAFE' ? 'specialty coffee cafe' : 'coffee roaster',
       ],
-      maxCrawledPlaces: q.limit ?? 10,
+      // Apify geofencing requires "City, Country" format (comma-separated)
+      locationQuery: [q.city, q.country].filter(Boolean).join(', '),
+      maxCrawledPlacesPerSearch: q.limit ?? 10,
+      language: 'en',
+      scrapePlaceDetailPage: true,
+      scrapeSocialMediaProfiles: { instagrams: true },
     }),
     enrichQueryBuilder: (p: KnownPlace) => ({
-      searchStringsArray: [`${p.name} ${p.website ?? ''}`],
-      maxCrawledPlaces: 1,
+      searchStringsArray: [p.name],
+      // No locationQuery for enrich mode — search globally by name
+      maxCrawledPlacesPerSearch: 1,
+      language: 'en',
+      scrapePlaceDetailPage: true,
+      scrapeSocialMediaProfiles: { instagrams: true },
     }),
+    // Actor returns: title (name), website (website), location.lat/lng (nested), address, city, countryCode, phone
+    // url field is Google Maps URL — do NOT map to website
     fieldMapping: {
-      name: 'title',
-      address: 'address',
-      city: 'city',
-      country: 'country',
-      postalCode: 'postalCode',
-      phone: 'phone',
-      website: 'url',
-      instagram: 'instagram',
-      openingHours: 'openingHours',
-      lat: 'latitude',
-      lng: 'longitude',
+      title: 'name',
+      countryCode: 'country',
+      // address, city, postalCode, phone, openingHours → pass-through (same names)
     },
+    // Flatten nested location object: { lat, lng } → top-level lat, lng
+    transformItem: (item) => ({
+      ...item,
+      lat: (item['location'] as Record<string, unknown> | undefined)?.lat,
+      lng: (item['location'] as Record<string, unknown> | undefined)?.lng,
+    }),
   })
 }
 
@@ -270,27 +288,65 @@ export function createApifyInstagramAdapter(): ApifyAdapter {
   })
 }
 
+function toCitySlug(city: string): string {
+  return city
+    .toLowerCase()
+    // Replace characters not covered by NFD decomposition
+    .replace(/ł/g, 'l')
+    .replace(/ø/g, 'o')
+    .replace(/đ/g, 'd')
+    .replace(/ß/g, 'ss')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, '-')
+}
+
 export function createApifyEctLeadsAdapter(): ApifyAdapter {
   return new ApifyAdapter({
     id: 'apify-ect-leads',
-    name: 'Europe Coffee Trip Leads',
+    name: 'ECT Leads Scraper',
     actorId: 'xnKEn9W0d8qAuzMRx',
-    supports: ['CAFE', 'ROASTER'],
+    supports: ['CAFE'],
     reliability: 0.7,
     requiresConsent: true,
-    discoverQueryBuilder: () => ({
-      startUrls: [{ url: 'https://europeancoffeetrip.com/gdynia/' }],
-      maxItems: 10,
+    discoverQueryBuilder: (q: DiscoveryQuery) => ({
+      startUrls: [{ url: `https://europeancoffeetrip.com/${toCitySlug(q.city ?? 'warsaw')}/` }],
+      maxItems: q.limit ?? 20,
     }),
-    enrichQueryBuilder: (p: KnownPlace) => ({
-      startUrls: p.website ? [{ url: p.website }] : [{ url: `https://www.google.com/search?q=${encodeURIComponent(p.name)} coffee` }],
-    }),
+    transformItem: (item) => {
+      // latLng is an array ["lat_str", "lng_str"] per actor docs
+      // Fallback: some actor versions emit flat latitude/longitude strings
+      const latLng = item['latLng']
+      let lat: number | undefined
+      let lng: number | undefined
+      if (Array.isArray(latLng) && latLng.length >= 2) {
+        lat = parseFloat(latLng[0] as string)
+        lng = parseFloat(latLng[1] as string)
+      } else if (item['latitude'] !== undefined) {
+        lat = parseFloat(item['latitude'] as string)
+        lng = parseFloat(item['longitude'] as string)
+      }
+
+      const detail = item['detail'] as Record<string, unknown> | undefined
+      const instagramUrl = detail?.instagramLink as string | undefined
+      // Normalise Instagram URL → handle (@handle) or keep raw URL
+      const instagram = instagramUrl
+        ? instagramUrl.replace(/https?:\/\/(www\.)?instagram\.com\//, '').replace(/\/$/, '')
+        : undefined
+
+      return {
+        ...item,
+        lat,
+        lng,
+        website: detail?.webSiteLink as string | undefined,
+        instagram,
+        description: (detail?.about ?? detail?.description) as string | undefined,
+        // shareLink or flat 'link' (older format) → used by discover() for sourceUrl
+        url: (detail?.shareLink ?? item['link']) as string | undefined,
+      }
+    },
     fieldMapping: {
-      name: 'name',
-      address: 'address',
-      lat: 'latitude',
-      lng: 'longitude',
-      website: 'link',
+      // name, address, openingHours, servingIds, featureIds → pass-through
     },
   })
 }
