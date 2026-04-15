@@ -291,6 +291,11 @@ export function createApifyInstagramAdapter(): ApifyAdapter {
 function toCitySlug(city: string): string {
   return city
     .toLowerCase()
+    // Replace characters not covered by NFD decomposition
+    .replace(/ł/g, 'l')
+    .replace(/ø/g, 'o')
+    .replace(/đ/g, 'd')
+    .replace(/ß/g, 'ss')
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/\s+/g, '-')
@@ -309,18 +314,39 @@ export function createApifyEctLeadsAdapter(): ApifyAdapter {
       maxItems: q.limit ?? 20,
     }),
     transformItem: (item) => {
-      const latLng = item['latLng'] as Record<string, unknown> | undefined
+      // latLng is an array ["lat_str", "lng_str"] per actor docs
+      // Fallback: some actor versions emit flat latitude/longitude strings
+      const latLng = item['latLng']
+      let lat: number | undefined
+      let lng: number | undefined
+      if (Array.isArray(latLng) && latLng.length >= 2) {
+        lat = parseFloat(latLng[0] as string)
+        lng = parseFloat(latLng[1] as string)
+      } else if (item['latitude'] !== undefined) {
+        lat = parseFloat(item['latitude'] as string)
+        lng = parseFloat(item['longitude'] as string)
+      }
+
       const detail = item['detail'] as Record<string, unknown> | undefined
+      const instagramUrl = detail?.instagramLink as string | undefined
+      // Normalise Instagram URL → handle (@handle) or keep raw URL
+      const instagram = instagramUrl
+        ? instagramUrl.replace(/https?:\/\/(www\.)?instagram\.com\//, '').replace(/\/$/, '')
+        : undefined
+
       return {
         ...item,
-        lat: latLng?.lat,
-        lng: latLng?.lng,
-        website: detail?.webSiteLink,
-        instagram: detail?.instagramLink,
+        lat,
+        lng,
+        website: detail?.webSiteLink as string | undefined,
+        instagram,
         description: (detail?.about ?? detail?.description) as string | undefined,
-        serving: item['servingIds'],
+        // shareLink or flat 'link' (older format) → used by discover() for sourceUrl
+        url: (detail?.shareLink ?? item['link']) as string | undefined,
       }
     },
-    fieldMapping: {},
+    fieldMapping: {
+      // name, address, openingHours, servingIds, featureIds → pass-through
+    },
   })
 }
