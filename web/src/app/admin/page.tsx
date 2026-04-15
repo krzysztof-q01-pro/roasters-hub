@@ -40,7 +40,7 @@ export default async function AdminDashboardPage() {
   const totalRoasters = Object.values(counts).reduce((a, b) => a + b, 0);
 
   const tiles = [
-    { href: "/admin/pending", label: "Pending approvals", value: counts.PENDING, accent: counts.PENDING > 0 },
+    { href: "/admin/roasters?status=PENDING", label: "Pending approvals", value: counts.PENDING, accent: counts.PENDING > 0 },
     { href: "/admin/roasters", label: "All roasters", value: totalRoasters },
     { href: "/admin/cafes", label: "Cafes", value: cafeCount },
     { href: "/admin/reviews", label: "Reviews", value: "→" },

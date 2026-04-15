@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enrichment — Split Layout Wireframe</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f0eb; color: #2c2420; font-size: 13px; }
+
+  /* TOP NAV */
+  .topnav { height: 44px; background: #2c2420; display: flex; align-items: center; padding: 0 16px; gap: 24px; }
+  .topnav .logo { color: #fff; font-weight: 700; font-size: 14px; letter-spacing: .04em; }
+  .topnav a { color: #a89880; font-size: 12px; text-decoration: none; }
+  .topnav a.active { color: #e8d5b0; font-weight: 600; }
+  .topnav .right { margin-left: auto; display: flex; gap: 12px; align-items: center; }
+
+  /* RUN HEADER BAR */
+  .run-bar { background: #fff; border-bottom: 1px solid #e8ddd4; padding: 10px 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .run-bar .back { color: #8B4513; font-size: 12px; text-decoration: none; }
+  .run-bar .run-title { font-weight: 700; font-size: 15px; }
+  .run-bar .badge { display: inline-flex; align-items: center; gap: 4px; background: #e8faf0; color: #2d8a4e; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; }
+  .run-bar .meta { font-size: 11px; color: #999; }
+  .run-bar .stats { display: flex; gap: 12px; margin-left: auto; }
+  .stat-pill { text-align: center; }
+  .stat-pill .num { font-size: 17px; font-weight: 700; line-height: 1; }
+  .stat-pill .lbl { font-size: 10px; color: #999; }
+  .stat-pill .num.amber { color: #d97706; }
+  .stat-pill .num.green { color: #2d8a4e; }
+
+  /* SPLIT LAYOUT */
+  .split-wrap { display: flex; height: calc(100vh - 44px - 56px); overflow: hidden; }
+
+  /* LEFT PANEL */
+  .left-panel { width: 300px; flex-shrink: 0; background: #fff; border-right: 1px solid #e8ddd4; display: flex; flex-direction: column; overflow: hidden; }
+
+  .left-toolbar { padding: 10px 12px; border-bottom: 1px solid #f0ebe4; display: flex; flex-direction: column; gap: 8px; }
+  .search-row { display: flex; gap: 6px; }
+  .search-box { flex: 1; background: #f5f0eb; border: 1px solid #e0d8ce; border-radius: 6px; padding: 6px 10px; font-size: 12px; color: #444; outline: none; }
+  .filter-row { display: flex; gap: 4px; }
+  .chip { font-size: 10px; padding: 3px 9px; border-radius: 20px; background: #f5f0eb; border: 1px solid #e0d8ce; color: #666; cursor: pointer; white-space: nowrap; }
+  .chip.on { background: #8B4513; color: #fff; border-color: #8B4513; }
+
+  .entity-list { flex: 1; overflow-y: auto; }
+  .entity-item { padding: 10px 12px; border-bottom: 1px solid #f5f0eb; cursor: pointer; display: flex; gap: 10px; align-items: flex-start; transition: background .1s; }
+  .entity-item:hover { background: #faf7f4; }
+  .entity-item.active { background: #fff8f0; border-left: 3px solid #8B4513; padding-left: 9px; }
+  .entity-item .avatar { width: 32px; height: 32px; border-radius: 6px; background: #e8ddd4; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .entity-item .info { flex: 1; min-width: 0; }
+  .entity-item .name { font-weight: 600; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .entity-item .sub { font-size: 10px; color: #999; margin-top: 2px; }
+  .entity-item .badges { display: flex; gap: 3px; margin-top: 4px; flex-wrap: wrap; }
+  .mini-badge { font-size: 9px; padding: 1px 5px; border-radius: 3px; font-weight: 600; }
+  .mini-badge.new { background: #e8faf0; color: #2d8a4e; }
+  .mini-badge.pending { background: #fff3cd; color: #856404; }
+  .mini-badge.done { background: #e8faf0; color: #2d8a4e; }
+  .mini-badge.warn { background: #fde8e8; color: #c0392b; }
+  .conf-bar { height: 3px; border-radius: 2px; margin-top: 5px; background: #f0ebe4; }
+  .conf-bar-fill { height: 100%; border-radius: 2px; background: #d97706; }
+  .conf-bar-fill.high { background: #2d8a4e; }
+
+  .pagination { padding: 8px 12px; border-top: 1px solid #f0ebe4; display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: #999; }
+  .page-btns { display: flex; gap: 4px; }
+  .page-btn { width: 24px; height: 24px; border-radius: 4px; background: #f5f0eb; border: 1px solid #e0d8ce; font-size: 11px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #666; }
+  .page-btn.active { background: #8B4513; color: #fff; border-color: #8B4513; }
+
+  /* RIGHT PANEL */
+  .right-panel { flex: 1; overflow-y: auto; background: #faf7f4; padding: 20px 24px; }
+
+  .entity-card-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px; }
+  .entity-photo { width: 120px; height: 90px; border-radius: 10px; background: #e8ddd4; flex-shrink: 0; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; border: 1.5px dashed #c5b8a8; }
+  .entity-photo span { font-size: 28px; }
+  .photo-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,.4); display: flex; gap: 2px; padding: 4px 5px; }
+  .photo-btn { flex: 1; text-align: center; color: #fff; font-size: 9px; cursor: pointer; background: rgba(255,255,255,.15); border-radius: 3px; padding: 2px 4px; }
+  .entity-card-meta { flex: 1; }
+  .entity-card-meta h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .entity-card-meta .meta-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .completeness-wrap { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #999; }
+  .completeness-track { width: 80px; height: 5px; background: #e8ddd4; border-radius: 3px; }
+  .completeness-fill { height: 100%; border-radius: 3px; background: #d97706; }
+  .card-actions { display: flex; gap: 8px; margin-top: 10px; }
+  .btn { padding: 7px 16px; border-radius: 7px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1.5px solid transparent; }
+  .btn-primary { background: #8B4513; color: #fff; }
+  .btn-outline { background: #fff; border-color: #d4c5b0; color: #555; }
+  .btn-danger { background: #fff; border-color: #e5b4b4; color: #c0392b; font-size: 11px; padding: 6px 12px; }
+
+  /* FIELDS SECTION */
+  .section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #a89880; margin: 20px 0 8px; padding-bottom: 4px; border-bottom: 1px solid #e8ddd4; }
+  .fields-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .field-row { display: flex; align-items: baseline; gap: 8px; padding: 7px 0; border-bottom: 1px solid #f0ebe4; }
+  .field-row:last-child { border-bottom: none; }
+  .fl { font-size: 10px; text-transform: uppercase; color: #bbb; width: 85px; flex-shrink: 0; }
+  .fv { flex: 1; font-size: 12px; }
+  .fv.empty { color: #ccc; font-style: italic; }
+  .fv.enriched { color: #2d8a4e; }
+  .fv.conflict { color: #d97706; }
+  .fv-edit { width: 100%; background: #fff; border: 1px solid #c5b8a8; border-radius: 5px; padding: 4px 8px; font-size: 12px; color: #333; outline: none; }
+  .fv-edit:focus { border-color: #8B4513; }
+  .source-tag { font-size: 9px; background: #f0ebe4; color: #888; padding: 1px 5px; border-radius: 3px; margin-left: 4px; }
+
+  /* PROPOSALS SECTION */
+  .proposals-bar { background: #fff; border: 1.5px solid #e8ddd4; border-radius: 10px; padding: 12px 16px; margin-top: 8px; }
+  .prop-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .prop-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid #f5f0eb; font-size: 11px; }
+  .prop-row:last-child { border-bottom: none; }
+  .prop-field { width: 80px; color: #888; font-size: 10px; text-transform: uppercase; }
+  .prop-val { flex: 1; color: #333; }
+  .prop-conf { width: 36px; text-align: right; font-size: 10px; color: #d97706; font-weight: 600; }
+  .prop-actions { display: flex; gap: 4px; }
+  .prop-btn { width: 22px; height: 22px; border-radius: 4px; border: 1px solid #e0d8ce; background: #f5f0eb; font-size: 11px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #666; }
+  .prop-btn.approve { border-color: #2d8a4e; color: #2d8a4e; background: #f0fff4; }
+  .prop-btn.reject { border-color: #e5b4b4; color: #c0392b; background: #fff5f5; }
+
+  .conf-slider-row { display: flex; align-items: center; gap: 10px; font-size: 11px; color: #666; margin-bottom: 10px; }
+  .conf-slider { flex: 1; accent-color: #8B4513; }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div class="topnav">
+  <div class="logo">Roasters Hub</div>
+  <a href="#" class="active">Enrichment</a>
+  <a href="#">Kawiarnie</a>
+  <a href="#">Palarnie</a>
+  <a href="#">Użytkownicy</a>
+  <div class="right"><a href="#">@MN ↓</a></div>
+</div>
+
+<!-- RUN HEADER BAR -->
+<div class="run-bar">
+  <a class="back" href="#">← Wróć do runów</a>
+  <div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="run-title">CAFE — Discover</span>
+      <span class="badge">✓ DONE</span>
+    </div>
+    <div class="meta">osm · website · ect &nbsp;·&nbsp; 13.04.2026, 17:43 &nbsp;·&nbsp; Warszawa</div>
+  </div>
+  <div class="stats">
+    <div class="stat-pill"><div class="num">19</div><div class="lbl">encji</div></div>
+    <div class="stat-pill"><div class="num amber">90</div><div class="lbl">do przejrzenia</div></div>
+    <div class="stat-pill"><div class="num green">7</div><div class="lbl">zatwierdzone</div></div>
+  </div>
+  <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+    <div class="conf-slider-row" style="margin:0; gap:8px;">
+      <span style="font-size:11px;color:#999;">Próg: <strong>75%</strong></span>
+      <input type="range" class="conf-slider" min="50" max="100" value="75" style="width:80px;">
+    </div>
+    <button class="btn btn-outline" style="font-size:11px;padding:6px 12px;">Zatwierdź ≥75%</button>
+    <button class="btn btn-primary" style="font-size:12px;">Zastosuj zatwierdzone →</button>
+  </div>
+</div>
+
+<!-- SPLIT LAYOUT -->
+<div class="split-wrap">
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <div class="left-toolbar">
+      <div class="search-row">
+        <input class="search-box" placeholder="🔍  Szukaj encji…" value="">
+      </div>
+      <div class="filter-row">
+        <span class="chip on">Wszystkie</span>
+        <span class="chip">Do przejrzenia</span>
+        <span class="chip">Nowe</span>
+        <span class="chip">Zatw.</span>
+      </div>
+    </div>
+
+    <div class="entity-list">
+
+      <div class="entity-item active">
+        <div class="avatar">☕</div>
+        <div class="info">
+          <div class="name">Cafe Chełmska</div>
+          <div class="sub">Warszawa · OSM</div>
+          <div class="badges">
+            <span class="mini-badge new">NOWA</span>
+            <span class="mini-badge pending">3 propozycje</span>
+          </div>
+          <div class="conf-bar"><div class="conf-bar-fill" style="width:70%;"></div></div>
+        </div>
+      </div>
+
+      <div class="entity-item">
+        <div class="avatar">☕</div>
+        <div class="info">
+          <div class="name">Filter & Grind</div>
+          <div class="sub">Warszawa · OSM + Website</div>
+          <div class="badges">
+            <span class="mini-badge new">NOWA</span>
+            <span class="mini-badge pending">5 propozycji</span>
+          </div>
+          <div class="conf-bar"><div class="conf-bar-fill high" style="width:88%;"></div></div>
+        </div>
+      </div>
+
+      <div class="entity-item">
+        <div class="avatar">☕</div>
+        <div class="info">
+          <div class="name">Kawa na Kredyt</div>
+          <div class="sub">Warszawa · OSM</div>
+          <div class="badges">
+            <span class="mini-badge done">Zatwierdzona</span>
+          </div>
+          <div class="conf-bar"><div class="conf-bar-fill high" style="width:92%;"></div></div>
+        </div>
+      </div>
+
+      <div class="entity-item">
+        <div class="avatar">☕</div>
+        <div class="info">
+          <div class="name">Kofeina Studio</div>
+          <div class="sub">Kraków · OSM</div>
+          <div class="badges">
+            <span class="mini-badge new">NOWA</span>
+            <span class="mini-badge warn">⚠ Zmiana nazwy</span>
+          </div>
+          <div class="conf-bar"><div class="conf-bar-fill" style="width:55%;background:#d97706;"></div></div>
+        </div>
+      </div>
+
+      <div class="entity-item">
+        <div class="avatar">☕</div>
+        <div class="info">
+          <div class="name">Specialty Lab</div>
+          <div class="sub">Gdańsk · ECT</div>
+          <div class="badges">
+            <span class="mini-badge pending">2 propozycje</span>
+          </div>
+          <div class="conf-bar"><div class="conf-bar-fill high" style="width:81%;"></div></div>
+        </div>
+      </div>
+
+      <div class="entity-item">
+        <div class="avatar">☕</div>
+        <div class="info">
+          <div class="name">Czarna Mrówka</div>
+          <div class="sub">Poznań · OSM</div>
+          <div class="badges">
+            <span class="mini-badge pending">1 propozycja</span>
+          </div>
+          <div class="conf-bar"><div class="conf-bar-fill" style="width:63%;"></div></div>
+        </div>
+      </div>
+
+      <div class="entity-item">
+        <div class="avatar">☕</div>
+        <div class="info">
+          <div class="name">Brew Brothers</div>
+          <div class="sub">Wrocław · Website</div>
+          <div class="badges">
+            <span class="mini-badge done">Zatwierdzona</span>
+          </div>
+          <div class="conf-bar"><div class="conf-bar-fill high" style="width:95%;"></div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="pagination">
+      <span>1–7 z 19</span>
+      <div class="page-btns">
+        <div class="page-btn">‹</div>
+        <div class="page-btn active">1</div>
+        <div class="page-btn">2</div>
+        <div class="page-btn">3</div>
+        <div class="page-btn">›</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+
+    <!-- ENTITY HEADER -->
+    <div class="entity-card-header">
+      <div class="entity-photo">
+        <span>📷</span>
+        <div class="photo-overlay">
+          <div class="photo-btn">↺ Losuj</div>
+          <div class="photo-btn">↑ Wgraj</div>
+        </div>
+      </div>
+      <div class="entity-card-meta">
+        <h2>Cafe Chełmska</h2>
+        <div class="meta-row">
+          <span style="background:#e8faf0;color:#2d8a4e;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;">NOWA ENCJA</span>
+          <span style="font-size:11px;color:#999;">CAFE · Warszawa</span>
+        </div>
+        <div class="completeness-wrap">
+          <span>Kompletność:</span>
+          <div class="completeness-track"><div class="completeness-fill" style="width:40%;"></div></div>
+          <span>40% · brakuje: opis, strona, instagram</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary">Zatwierdź i przejdź dalej →</button>
+          <button class="btn btn-outline">Pomiń</button>
+          <button class="btn btn-danger">Oznacz jako nieaktywna</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIELDS -->
+    <div class="section-label">Tożsamość</div>
+    <div style="background:#fff;border-radius:8px;border:1px solid #e8ddd4;padding:0 12px;">
+      <div class="field-row">
+        <div class="fl">Nazwa</div>
+        <div class="fv enriched">Cafe Chełmska <span class="source-tag">OSM</span></div>
+      </div>
+      <div class="field-row">
+        <div class="fl">Opis</div>
+        <input class="fv-edit" placeholder="Dodaj opis ręcznie…">
+      </div>
+    </div>
+
+    <div class="section-label">Lokalizacja</div>
+    <div style="background:#fff;border-radius:8px;border:1px solid #e8ddd4;padding:0 12px;">
+      <div class="field-row">
+        <div class="fl">Adres</div>
+        <div class="fv enriched">ul. Chełmska 21, Warszawa <span class="source-tag">OSM</span></div>
+      </div>
+      <div class="field-row">
+        <div class="fl">Lat / Lng</div>
+        <div class="fv enriched">54.2076 / 16.2253 <span class="source-tag">OSM</span></div>
+      </div>
+      <div class="field-row">
+        <div class="fl">Kraj</div>
+        <div class="fv enriched">PL <span class="source-tag">OSM</span></div>
+      </div>
+    </div>
+
+    <div class="section-label">Kontakt</div>
+    <div style="background:#fff;border-radius:8px;border:1px solid #e8ddd4;padding:0 12px;">
+      <div class="field-row">
+        <div class="fl">Strona</div>
+        <div class="fv empty">— brak</div>
+      </div>
+      <div class="field-row">
+        <div class="fl">Instagram</div>
+        <div class="fv empty">— brak</div>
+      </div>
+      <div class="field-row">
+        <div class="fl">Telefon</div>
+        <div class="fv empty">— brak</div>
+      </div>
+    </div>
+
+    <div class="section-label">Oferta</div>
+    <div style="background:#fff;border-radius:8px;border:1px solid #e8ddd4;padding:0 12px;">
+      <div class="field-row">
+        <div class="fl">Serwuje</div>
+        <div class="fv enriched">espresso, filter, cold brew <span class="source-tag">website</span></div>
+      </div>
+      <div class="field-row">
+        <div class="fl">Godziny</div>
+        <div class="fv enriched">Pn–Pt 8–18, Sb 9–17 <span class="source-tag">website</span></div>
+      </div>
+      <div class="field-row">
+        <div class="fl">Usługi</div>
+        <div class="fv empty">— brak</div>
+      </div>
+    </div>
+
+    <!-- PROPOSALS SECTION -->
+    <div class="section-label">Propozycje enrichmentu (3 oczekujące)</div>
+    <div class="proposals-bar">
+      <div class="prop-header">
+        <span style="font-size:11px;color:#666;">Zaakceptuj lub odrzuć indywidualnie</span>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-outline" style="font-size:10px;padding:4px 10px;">Zatwierdź wszystkie</button>
+          <button class="btn btn-outline" style="font-size:10px;padding:4px 10px;color:#c0392b;border-color:#e5b4b4;">Odrzuć wszystkie</button>
+        </div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-field">Lng</div>
+        <div class="prop-val">16.2253332 <span class="source-tag">OSM</span></div>
+        <div class="prop-conf">70%</div>
+        <div class="prop-actions">
+          <div class="prop-btn approve">✓</div>
+          <div class="prop-btn reject">✗</div>
+          <div class="prop-btn">–</div>
+        </div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-field">Lat</div>
+        <div class="prop-val">54.2076551 <span class="source-tag">OSM</span></div>
+        <div class="prop-conf">70%</div>
+        <div class="prop-actions">
+          <div class="prop-btn approve">✓</div>
+          <div class="prop-btn reject">✗</div>
+          <div class="prop-btn">–</div>
+        </div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-field">Nazwa</div>
+        <div class="prop-val">Cafe Chełmska <span class="source-tag">OSM</span></div>
+        <div class="prop-conf">70%</div>
+        <div class="prop-actions">
+          <div class="prop-btn approve">✓</div>
+          <div class="prop-btn reject">✗</div>
+          <div class="prop-btn">–</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

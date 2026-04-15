@@ -1,0 +1,115 @@
+<h2>Entity Editor — gdzie i jak pasuje do flow?</h2>
+<p class="subtitle">Nowy komponent "Karta encji" (cafe / roaster) — pełna edycja danych + zdjęcie. Jak go połączyć z enrichmentem i resztą panelu?</p>
+
+<style>
+.flow-diagram { display: flex; align-items: flex-start; gap: 6px; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 8px; }
+.flow-node { background: #f5f0eb; border: 1.5px solid #d4c5b0; border-radius: 8px; padding: 10px 14px; font-size: 12px; text-align: center; min-width: 110px; flex-shrink: 0; }
+.flow-node.highlight { background: #fff8f0; border-color: #8B4513; font-weight: 600; color: #8B4513; }
+.flow-node.new { background: #f0fff4; border-color: #2d8a4e; font-weight: 600; color: #2d8a4e; }
+.flow-node small { display: block; color: #999; font-size: 10px; margin-top: 3px; }
+.arrow { color: #aaa; font-size: 18px; line-height: 1; padding-top: 18px; flex-shrink: 0; }
+.section { margin-bottom: 28px; }
+.tag { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: 600; margin-right: 4px; }
+.tag.new { background: #e8faf0; color: #2d8a4e; border: 1px solid #2d8a4e; }
+.tag.changed { background: #fff3e0; color: #e65100; border: 1px solid #e65100; }
+
+.mockup-entity { background: white; border: 1.5px solid #e0d8ce; border-radius: 10px; padding: 16px 20px; margin-top: 12px; font-size: 12px; }
+.mockup-entity .row { display: flex; gap: 16px; margin-bottom: 10px; flex-wrap: wrap; }
+.mockup-entity .field-col { flex: 1; min-width: 180px; }
+.mockup-entity .photo-col { width: 140px; flex-shrink: 0; }
+.field-row { display: flex; align-items: baseline; gap: 8px; border-bottom: 1px solid #f0ebe4; padding: 6px 0; }
+.field-row .label { color: #999; font-size: 10px; text-transform: uppercase; width: 90px; flex-shrink: 0; }
+.field-row .val { color: #333; flex: 1; }
+.field-row .val.empty { color: #ccc; font-style: italic; }
+.field-row .val.enriched { color: #2d8a4e; font-weight: 500; }
+.photo-placeholder { background: #f0ebe4; border-radius: 8px; height: 110px; display: flex; align-items: center; justify-content: center; color: #bbb; font-size: 11px; text-align: center; border: 1.5px dashed #d4c5b0; }
+.photo-actions { margin-top: 6px; display: flex; gap: 4px; }
+.mini-btn { background: #f5f0eb; border: 1px solid #d4c5b0; border-radius: 4px; font-size: 10px; padding: 3px 8px; color: #666; cursor: default; }
+.mini-btn.primary { background: #8B4513; color: white; border-color: #8B4513; }
+</style>
+
+<div class="section">
+  <h3>Podgląd: Karta encji — co zawiera nowy komponent</h3>
+  <span class="tag new">NOWE</span> Ten sam komponent użyty w 3 miejscach
+
+  <div class="mockup-entity">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <div>
+        <strong style="font-size:15px;">Cafe Chełmska</strong>
+        <span style="margin-left:8px; background:#e8faf0; color:#2d8a4e; font-size:10px; padding:2px 7px; border-radius:4px; font-weight:600;">NEW ENTITY</span>
+      </div>
+      <div style="font-size:11px; color:#999;">3 propozycje · conf 70%</div>
+    </div>
+    <div class="row">
+      <div class="field-col">
+        <div class="field-row"><span class="label">Nazwa</span><span class="val enriched">Cafe Chełmska</span></div>
+        <div class="field-row"><span class="label">Adres</span><span class="val enriched">ul. Chełmska 21, Warszawa</span></div>
+        <div class="field-row"><span class="label">Strona</span><span class="val empty">— brak</span></div>
+        <div class="field-row"><span class="label">Instagram</span><span class="val empty">— brak</span></div>
+        <div class="field-row"><span class="label">Godziny</span><span class="val enriched">Pn–Pt 8–18, Sb 9–17</span></div>
+        <div class="field-row"><span class="label">Serwuje</span><span class="val enriched">espresso, filter, cold brew</span></div>
+        <div class="field-row"><span class="label">Opis</span><span class="val empty">— brak</span></div>
+      </div>
+      <div class="photo-col">
+        <div class="photo-placeholder">📷<br>Losowe zdjęcie<br><small>z Unsplash / puli</small></div>
+        <div class="photo-actions">
+          <button class="mini-btn">↺ Losuj</button>
+          <button class="mini-btn">↑ Wgraj</button>
+        </div>
+        <div style="margin-top:8px; font-size:10px; color:#aaa;">Źródło: Unsplash<br>"specialty coffee warsaw"</div>
+      </div>
+    </div>
+    <div style="display:flex; gap:8px; margin-top:8px;">
+      <button class="mini-btn primary">Zapisz →</button>
+      <button class="mini-btn">Pomiń</button>
+      <button class="mini-btn" style="margin-left:auto; color:#c0392b; border-color:#c0392b;">Oznacz jako nieaktywna</button>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Gdzie ten komponent się pojawia?</h3>
+  <div class="options">
+    <div class="option" data-choice="a" onclick="toggleSelect(this)">
+      <div class="letter">A</div>
+      <div class="content">
+        <h3>Enrichment-first — karta otwiera się po kliknięciu encji w run</h3>
+        <p style="font-size:12px;">Lista runów → Run detail (skrót parametrów) → kliknij encję → <strong>Karta encji</strong> (pełna edycja + zdjęcie + zatwierdź). Run detail staje się przeglądem encji, nie propozycji.</p>
+        <div class="flow-diagram" style="margin-top:10px;">
+          <div class="flow-node">Lista<br>runów</div><div class="arrow">→</div>
+          <div class="flow-node highlight">Run detail<br><small>lista encji</small></div><div class="arrow">→</div>
+          <div class="flow-node new">Karta encji<br><small>edycja + foto</small></div><div class="arrow">→</div>
+          <div class="flow-node">Następna<br>encja</div>
+        </div>
+        <p style="font-size:11px; color:#666; margin-top:8px;">Ten sam komponent dostępny też z listy kawiarni/palarni (bez kontekstu runu).</p>
+      </div>
+    </div>
+    <div class="option" data-choice="b" onclick="toggleSelect(this)">
+      <div class="letter">B</div>
+      <div class="content">
+        <h3>Entity-first — karta jako osobna strona encji, enrichment ją zasilą</h3>
+        <p style="font-size:12px;">Lista kawiarni/palarni → <strong>Karta encji</strong> (zawsze dostępna, enrichment tylko wzbogaca propozycjami). Run detail pokazuje "ile encji zaktualizowało dane" z linkami do kart.</p>
+        <div class="flow-diagram" style="margin-top:10px;">
+          <div class="flow-node">Lista<br>encji</div><div class="arrow">→</div>
+          <div class="flow-node new">Karta encji<br><small>edycja + foto</small></div>
+          <div class="arrow" style="padding-top:0; font-size:12px; align-self:center;">⟵ zasila</div>
+          <div class="flow-node highlight">Run detail<br><small>lista propozycji</small></div>
+        </div>
+        <p style="font-size:11px; color:#666; margin-top:8px;">Enrichment = feed danych do kart. Karta żyje niezależnie od enrichmentu.</p>
+      </div>
+    </div>
+    <div class="option" data-choice="c" onclick="toggleSelect(this)">
+      <div class="letter">C</div>
+      <div class="content">
+        <h3>Hybrid — Run detail ma embedded kartę dla każdej encji</h3>
+        <p style="font-size:12px;">Run detail to akordeon: każda encja rozwijana = już <strong>Karta encji</strong> (inline). Bez przechodzenia na inną stronę. Lista kawiarni/palarni linkuje do tej samej karty jako osobna strona.</p>
+        <div class="flow-diagram" style="margin-top:10px;">
+          <div class="flow-node highlight">Run detail<br><small>akordeon encji</small></div>
+          <div class="arrow">→</div>
+          <div class="flow-node new">↓ Karta encji<br><small>rozwinięta inline</small></div>
+        </div>
+        <p style="font-size:11px; color:#666; margin-top:8px;">Podobne do obecnego układu, ale karta jest bogatsza i zawiera foto + pełną edycję.</p>
+      </div>
+    </div>
+  </div>
+</div>
