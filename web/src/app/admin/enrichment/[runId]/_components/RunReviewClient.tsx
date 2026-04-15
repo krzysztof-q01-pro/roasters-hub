@@ -54,10 +54,10 @@ export function RunReviewClient(props: RunReviewClientProps) {
   const [approvedIds, setApprovedIds] = useState<Set<string>>(
     new Set(props.entities.flatMap(e => e.proposals.filter(p => p.status === "APPLIED").map(p => p.id)))
   )
-  const [rejectedIds, setRejectedIds] = useState<Set<string>>(
+  const [rejectedIds] = useState<Set<string>>(
     new Set(props.entities.flatMap(e => e.proposals.filter(p => p.status === "REJECTED").map(p => p.id)))
   )
-  const [skippedIds, setSkippedIds] = useState<Set<string>>(
+  const [skippedIds] = useState<Set<string>>(
     new Set(props.entities.flatMap(e => e.proposals.filter(p => p.status === "SKIPPED").map(p => p.id)))
   )
 

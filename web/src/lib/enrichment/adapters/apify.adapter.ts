@@ -314,14 +314,20 @@ export function createApifyEctLeadsAdapter(): ApifyAdapter {
       maxItems: q.limit ?? 20,
     }),
     transformItem: (item) => {
-      // latLng is an array ["lat_str", "lng_str"] per actor docs
-      // Fallback: some actor versions emit flat latitude/longitude strings
+      // latLng has three observed formats:
+      //   array  ["lat_str", "lng_str"]  — actor docs (v0.0.9+)
+      //   object { lat: number, lng: number } — some actor builds
+      //   flat   latitude/longitude strings  — older actor output
       const latLng = item['latLng']
       let lat: number | undefined
       let lng: number | undefined
       if (Array.isArray(latLng) && latLng.length >= 2) {
         lat = parseFloat(latLng[0] as string)
         lng = parseFloat(latLng[1] as string)
+      } else if (latLng && typeof latLng === 'object') {
+        const o = latLng as Record<string, unknown>
+        lat = typeof o['lat'] === 'number' ? (o['lat'] as number) : parseFloat(o['lat'] as string)
+        lng = typeof o['lng'] === 'number' ? (o['lng'] as number) : parseFloat(o['lng'] as string)
       } else if (item['latitude'] !== undefined) {
         lat = parseFloat(item['latitude'] as string)
         lng = parseFloat(item['longitude'] as string)
@@ -343,6 +349,7 @@ export function createApifyEctLeadsAdapter(): ApifyAdapter {
         description: (detail?.about ?? detail?.description) as string | undefined,
         // shareLink or flat 'link' (older format) → used by discover() for sourceUrl
         url: (detail?.shareLink ?? item['link']) as string | undefined,
+        serving: item['servingIds'],
       }
     },
     fieldMapping: {

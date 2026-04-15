@@ -31,7 +31,7 @@ describe('createApifyEnrichmentAdapter', () => {
     const input = cfg.discoverQueryBuilder({ entityType: 'CAFE', city: 'Warsaw', country: 'PL', limit: 5 })
     expect(input).toMatchObject({
       searchStringsArray: ['specialty coffee cafe'],
-      locationQuery: 'Warsaw PL',
+      locationQuery: 'Warsaw, PL',
       maxCrawledPlacesPerSearch: 5,
       language: 'en',
     })
@@ -46,13 +46,18 @@ describe('createApifyEnrichmentAdapter', () => {
     expect(input.locationQuery).toBe('Kraków')
   })
 
-  it('maps Apify title/url/latitude/longitude to schema names', () => {
+  it('maps Apify title and countryCode to schema names', () => {
     const adapter = createApifyEnrichmentAdapter()
     const mapping = (adapter as unknown as { fieldMapping: Record<string, string> }).fieldMapping
+    // title → name (actor field name differs from schema)
     expect(mapping['title']).toBe('name')
-    expect(mapping['url']).toBe('website')
-    expect(mapping['latitude']).toBe('lat')
-    expect(mapping['longitude']).toBe('lng')
+    // countryCode → country
+    expect(mapping['countryCode']).toBe('country')
+    // url is Google Maps URL — must NOT be mapped to website (different field)
+    expect(mapping['url']).toBeUndefined()
+    // lat/lng come from nested location.lat/lng via transformItem, not top-level fieldMapping
+    expect(mapping['latitude']).toBeUndefined()
+    expect(mapping['longitude']).toBeUndefined()
   })
 })
 

@@ -4,7 +4,6 @@ import { OsmAdapter } from './adapters/osm.adapter'
 import { WebsiteAdapter } from './adapters/website.adapter'
 import { EctAdapter } from './adapters/ect.adapter'
 import {
-  ApifyAdapter,
   createApifyEnrichmentAdapter,
   createApifyInstagramAdapter,
   createApifyEctLeadsAdapter,

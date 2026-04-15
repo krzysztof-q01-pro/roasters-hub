@@ -51,8 +51,6 @@ export default async function RunReviewPage({ params }: { params: Promise<{ runI
 
   if (!run) notFound()
 
-  const query = run.query as Record<string, unknown>
-
   // Build ProposalWithMeta array (add nameSimilarity)
   const proposalsWithMeta: ProposalWithMeta[] = run.proposals.map((p) => {
     let nameSimilarity: number | null = null

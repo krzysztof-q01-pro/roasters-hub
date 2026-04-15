@@ -24,7 +24,7 @@ vi.mock('@/lib/db', () => ({
 
 import { db } from '@/lib/db'
 import { runEnrichment } from './engine'
-import { CafeSchema } from '../schemas/cafe.schema'
+
 import type { SourceAdapter, RawPlace } from '../adapters/base'
 
 const mockRun = { id: 'run-1', entityType: 'CAFE', status: 'RUNNING' }

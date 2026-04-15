@@ -84,7 +84,7 @@ export async function bulkApplyByConfidence(
 
     let total = 0;
     for (const [, entityProposals] of byEntity) {
-      const { entityId, entityName, entityType } = entityProposals[0];
+      const { entityId, entityType } = entityProposals[0];
       const fieldUpdates: Record<string, unknown> = {};
       for (const p of entityProposals) fieldUpdates[p.fieldKey] = p.proposedValue;
 
