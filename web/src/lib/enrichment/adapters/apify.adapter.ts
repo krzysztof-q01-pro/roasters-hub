@@ -147,7 +147,7 @@ export class ApifyAdapter implements SourceAdapter {
 
     let run: { defaultDatasetId?: string; status: string; statusMessage?: string }
     try {
-      run = await runActor(this.actorId, input, 60)
+      run = await runActor(this.actorId, input, 250)
     } catch (err) {
       console.error(`[${this.id}] discover failed:`, err)
       return []
@@ -180,7 +180,7 @@ export class ApifyAdapter implements SourceAdapter {
 
     let run: { defaultDatasetId?: string; status: string; statusMessage?: string }
     try {
-      run = await runActor(this.actorId, input, 60)
+      run = await runActor(this.actorId, input, 250)
     } catch (err) {
       console.error(`[${this.id}] enrich failed for ${place.id}:`, err)
       return { sourceId: `apify:${this.actorId}:${place.id}`, fields: {} }

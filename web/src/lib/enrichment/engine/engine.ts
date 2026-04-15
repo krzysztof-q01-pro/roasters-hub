@@ -21,14 +21,10 @@ export interface EnrichmentRunParams {
   keywords?: string[]
 }
 
-export async function runEnrichment(
+export async function initEnrichmentRun(
   params: EnrichmentRunParams,
   adapters: SourceAdapter[],
 ): Promise<string> {
-  const schema = params.entityType === 'CAFE' ? CafeSchema : RoasterSchema
-  const mode = params.mode ?? 'both'
-  const limit = params.limit ?? 10
-
   const run = await db.enrichmentRun.create({
     data: {
       entityType: params.entityType,
@@ -38,6 +34,19 @@ export async function runEnrichment(
       stats: {},
     },
   })
+  return run.id
+}
+
+export async function executeEnrichmentRun(
+  runId: string,
+  params: EnrichmentRunParams,
+  adapters: SourceAdapter[],
+): Promise<void> {
+  const schema = params.entityType === 'CAFE' ? CafeSchema : RoasterSchema
+  const mode = params.mode ?? 'both'
+  const limit = params.limit ?? 10
+
+  const run = { id: runId }
 
   try {
     const proposals: (DiffProposal & { runId: string })[] = []
@@ -153,7 +162,6 @@ export async function runEnrichment(
       },
     })
 
-    return run.id
   } catch (error) {
     await db.enrichmentRun.update({
       where: { id: run.id },
@@ -161,4 +169,13 @@ export async function runEnrichment(
     })
     throw error
   }
+}
+
+export async function runEnrichment(
+  params: EnrichmentRunParams,
+  adapters: SourceAdapter[],
+): Promise<string> {
+  const runId = await initEnrichmentRun(params, adapters)
+  await executeEnrichmentRun(runId, params, adapters)
+  return runId
 }

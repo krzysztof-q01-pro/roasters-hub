@@ -1,11 +1,17 @@
 // web/src/app/api/enrichment/run/route.ts
 
+import { after } from 'next/server'
 import { NextResponse } from 'next/server'
 import { requireAdmin } from '@/lib/auth'
-import { runEnrichment, type EnrichmentRunParams } from '@/lib/enrichment/engine/engine'
+import {
+  initEnrichmentRun,
+  executeEnrichmentRun,
+  type EnrichmentRunParams,
+} from '@/lib/enrichment/engine/engine'
 import { getAdapters } from '@/lib/enrichment/registry'
 
-export const maxDuration = 60
+// Apify actors can take 2–5 minutes; after() runs post-response within this budget
+export const maxDuration = 300
 
 export async function POST(request: Request) {
   try {
@@ -38,14 +44,32 @@ export async function POST(request: Request) {
     )
   }
 
-  try {
-    const runId = await runEnrichment(
-      { entityType, country, city, sources, mode, limit: limit ?? 10, consent, keywords: keywords ?? [] },
-      adapters,
-    )
-    return NextResponse.json({ runId }, { status: 200 })
-  } catch (error) {
-    console.error('[POST /api/enrichment/run]', error)
-    return NextResponse.json({ error: 'Enrichment run failed' }, { status: 500 })
+  const params: EnrichmentRunParams = {
+    entityType,
+    country,
+    city,
+    sources,
+    mode,
+    limit: limit ?? 10,
+    consent,
+    keywords: keywords ?? [],
   }
+
+  let runId: string
+  try {
+    // Create the DB record immediately so we can redirect without waiting for Apify
+    runId = await initEnrichmentRun(params, adapters)
+  } catch (error) {
+    console.error('[POST /api/enrichment/run] init failed:', error)
+    return NextResponse.json({ error: 'Failed to start enrichment run' }, { status: 500 })
+  }
+
+  // Execute asynchronously after response is sent (uses remaining maxDuration budget)
+  after(async () => {
+    await executeEnrichmentRun(runId, params, adapters).catch((error) => {
+      console.error('[POST /api/enrichment/run] background execution failed:', error)
+    })
+  })
+
+  return NextResponse.json({ runId }, { status: 200 })
 }
