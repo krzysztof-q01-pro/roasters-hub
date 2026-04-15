@@ -50,11 +50,11 @@ async function runActor(
 ): Promise<{ defaultDatasetId?: string; status: string; statusMessage?: string }> {
   const token = getApifyToken()
 
-  const url = `https://api.apify.com/v2/acts/${actorId}/runs?token=${token}`
+  const url = `https://api.apify.com/v2/acts/${actorId}/runs?token=${token}&waitForFinish=${waitSecs}`
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ...input, waitForFinish: waitSecs }),
+    body: JSON.stringify(input),
   })
 
   if (!response.ok) {
@@ -76,6 +76,10 @@ async function runActor(
 
   while (Date.now() - startTime < maxWait) {
     const statusResponse = await fetch(statusUrl)
+    if (!statusResponse.ok) {
+      console.error(`[apify] poll status error ${statusResponse.status}`)
+      return { status: 'FAILED', statusMessage: `poll error ${statusResponse.status}` }
+    }
     const statusData = await statusResponse.json()
     const status = statusData.data?.status
 
@@ -226,25 +230,34 @@ export function createApifyEnrichmentAdapter(): ApifyAdapter {
       searchStringsArray: [
         q.entityType === 'CAFE' ? 'specialty coffee cafe' : 'coffee roaster',
       ],
-      locationQuery: `${q.city ?? ''} ${q.country ?? ''}`.trim(),
+      // Apify geofencing requires "City, Country" format (comma-separated)
+      locationQuery: [q.city, q.country].filter(Boolean).join(', '),
       maxCrawledPlacesPerSearch: q.limit ?? 10,
       language: 'en',
+      scrapePlaceDetailPage: true,
       scrapeSocialMediaProfiles: { instagrams: true },
     }),
     enrichQueryBuilder: (p: KnownPlace) => ({
       searchStringsArray: [p.name],
-      locationQuery: p.website ?? '',
+      // No locationQuery for enrich mode — search globally by name
       maxCrawledPlacesPerSearch: 1,
       language: 'en',
+      scrapePlaceDetailPage: true,
       scrapeSocialMediaProfiles: { instagrams: true },
     }),
+    // Actor returns: title (name), website (website), location.lat/lng (nested), address, city, countryCode, phone
+    // url field is Google Maps URL — do NOT map to website
     fieldMapping: {
       title: 'name',
-      url: 'website',
-      latitude: 'lat',
-      longitude: 'lng',
-      // address, city, country, postalCode, phone, openingHours, instagram → pass-through
+      countryCode: 'country',
+      // address, city, postalCode, phone, openingHours → pass-through (same names)
     },
+    // Flatten nested location object: { lat, lng } → top-level lat, lng
+    transformItem: (item) => ({
+      ...item,
+      lat: (item['location'] as Record<string, unknown> | undefined)?.lat,
+      lng: (item['location'] as Record<string, unknown> | undefined)?.lng,
+    }),
   })
 }
 
