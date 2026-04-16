@@ -117,6 +117,7 @@ export class WebsiteAdapter implements SourceAdapter {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async discover(_query: DiscoveryQuery): Promise<RawPlace[]> {
     // Website adapter cannot discover new places — it enriches known ones
     return []

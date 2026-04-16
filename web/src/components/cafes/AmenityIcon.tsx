@@ -1,5 +1,3 @@
-import { CAFE_SERVICE_ICONS } from "@/types/cafe-services";
-
 const iconPaths: Record<string, React.ReactNode> = {
   wifi: (
     <path d="M12 18c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm-5.27-3.39l1.41 1.41C9.51 14.76 10.71 14 12 14s2.49.76 3.86 2.02l1.41-1.41C15.57 13.02 13.88 12 12 12s-3.57 1.02-5.27 2.61zm-2.83-2.83l1.41 1.41C7.29 11.21 9.53 10 12 10s4.71 1.21 6.69 3.19l1.41-1.41C17.81 9.49 15.07 8 12 8S6.19 9.49 3.9 11.78zm-2.83-2.83l1.41 1.41C5.07 7.71 8.36 6 12 6s6.93 1.71 9.72 4.36l1.41-1.41C20.07 5.93 16.24 4 12 4S3.93 5.93.87 8.95z" />
@@ -33,9 +31,7 @@ interface AmenityIconProps {
 }
 
 export function AmenityIcon({ service, className = "w-4 h-4" }: AmenityIconProps) {
-  const iconName = CAFE_SERVICE_ICONS[service as keyof typeof CAFE_SERVICE_ICONS];
-
-  if (!iconName || !iconPaths[iconName]) {
+  if (!iconPaths[service]) {
     return (
       <svg
         className={className}
@@ -55,7 +51,7 @@ export function AmenityIcon({ service, className = "w-4 h-4" }: AmenityIconProps
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
     >
-      {iconPaths[iconName]}
+      {iconPaths[service]}
     </svg>
   );
 }

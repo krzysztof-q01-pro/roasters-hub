@@ -217,7 +217,7 @@ model Cafe {
   updatedAt       DateTime              @updatedAt
   ownerId         String?
   sourceUrl       String?
-  openingHours    String?
+  openingHours    Json?
   serving        String[]              @default([])
   services       String[]              @default([])
   roasters       CafeRoasterRelation[]
