@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
 import { requireAdmin, requireCafeOwner } from "@/lib/auth";
 import { generateUniqueCafeSlug } from "@/lib/slug";
@@ -233,30 +234,58 @@ export async function adminUpdateCafe(
   cafeId: string,
   data: {
     name?: string;
-    description?: string;
     city?: string;
     country?: string;
-    website?: string;
-    email?: string;
-    instagram?: string;
-    phone?: string;
-    address?: string;
-    priceRange?: string;
+    countryCode?: string;
+    description?: string | null;
+    address?: string | null;
+    postalCode?: string | null;
+    website?: string | null;
+    email?: string | null;
+    instagram?: string | null;
+    phone?: string | null;
+    priceRange?: string | null;
     seatingCapacity?: number | null;
+    openingHours?: import("@prisma/client").Prisma.InputJsonValue | null;
+    services?: string[];
+    serving?: string[];
+    logoUrl?: string | null;
+    coverImageUrl?: string | null;
+    sourceUrl?: string | null;
+    featured?: boolean;
+    ownerId?: string | null;
+    lat?: number | null;
+    lng?: number | null;
   },
-): Promise<ActionResult> {
+): Promise<ActionResult<{ slug: string }>> {
   try {
     await requireAdmin();
+    const { ownerId, openingHours, ...rest } = data;
+    // ownerId is a nullable FK — use relation syntax to satisfy Prisma's union type
+    const ownerUpdate =
+      ownerId !== undefined
+        ? { owner: ownerId ? { connect: { id: ownerId } } : { disconnect: true } }
+        : {}
+    // openingHours is Json? — null must be passed as Prisma.JsonNull
+    const hoursUpdate =
+      openingHours !== undefined
+        ? { openingHours: openingHours === null ? Prisma.JsonNull : openingHours }
+        : {}
     const cafe = await db.cafe.update({
       where: { id: cafeId },
-      data,
+      data: {
+        ...rest,
+        ...ownerUpdate,
+        ...hoursUpdate,
+      },
       select: { slug: true },
     });
     revalidatePath("/admin/cafes");
     revalidatePath(`/admin/cafes/${cafeId}`);
     revalidatePath(`/cafes/${cafe.slug}`);
     revalidatePath("/cafes");
-    return { success: true, data: undefined };
+    revalidatePath("/map");
+    return { success: true, data: { slug: cafe.slug } };
   } catch (error) {
     console.error("[adminUpdateCafe]", error);
     return {
