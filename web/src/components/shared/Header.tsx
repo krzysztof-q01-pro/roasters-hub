@@ -4,9 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
-import { ChevronDown } from "lucide-react";
 import { CoffeeBean } from "@/components/icons/CoffeeBean";
 import { CoffeeCup } from "@/components/icons/CoffeeCup";
+import { AddPlaceDropdown } from "./AddPlaceDropdown";
 
 const NAV_LINKS = [
   { href: "/roasters", label: "Browse Roasters" },
@@ -119,31 +119,7 @@ export function Header() {
             })}
 
             {/* Dodaj miejsce dropdown */}
-            <div className="relative group">
-              <button className="flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-container transition-colors">
-                Dodaj miejsce
-                <ChevronDown className="h-3.5 w-3.5" />
-              </button>
-              <div className="absolute right-0 top-full z-50 mt-2 hidden w-56 rounded-xl border border-white/10 bg-[#111] p-2 shadow-xl group-hover:block">
-                <a href="/register" className="block rounded-lg px-3 py-2.5 text-sm hover:bg-white/5 transition-colors">
-                  <div className="font-medium text-gray-100">Mam palarnię</div>
-                  <div className="text-xs text-gray-500">Zarejestruj swoją palarnię</div>
-                </a>
-                <a href="/register/cafe" className="block rounded-lg px-3 py-2.5 text-sm hover:bg-white/5 transition-colors">
-                  <div className="font-medium text-gray-100">Mam kawiarnię</div>
-                  <div className="text-xs text-gray-500">Zarejestruj swoją kawiarnię</div>
-                </a>
-                <div className="my-1 border-t border-white/10" />
-                <a href="/suggest/roastery" className="block rounded-lg px-3 py-2.5 text-sm hover:bg-white/5 transition-colors">
-                  <div className="font-medium text-gray-100">Znam świetną palarnię</div>
-                  <div className="text-xs text-gray-500">Zaproponuj miejsce</div>
-                </a>
-                <a href="/suggest/cafe" className="block rounded-lg px-3 py-2.5 text-sm hover:bg-white/5 transition-colors">
-                  <div className="font-medium text-gray-100">Znam świetną kawiarnię</div>
-                  <div className="text-xs text-gray-500">Zaproponuj miejsce</div>
-                </a>
-              </div>
-            </div>
+            <AddPlaceDropdown />
           </nav>
         </div>
 
