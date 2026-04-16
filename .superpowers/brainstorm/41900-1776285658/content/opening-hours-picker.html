@@ -1,0 +1,111 @@
+<h2>Picker godzin otwarcia</h2>
+<p class="subtitle">Jak powinien wyglądać komponent wyboru godzin? (używany i w formularzu propozycji i w admin panelu)</p>
+
+<div class="cards">
+
+  <!-- Option A -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f0f0f;padding:14px;font-size:11px;color:#e5e5e5;min-height:300px">
+      <div style="font-size:11px;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Dzień po dniu</div>
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <div style="display:flex;align-items:center;gap:8px;background:#1a1a1a;border-radius:5px;padding:6px 8px">
+          <input type="checkbox" checked style="accent-color:#c8a96e" readonly> <span style="width:28px;color:#ccc">Pon</span>
+          <span style="background:#252525;border-radius:3px;padding:3px 6px;color:#aaa">07:00</span>
+          <span style="color:#555">—</span>
+          <span style="background:#252525;border-radius:3px;padding:3px 6px;color:#aaa">18:00</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;background:#1a1a1a;border-radius:5px;padding:6px 8px">
+          <input type="checkbox" checked style="accent-color:#c8a96e" readonly> <span style="width:28px;color:#ccc">Wt</span>
+          <span style="background:#252525;border-radius:3px;padding:3px 6px;color:#aaa">07:00</span>
+          <span style="color:#555">—</span>
+          <span style="background:#252525;border-radius:3px;padding:3px 6px;color:#aaa">18:00</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;background:#1a1a1a;border-radius:5px;padding:6px 8px">
+          <input type="checkbox" checked style="accent-color:#c8a96e" readonly> <span style="width:28px;color:#ccc">Śr</span>
+          <span style="background:#252525;border-radius:3px;padding:3px 6px;color:#aaa">07:00</span>
+          <span style="color:#555">—</span>
+          <span style="background:#252525;border-radius:3px;padding:3px 6px;color:#aaa">18:00</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;background:#1a1a1a;border-radius:5px;padding:6px 8px">
+          <input type="checkbox" checked style="accent-color:#c8a96e" readonly> <span style="width:28px;color:#ccc">Czw</span>
+          <span style="background:#252525;border-radius:3px;padding:3px 6px;color:#aaa">07:00</span>
+          <span style="color:#555">—</span>
+          <span style="background:#252525;border-radius:3px;padding:3px 6px;color:#aaa">18:00</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;background:#1a1a1a;border-radius:5px;padding:6px 8px">
+          <input type="checkbox" checked style="accent-color:#c8a96e" readonly> <span style="width:28px;color:#ccc">Pt</span>
+          <span style="background:#252525;border-radius:3px;padding:3px 6px;color:#aaa">07:00</span>
+          <span style="color:#555">—</span>
+          <span style="background:#252525;border-radius:3px;padding:3px 6px;color:#aaa">18:00</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;background:#1a1a1a;border-radius:5px;padding:6px 8px">
+          <input type="checkbox" checked style="accent-color:#c8a96e" readonly> <span style="width:28px;color:#ccc">Sob</span>
+          <span style="background:#252525;border-radius:3px;padding:3px 6px;color:#aaa">09:00</span>
+          <span style="color:#555">—</span>
+          <span style="background:#252525;border-radius:3px;padding:3px 6px;color:#aaa">17:00</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;background:#1a1a1a;border-radius:5px;padding:6px 8px;opacity:0.5">
+          <input type="checkbox" style="accent-color:#c8a96e" readonly> <span style="width:28px;color:#555">Nd</span>
+          <span style="color:#444;font-style:italic;font-size:10px">zamknięte</span>
+        </div>
+        <div style="margin-top:6px;display:flex;gap:6px">
+          <div style="font-size:10px;color:#555;background:#1a1a1a;border-radius:4px;padding:4px 8px;cursor:pointer">Kopiuj Pon→Pt do wszystkich</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Wiersz na dzień</h3>
+      <p>Checkbox (otwarty/zamknięty) + selekt od/do. Przycisk "kopiuj zakres". Najprostszy do zrozumienia.</p>
+    </div>
+  </div>
+
+  <!-- Option B -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f0f0f;padding:14px;font-size:11px;color:#e5e5e5;min-height:300px">
+      <div style="font-size:11px;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Grupy + wyjątki</div>
+      <div style="background:#1a1a1a;border-radius:6px;padding:10px;margin-bottom:6px">
+        <div style="font-size:10px;color:#888;margin-bottom:6px">Wybierz dni</div>
+        <div style="display:flex;gap:4px;margin-bottom:8px">
+          <div style="background:#c8a96e;color:#0f0f0f;border-radius:3px;padding:3px 7px;font-weight:600">Pon</div>
+          <div style="background:#c8a96e;color:#0f0f0f;border-radius:3px;padding:3px 7px;font-weight:600">Wt</div>
+          <div style="background:#c8a96e;color:#0f0f0f;border-radius:3px;padding:3px 7px;font-weight:600">Śr</div>
+          <div style="background:#c8a96e;color:#0f0f0f;border-radius:3px;padding:3px 7px;font-weight:600">Czw</div>
+          <div style="background:#c8a96e;color:#0f0f0f;border-radius:3px;padding:3px 7px;font-weight:600">Pt</div>
+          <div style="background:#252525;color:#888;border-radius:3px;padding:3px 7px">Sob</div>
+          <div style="background:#252525;color:#555;border-radius:3px;padding:3px 7px">Nd</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="background:#252525;border-radius:3px;padding:4px 8px;color:#aaa">07:00</span>
+          <span style="color:#555">—</span>
+          <span style="background:#252525;border-radius:3px;padding:4px 8px;color:#aaa">18:00</span>
+          <div style="margin-left:auto;font-size:10px;color:#c8a96e;cursor:pointer">＋ Druga zmiana</div>
+        </div>
+      </div>
+      <div style="background:#1a1a1a;border-radius:6px;padding:10px">
+        <div style="font-size:10px;color:#888;margin-bottom:6px">Sobota (inna godzina)</div>
+        <div style="display:flex;gap:4px;margin-bottom:8px">
+          <div style="background:#252525;color:#555;border-radius:3px;padding:3px 7px">Pon</div>
+          <div style="background:#252525;color:#555;border-radius:3px;padding:3px 7px">Wt</div>
+          <div style="background:#252525;color:#555;border-radius:3px;padding:3px 7px">Śr</div>
+          <div style="background:#252525;color:#555;border-radius:3px;padding:3px 7px">Czw</div>
+          <div style="background:#252525;color:#555;border-radius:3px;padding:3px 7px">Pt</div>
+          <div style="background:#c8a96e;color:#0f0f0f;border-radius:3px;padding:3px 7px;font-weight:600">Sob</div>
+          <div style="background:#252525;color:#555;border-radius:3px;padding:3px 7px">Nd</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="background:#252525;border-radius:3px;padding:4px 8px;color:#aaa">09:00</span>
+          <span style="color:#555">—</span>
+          <span style="background:#252525;border-radius:3px;padding:4px 8px;color:#aaa">17:00</span>
+        </div>
+      </div>
+      <div style="margin-top:6px;font-size:10px;color:#555;background:#1a1a1a;border-radius:4px;padding:4px 8px;display:inline-block;cursor:pointer">＋ Dodaj grupę dni</div>
+    </div>
+    <div class="card-body">
+      <h3>B — Grupy dni + godziny</h3>
+      <p>Toggleujemy dni do grupy, ustawiamy godziny dla grupy. Elastyczne, obsługuje dwie zmiany. Bardziej złożone.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:16px">Który picker wybierasz?</p>

@@ -49,40 +49,45 @@ export default async function CafeProfilePage({
 }) {
   const { slug } = await params;
 
-  const cafe = await db.cafe.findUnique({
-    where: { slug },
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      description: true,
-      country: true,
-      countryCode: true,
-      city: true,
-      address: true,
-      lat: true,
-      lng: true,
-      website: true,
-      instagram: true,
-      phone: true,
-      coverImageUrl: true,
-      openingHours: true,
-      serving: true,
-      services: true,
-      sourceUrl: true,
-      status: true,
-      featured: true,
-      createdAt: true,
-      updatedAt: true,
-      roasters: {
-        include: {
-          roaster: {
-            select: { id: true, name: true, slug: true, city: true, country: true },
+  let cafe;
+  try {
+    cafe = await db.cafe.findUnique({
+      where: { slug },
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        description: true,
+        country: true,
+        countryCode: true,
+        city: true,
+        address: true,
+        lat: true,
+        lng: true,
+        website: true,
+        instagram: true,
+        phone: true,
+        coverImageUrl: true,
+        openingHours: true,
+        serving: true,
+        services: true,
+        sourceUrl: true,
+        status: true,
+        featured: true,
+        createdAt: true,
+        updatedAt: true,
+        roasters: {
+          include: {
+            roaster: {
+              select: { id: true, name: true, slug: true, city: true, country: true },
+            },
           },
         },
       },
-    },
-  });
+    });
+  } catch {
+    notFound();
+  }
 
   if (!cafe || cafe.status !== "VERIFIED") {
     const slugRedirect = await db.slugRedirect.findUnique({ where: { fromSlug: slug } });

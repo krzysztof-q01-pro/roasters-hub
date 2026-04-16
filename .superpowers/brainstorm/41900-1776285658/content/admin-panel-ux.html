@@ -1,0 +1,103 @@
+<h2>Admin Panel — Master Edit (Kawiarnia)</h2>
+<p class="subtitle">Pełna edycja wszystkich pól w pogrupowanym, czytelnym układzie. Czy to właściwa struktura sekcji?</p>
+
+<div class="mockup">
+  <div class="mockup-header">admin / cafes / [id] — Edit mode</div>
+  <div class="mockup-body" style="padding:0;overflow:hidden">
+
+    <!-- Admin toolbar -->
+    <div style="padding:10px 20px;background:#1a1a1a;border-bottom:1px solid #2a2a2a;display:flex;align-items:center;gap:10px">
+      <div style="font-size:12px;color:#888">Blackout Coffee &amp; Bar</div>
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <div style="padding:5px 12px;border-radius:4px;border:1px solid #333;font-size:11px;color:#888">Anuluj</div>
+        <div style="padding:5px 12px;border-radius:4px;background:#c8a96e;color:#0f0f0f;font-size:11px;font-weight:700">Zapisz zmiany</div>
+        <div style="padding:5px 12px;border-radius:4px;background:#1d3d1d;color:#6db86d;font-size:11px;font-weight:600">✓ Zweryfikuj</div>
+        <div style="padding:5px 12px;border-radius:4px;background:#3d1d1d;color:#e06060;font-size:11px">✗ Odrzuć</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:200px 1fr;height:440px">
+
+      <!-- Sidebar nav -->
+      <div style="background:#161616;border-right:1px solid #222;padding:12px 0;font-size:12px">
+        <div style="padding:8px 16px;color:#c8a96e;font-weight:600;background:#1e1a14;border-left:2px solid #c8a96e">Tożsamość</div>
+        <div style="padding:8px 16px;color:#888;cursor:pointer">Lokalizacja &amp; Mapa</div>
+        <div style="padding:8px 16px;color:#888;cursor:pointer">Kontakt</div>
+        <div style="padding:8px 16px;color:#888;cursor:pointer">Godziny otwarcia</div>
+        <div style="padding:8px 16px;color:#888;cursor:pointer">Serwisy &amp; Amenities</div>
+        <div style="padding:8px 16px;color:#888;cursor:pointer">Zdjęcia</div>
+        <div style="padding:8px 16px;color:#888;cursor:pointer;border-top:1px solid #222;margin-top:8px">Admin &amp; Status</div>
+      </div>
+
+      <!-- Main content — showing "Tożsamość" section -->
+      <div style="padding:20px;overflow-y:auto;background:#111;display:flex;flex-direction:column;gap:16px">
+
+        <div style="font-size:13px;font-weight:600;color:#f0f0f0;padding-bottom:8px;border-bottom:1px solid #1e1e1e">
+          Tożsamość
+          <span style="font-size:11px;font-weight:400;color:#555;margin-left:8px">Podstawowe dane miejsca</span>
+        </div>
+
+        <div>
+          <div style="font-size:11px;color:#888;margin-bottom:4px">Nazwa <span style="color:#c8a96e">*</span></div>
+          <div class="mock-input" style="width:100%;box-sizing:border-box">Blackout Coffee &amp; Bar</div>
+        </div>
+
+        <div>
+          <div style="font-size:11px;color:#888;margin-bottom:4px">Slug (URL)</div>
+          <div class="mock-input" style="width:100%;box-sizing:border-box;color:#666">blackout-coffee-bar</div>
+          <div style="font-size:11px;color:#555;margin-top:3px">⚠️ Zmiana sluga unieważni stare linki</div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr 100px;gap:10px">
+          <div>
+            <div style="font-size:11px;color:#888;margin-bottom:4px">Miasto <span style="color:#c8a96e">*</span></div>
+            <div class="mock-input">Warszawa</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:#888;margin-bottom:4px">Kraj <span style="color:#c8a96e">*</span></div>
+            <div class="mock-input" style="color:#888">Polska ▾</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:#888;margin-bottom:4px">Kod kraju</div>
+            <div class="mock-input" style="color:#888">PL</div>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size:11px;color:#888;margin-bottom:4px">Opis</div>
+          <div class="mock-input" style="height:70px;display:flex;align-items:flex-start;padding-top:8px;width:100%;box-sizing:border-box">Klimatyczna kawiarnia specialty w centrum...</div>
+          <div style="font-size:11px;color:#555;margin-top:3px;display:flex;justify-content:space-between">
+            <span>Widoczny na stronie profilu kawiarni</span>
+            <span>187 / 2000</span>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div>
+            <div style="font-size:11px;color:#888;margin-bottom:4px">Przedział cenowy</div>
+            <div class="mock-input" style="color:#888">$$ — Średni ▾</div>
+            <div style="font-size:11px;color:#555;margin-top:3px">$, $$, $$$, $$$$</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:#888;margin-bottom:4px">Liczba miejsc</div>
+            <div class="mock-input">40</div>
+            <div style="font-size:11px;color:#555;margin-top:3px">Przybliżona pojemność</div>
+          </div>
+        </div>
+
+        <div style="background:#1a1a1a;border-radius:6px;padding:12px 14px;display:flex;gap:8px">
+          <div style="font-size:12px;color:#888">
+            <div style="font-weight:600;color:#ccc;margin-bottom:6px">💡 Wskazówki dla admina</div>
+            <div>• Slug zmień tylko jeśli nazwa się zmieniła i po przekierowaniu</div>
+            <div>• Opis kopiuj ze strony kawiarni jeśli użytkownik go nie podał</div>
+            <div>• Cenówka: $ do 10 zł, $$ 10-25 zł, $$$ 25-40 zł, $$$$ powyżej 40 zł</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:16px">Admin panel: sidebar z sekcjami + main area z polami + podpowiedzi inline. Czy taka struktura jest OK?</p>

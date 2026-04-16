@@ -1,0 +1,78 @@
+<h2>Formularz propozycji — "Progressive Disclosure"</h2>
+<p class="subtitle">Jak powinny być pogrupowane i odsłaniane pola? Wybierz wariant który Ci odpowiada.</p>
+
+<div class="cards">
+
+  <!-- Option A -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f0f0f;padding:16px;font-family:monospace;font-size:12px;color:#e5e5e5;min-height:280px">
+      <div style="background:#1a1a1a;border-radius:8px;padding:12px;margin-bottom:8px">
+        <div style="color:#888;font-size:10px;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Wymagane</div>
+        <div style="background:#252525;border-radius:4px;padding:6px 8px;margin-bottom:4px;border-left:3px solid #c8a96e">📛 Nazwa kawiarni *</div>
+        <div style="background:#252525;border-radius:4px;padding:6px 8px;margin-bottom:4px;border-left:3px solid #c8a96e">🏙️ Miasto *</div>
+        <div style="background:#252525;border-radius:4px;padding:6px 8px;border-left:3px solid #c8a96e">🌍 Kraj *</div>
+      </div>
+      <div style="background:#1a1a1a;border-radius:8px;padding:12px;margin-bottom:8px">
+        <div style="color:#888;font-size:10px;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Opcjonalne — rozwijane kliknięciem</div>
+        <div style="background:#252525;border-radius:4px;padding:6px 8px;margin-bottom:4px;opacity:0.7">＋ Adres</div>
+        <div style="background:#252525;border-radius:4px;padding:6px 8px;margin-bottom:4px;opacity:0.7">＋ Strona www</div>
+        <div style="background:#252525;border-radius:4px;padding:6px 8px;margin-bottom:4px;opacity:0.7">＋ Instagram</div>
+        <div style="background:#252525;border-radius:4px;padding:6px 8px;opacity:0.7">＋ Opis</div>
+      </div>
+      <div style="background:#1a1a1a;border-radius:8px;padding:12px">
+        <div style="color:#888;font-size:10px;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Zaawansowane ▸</div>
+        <div style="color:#555;font-size:11px">Godziny otwarcia, serwisy, telefon, e-mail...</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — 3 sekcje accordion</h3>
+      <p>Wymagane widoczne od razu. Opcjonalne i zaawansowane w osobnych sekcjach rozwijanych kliknięciem. Najprostsze do nawigacji.</p>
+    </div>
+  </div>
+
+  <!-- Option B -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f0f0f;padding:16px;font-family:monospace;font-size:12px;color:#e5e5e5;min-height:280px">
+      <div style="background:#1a1a1a;border-radius:8px;padding:12px;margin-bottom:8px">
+        <div style="color:#888;font-size:10px;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Krok 1 / 2 — Podstawowe</div>
+        <div style="background:#252525;border-radius:4px;padding:6px 8px;margin-bottom:4px;border-left:3px solid #c8a96e">📛 Nazwa *</div>
+        <div style="background:#252525;border-radius:4px;padding:6px 8px;margin-bottom:4px;border-left:3px solid #c8a96e">🏙️ Miasto *</div>
+        <div style="background:#252525;border-radius:4px;padding:6px 8px;margin-bottom:4px;border-left:3px solid #c8a96e">🌍 Kraj *</div>
+        <div style="background:#252525;border-radius:4px;padding:6px 8px;opacity:0.6">📍 Adres (opcja)</div>
+        <div style="margin-top:8px;background:#c8a96e;color:#0f0f0f;border-radius:4px;padding:6px 10px;text-align:center;font-weight:bold;font-size:11px">Dalej →</div>
+      </div>
+      <div style="background:#1a1a1a;border-radius:8px;padding:12px;opacity:0.5">
+        <div style="color:#888;font-size:10px;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Krok 2 / 2 — Szczegóły (opcjonalny)</div>
+        <div style="color:#555;font-size:11px">www, instagram, opis, godziny, serwisy...</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — 2 kroki (step wizard)</h3>
+      <p>Krok 1: wymagane + adres. Krok 2: opcjonalny ze szczegółami — można pominąć i od razu wysłać. Spójne z istniejącym /register.</p>
+    </div>
+  </div>
+
+  <!-- Option C -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f0f0f;padding:16px;font-family:monospace;font-size:12px;color:#e5e5e5;min-height:280px">
+      <div style="background:#1a1a1a;border-radius:8px;padding:12px;margin-bottom:8px">
+        <div style="background:#252525;border-radius:4px;padding:6px 8px;margin-bottom:4px;border-left:3px solid #c8a96e">📛 Nazwa *</div>
+        <div style="background:#252525;border-radius:4px;padding:6px 8px;margin-bottom:4px;border-left:3px solid #c8a96e">🏙️ Miasto *</div>
+        <div style="background:#252525;border-radius:4px;padding:6px 8px;margin-bottom:4px;border-left:3px solid #c8a96e">🌍 Kraj *</div>
+        <div style="background:#252525;border-radius:4px;padding:6px 8px;margin-bottom:4px;opacity:0.7">📍 Adres</div>
+        <div style="background:#252525;border-radius:4px;padding:6px 8px;margin-bottom:4px;opacity:0.7">🌐 Strona www</div>
+        <div style="background:#252525;border-radius:4px;padding:6px 8px;margin-bottom:4px;opacity:0.7">📸 Instagram</div>
+        <div style="background:#252525;border-radius:4px;padding:6px 8px;margin-bottom:4px;opacity:0.7">📝 Opis</div>
+        <div style="background:#1d2d1d;border-radius:4px;padding:6px 8px;margin-bottom:4px;color:#6db86d;opacity:0.8">⏰ Godziny otwarcia ▸</div>
+        <div style="background:#1d2d1d;border-radius:4px;padding:6px 8px;color:#6db86d;opacity:0.8">☕ Serwisy ▸</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Jedna długa strona</h3>
+      <p>Wszystko na jednym scrollu. Wymagane wyróżnione gwiazdką. Sekcje zaawansowane (godziny, serwisy) zwinięte, ale na tej samej stronie.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:16px">Kliknij wariant w przeglądarce lub napisz w terminalu.</p>
