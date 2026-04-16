@@ -31,7 +31,7 @@ import { db } from "@/lib/db";
 import { generateUniqueSlug } from "@/lib/slug";
 import { resolveCountryCode } from "@/lib/country-codes";
 import { sendNewRegistrationNotification } from "@/lib/email";
-import { createRoasterRegistration } from "@/actions/roaster.actions";
+import { createRoasterRegistration, createRoasterProposal } from "@/actions/roaster.actions";
 
 const mockRevalidatePath = vi.mocked(revalidatePath);
 const mockCreate = db.roaster.create as unknown as ReturnType<typeof vi.fn>;
@@ -176,6 +176,46 @@ describe("createRoasterRegistration", () => {
     const fd = makeFormData({ city: "Warsaw", country: "Poland" }); // missing name
     await createRoasterRegistration(fd);
 
+    expect(mockCreate).not.toHaveBeenCalled();
+  });
+});
+
+// ── createRoasterProposal ──────────────────────────────────────────────────
+
+describe("createRoasterProposal", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockGenerateSlug.mockResolvedValue("rocket-roasters-warsaw");
+    mockResolveCountryCode.mockReturnValue("PL");
+    mockCreate.mockResolvedValue({ slug: "rocket-roasters-warsaw" });
+  });
+
+  it("creates PENDING roaster with no ownerId and returns slug", async () => {
+    const fd = makeFormData({
+      name: "Rocket Roasters",
+      city: "Warsaw",
+      country: "Poland",
+    });
+    const result = await createRoasterProposal(fd);
+
+    expect(result.success).toBe(true);
+    if (result.success) expect(result.data).toEqual({ slug: "rocket-roasters-warsaw" });
+    expect(mockCreate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          status: "PENDING",
+          name: "Rocket Roasters",
+        }),
+      })
+    );
+  });
+
+  it("returns fieldError when name is too short", async () => {
+    const fd = makeFormData({ name: "X", city: "Warsaw", country: "Poland" });
+    const result = await createRoasterProposal(fd);
+
+    expect(result.success).toBe(false);
+    if (!result.success) expect(result.fieldErrors?.name).toBeDefined();
     expect(mockCreate).not.toHaveBeenCalled();
   });
 });

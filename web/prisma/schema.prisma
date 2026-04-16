@@ -56,6 +56,7 @@ model Roaster {
   hasCafe              Boolean?
   hasTastingRoom       Boolean?
   coverImageUrl        String?
+  sourceUrl            String?
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
   ownerId              String?
@@ -217,7 +218,7 @@ model Cafe {
   updatedAt       DateTime              @updatedAt
   ownerId         String?
   sourceUrl       String?
-  openingHours    String?
+  openingHours    Json?
   serving        String[]              @default([])
   services       String[]              @default([])
   roasters       CafeRoasterRelation[]

@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-04-14 | Enrichment UX Redesign COMPLETE — AdminNav, split layout, keywords, photo integration
+2026-04-16 | Data Consistency + Public Proposal Flow COMPLETE — OpeningHoursPicker, /suggest pages, admin master editors, navigation CTAs
 
 ---
 
@@ -72,11 +72,12 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Active Work
 
-**@MN:** feat/mn-enrichment-ux-redesign — enrichment UX redesign COMPLETE, ready for review
+**@MN:** feat/mn-data-consistency-proposal-flow — data consistency + public proposal flow COMPLETE (6/6 tasks: schema migration, OpeningHoursPicker, /suggest/cafe + /suggest/roastery, admin cafe master editor, admin roaster master editor, nav CTAs), ready for review
 **@KK:** Admin dashboard statystyk (P1)
 **@AGENT:** Cafe Hierarchy & Map Thumbnails — COMPLETE (4/4 tasks: coverImageUrl fallback, country/city pages, 4-level breadcrumb)
 
 **Completed recently:**
+- ✅ Data Consistency + Public Proposal Flow — Cafe.openingHours String→Json migration, OpeningHoursPicker component (Smart Monday), /suggest/cafe + /suggest/roastery public forms, admin cafe master editor (7 sections), admin roaster master editor (8 sections), nav CTAs "Zaproponuj miejsce" in header/footer/listings (2026-04-16)
 - ✅ Enrichment UX Redesign — AdminNav global nav, run list w/ keywords/location inline, new run form w/ EnrichmentTag (persistent per entityType), split layout (EntityListPanel + EntityCard + SplitLayout), photo selection via Unsplash + UploadThing, single-click apply (applyEntityProposals), bulkApplyByConfidence, APPROVED status removed (2026-04-14)
 - ✅ Enrichment Admin UI — `/admin/enrichment`: run history, new run form, entity-first proposal review, bulk approve by confidence, NAME_CHANGE modal, completeness score, apply Server Action, SlugRedirect model + 301 redirects (2026-04-13)
 - ✅ Cafe Hierarchy & Map Thumbnails — coverImageUrl fallback on map, /cafes/country/[country], /cafes/country/[country]/city/[city], 4-level breadcrumb (2026-04-05)

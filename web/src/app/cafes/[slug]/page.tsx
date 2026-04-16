@@ -230,15 +230,17 @@ export default async function CafeProfilePage({
             <section>
               <h3 className="font-headline text-xl mb-3">Opening hours</h3>
               <div className="text-sm text-on-surface-variant/80 space-y-1">
-                {cafe.openingHours.split("\n").map((line, i) => {
-                  const [day, hours] = line.split("\t");
-                  return (
-                    <div key={i} className="flex gap-4">
-                      <span className="w-28 font-medium">{day}</span>
-                      <span>{hours}</span>
-                    </div>
-                  );
-                })}
+                {(typeof cafe.openingHours === "string" ? cafe.openingHours : JSON.stringify(cafe.openingHours))
+                  .split("\n")
+                  .map((line: string, i: number) => {
+                    const [day, hours] = line.split("\t");
+                    return (
+                      <div key={i} className="flex gap-4">
+                        <span className="w-28 font-medium">{day}</span>
+                        <span>{hours}</span>
+                      </div>
+                    );
+                  })}
               </div>
             </section>
           )}

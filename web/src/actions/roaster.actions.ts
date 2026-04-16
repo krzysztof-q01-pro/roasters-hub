@@ -8,6 +8,7 @@ import { requireRoasterOwner } from "@/lib/auth";
 import {
   CreateRoasterSchema,
   UpdateRoasterSchema,
+  ProposeRoasterSchema,
   type ActionResult,
 } from "@/types/actions";
 import { sendNewRegistrationNotification } from "@/lib/email";
@@ -77,6 +78,64 @@ export async function createRoasterRegistration(
   } catch (error) {
     console.error("[createRoasterRegistration]", error);
     return { success: false, error: "Something went wrong. Please try again." };
+  }
+}
+
+export async function createRoasterProposal(
+  formData: FormData,
+): Promise<ActionResult<{ slug: string }>> {
+  try {
+    const raw: Record<string, unknown> = {}
+    for (const key of formData.keys()) {
+      const values = formData.getAll(key)
+      raw[key] = values.length > 1 ? values : values[0]
+    }
+
+    const parsed = ProposeRoasterSchema.safeParse(raw)
+    if (!parsed.success) {
+      return {
+        success: false,
+        error: "Validation failed",
+        fieldErrors: parsed.error.flatten().fieldErrors as Record<string, string[]>,
+      }
+    }
+
+    const { name, city, country, website, instagram, email, shopUrl,
+      description, certifications, origins, roastStyles, openingHours: hoursRaw } = parsed.data
+
+    const countryCode = resolveCountryCode(country)
+    const slug = await generateUniqueSlug(name, city)
+
+    let openingHours: import("@prisma/client").Prisma.InputJsonValue | undefined = undefined
+    if (hoursRaw) {
+      try { openingHours = JSON.parse(hoursRaw) } catch { /* skip */ }
+    }
+
+    const roaster = await db.roaster.create({
+      data: {
+        name,
+        city,
+        country,
+        countryCode,
+        slug,
+        status: "PENDING",
+        website: website || null,
+        instagram: instagram || null,
+        email: email || null,
+        shopUrl: shopUrl || null,
+        description: description || null,
+        certifications: certifications ?? [],
+        origins: origins ?? [],
+        roastStyles: roastStyles ?? [],
+        openingHours,
+      },
+    })
+
+    revalidatePath("/admin/roasters")
+    return { success: true, data: { slug: roaster.slug } }
+  } catch (error) {
+    console.error("[createRoasterProposal]", error)
+    return { success: false, error: "Something went wrong. Please try again." }
   }
 }
 

@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
-import { CAFE_SERVICES } from "@/types/cafe-services";
+import { CAFE_SERVICES } from "@/constants/cafe-services";
 import { AmenityIcon } from "./AmenityIcon";
 
 interface CafeFiltersProps {
@@ -117,19 +117,19 @@ export function CafeFilters({ countries }: CafeFiltersProps) {
           <label className="text-xs font-semibold uppercase tracking-wider mb-3 block">Amenities</label>
           <div className="flex flex-wrap gap-2">
             {CAFE_SERVICES.map((service) => {
-              const isActive = activeAmenities.includes(service);
+              const isActive = activeAmenities.includes(service.value);
               return (
                 <button
-                  key={service}
-                  onClick={() => toggleAmenity(service)}
+                  key={service.value}
+                  onClick={() => toggleAmenity(service.value)}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                     isActive
                       ? "bg-primary text-on-primary"
                       : "bg-surface-container text-on-surface-variant hover:bg-surface-container-high"
                   }`}
                 >
-                  <AmenityIcon service={service} className="w-3.5 h-3.5" />
-                  {service}
+                  <AmenityIcon service={service.value} className="w-3.5 h-3.5" />
+                  {service.label}
                 </button>
               );
             })}

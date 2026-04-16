@@ -187,6 +187,18 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [IN PROGRESS] [P1] **Aspekt prawny scrapowania danych** — research jak legalnie pozyskiwać dane o kawiarniach/palarniach (GDPR, robots.txt, ToS, scraperzy vs API) (@MN)
 - [ ] [P1] **Cookie policy, regulamin, polityka prywatności** — implementacja stron prawnych zgodnych z AI Act + GDPR (@KK)
 
+### Data Consistency + Public Proposal Flow — (@MN)
+
+> **Spec:** `docs/superpowers/specs/2026-04-15-cafe-roastery-data-consistency-design.md`
+> **Zakres:** Uspójnienie pól schema ↔ formularze, publiczny flow "Zaproponuj miejsce", admin panel jako master editor, komponent OpeningHoursPicker
+
+- [x] [P1] **Schema: migracja `Cafe.openingHours` String→Json + usunięcie duplikatu `cafe-services.ts`** — Prisma migration, cleanup importów (@MN) ✅
+- [x] [P1] **Komponent `OpeningHoursPicker`** — `web/src/components/shared/OpeningHoursPicker.tsx` — row-per-day, Smart Monday propagacja Pon→Pt, selekty 15-min, reużywany w formularzach i adminie (@MN) ✅
+- [x] [P1] **UI: `/suggest/cafe` + `/suggest/roastery`** — accordion (3 sekcje: wymagane / kontakt / szczegóły), `ProposeCafeSchema`, `ProposeRoasterSchema`, server actions bez auth, success state in-place, `/frontend-design` + `/form-cro` + `/tailwind-patterns` (@MN) ✅
+- [x] [P2] **Admin master editor: kawiarnie** — sidebar 7 sekcji (Tożsamość / Lokalizacja / Kontakt / Godziny / Serwisy / Zdjęcia / Admin), wszystkie pola ze schematu, unsaved-changes warning, admin hints per field, `/frontend-design` (@MN) ✅
+- [x] [P2] **Admin master editor: palarnie** — sidebar 8 sekcji, analogicznie do kawiarni, wszystkie pola ze schematu (@MN) ✅
+- [x] [P2] **Nawigacja: CTA "Zaproponuj miejsce"** — dropdown w Header ("Mam palarnię" → /register vs "Znam świetne miejsce" → /suggest), banery na listingach /cafes i /roasters, linki w Footer (@MN) ✅
+
 ### UX Improvements — (@MN / @KK)
 
 - [ ] [P2] **"List Your Cafe" — uspójnienie z palarnią** — wyrównanie UX/copy flow rejestracji kawiarni do standardu rejestracji palarni (@MN)
@@ -227,6 +239,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ## DONE
 
+- [x] **Data Consistency + Public Proposal Flow** — Cafe.openingHours String→Json migration, OpeningHoursPicker component (Smart Monday), /suggest/cafe + /suggest/roastery public forms, admin cafe master editor (7 sections), admin roaster master editor (8 sections), nawigacja CTA "Zaproponuj miejsce" w header/footer/listingach (@MN) ✅
 - [x] **Enrichment UX redesign** — AdminNav global nav, run list z keywords/location inline, new run form z EnrichmentTag (persistent tags per entityType), split layout (EntityListPanel + EntityCard + SplitLayout), photo selection via Unsplash + UploadThing, single-click apply (applyEntityProposals), bulkApplyByConfidence, APPROVED status removed (@MN) ✅
 - [x] Prisma schema — 9 modeli (+ Review, SavedRoaster, ApiKey), wszystkie indeksy, relacje
 - [x] Frontend MVP — homepage, catalog, profiles, map, register form, admin UI
