@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { requireAdmin, requireCafeOwner } from "@/lib/auth";
 import { generateUniqueCafeSlug } from "@/lib/slug";
 import { resolveCountryCode } from "@/lib/country-codes";
-import { CreateCafeSchema, UpdateCafeSchema, type ActionResult } from "@/types/actions";
+import { CreateCafeSchema, UpdateCafeSchema, ProposeCafeSchema, type ActionResult } from "@/types/actions";
 
 export async function createCafe(
   formData: FormData,
@@ -73,6 +73,62 @@ export async function createCafe(
   } catch (error) {
     console.error("[createCafe]", error);
     return { success: false, error: "Something went wrong. Please try again." };
+  }
+}
+
+export async function createCafeProposal(
+  formData: FormData
+): Promise<ActionResult<{ slug: string }>> {
+  try {
+    const raw = Object.fromEntries(formData)
+    const parsed = ProposeCafeSchema.safeParse(raw)
+    if (!parsed.success) {
+      return {
+        success: false,
+        error: "Validation failed",
+        fieldErrors: parsed.error.flatten().fieldErrors as Record<string, string[]>,
+      }
+    }
+
+    const { name, city, country, address, website, instagram, phone, email,
+      description, openingHours: hoursRaw, services: servicesRaw } = parsed.data
+
+    const countryCode = resolveCountryCode(country)
+    const slug = await generateUniqueCafeSlug(name, city)
+
+    let openingHours: import("@prisma/client").Prisma.InputJsonValue | undefined = undefined
+    if (hoursRaw) {
+      try { openingHours = JSON.parse(hoursRaw) } catch { /* invalid JSON, skip */ }
+    }
+
+    const services = servicesRaw
+      ? servicesRaw.split(",").map((s) => s.trim()).filter(Boolean)
+      : []
+
+    const cafe = await db.cafe.create({
+      data: {
+        name,
+        city,
+        country,
+        countryCode,
+        slug,
+        status: "PENDING",
+        address: address || null,
+        website: website || null,
+        instagram: instagram || null,
+        phone: phone || null,
+        email: email || null,
+        description: description || null,
+        openingHours,
+        services,
+      },
+    })
+
+    revalidatePath("/admin/cafes")
+    return { success: true, data: { slug: cafe.slug } }
+  } catch (error) {
+    console.error("[createCafeProposal]", error)
+    return { success: false, error: "Something went wrong. Please try again." }
   }
 }
 

@@ -20,7 +20,7 @@ import { db } from "@/lib/db";
 import { generateUniqueCafeSlug } from "@/lib/slug";
 import { resolveCountryCode } from "@/lib/country-codes";
 import { requireAdmin } from "@/lib/auth";
-import { createCafe, verifyCafe, rejectCafe } from "@/actions/cafe.actions";
+import { createCafe, verifyCafe, rejectCafe, createCafeProposal } from "@/actions/cafe.actions";
 
 const mockCreate = db.cafe.create as unknown as ReturnType<typeof vi.fn>;
 const mockUpdate = db.cafe.update as unknown as ReturnType<typeof vi.fn>;
@@ -127,5 +127,51 @@ describe("rejectCafe", () => {
       },
       select: { slug: true },
     });
+  });
+});
+
+describe("createCafeProposal", () => {
+  it("creates PENDING cafe with no ownerId and returns slug", async () => {
+    mockCreate.mockResolvedValue({ slug: "brew-lab" });
+
+    const fd = makeFormData({
+      name: "Brew Lab",
+      city: "Warsaw",
+      country: "Poland",
+    });
+    const result = await createCafeProposal(fd);
+
+    expect(result.success).toBe(true);
+    if (result.success) expect(result.data).toEqual({ slug: "brew-lab" });
+    expect(mockCreate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          status: "PENDING",
+          name: "Brew Lab",
+        }),
+      })
+    );
+  });
+
+  it("returns fieldError when name is too short", async () => {
+    const fd = makeFormData({ name: "X", city: "Warsaw", country: "Poland" });
+    const result = await createCafeProposal(fd);
+    expect(result.success).toBe(false);
+    if (!result.success) expect(result.fieldErrors?.name).toBeDefined();
+    expect(mockCreate).not.toHaveBeenCalled();
+  });
+
+  it("stores parsed openingHours JSON", async () => {
+    mockCreate.mockResolvedValue({ slug: "test" });
+    const hours = JSON.stringify({ mon: { open: "08:00", close: "18:00" }, tue: null, wed: null, thu: null, fri: null, sat: null, sun: null });
+    const fd = makeFormData({ name: "Test Cafe", city: "Warsaw", country: "Poland", openingHours: hours });
+    await createCafeProposal(fd);
+    expect(mockCreate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          openingHours: { mon: { open: "08:00", close: "18:00" }, tue: null, wed: null, thu: null, fri: null, sat: null, sun: null },
+        }),
+      })
+    );
   });
 });
