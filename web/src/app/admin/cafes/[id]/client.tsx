@@ -71,12 +71,12 @@ type Section =
   | "admin"
 
 const NAV_ITEMS: { id: Section; label: string }[] = [
-  { id: "identity", label: "Tożsamość" },
-  { id: "location", label: "Lokalizacja" },
-  { id: "contact", label: "Kontakt" },
-  { id: "hours", label: "Godziny" },
-  { id: "services", label: "Oferta" },
-  { id: "images", label: "Zdjęcia" },
+  { id: "identity", label: "Identity" },
+  { id: "location", label: "Location" },
+  { id: "contact", label: "Contact" },
+  { id: "hours", label: "Hours" },
+  { id: "services", label: "Services" },
+  { id: "images", label: "Images" },
   { id: "admin", label: "Admin" },
 ]
 
@@ -128,14 +128,14 @@ export function AdminCafeDetailClient({ cafe }: { cafe: Cafe }) {
                 disabled={isPending}
                 className="rounded-lg bg-green-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-green-700 disabled:opacity-50 transition-colors"
               >
-                {isPending ? "…" : "Weryfikuj"}
+                {isPending ? "…" : "Verify"}
               </button>
               <button
                 onClick={() => setShowRejectModal(true)}
                 disabled={isPending}
                 className="rounded-lg border border-red-500 px-3 py-1.5 text-xs font-bold text-red-400 hover:bg-red-500/10 disabled:opacity-50 transition-colors"
               >
-                Odrzuć
+                Reject
               </button>
             </>
           )}
@@ -143,10 +143,10 @@ export function AdminCafeDetailClient({ cafe }: { cafe: Cafe }) {
       </div>
 
       {error && (
-        <div className="mb-6 flex items-center justify-between rounded-lg bg-red-900/40 px-4 py-3 text-sm text-red-300">
+        <div className="mb-6 flex items-center justify-between rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
           <span>{error}</span>
           <button onClick={() => setError(null)} className="ml-3 text-xs underline opacity-70 hover:opacity-100">
-            Zamknij
+            Dismiss
           </button>
         </div>
       )}
@@ -165,8 +165,8 @@ export function AdminCafeDetailClient({ cafe }: { cafe: Cafe }) {
                     onClick={() => setActiveSection(item.id)}
                     className={`w-full rounded-r-lg border-l-2 px-3 py-2 text-left text-sm transition-colors ${
                       isActive
-                        ? "border-[var(--color-accent)] bg-white/5 font-semibold text-gray-100"
-                        : "border-transparent text-gray-500 hover:bg-white/5 hover:text-gray-300"
+                        ? "border-[var(--color-primary)] bg-[var(--color-surface-container)] font-semibold text-[var(--color-on-surface)]"
+                        : "border-transparent text-[var(--color-outline)] hover:bg-[var(--color-surface-container-low)] hover:text-[var(--color-on-surface)]"
                     }`}
                   >
                     {item.label}
@@ -253,17 +253,17 @@ export function AdminCafeDetailClient({ cafe }: { cafe: Cafe }) {
       {/* Reject Modal */}
       {showRejectModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-          <div className="w-full max-w-md rounded-2xl bg-gray-900 p-6 shadow-2xl ring-1 ring-white/10">
-            <h3 className="mb-1 text-lg font-bold text-gray-100">Odrzuć kawiarnię</h3>
-            <p className="mb-4 text-sm text-gray-500">
-              Podaj powód odrzucenia — zostanie wysłany do właściciela.
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl ring-1 ring-[var(--color-outline-variant)]">
+            <h3 className="mb-1 text-lg font-bold text-[var(--color-on-surface)]">Reject cafe</h3>
+            <p className="mb-4 text-sm text-[var(--color-on-surface-variant)]">
+              Provide a reason for rejection — it will be sent to the owner.
             </p>
             <textarea
               value={rejectReason}
               onChange={(e) => setRejectReason(e.target.value)}
               rows={3}
-              placeholder="Powód odrzucenia…"
-              className="mb-4 w-full rounded-lg bg-white/10 px-3 py-2 text-sm text-gray-100 focus:outline-none focus:ring-1 focus:ring-red-500"
+              placeholder="Reason for rejection…"
+              className="mb-4 w-full rounded-lg border border-[var(--color-outline-variant)] bg-white px-3 py-2 text-sm text-[var(--color-on-surface)] placeholder:text-[var(--color-outline)] focus:outline-none focus:ring-1 focus:ring-red-500"
             />
             <div className="flex justify-end gap-3">
               <button
@@ -271,16 +271,16 @@ export function AdminCafeDetailClient({ cafe }: { cafe: Cafe }) {
                   setShowRejectModal(false)
                   setRejectReason("")
                 }}
-                className="px-4 py-2 text-sm text-gray-500 hover:text-gray-300"
+                className="px-4 py-2 text-sm text-[var(--color-outline)] hover:text-[var(--color-on-surface)]"
               >
-                Anuluj
+                Cancel
               </button>
               <button
                 onClick={handleReject}
                 disabled={!rejectReason.trim() || isPending}
                 className="rounded-lg bg-red-600 px-4 py-2 text-sm font-bold text-white disabled:opacity-50 hover:bg-red-700 transition-colors"
               >
-                {isPending ? "Odrzucanie…" : "Odrzuć kawiarnię"}
+                {isPending ? "Rejecting…" : "Reject cafe"}
               </button>
             </div>
           </div>

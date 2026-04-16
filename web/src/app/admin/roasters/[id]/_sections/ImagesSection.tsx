@@ -30,28 +30,28 @@ export function ImagesSection({ roasterId, initial }: Props) {
       setSaved(true)
       setTimeout(() => setSaved(false), 2000)
     } else {
-      setSaveError(result.error ?? "Błąd zapisu")
+      setSaveError(result.error ?? "Save failed")
     }
   }
 
   return (
     <div className="flex flex-col gap-5">
-      <SectionHeader title="Zdjęcia" hint="URL zdjęcia głównego palarni" />
+      <SectionHeader title="Images" hint="Cover image URL for the roastery" />
 
-      <Field label="URL zdjęcia głównego (cover)">
+      <Field label="Cover image URL">
         <input
           value={form.coverImageUrl}
           onChange={(e) => setForm((f) => ({ ...f, coverImageUrl: e.target.value }))}
           placeholder="https://…"
           className={adminInput}
         />
-        <Hint>Wgraj zdjęcie przez UploadThing i wklej URL tutaj.</Hint>
+        <Hint>Upload via UploadThing and paste the URL here.</Hint>
         {form.coverImageUrl && (
           <div className="mt-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={form.coverImageUrl}
-              alt="Podgląd cover"
+              alt="Cover preview"
               className="h-32 w-full max-w-xs rounded-lg object-cover"
               onError={(e) => ((e.currentTarget as HTMLImageElement).style.display = "none")}
             />
@@ -61,7 +61,7 @@ export function ImagesSection({ roasterId, initial }: Props) {
 
       <SaveButton saving={saving} saved={saved} onClick={handleSave} />
       {saveError && (
-        <p className="text-sm text-red-400">{saveError}</p>
+        <p className="text-sm text-red-600">{saveError}</p>
       )}
     </div>
   )

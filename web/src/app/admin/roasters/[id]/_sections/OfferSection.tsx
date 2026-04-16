@@ -26,16 +26,16 @@ function NullableCheckbox({
   onChange: (v: boolean | null) => void
 }) {
   return (
-    <label className="flex cursor-pointer items-start gap-3 rounded-lg px-3 py-2.5 text-sm hover:bg-white/5">
+    <label className="flex cursor-pointer items-start gap-3 rounded-lg px-3 py-2.5 text-sm hover:bg-[var(--color-surface-container-low)]">
       <input
         type="checkbox"
         checked={value === true}
         onChange={(e) => onChange(e.target.checked ? true : null)}
-        className="accent-[var(--color-accent)] mt-0.5 h-4 w-4 shrink-0"
+        className="accent-[var(--color-primary)] mt-0.5 h-4 w-4 shrink-0"
       />
       <div>
-        <p className="text-gray-200 font-medium">{label}</p>
-        <p className="text-xs text-gray-500 mt-0.5">{description}</p>
+        <p className="text-[var(--color-on-surface)] font-medium">{label}</p>
+        <p className="text-xs text-[var(--color-on-surface-variant)] mt-0.5">{description}</p>
       </div>
     </label>
   )
@@ -66,37 +66,37 @@ export function OfferSection({ roasterId, initial }: Props) {
       setSaved(true)
       setTimeout(() => setSaved(false), 2000)
     } else {
-      setSaveError(result.error ?? "Błąd zapisu")
+      setSaveError(result.error ?? "Save failed")
     }
   }
 
   return (
     <div className="flex flex-col gap-5">
-      <SectionHeader title="Oferta" hint="Usługi i możliwości palarni" />
+      <SectionHeader title="Offer & availability" hint="Services and capabilities offered by the roastery" />
 
-      <Field label="Dostępne opcje">
+      <Field label="Available options">
         <div className="flex flex-col gap-1">
           <NullableCheckbox
-            label="Hurtownia / dostawa B2B"
-            description="Palarnia oferuje sprzedaż hurtową dla kawiarni i restauracji"
+            label="Wholesale / B2B delivery"
+            description="Roastery offers wholesale to cafes and restaurants"
             value={form.wholesaleAvailable}
             onChange={(v) => setForm((f) => ({ ...f, wholesaleAvailable: v }))}
           />
           <NullableCheckbox
-            label="Subskrypcja kawy"
-            description="Możliwość zamawiania kawy w abonamencie"
+            label="Coffee subscription"
+            description="Customers can subscribe to regular coffee deliveries"
             value={form.subscriptionAvailable}
             onChange={(v) => setForm((f) => ({ ...f, subscriptionAvailable: v }))}
           />
           <NullableCheckbox
-            label="Prowadzi kawiarnię"
-            description="Palarnia posiada własną kawiarnię lub punkt sprzedaży"
+            label="Has a cafe"
+            description="Roastery operates its own cafe or retail point"
             value={form.hasCafe}
             onChange={(v) => setForm((f) => ({ ...f, hasCafe: v }))}
           />
           <NullableCheckbox
-            label="Sala degustacyjna / tasting room"
-            description="Możliwość degustacji kaw w siedzibie palarni"
+            label="Tasting room"
+            description="Customers can taste coffees on-site at the roastery"
             value={form.hasTastingRoom}
             onChange={(v) => setForm((f) => ({ ...f, hasTastingRoom: v }))}
           />
@@ -105,7 +105,7 @@ export function OfferSection({ roasterId, initial }: Props) {
 
       <SaveButton saving={saving} saved={saved} onClick={handleSave} />
       {saveError && (
-        <p className="text-sm text-red-400">{saveError}</p>
+        <p className="text-sm text-red-600">{saveError}</p>
       )}
     </div>
   )
