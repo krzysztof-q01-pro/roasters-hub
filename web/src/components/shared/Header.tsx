@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
+import { ChevronDown } from "lucide-react";
 import { CoffeeBean } from "@/components/icons/CoffeeBean";
 import { CoffeeCup } from "@/components/icons/CoffeeCup";
 
@@ -11,7 +12,6 @@ const NAV_LINKS = [
   { href: "/roasters", label: "Browse Roasters" },
   { href: "/cafes", label: "Browse Cafes" },
   { href: "/map", label: "Map" },
-  { href: "/register", label: "List Your Roastery", accent: true },
 ];
 
 function HeaderSearch() {
@@ -110,15 +110,40 @@ export function Header() {
                   className={
                     isActive
                       ? "text-primary font-bold border-b-2 border-primary pb-1 text-base tracking-tight"
-                      : link.accent
-                        ? "text-primary hover:text-primary-container transition-colors text-base font-bold tracking-tight"
-                        : "text-on-surface-variant hover:text-on-surface transition-colors text-base font-bold tracking-tight"
+                      : "text-on-surface-variant hover:text-on-surface transition-colors text-base font-bold tracking-tight"
                   }
                 >
                   {link.label}
                 </Link>
               );
             })}
+
+            {/* Dodaj miejsce dropdown */}
+            <div className="relative group">
+              <button className="flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-container transition-colors">
+                Dodaj miejsce
+                <ChevronDown className="h-3.5 w-3.5" />
+              </button>
+              <div className="absolute right-0 top-full z-50 mt-2 hidden w-56 rounded-xl border border-white/10 bg-[#111] p-2 shadow-xl group-hover:block">
+                <a href="/register" className="block rounded-lg px-3 py-2.5 text-sm hover:bg-white/5 transition-colors">
+                  <div className="font-medium text-gray-100">Mam palarnię</div>
+                  <div className="text-xs text-gray-500">Zarejestruj swoją palarnię</div>
+                </a>
+                <a href="/register/cafe" className="block rounded-lg px-3 py-2.5 text-sm hover:bg-white/5 transition-colors">
+                  <div className="font-medium text-gray-100">Mam kawiarnię</div>
+                  <div className="text-xs text-gray-500">Zarejestruj swoją kawiarnię</div>
+                </a>
+                <div className="my-1 border-t border-white/10" />
+                <a href="/suggest/roastery" className="block rounded-lg px-3 py-2.5 text-sm hover:bg-white/5 transition-colors">
+                  <div className="font-medium text-gray-100">Znam świetną palarnię</div>
+                  <div className="text-xs text-gray-500">Zaproponuj miejsce</div>
+                </a>
+                <a href="/suggest/cafe" className="block rounded-lg px-3 py-2.5 text-sm hover:bg-white/5 transition-colors">
+                  <div className="font-medium text-gray-100">Znam świetną kawiarnię</div>
+                  <div className="text-xs text-gray-500">Zaproponuj miejsce</div>
+                </a>
+              </div>
+            </div>
           </nav>
         </div>
 
@@ -160,6 +185,36 @@ export function Header() {
               {link.label}
             </Link>
           ))}
+          <div className="pt-2 border-t border-surface-container-high/30 space-y-1">
+            <a
+              href="/register"
+              className="block text-on-surface-variant hover:text-primary transition-colors py-2 text-base font-bold"
+              onClick={() => setMobileOpen(false)}
+            >
+              Zarejestruj palarnię
+            </a>
+            <a
+              href="/register/cafe"
+              className="block text-on-surface-variant hover:text-primary transition-colors py-2 text-base font-bold"
+              onClick={() => setMobileOpen(false)}
+            >
+              Zarejestruj kawiarnię
+            </a>
+            <a
+              href="/suggest/roastery"
+              className="block text-on-surface-variant hover:text-primary transition-colors py-2 text-base font-bold"
+              onClick={() => setMobileOpen(false)}
+            >
+              Zaproponuj palarnię
+            </a>
+            <a
+              href="/suggest/cafe"
+              className="block text-on-surface-variant hover:text-primary transition-colors py-2 text-base font-bold"
+              onClick={() => setMobileOpen(false)}
+            >
+              Zaproponuj kawiarnię
+            </a>
+          </div>
         </nav>
       )}
     </header>

@@ -153,6 +153,17 @@ export default async function CatalogPage({
             )}
           </section>
         </div>
+
+        {/* Suggest banner */}
+        <div className="mt-12 rounded-xl border border-white/10 bg-white/5 p-6 text-center">
+          <p className="mb-2 text-gray-300">Nie ma tu Twojej ulubionej palarni?</p>
+          <a
+            href="/suggest/roastery"
+            className="inline-block rounded-lg bg-[var(--color-accent)] px-5 py-2 text-sm font-bold text-black hover:opacity-90 transition-opacity"
+          >
+            Zaproponuj palarnię →
+          </a>
+        </div>
       </main>
       <Footer />
     </>

@@ -93,6 +93,20 @@ export function Footer() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
             </svg>
           </Link>
+          <div className="mt-6 pt-4 border-t border-white/10 space-y-3">
+            <Link
+              className="text-sm text-gray-500 hover:text-gray-300 transition-colors block"
+              href="/suggest/roastery"
+            >
+              Zaproponuj palarnię
+            </Link>
+            <Link
+              className="text-sm text-gray-500 hover:text-gray-300 transition-colors block"
+              href="/suggest/cafe"
+            >
+              Zaproponuj kawiarnię
+            </Link>
+          </div>
         </div>
       </div>
 
