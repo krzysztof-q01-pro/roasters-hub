@@ -101,35 +101,57 @@ export async function adminUpdateRoaster(
   roasterId: string,
   data: {
     name?: string;
-    description?: string;
+    description?: string | null;
     city?: string;
     country?: string;
-    website?: string;
-    email?: string;
-    instagram?: string;
-    phone?: string;
+    countryCode?: string;
+    website?: string | null;
+    email?: string | null;
+    instagram?: string | null;
+    facebook?: string | null;
+    phone?: string | null;
+    shopUrl?: string | null;
+    address?: string | null;
+    postalCode?: string | null;
+    lat?: number | null;
+    lng?: number | null;
     certifications?: string[];
     origins?: string[];
+    roastStyles?: string[];
     brewingMethods?: string[];
     foundedYear?: number | null;
     wholesaleAvailable?: boolean | null;
     subscriptionAvailable?: boolean | null;
     hasCafe?: boolean | null;
     hasTastingRoom?: boolean | null;
+    openingHours?: import("@prisma/client").Prisma.NullableJsonNullValueInput | import("@prisma/client").Prisma.InputJsonValue;
+    coverImageUrl?: string | null;
+    featured?: boolean;
+    featuredUntil?: Date | null;
+    ownerId?: string | null;
   },
-): Promise<ActionResult> {
+): Promise<ActionResult<{ slug: string }>> {
   try {
     await requireAdmin();
+    const { ownerId, openingHours, ...rest } = data;
+    const ownerUpdate: Record<string, unknown> =
+      ownerId !== undefined
+        ? ownerId === null
+          ? { owner: { disconnect: true } }
+          : { owner: { connect: { id: ownerId } } }
+        : {};
+    const openingHoursUpdate =
+      openingHours !== undefined ? { openingHours } : {};
     const roaster = await db.roaster.update({
       where: { id: roasterId },
-      data,
+      data: { ...rest, ...openingHoursUpdate, ...ownerUpdate, updatedAt: new Date() } as Parameters<typeof db.roaster.update>[0]["data"],
       select: { slug: true },
     });
     revalidatePath("/admin/roasters");
     revalidatePath(`/admin/roasters/${roasterId}`);
     revalidatePath(`/roasters/${roaster.slug}`);
     revalidatePath("/roasters");
-    return { success: true, data: undefined };
+    return { success: true, data: { slug: roaster.slug } };
   } catch (error) {
     console.error("[adminUpdateRoaster]", error);
     return {
