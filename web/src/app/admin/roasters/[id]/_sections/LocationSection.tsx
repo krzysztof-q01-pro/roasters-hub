@@ -11,6 +11,7 @@ interface Props {
     postalCode: string | null
     lat: number | null
     lng: number | null
+    sourceUrl: string | null
   }
 }
 
@@ -20,6 +21,7 @@ export function LocationSection({ roasterId, initial }: Props) {
     postalCode: initial.postalCode ?? "",
     lat: initial.lat?.toString() ?? "",
     lng: initial.lng?.toString() ?? "",
+    sourceUrl: initial.sourceUrl ?? "",
   })
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
@@ -33,6 +35,7 @@ export function LocationSection({ roasterId, initial }: Props) {
       postalCode: form.postalCode || null,
       lat: form.lat ? parseFloat(form.lat) || null : null,
       lng: form.lng ? parseFloat(form.lng) || null : null,
+      sourceUrl: form.sourceUrl || null,
     })
     setSaving(false)
     if (result.success) {
@@ -59,6 +62,14 @@ export function LocationSection({ roasterId, initial }: Props) {
         <input
           value={form.postalCode}
           onChange={(e) => setForm((f) => ({ ...f, postalCode: e.target.value }))}
+          className={adminInput}
+        />
+      </Field>
+
+      <Field label="URL źródła">
+        <input
+          value={form.sourceUrl}
+          onChange={(e) => setForm((f) => ({ ...f, sourceUrl: e.target.value }))}
           className={adminInput}
         />
       </Field>

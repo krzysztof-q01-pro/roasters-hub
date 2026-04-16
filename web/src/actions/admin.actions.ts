@@ -126,6 +126,7 @@ export async function adminUpdateRoaster(
     hasTastingRoom?: boolean | null;
     openingHours?: import("@prisma/client").Prisma.NullableJsonNullValueInput | import("@prisma/client").Prisma.InputJsonValue;
     coverImageUrl?: string | null;
+    sourceUrl?: string | null;
     featured?: boolean;
     featuredUntil?: Date | null;
     ownerId?: string | null;

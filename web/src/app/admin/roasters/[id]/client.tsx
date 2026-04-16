@@ -52,6 +52,7 @@ type Roaster = {
   hasCafe: boolean | null
   hasTastingRoom: boolean | null
   coverImageUrl: string | null
+  sourceUrl: string | null
   featured: boolean
   featuredUntil: string | null
   ownerId: string | null
@@ -210,6 +211,7 @@ export function AdminRoasterDetailClient({ roaster }: { roaster: Roaster }) {
                 postalCode: roaster.postalCode,
                 lat: roaster.lat,
                 lng: roaster.lng,
+                sourceUrl: roaster.sourceUrl,
               }}
             />
           )}

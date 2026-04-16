@@ -72,6 +72,7 @@ export default async function AdminRoasterDetailPage({ params }: { params: Param
     hasCafe: roaster.hasCafe,
     hasTastingRoom: roaster.hasTastingRoom,
     coverImageUrl: roaster.coverImageUrl,
+    sourceUrl: roaster.sourceUrl,
     featured: roaster.featured,
     featuredUntil: roaster.featuredUntil?.toISOString() ?? null,
     ownerId: roaster.ownerId,
