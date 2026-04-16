@@ -40,13 +40,19 @@ export function HoursSection({ cafeId, initialHours }: Props) {
   const [hours, setHours] = useState<OpeningHours>(() => parseOpeningHours(initialHours))
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
 
   async function handleSave() {
     setSaving(true)
-    await adminUpdateCafe(cafeId, { openingHours: hours as unknown as Prisma.InputJsonValue })
+    setSaveError(null)
+    const result = await adminUpdateCafe(cafeId, { openingHours: hours as unknown as Prisma.InputJsonValue })
     setSaving(false)
-    setSaved(true)
-    setTimeout(() => setSaved(false), 2000)
+    if (result.success) {
+      setSaved(true)
+      setTimeout(() => setSaved(false), 2000)
+    } else {
+      setSaveError(result.error ?? "Błąd zapisu")
+    }
   }
 
   return (
@@ -54,6 +60,9 @@ export function HoursSection({ cafeId, initialHours }: Props) {
       <SectionHeader title="Godziny otwarcia" hint="Ustaw godziny dla każdego dnia tygodnia" />
       <OpeningHoursPicker value={hours} onChange={setHours} />
       <SaveButton saving={saving} saved={saved} onClick={handleSave} />
+      {saveError && (
+        <p className="text-sm text-red-400">{saveError}</p>
+      )}
     </div>
   )
 }

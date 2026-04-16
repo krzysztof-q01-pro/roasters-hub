@@ -28,6 +28,7 @@ export function ServicesSection({ cafeId, initial }: Props) {
   const [services, setServices] = useState<string[]>(initial.services)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
 
   function addServing() {
     const val = servingInput.trim()
@@ -55,10 +56,15 @@ export function ServicesSection({ cafeId, initial }: Props) {
 
   async function handleSave() {
     setSaving(true)
-    await adminUpdateCafe(cafeId, { serving, services })
+    setSaveError(null)
+    const result = await adminUpdateCafe(cafeId, { serving, services })
     setSaving(false)
-    setSaved(true)
-    setTimeout(() => setSaved(false), 2000)
+    if (result.success) {
+      setSaved(true)
+      setTimeout(() => setSaved(false), 2000)
+    } else {
+      setSaveError(result.error ?? "Błąd zapisu")
+    }
   }
 
   return (
@@ -135,6 +141,9 @@ export function ServicesSection({ cafeId, initial }: Props) {
       </Field>
 
       <SaveButton saving={saving} saved={saved} onClick={handleSave} />
+      {saveError && (
+        <p className="text-sm text-red-400">{saveError}</p>
+      )}
     </div>
   )
 }
