@@ -51,17 +51,17 @@ export function HoursSection({ roasterId, initialHours }: Props) {
       setSaved(true)
       setTimeout(() => setSaved(false), 2000)
     } else {
-      setSaveError(result.error ?? "Błąd zapisu")
+      setSaveError(result.error ?? "Save failed")
     }
   }
 
   return (
     <div className="flex flex-col gap-5">
-      <SectionHeader title="Godziny otwarcia" hint="Ustaw godziny dla każdego dnia tygodnia" />
+      <SectionHeader title="Opening hours" hint="Set hours for each day of the week" />
       <OpeningHoursPicker value={hours} onChange={setHours} />
       <SaveButton saving={saving} saved={saved} onClick={handleSave} />
       {saveError && (
-        <p className="text-sm text-red-400">{saveError}</p>
+        <p className="text-sm text-red-600">{saveError}</p>
       )}
     </div>
   )

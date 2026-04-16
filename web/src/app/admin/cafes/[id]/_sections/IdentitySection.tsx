@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { adminUpdateCafe } from "@/actions/cafe.actions"
-import { adminInput, SectionHeader, Field, SaveButton } from "./_shared"
+import { adminInput, adminSelect, SectionHeader, Field, SaveButton } from "./_shared"
 
 interface Props {
   cafeId: string
@@ -50,7 +50,7 @@ export function IdentitySection({ cafeId, initial }: Props) {
       setSaved(true)
       setTimeout(() => setSaved(false), 2000)
     } else {
-      setSaveError(result.error ?? "Błąd zapisu")
+      setSaveError(result.error ?? "Save failed")
     }
   }
 
@@ -58,38 +58,42 @@ export function IdentitySection({ cafeId, initial }: Props) {
 
   return (
     <div className="flex flex-col gap-5">
-      <SectionHeader title="Tożsamość" hint="Podstawowe dane identyfikacyjne kawiarni" />
+      <SectionHeader title="Identity" hint="Core identifying details for the cafe" />
 
-      <Field label="Nazwa" required>
+      <Field label="Name" required>
         <input
           value={form.name}
+          placeholder="e.g. Brew Lab"
           onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
           className={adminInput}
         />
       </Field>
 
       <div className="grid grid-cols-2 gap-4">
-        <Field label="Miasto" required>
+        <Field label="City" required>
           <input
             value={form.city}
+            placeholder="e.g. Warsaw"
             onChange={(e) => setForm((f) => ({ ...f, city: e.target.value }))}
             className={adminInput}
           />
         </Field>
 
-        <Field label="Kraj" required>
+        <Field label="Country" required>
           <input
             value={form.country}
+            placeholder="e.g. Poland"
             onChange={(e) => setForm((f) => ({ ...f, country: e.target.value }))}
             className={adminInput}
           />
         </Field>
       </div>
 
-      <Field label="Kod kraju (2 litery, np. PL)">
+      <Field label="Country code (2 letters, e.g. PL)">
         <input
           value={form.countryCode}
           maxLength={2}
+          placeholder="PL"
           onChange={(e) =>
             setForm((f) => ({ ...f, countryCode: e.target.value.toUpperCase().slice(0, 2) }))
           }
@@ -97,35 +101,37 @@ export function IdentitySection({ cafeId, initial }: Props) {
         />
       </Field>
 
-      <Field label="Opis">
+      <Field label="Description">
         <textarea
           value={form.description}
           maxLength={2000}
           rows={5}
+          placeholder="Describe the cafe — atmosphere, specialty, what makes it stand out…"
           onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
           className={adminInput}
         />
-        <p className="mt-1 text-right text-xs text-gray-600">{descLen}/2000</p>
+        <p className="mt-1 text-right text-xs text-[var(--color-outline)]">{descLen}/2000</p>
       </Field>
 
-      <Field label="Przedział cenowy">
+      <Field label="Price range">
         <select
           value={form.priceRange}
           onChange={(e) => setForm((f) => ({ ...f, priceRange: e.target.value }))}
-          className={adminInput}
+          className={adminSelect}
         >
-          <option value="">— brak —</option>
-          <option value="$">$ (tani)</option>
-          <option value="$$">$$ (średni)</option>
-          <option value="$$$">$$$ (drogi)</option>
+          <option value="">— none —</option>
+          <option value="$">$ (budget)</option>
+          <option value="$$">$$ (mid-range)</option>
+          <option value="$$$">$$$ (pricey)</option>
           <option value="$$$$">$$$$ (premium)</option>
         </select>
       </Field>
 
-      <Field label="Pojemność miejsc">
+      <Field label="Seating capacity">
         <input
           type="number"
           min={0}
+          placeholder="e.g. 40"
           value={form.seatingCapacity}
           onChange={(e) => setForm((f) => ({ ...f, seatingCapacity: e.target.value }))}
           className={adminInput}
@@ -134,7 +140,7 @@ export function IdentitySection({ cafeId, initial }: Props) {
 
       <SaveButton saving={saving} saved={saved} onClick={handleSave} />
       {saveError && (
-        <p className="text-sm text-red-400">{saveError}</p>
+        <p className="text-sm text-red-600">{saveError}</p>
       )}
     </div>
   )

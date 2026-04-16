@@ -45,7 +45,7 @@ export function IdentitySection({ roasterId, initial }: Props) {
       setSaved(true)
       setTimeout(() => setSaved(false), 2000)
     } else {
-      setSaveError(result.error ?? "Błąd zapisu")
+      setSaveError(result.error ?? "Save failed")
     }
   }
 
@@ -53,38 +53,42 @@ export function IdentitySection({ roasterId, initial }: Props) {
 
   return (
     <div className="flex flex-col gap-5">
-      <SectionHeader title="Tożsamość" hint="Podstawowe dane identyfikacyjne palarni" />
+      <SectionHeader title="Identity" hint="Core identifying details for the roastery" />
 
-      <Field label="Nazwa" required>
+      <Field label="Name" required>
         <input
           value={form.name}
+          placeholder="e.g. Hard Beans"
           onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
           className={adminInput}
         />
       </Field>
 
       <div className="grid grid-cols-2 gap-4">
-        <Field label="Miasto" required>
+        <Field label="City" required>
           <input
             value={form.city}
+            placeholder="e.g. Opole"
             onChange={(e) => setForm((f) => ({ ...f, city: e.target.value }))}
             className={adminInput}
           />
         </Field>
 
-        <Field label="Kraj" required>
+        <Field label="Country" required>
           <input
             value={form.country}
+            placeholder="e.g. Poland"
             onChange={(e) => setForm((f) => ({ ...f, country: e.target.value }))}
             className={adminInput}
           />
         </Field>
       </div>
 
-      <Field label="Kod kraju (2 litery, np. PL)">
+      <Field label="Country code (2 letters, e.g. PL)">
         <input
           value={form.countryCode}
           maxLength={2}
+          placeholder="PL"
           onChange={(e) =>
             setForm((f) => ({ ...f, countryCode: e.target.value.toUpperCase().slice(0, 2) }))
           }
@@ -92,31 +96,33 @@ export function IdentitySection({ roasterId, initial }: Props) {
         />
       </Field>
 
-      <Field label="Rok założenia">
+      <Field label="Founded year">
         <input
           type="number"
           min={1800}
           max={new Date().getFullYear()}
+          placeholder="e.g. 2015"
           value={form.foundedYear}
           onChange={(e) => setForm((f) => ({ ...f, foundedYear: e.target.value }))}
           className={adminInput}
         />
       </Field>
 
-      <Field label="Opis">
+      <Field label="Description">
         <textarea
           value={form.description}
           maxLength={2000}
           rows={5}
+          placeholder="Describe the roastery — philosophy, sourcing approach, what makes their coffee special…"
           onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
           className={adminInput}
         />
-        <p className="mt-1 text-right text-xs text-gray-600">{descLen}/2000</p>
+        <p className="mt-1 text-right text-xs text-[var(--color-outline)]">{descLen}/2000</p>
       </Field>
 
       <SaveButton saving={saving} saved={saved} onClick={handleSave} />
       {saveError && (
-        <p className="text-sm text-red-400">{saveError}</p>
+        <p className="text-sm text-red-600">{saveError}</p>
       )}
     </div>
   )

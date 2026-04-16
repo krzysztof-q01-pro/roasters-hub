@@ -56,7 +56,9 @@ export function OpeningHoursPicker({ value, onChange }: Props) {
           <div
             key={day}
             className={`flex items-center gap-3 rounded-md px-3 py-2 transition-colors ${
-              isOpen ? "bg-white/5" : "bg-transparent opacity-50"
+              isOpen
+                ? "bg-[var(--color-surface-container-low)]"
+                : "bg-transparent opacity-60"
             }`}
           >
             <input
@@ -64,11 +66,11 @@ export function OpeningHoursPicker({ value, onChange }: Props) {
               id={`day-${day}`}
               checked={isOpen}
               onChange={(e) => handleToggle(day, e.target.checked)}
-              className="accent-[var(--color-accent)] h-4 w-4 cursor-pointer"
+              className="accent-[var(--color-primary)] h-4 w-4 cursor-pointer"
             />
             <label
               htmlFor={`day-${day}`}
-              className="w-8 cursor-pointer select-none text-sm font-medium text-gray-300"
+              className="w-8 cursor-pointer select-none text-sm font-medium text-[var(--color-on-surface)]"
             >
               {DAY_LABELS[day]}
             </label>
@@ -78,17 +80,17 @@ export function OpeningHoursPicker({ value, onChange }: Props) {
                 <select
                   value={hours.open}
                   onChange={(e) => handleTimeChange(day, "open", e.target.value)}
-                  className="rounded bg-white/10 px-2 py-1 text-sm text-gray-200 focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)]"
+                  className="rounded border border-[var(--color-outline-variant)] bg-white px-2 py-1 text-sm text-[var(--color-on-surface)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]"
                 >
                   {TIME_OPTIONS.map((t) => (
                     <option key={t} value={t}>{t}</option>
                   ))}
                 </select>
-                <span className="text-gray-500">—</span>
+                <span className="text-[var(--color-outline)]">—</span>
                 <select
                   value={hours.close}
                   onChange={(e) => handleTimeChange(day, "close", e.target.value)}
-                  className="rounded bg-white/10 px-2 py-1 text-sm text-gray-200 focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)]"
+                  className="rounded border border-[var(--color-outline-variant)] bg-white px-2 py-1 text-sm text-[var(--color-on-surface)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]"
                 >
                   {TIME_OPTIONS.map((t) => (
                     <option key={t} value={t}>{t}</option>
@@ -96,7 +98,7 @@ export function OpeningHoursPicker({ value, onChange }: Props) {
                 </select>
               </>
             ) : (
-              <span className="text-sm italic text-gray-600">zamknięte</span>
+              <span className="text-sm italic text-[var(--color-outline)]">Closed</span>
             )}
           </div>
         )
@@ -106,9 +108,9 @@ export function OpeningHoursPicker({ value, onChange }: Props) {
         <button
           type="button"
           onClick={copyMonToWeekdays}
-          className="mt-1 self-start rounded px-2 py-1 text-xs text-gray-500 hover:text-gray-300 transition-colors"
+          className="mt-1 self-start rounded px-2 py-1 text-xs text-[var(--color-outline)] hover:text-[var(--color-on-surface)] transition-colors"
         >
-          Kopiuj Pon–Pt do wszystkich dni roboczych
+          Copy Mon–Fri hours to all weekdays
         </button>
       )}
     </div>

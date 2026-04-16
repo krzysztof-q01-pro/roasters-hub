@@ -75,26 +75,26 @@ export function CoffeeSection({ roasterId, initial }: Props) {
       setSaved(true)
       setTimeout(() => setSaved(false), 2000)
     } else {
-      setSaveError(result.error ?? "Błąd zapisu")
+      setSaveError(result.error ?? "Save failed")
     }
   }
 
   return (
     <div className="flex flex-col gap-5">
-      <SectionHeader title="Kawa i profile" hint="Certyfikaty, origine, style palenia i metody parzenia" />
+      <SectionHeader title="Coffee & profiles" hint="Certifications, origins, roast styles, and brewing methods" />
 
-      <Field label="Certyfikaty">
+      <Field label="Certifications">
         <div className="grid grid-cols-2 gap-1.5">
           {CERTIFICATIONS.map((cert) => (
             <label
               key={cert}
-              className="flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-300 hover:bg-white/5"
+              className="flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm text-[var(--color-on-surface)] hover:bg-[var(--color-surface-container-low)]"
             >
               <input
                 type="checkbox"
                 checked={certifications.includes(cert)}
                 onChange={() => toggleCert(cert)}
-                className="accent-[var(--color-accent)] h-4 w-4"
+                className="accent-[var(--color-primary)] h-4 w-4"
               />
               {CERTIFICATION_LABELS[cert]}
             </label>
@@ -102,7 +102,7 @@ export function CoffeeSection({ roasterId, initial }: Props) {
         </div>
       </Field>
 
-      <Field label="Origine (kraje pochodzenia kawy)">
+      <Field label="Origins (coffee-producing countries)">
         <div className="flex flex-wrap gap-1.5">
           {ORIGINS.map((origin) => (
             <button
@@ -111,8 +111,8 @@ export function CoffeeSection({ roasterId, initial }: Props) {
               onClick={() => toggleOrigin(origin)}
               className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
                 origins.includes(origin)
-                  ? "bg-[var(--color-accent)] text-black"
-                  : "bg-white/10 text-gray-300 hover:bg-white/20"
+                  ? "bg-[var(--color-primary)] text-[var(--color-on-primary)]"
+                  : "bg-[var(--color-surface-container)] border border-[var(--color-outline-variant)] text-[var(--color-on-surface)] hover:bg-[var(--color-surface-container-high)]"
               }`}
             >
               {origin}
@@ -121,7 +121,7 @@ export function CoffeeSection({ roasterId, initial }: Props) {
         </div>
       </Field>
 
-      <Field label="Style palenia">
+      <Field label="Roast styles">
         <div className="flex flex-wrap gap-1.5">
           {ROAST_STYLES.map((style) => (
             <button
@@ -130,8 +130,8 @@ export function CoffeeSection({ roasterId, initial }: Props) {
               onClick={() => toggleRoastStyle(style)}
               className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
                 roastStyles.includes(style)
-                  ? "bg-[var(--color-accent)] text-black"
-                  : "bg-white/10 text-gray-300 hover:bg-white/20"
+                  ? "bg-[var(--color-primary)] text-[var(--color-on-primary)]"
+                  : "bg-[var(--color-surface-container)] border border-[var(--color-outline-variant)] text-[var(--color-on-surface)] hover:bg-[var(--color-surface-container-high)]"
               }`}
             >
               {style}
@@ -140,19 +140,19 @@ export function CoffeeSection({ roasterId, initial }: Props) {
         </div>
       </Field>
 
-      <Field label="Metody parzenia (tagi)">
+      <Field label="Brewing methods (tags)">
         <div className="flex flex-wrap gap-1.5 mb-2">
           {brewingMethods.map((tag) => (
             <span
               key={tag}
-              className="inline-flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-1 text-xs text-gray-200"
+              className="inline-flex items-center gap-1 rounded-full bg-[var(--color-surface-container)] border border-[var(--color-outline-variant)] px-2.5 py-1 text-xs text-[var(--color-on-surface)]"
             >
               {tag}
               <button
                 type="button"
                 onClick={() => removeBrewingMethod(tag)}
-                className="text-gray-500 hover:text-gray-200 leading-none"
-                aria-label={`Usuń ${tag}`}
+                className="text-[var(--color-outline)] hover:text-[var(--color-on-surface)] leading-none"
+                aria-label={`Remove ${tag}`}
               >
                 ✕
               </button>
@@ -164,23 +164,23 @@ export function CoffeeSection({ roasterId, initial }: Props) {
             value={brewingInput}
             onChange={(e) => setBrewingInput(e.target.value)}
             onKeyDown={onBrewingKeyDown}
-            placeholder="Wpisz i naciśnij Enter…"
+            placeholder="Type and press Enter…"
             className={adminInput}
           />
           <button
             type="button"
             onClick={addBrewingMethod}
-            className="shrink-0 rounded-lg bg-white/10 px-3 py-2 text-sm text-gray-300 hover:bg-white/20"
+            className="shrink-0 rounded-lg border border-[var(--color-outline-variant)] bg-white px-3 py-2 text-sm text-[var(--color-on-surface)] hover:bg-[var(--color-surface-container-low)] transition-colors"
           >
-            Dodaj
+            Add
           </button>
         </div>
-        <Hint>Np. espresso, V60, AeroPress — naciśnij Enter po każdej metodzie</Hint>
+        <Hint>e.g. espresso, V60, AeroPress — press Enter after each method</Hint>
       </Field>
 
       <SaveButton saving={saving} saved={saved} onClick={handleSave} />
       {saveError && (
-        <p className="text-sm text-red-400">{saveError}</p>
+        <p className="text-sm text-red-600">{saveError}</p>
       )}
     </div>
   )

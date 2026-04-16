@@ -42,45 +42,49 @@ export function LocationSection({ cafeId, initial }: Props) {
       setSaved(true)
       setTimeout(() => setSaved(false), 2000)
     } else {
-      setSaveError(result.error ?? "Błąd zapisu")
+      setSaveError(result.error ?? "Save failed")
     }
   }
 
   return (
     <div className="flex flex-col gap-5">
-      <SectionHeader title="Lokalizacja" hint="Adres i współrzędne geograficzne" />
+      <SectionHeader title="Location" hint="Street address and geographic coordinates" />
 
-      <Field label="Adres">
+      <Field label="Address">
         <input
           value={form.address}
+          placeholder="e.g. ul. Marszałkowska 1, Warsaw"
           onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))}
           className={adminInput}
         />
       </Field>
 
-      <Field label="Kod pocztowy">
+      <Field label="Postal code">
         <input
           value={form.postalCode}
+          placeholder="e.g. 00-001"
           onChange={(e) => setForm((f) => ({ ...f, postalCode: e.target.value }))}
           className={adminInput}
         />
       </Field>
 
       <div className="grid grid-cols-2 gap-4">
-        <Field label="Szerokość geograficzna (lat)">
+        <Field label="Latitude">
           <input
             type="number"
             step="any"
+            placeholder="e.g. 52.2297"
             value={form.lat}
             onChange={(e) => setForm((f) => ({ ...f, lat: e.target.value }))}
             className={adminInput}
           />
         </Field>
 
-        <Field label="Długość geograficzna (lng)">
+        <Field label="Longitude">
           <input
             type="number"
             step="any"
+            placeholder="e.g. 21.0122"
             value={form.lng}
             onChange={(e) => setForm((f) => ({ ...f, lng: e.target.value }))}
             className={adminInput}
@@ -88,13 +92,13 @@ export function LocationSection({ cafeId, initial }: Props) {
         </Field>
       </div>
       <Hint>
-        Współrzędne możesz znaleźć w Google Maps: kliknij prawym przyciskiem na lokalizację i skopiuj
-        wartości lat/lng.
+        Find coordinates in Google Maps: right-click on the location and copy the lat/lng values.
       </Hint>
 
-      <Field label="Źródłowy URL (skąd pochodzi wpis)">
+      <Field label="Source URL (where this listing came from)">
         <input
           value={form.sourceUrl}
+          placeholder="e.g. https://maps.google.com/…"
           onChange={(e) => setForm((f) => ({ ...f, sourceUrl: e.target.value }))}
           className={adminInput}
         />
@@ -102,7 +106,7 @@ export function LocationSection({ cafeId, initial }: Props) {
 
       <SaveButton saving={saving} saved={saved} onClick={handleSave} />
       {saveError && (
-        <p className="text-sm text-red-400">{saveError}</p>
+        <p className="text-sm text-red-600">{saveError}</p>
       )}
     </div>
   )

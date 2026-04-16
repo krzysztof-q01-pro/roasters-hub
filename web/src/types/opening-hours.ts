@@ -17,13 +17,13 @@ export const ALL_DAYS = [
 export type Day = (typeof ALL_DAYS)[number]
 
 export const DAY_LABELS: Record<Day, string> = {
-  mon: "Pon",
-  tue: "Wt",
-  wed: "Śr",
-  thu: "Czw",
-  fri: "Pt",
-  sat: "Sob",
-  sun: "Nd",
+  mon: "Mon",
+  tue: "Tue",
+  wed: "Wed",
+  thu: "Thu",
+  fri: "Fri",
+  sat: "Sat",
+  sun: "Sun",
 }
 
 export const EMPTY_OPENING_HOURS: OpeningHours = {

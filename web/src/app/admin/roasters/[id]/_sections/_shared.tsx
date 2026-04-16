@@ -1,13 +1,16 @@
 import React from "react"
 
 export const adminInput =
-  "w-full rounded-lg bg-white/10 px-3 py-2 text-sm text-gray-100 focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)] disabled:opacity-40"
+  "w-full rounded-lg border border-[var(--color-outline-variant)] bg-white px-3 py-2 text-sm text-[var(--color-on-surface)] placeholder:text-[var(--color-outline)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] disabled:opacity-40"
+
+export const adminSelect =
+  "w-full rounded-lg border border-[var(--color-outline-variant)] bg-white px-3 py-2 text-sm text-[var(--color-on-surface)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] disabled:opacity-40"
 
 export function SectionHeader({ title, hint }: { title: string; hint?: string }) {
   return (
-    <div className="border-b border-white/10 pb-3 mb-5">
-      <h2 className="text-base font-semibold text-gray-100">{title}</h2>
-      {hint && <p className="text-xs text-gray-500 mt-0.5">{hint}</p>}
+    <div className="border-b border-[var(--color-outline-variant)] pb-3 mb-5">
+      <h2 className="text-base font-semibold text-[var(--color-on-surface)]">{title}</h2>
+      {hint && <p className="text-xs text-[var(--color-on-surface-variant)] mt-0.5">{hint}</p>}
     </div>
   )
 }
@@ -23,9 +26,9 @@ export function Field({
 }) {
   return (
     <div>
-      <label className="mb-1 block text-xs text-gray-400">
+      <label className="mb-1 block text-xs font-medium text-[var(--color-on-surface-variant)]">
         {label}
-        {required && <span className="ml-0.5 text-[var(--color-accent)]">*</span>}
+        {required && <span className="ml-0.5 text-[var(--color-primary)]">*</span>}
       </label>
       {children}
     </div>
@@ -33,7 +36,7 @@ export function Field({
 }
 
 export function Hint({ children }: { children: React.ReactNode }) {
-  return <p className="mt-1 text-xs text-gray-600">{children}</p>
+  return <p className="mt-1 text-xs text-[var(--color-outline)]">{children}</p>
 }
 
 export function SaveButton({
@@ -50,9 +53,9 @@ export function SaveButton({
       type="button"
       onClick={onClick}
       disabled={saving}
-      className="self-start rounded-lg bg-[var(--color-accent)] px-4 py-2 text-sm font-bold text-black transition-opacity hover:opacity-90 disabled:opacity-50"
+      className="self-start rounded-lg bg-[var(--color-primary)] px-4 py-2 text-sm font-bold text-[var(--color-on-primary)] transition-opacity hover:opacity-90 disabled:opacity-50"
     >
-      {saving ? "Zapisywanie…" : saved ? "✓ Zapisano" : "Zapisz sekcję"}
+      {saving ? "Saving…" : saved ? "✓ Saved" : "Save section"}
     </button>
   )
 }

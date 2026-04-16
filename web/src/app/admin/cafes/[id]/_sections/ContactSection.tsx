@@ -39,15 +39,15 @@ export function ContactSection({ cafeId, initial }: Props) {
       setSaved(true)
       setTimeout(() => setSaved(false), 2000)
     } else {
-      setSaveError(result.error ?? "Błąd zapisu")
+      setSaveError(result.error ?? "Save failed")
     }
   }
 
   return (
     <div className="flex flex-col gap-5">
-      <SectionHeader title="Kontakt" hint="Dane kontaktowe i media społecznościowe" />
+      <SectionHeader title="Contact" hint="Website, social media, and contact details" />
 
-      <Field label="Strona www">
+      <Field label="Website">
         <input
           type="url"
           value={form.website}
@@ -61,34 +61,36 @@ export function ContactSection({ cafeId, initial }: Props) {
         <input
           value={form.instagram}
           onChange={(e) => setForm((f) => ({ ...f, instagram: e.target.value }))}
-          placeholder="@nazwa_konta"
+          placeholder="@handle"
           className={adminInput}
         />
-        <Hint>Wpisz z prefiksem @, np. @roasters_hub</Hint>
+        <Hint>Include the @ prefix, e.g. @roasters_hub</Hint>
       </Field>
 
-      <Field label="Telefon">
+      <Field label="Phone">
         <input
           type="tel"
           value={form.phone}
           onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+          placeholder="+48 123 456 789"
           className={adminInput}
         />
       </Field>
 
-      <Field label="E-mail">
+      <Field label="Email">
         <input
           type="email"
           value={form.email}
           onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+          placeholder="hello@example.com"
           className={adminInput}
         />
-        <Hint>Adres e-mail nie jest publikowany na stronie kawiarni.</Hint>
+        <Hint>Email address is not published on the cafe&apos;s public page.</Hint>
       </Field>
 
       <SaveButton saving={saving} saved={saved} onClick={handleSave} />
       {saveError && (
-        <p className="text-sm text-red-400">{saveError}</p>
+        <p className="text-sm text-red-600">{saveError}</p>
       )}
     </div>
   )

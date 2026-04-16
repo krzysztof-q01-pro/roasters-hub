@@ -1,0 +1,224 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - link "Bean Map — home" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - img "Bean Map" [ref=e6]
+        - navigation "Main navigation" [ref=e7]:
+          - link "Browse Roasters" [ref=e8] [cursor=pointer]:
+            - /url: /roasters
+          - link "Browse Cafes" [ref=e9] [cursor=pointer]:
+            - /url: /cafes
+          - link "Map" [ref=e10] [cursor=pointer]:
+            - /url: /map
+          - button "Dodaj miejsce" [ref=e12]:
+            - text: Dodaj miejsce
+            - img [ref=e13]
+      - generic [ref=e16]:
+        - generic [ref=e17]:
+          - button "Search roasters" [ref=e18]:
+            - img [ref=e19]
+          - button "Search cafes" [pressed] [ref=e22]:
+            - img [ref=e23]
+        - generic [ref=e25]:
+          - img [ref=e26]
+          - textbox "Search cafes..." [ref=e28]
+  - main [ref=e29]:
+    - generic [ref=e30]:
+      - generic [ref=e31]:
+        - heading "Discover specialty coffee" [level=1] [ref=e32]
+        - paragraph [ref=e33]: The global directory connecting cafés and coffee lovers with verified specialty roasters worldwide.
+        - generic [ref=e34]:
+          - link "Browse Roasters" [ref=e35] [cursor=pointer]:
+            - /url: /roasters
+            - text: Browse Roasters
+            - img [ref=e36]
+          - link "List Your Roastery" [ref=e38] [cursor=pointer]:
+            - /url: /register
+          - link "Find a Cafe" [ref=e39] [cursor=pointer]:
+            - /url: /cafes
+            - text: Find a Cafe
+            - img [ref=e40]
+      - generic [ref=e42]:
+        - img "A barista pouring latte art in a sunlit cafe" [ref=e44]
+        - img "Close up of coffee beans in a commercial roaster" [ref=e46]
+        - img "Professional coffee tasting cupping session" [ref=e48]
+    - generic [ref=e50]:
+      - generic [ref=e51]:
+        - generic [ref=e52]: 50+
+        - text: Roasters
+      - generic [ref=e54]:
+        - generic [ref=e55]: "100"
+        - text: Cafes
+      - generic [ref=e57]:
+        - generic [ref=e58]: "17"
+        - text: Countries
+      - generic [ref=e60]:
+        - generic [ref=e61]: "50"
+        - text: Verified Profiles
+    - generic [ref=e62]:
+      - generic [ref=e63]:
+        - generic [ref=e64]:
+          - heading "Featured Roasters" [level=2] [ref=e65]
+          - paragraph [ref=e66]: Curated selections from our global network.
+        - link "View all roasters" [ref=e67] [cursor=pointer]:
+          - /url: /roasters
+          - text: View all roasters
+          - img [ref=e68]
+      - generic [ref=e70]:
+        - link [ref=e71] [cursor=pointer]:
+          - /url: /roasters/onyx-coffee-lab
+          - article [ref=e72]:
+            - generic [ref=e73]:
+              - img "Onyx Coffee Lab interior" [ref=e74]
+              - generic [ref=e76]:
+                - img [ref=e77]
+                - text: Verified
+              - generic [ref=e79]: Featured
+            - heading "Onyx Coffee Lab" [level=3] [ref=e80]
+            - paragraph [ref=e81]: Rogers, Arkansas • United States
+            - generic [ref=e82]:
+              - generic [ref=e83]: Direct Trade
+              - generic [ref=e84]: SCA Member
+            - paragraph [ref=e85]: Pushing the boundaries of specialty coffee through science and transparency. Every bean is selected, profiled, and roasted with precision to unlock its full potential.
+        - link [ref=e86] [cursor=pointer]:
+          - /url: /roasters/tim-wendelboe
+          - article [ref=e87]:
+            - generic [ref=e88]:
+              - img "Tim Wendelboe barista" [ref=e89]
+              - generic [ref=e91]:
+                - img [ref=e92]
+                - text: Verified
+              - generic [ref=e94]: Featured
+            - heading "Tim Wendelboe" [level=3] [ref=e95]
+            - paragraph [ref=e96]: Oslo • Norway
+            - generic [ref=e97]:
+              - generic [ref=e98]: Direct Trade
+              - generic [ref=e99]: Organic
+            - paragraph [ref=e100]: An espresso bar, roastery and coffee resource center focusing on quality. Founded by World Barista Champion Tim Wendelboe in Oslo.
+        - link [ref=e101] [cursor=pointer]:
+          - /url: /roasters/square-mile-coffee
+          - article [ref=e102]:
+            - generic [ref=e103]:
+              - img "Square Mile coffee bags" [ref=e104]
+              - generic [ref=e106]:
+                - img [ref=e107]
+                - text: Verified
+              - generic [ref=e109]: Featured
+            - heading "Square Mile" [level=3] [ref=e110]
+            - paragraph [ref=e111]: London • United Kingdom
+            - generic [ref=e112]:
+              - generic [ref=e113]: Direct Trade
+              - generic [ref=e114]: Organic
+            - paragraph [ref=e115]: A multi-award winning specialty coffee roasting company founded in 2008 by James Hoffmann and Anette Moldvaer.
+        - link [ref=e116] [cursor=pointer]:
+          - /url: /roasters/the-nordic-roast
+          - article [ref=e117]:
+            - generic [ref=e118]:
+              - img "Nordic Roast barista" [ref=e119]
+              - generic [ref=e121]:
+                - img [ref=e122]
+                - text: Verified
+              - generic [ref=e124]: Featured
+            - heading "The Nordic Roast" [level=3] [ref=e125]
+            - paragraph [ref=e126]: Oslo • Norway
+            - generic [ref=e127]:
+              - generic [ref=e128]: Organic
+              - generic [ref=e129]: Direct Trade
+            - paragraph [ref=e130]: Oslo-based roastery focused on sustainability and light roasts that showcase terroir. Working directly with smallholder farmers.
+    - generic [ref=e132]:
+      - heading "Built for the specialty coffee community" [level=2] [ref=e133]
+      - generic [ref=e134]:
+        - generic [ref=e135]:
+          - img [ref=e137]
+          - heading "Coffee Roasters" [level=3] [ref=e140]
+          - paragraph [ref=e141]: Showcase your beans and unique roasting philosophy to a global audience of dedicated coffee lovers.
+        - generic [ref=e142]:
+          - img [ref=e144]
+          - heading "Cafés & Buyers" [level=3] [ref=e146]
+          - paragraph [ref=e147]: Source exceptional beans for your café by connecting directly with verified specialty producers worldwide.
+        - generic [ref=e148]:
+          - img [ref=e150]
+          - heading "Coffee Lovers" [level=3] [ref=e152]
+          - paragraph [ref=e153]: Find your next favorite roast and explore the diverse world of specialty coffee through our curated map.
+    - generic [ref=e155]:
+      - generic [ref=e156]:
+        - heading "Find roasters wherever you go" [level=2] [ref=e157]
+        - paragraph [ref=e158]: Our interactive map allows you to find verified specialty roasters in any city.
+        - link "Explore the Map" [ref=e159] [cursor=pointer]:
+          - /url: /map
+          - text: Explore the Map
+          - img [ref=e160]
+      - img "World map" [ref=e163]
+    - generic [ref=e168]:
+      - heading "Fresh beans in your inbox" [level=2] [ref=e169]
+      - paragraph [ref=e170]: Join 10,000+ subscribers for weekly curation of new roasters and limited releases.
+      - generic [ref=e171]:
+        - generic [ref=e172]:
+          - generic [ref=e173]: Email address
+          - textbox "Email address" [ref=e174]:
+            - /placeholder: Enter your email
+          - button "Subscribe" [ref=e175]
+        - generic [ref=e176]:
+          - generic [ref=e177] [cursor=pointer]:
+            - radio "I'm a Coffee Lover" [checked] [ref=e178]
+            - generic [ref=e179]: I'm a Coffee Lover
+          - generic [ref=e180] [cursor=pointer]:
+            - radio "I'm a Café" [ref=e181]
+            - generic [ref=e182]: I'm a Café
+  - contentinfo [ref=e183]:
+    - generic [ref=e184]:
+      - generic [ref=e185]:
+        - generic [ref=e186]: Bean Map
+        - paragraph [ref=e187]: Connecting the specialty coffee ecosystem through transparency, origin, and community.
+      - generic [ref=e188]:
+        - heading "Explore" [level=4] [ref=e189]
+        - list [ref=e190]:
+          - listitem [ref=e191]:
+            - link "Browse Roasters" [ref=e192] [cursor=pointer]:
+              - /url: /roasters
+          - listitem [ref=e193]:
+            - link "Browse Cafes" [ref=e194] [cursor=pointer]:
+              - /url: /cafes
+          - listitem [ref=e195]:
+            - link "Interactive Map" [ref=e196] [cursor=pointer]:
+              - /url: /map
+      - generic [ref=e197]:
+        - heading "Quick Links" [level=4] [ref=e198]
+        - list [ref=e199]:
+          - listitem [ref=e200]:
+            - link "Register Roastery" [ref=e201] [cursor=pointer]:
+              - /url: /register
+          - listitem [ref=e202]:
+            - link "All Roasters" [ref=e203] [cursor=pointer]:
+              - /url: /roasters
+          - listitem [ref=e204]:
+            - link "All Cafes" [ref=e205] [cursor=pointer]:
+              - /url: /cafes
+          - listitem [ref=e206]:
+            - link "Map" [ref=e207] [cursor=pointer]:
+              - /url: /map
+      - generic [ref=e208]:
+        - heading "Join Us" [level=4] [ref=e209]
+        - paragraph [ref=e210]: Are you a roaster? Share your craft with our community.
+        - link "List Your Roastery" [ref=e211] [cursor=pointer]:
+          - /url: /register
+          - text: List Your Roastery
+          - img [ref=e212]
+        - paragraph [ref=e214]: Own a café? List it on Bean Map.
+        - link "List Your Cafe" [ref=e215] [cursor=pointer]:
+          - /url: /register/cafe
+          - text: List Your Cafe
+          - img [ref=e216]
+        - generic [ref=e218]:
+          - link "Zaproponuj palarnię" [ref=e219] [cursor=pointer]:
+            - /url: /suggest/roastery
+          - link "Zaproponuj kawiarnię" [ref=e220] [cursor=pointer]:
+            - /url: /suggest/cafe
+    - paragraph [ref=e222]:
+      - text: © 2026 Bean Map. Crafted for the Sensory Curator.
+      - generic [ref=e223]: v0.1.23
+  - button "Open Next.js Dev Tools" [ref=e238] [cursor=pointer]:
+    - img [ref=e239]
+  - alert [ref=e237]
