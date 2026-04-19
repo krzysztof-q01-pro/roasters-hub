@@ -38,40 +38,40 @@ function HeaderSearch() {
   };
 
   return (
-    <div className="hidden sm:flex items-center bg-surface-container-low rounded-lg overflow-hidden">
-      <div className="flex border-r border-outline-variant/20">
-        <button
-          onClick={() => handleToggle("roasters")}
-          className={`px-3 py-2.5 transition-colors ${
-            entityType === "roasters"
-              ? "bg-primary text-on-primary"
-              : "text-on-surface-variant hover:bg-surface-container-high"
-          }`}
-          aria-label="Search roasters"
-          aria-pressed={entityType === "roasters"}
-        >
-          <CoffeeBean className="w-5 h-5" />
-        </button>
-        <button
-          onClick={() => handleToggle("cafes")}
-          className={`px-3 py-2.5 transition-colors ${
-            entityType === "cafes"
-              ? "bg-secondary text-on-secondary"
-              : "text-on-surface-variant hover:bg-surface-container-high"
-          }`}
-          aria-label="Search cafes"
-          aria-pressed={entityType === "cafes"}
-        >
-          <CoffeeCup className="w-5 h-5" />
-        </button>
-      </div>
-      <div className="flex items-center px-4 py-2.5">
-        <svg className="w-5 h-5 text-on-surface-variant/60 mr-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    <div className="hidden sm:flex items-center bg-surface-container-low rounded-lg overflow-hidden h-[42px] border-[1.5px] border-transparent focus-within:border-outline-variant/50 transition-colors">
+      <button
+        onClick={() => handleToggle("roasters")}
+        className={`h-full px-3 flex items-center transition-colors ${
+          entityType === "roasters"
+            ? "bg-primary text-on-primary"
+            : "text-outline hover:bg-surface-container-high"
+        }`}
+        aria-label="Search roasters"
+        aria-pressed={entityType === "roasters"}
+      >
+        <CoffeeBean className="w-[17px] h-[17px]" />
+      </button>
+      <div className="w-px h-[55%] bg-outline-variant/30" />
+      <button
+        onClick={() => handleToggle("cafes")}
+        className={`h-full px-3 flex items-center transition-colors ${
+          entityType === "cafes"
+            ? "bg-secondary text-on-secondary"
+            : "text-outline hover:bg-surface-container-high"
+        }`}
+        aria-label="Search cafes"
+        aria-pressed={entityType === "cafes"}
+      >
+        <CoffeeCup className="w-[17px] h-[17px]" />
+      </button>
+      <div className="flex items-center px-3 gap-2 flex-1">
+        <svg className="w-[14px] h-[14px] text-on-surface-variant/60 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8" strokeWidth={2} strokeLinecap="round" />
+          <path d="m21 21-4.35-4.35" strokeWidth={2} strokeLinecap="round" />
         </svg>
         <input
           key={currentQ}
-          className="bg-transparent border-none focus:ring-0 focus:outline-none text-base w-48 lg:w-72 placeholder:text-on-surface-variant/60"
+          className="bg-transparent border-none focus:ring-0 focus:outline-none text-sm w-44 lg:w-64 placeholder:text-on-surface-variant/40"
           placeholder={entityType === "cafes" ? "Search cafes..." : "Search roasters..."}
           type="text"
           defaultValue={currentQ}
@@ -88,16 +88,16 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 glass-nav border-b border-surface-container-high/50">
-      <div className="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+      <div className="flex justify-between items-center w-full px-6 max-w-7xl mx-auto h-[66px]">
         <div className="flex items-center gap-8">
           <Link href="/" aria-label="Bean Map — home" className="flex items-center">
             <Image
               src="/brand/beanmap-logo.png"
               alt="Bean Map"
-              width={166}
-              height={65}
+              width={102}
+              height={40}
               priority
-              className="h-[65px] w-auto"
+              className="h-10 w-auto"
             />
           </Link>
           <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
@@ -125,7 +125,7 @@ export function Header() {
 
         <div className="flex items-center gap-4">
           <Suspense fallback={
-            <div className="hidden sm:flex items-center bg-surface-container-low rounded-lg overflow-hidden h-11 w-80 lg:w-[26rem]" />
+            <div className="hidden sm:flex items-center bg-surface-container-low rounded-lg overflow-hidden h-[42px] w-72 lg:w-80" />
           }>
             <HeaderSearch />
           </Suspense>

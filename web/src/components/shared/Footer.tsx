@@ -1,21 +1,28 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export function Footer() {
   return (
-    <footer className="bg-stone-900 w-full pt-16 pb-8 text-stone-400 text-sm font-light mt-auto">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-12 px-8 max-w-7xl mx-auto">
+    <footer className="bg-stone-900 w-full pt-12 pb-6 text-stone-400 text-sm font-light mt-auto">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 px-8 max-w-7xl mx-auto mb-8">
         <div className="md:col-span-1">
-          <span className="text-3xl font-headline text-white mb-4 block">
-            Bean Map
-          </span>
-          <p className="leading-relaxed mb-6">
+          <div className="mb-2">
+            <Image
+              src="/brand/beanmap-logo.png"
+              alt="Bean Map"
+              width={102}
+              height={40}
+              className="h-9 w-auto brightness-0 invert"
+            />
+          </div>
+          <p className="leading-relaxed text-[13px]">
             Connecting the specialty coffee ecosystem through transparency,
             origin, and community.
           </p>
         </div>
 
         <div>
-          <h4 className="text-white font-bold mb-6 text-xs uppercase tracking-[0.2em]">
+          <h4 className="text-white font-bold mb-[14px] text-[10px] uppercase tracking-[0.2em]">
             Explore
           </h4>
           <ul className="space-y-4">
@@ -38,7 +45,7 @@ export function Footer() {
         </div>
 
         <div>
-          <h4 className="text-white font-bold mb-6 text-xs uppercase tracking-[0.2em]">
+          <h4 className="text-white font-bold mb-[14px] text-[10px] uppercase tracking-[0.2em]">
             Quick Links
           </h4>
           <ul className="space-y-4">
@@ -66,7 +73,7 @@ export function Footer() {
         </div>
 
         <div>
-          <h4 className="text-white font-bold mb-6 text-xs uppercase tracking-[0.2em]">
+          <h4 className="text-white font-bold mb-[14px] text-[10px] uppercase tracking-[0.2em]">
             Join Us
           </h4>
           <p className="mb-4">
@@ -110,10 +117,10 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-8 mt-16 pt-8 border-t border-white/10 text-center md:text-left">
-        <p className="text-xs font-light opacity-60">
+      <div className="max-w-7xl mx-auto px-8 pt-4 border-t border-white/[0.07]">
+        <p className="text-[11px] font-light" style={{color: "rgba(168,162,158,0.4)"}}>
           &copy; {new Date().getFullYear()} Bean Map. Crafted for the Sensory Curator.
-          <span className="ml-2 opacity-60">v{process.env.NEXT_PUBLIC_APP_VERSION}</span>
+          <span className="ml-2">v{process.env.NEXT_PUBLIC_APP_VERSION}</span>
         </p>
       </div>
     </footer>
