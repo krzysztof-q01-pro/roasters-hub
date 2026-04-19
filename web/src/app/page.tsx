@@ -64,7 +64,7 @@ export default async function HomePage() {
             <div className="flex flex-wrap items-center gap-3">
               <Link
                 href="/roasters"
-                className="inline-flex items-center gap-1.5 bg-primary text-on-primary px-[30px] py-[14px] rounded-lg font-semibold text-base hover:bg-[#a85218] transition-colors"
+                className="inline-flex items-center gap-1.5 bg-primary text-on-primary px-[30px] py-[14px] rounded-lg font-semibold text-base hover:bg-accent-hover transition-colors"
               >
                 Browse Roasters
                 <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
@@ -214,7 +214,7 @@ export default async function HomePage() {
               </p>
               <Link
                 href="/map"
-                className="inline-flex items-center gap-1.5 bg-primary text-on-primary px-5 py-[10px] rounded-lg font-semibold text-sm hover:bg-[#a85218] transition-colors"
+                className="inline-flex items-center gap-1.5 bg-primary text-on-primary px-5 py-[10px] rounded-lg font-semibold text-sm hover:bg-accent-hover transition-colors"
               >
                 Explore the Map
                 <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
