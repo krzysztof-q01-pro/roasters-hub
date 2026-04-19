@@ -4,29 +4,26 @@ import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { NewsletterForm } from "@/components/shared/NewsletterForm";
 import { RoasterCard } from "@/components/roasters/RoasterCard";
-import { CoffeeBean } from "@/components/icons/CoffeeBean";
-import { CoffeeCup } from "@/components/icons/CoffeeCup";
 import { db } from "@/lib/db";
 
 const COMMUNITY_ITEMS = [
   {
     title: "Coffee Roasters",
     desc: "Showcase your beans and unique roasting philosophy to a global audience of dedicated coffee lovers.",
-    Icon: CoffeeBean,
+    iconBg: "#ffdbc9",
+    emoji: "🫘",
   },
   {
     title: "Cafés & Buyers",
     desc: "Source exceptional beans for your café by connecting directly with verified specialty producers worldwide.",
-    Icon: CoffeeCup,
+    iconBg: "#aeeecb",
+    emoji: "☕",
   },
   {
     title: "Coffee Lovers",
     desc: "Find your next favorite roast and explore the diverse world of specialty coffee through our curated map.",
-    Icon: (props: React.SVGProps<SVGSVGElement>) => (
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
-        <path d="M12 21s-7-4.35-7-10.5A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 7 4.5C19 16.65 12 21 12 21Z" />
-      </svg>
-    ),
+    iconBg: "#c8e6ff",
+    emoji: "🗺️",
   },
 ];
 
@@ -52,44 +49,82 @@ export default async function HomePage() {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="max-w-7xl mx-auto px-6 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-7">
-            <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tight text-on-background leading-[1.1] mb-6">
+        <section className="max-w-7xl mx-auto px-6 py-[72px] grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+          <div>
+            <div className="inline-flex items-center gap-1.5 bg-primary-fixed text-primary text-[11px] font-bold tracking-[0.1em] uppercase px-3 py-[5px] rounded-full mb-5">
+              🫘 Specialty Coffee Directory
+            </div>
+            <h1 className="font-headline text-[54px] font-semibold tracking-[-0.025em] text-on-surface leading-[1.08] mb-5" style={{textWrap: "pretty"}}>
               Discover specialty coffee
             </h1>
-            <p className="text-lg md:text-xl text-on-surface-variant max-w-xl mb-10 leading-relaxed font-light">
+            <p className="text-lg text-on-surface-variant leading-[1.65] mb-9">
               The global directory connecting caf&eacute;s and coffee lovers with
               verified specialty roasters worldwide.
             </p>
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center gap-3">
               <Link
                 href="/roasters"
-                className="inline-flex items-center gap-2 bg-primary text-on-primary px-8 py-4 rounded-lg font-medium hover:opacity-90 transition-all"
+                className="inline-flex items-center gap-1.5 bg-primary text-on-primary px-[30px] py-[14px] rounded-lg font-semibold text-base hover:bg-accent-hover transition-colors"
               >
                 Browse Roasters
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M7 17L17 7M17 7H7M17 7v10" />
                 </svg>
               </Link>
               <Link
                 href="/register"
-                className="inline-flex items-center bg-surface-container text-on-surface px-8 py-4 rounded-lg font-medium hover:bg-surface-container-high transition-all"
+                className="inline-flex items-center border-[1.5px] border-primary text-primary px-[30px] py-[14px] rounded-lg font-semibold text-base hover:bg-primary-fixed transition-colors"
               >
                 List Your Roastery
               </Link>
               <Link
                 href="/cafes"
-                className="inline-flex items-center gap-2 bg-secondary text-on-secondary px-8 py-4 rounded-lg font-medium hover:opacity-90 transition-all"
+                className="inline-flex items-center gap-1.5 text-primary px-4 py-[14px] rounded-lg font-semibold text-base hover:bg-primary-fixed/50 transition-colors"
               >
                 Find a Cafe
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M7 17L17 7M17 7H7M17 7v10" />
                 </svg>
               </Link>
             </div>
           </div>
+
+          {/* Hero image grid */}
+          <div className="hidden lg:grid grid-cols-2 gap-2.5" style={{gridTemplateRows: "auto auto"}}>
+            <div className="row-span-2 rounded-xl overflow-hidden bg-surface-container" style={{aspectRatio: "3/4"}}>
+              <Image
+                src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=800&fit=crop"
+                alt="A barista pouring latte art in a sunlit cafe"
+                width={600}
+                height={800}
+                className="w-full h-full object-cover"
+                sizes="280px"
+                priority
+              />
+            </div>
+            <div className="rounded-xl overflow-hidden bg-surface-container" style={{aspectRatio: "4/3"}}>
+              <Image
+                src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&h=300&fit=crop"
+                alt="Close up of coffee beans in a commercial roaster"
+                width={400}
+                height={300}
+                className="w-full h-full object-cover"
+                sizes="200px"
+              />
+            </div>
+            <div className="rounded-xl overflow-hidden bg-surface-container" style={{aspectRatio: "4/3"}}>
+              <Image
+                src="https://images.unsplash.com/photo-1507133750040-4a8f57021571?w=400&h=300&fit=crop"
+                alt="Professional coffee tasting cupping session"
+                width={400}
+                height={300}
+                className="w-full h-full object-cover"
+                sizes="200px"
+              />
+            </div>
+          </div>
           {/* Mobile hero image */}
-          <div className="md:hidden w-full h-[280px] rounded-2xl overflow-hidden relative editorial-shadow">
+          <div className="lg:hidden w-full h-[260px] rounded-xl overflow-hidden relative">
             <Image
               src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&h=500&fit=crop"
               alt="A barista pouring latte art in a sunlit cafe"
@@ -99,80 +134,45 @@ export default async function HomePage() {
               priority
             />
           </div>
-
-          <div className="lg:col-span-5 relative h-[500px] hidden md:block">
-            <div className="absolute top-0 right-0 w-2/3 h-[300px] rounded-2xl overflow-hidden editorial-shadow rotate-2 z-10 bg-surface-container">
-              <Image
-                src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=400&fit=crop"
-                alt="A barista pouring latte art in a sunlit cafe"
-                fill
-                className="object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700"
-                sizes="400px"
-              />
-            </div>
-            <div className="absolute top-20 left-0 w-3/4 h-[350px] rounded-2xl overflow-hidden editorial-shadow -rotate-3 z-0 bg-surface-container">
-              <Image
-                src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&h=400&fit=crop"
-                alt="Close up of coffee beans in a commercial roaster"
-                fill
-                className="object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700"
-                sizes="500px"
-              />
-            </div>
-            <div className="absolute bottom-0 right-10 w-1/2 h-[200px] rounded-2xl overflow-hidden editorial-shadow rotate-6 z-20 bg-surface-container">
-              <Image
-                src="https://images.unsplash.com/photo-1507133750040-4a8f57021571?w=400&h=300&fit=crop"
-                alt="Professional coffee tasting cupping session"
-                fill
-                className="object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700"
-                sizes="300px"
-              />
-            </div>
-          </div>
         </section>
 
         {/* Stats Bar */}
-        <div className="bg-surface-container-low">
-          <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-center items-center gap-12 md:gap-20">
+        <div className="border-t border-b border-surface-container-high bg-surface-container-lowest">
+          <div className="max-w-7xl mx-auto px-6 py-[22px] flex flex-col md:flex-row justify-center items-center gap-10 md:gap-14">
             <div className="text-center">
-              <span className="block text-3xl font-headline font-bold text-primary">{roasterCount}+</span>
-              <span className="text-xs uppercase tracking-widest text-on-surface-variant font-medium">Roasters</span>
+              <div className="font-headline text-[38px] font-bold text-primary leading-none tracking-[-0.03em]">{roasterCount}+</div>
+              <div className="text-[11px] font-bold uppercase tracking-[0.12em] text-outline mt-[3px]">Roasters</div>
             </div>
-            <div className="h-8 w-px bg-outline-variant/30 hidden md:block" />
+            <div className="h-[38px] w-px bg-surface-container-high hidden md:block" />
             <div className="text-center">
-              <span className="block text-3xl font-headline font-bold text-primary">{cafeCount}</span>
-              <span className="text-xs uppercase tracking-widest text-on-surface-variant font-medium">Cafes</span>
+              <div className="font-headline text-[38px] font-bold text-primary leading-none tracking-[-0.03em]">{cafeCount}</div>
+              <div className="text-[11px] font-bold uppercase tracking-[0.12em] text-outline mt-[3px]">Cafes</div>
             </div>
-            <div className="h-8 w-px bg-outline-variant/30 hidden md:block" />
+            <div className="h-[38px] w-px bg-surface-container-high hidden md:block" />
             <div className="text-center">
-              <span className="block text-3xl font-headline font-bold text-primary">
-                {countryCount}
-              </span>
-              <span className="text-xs uppercase tracking-widest text-on-surface-variant font-medium">Countries</span>
+              <div className="font-headline text-[38px] font-bold text-primary leading-none tracking-[-0.03em]">{countryCount}</div>
+              <div className="text-[11px] font-bold uppercase tracking-[0.12em] text-outline mt-[3px]">Countries</div>
             </div>
-            <div className="h-8 w-px bg-outline-variant/30 hidden md:block" />
+            <div className="h-[38px] w-px bg-surface-container-high hidden md:block" />
             <div className="text-center">
-              <span className="block text-3xl font-headline font-bold text-primary">{roasterCount}</span>
-              <span className="text-xs uppercase tracking-widest text-on-surface-variant font-medium">Verified Profiles</span>
+              <div className="font-headline text-[38px] font-bold text-primary leading-none tracking-[-0.03em]">{roasterCount}</div>
+              <div className="text-[11px] font-bold uppercase tracking-[0.12em] text-outline mt-[3px]">Verified</div>
             </div>
           </div>
         </div>
 
         {/* Featured Roasters */}
-        <section className="max-w-7xl mx-auto px-6 py-24">
-          <div className="flex justify-between items-end mb-12">
+        <section className="max-w-7xl mx-auto px-6 py-[60px]">
+          <div className="flex justify-between items-baseline mb-8">
             <div>
-              <h2 className="font-headline text-4xl font-bold tracking-tight text-on-background">Featured Roasters</h2>
-              <p className="text-on-surface-variant mt-2">Curated selections from our global network.</p>
+              <h2 className="font-headline text-[34px] font-semibold tracking-[-0.02em] text-on-surface">Featured Roasters</h2>
+              <p className="text-[15px] text-outline mt-1.5">Curated selections from our global network.</p>
             </div>
-            <Link className="group text-primary font-medium flex items-center gap-1 hover:gap-2 transition-all" href="/roasters">
-              View all roasters
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
+            <Link className="inline-flex items-center gap-1 text-primary font-semibold text-sm hover:opacity-80 transition-opacity" href="/roasters">
+              View all roasters ↗
             </Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {featuredRoasters.map((roaster) => (
               <RoasterCard key={roaster.id} roaster={roaster} />
             ))}
@@ -180,19 +180,22 @@ export default async function HomePage() {
         </section>
 
         {/* Value Props */}
-        <section className="bg-surface-container py-24">
+        <section className="bg-surface-container-lowest py-[60px] border-t border-surface-container-high">
           <div className="max-w-7xl mx-auto px-6">
-            <h2 className="font-headline text-4xl font-bold text-center text-on-background mb-16">
+            <h2 className="font-headline text-[34px] font-semibold tracking-[-0.02em] text-center text-on-surface mb-10">
               Built for the specialty coffee community
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-              {COMMUNITY_ITEMS.map(({ title, desc, Icon }) => (
-                <div key={title} className="text-center group">
-                  <div className="w-20 h-20 bg-surface-container-lowest rounded-full flex items-center justify-center mx-auto mb-8 editorial-shadow group-hover:bg-primary transition-colors">
-                    <Icon className="w-9 h-9 text-primary group-hover:text-on-primary transition-colors" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {COMMUNITY_ITEMS.map(({ title, desc, iconBg, emoji }) => (
+                <div key={title} className="text-center px-4">
+                  <div
+                    className="w-[52px] h-[52px] rounded-xl flex items-center justify-center mx-auto mb-4 text-2xl"
+                    style={{ background: iconBg }}
+                  >
+                    {emoji}
                   </div>
-                  <h3 className="font-headline text-2xl font-bold mb-4">{title}</h3>
-                  <p className="text-on-surface-variant font-light leading-relaxed">{desc}</p>
+                  <h3 className="font-headline text-xl font-semibold mb-2">{title}</h3>
+                  <p className="text-sm text-on-surface-variant leading-[1.65]">{desc}</p>
                 </div>
               ))}
             </div>
@@ -200,27 +203,30 @@ export default async function HomePage() {
         </section>
 
         {/* Map Teaser */}
-        <section className="py-24 max-w-7xl mx-auto px-6">
-          <div className="bg-surface-container-low rounded-[2rem] overflow-hidden grid grid-cols-1 lg:grid-cols-2 items-center">
-            <div className="p-12 lg:p-20">
-              <h2 className="font-headline text-4xl md:text-5xl font-bold text-on-background mb-6 leading-tight">
+        <section className="py-[60px] max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+            <div>
+              <h2 className="font-headline text-[34px] font-semibold tracking-[-0.02em] text-on-surface mb-4 leading-[1.1]">
                 Find roasters wherever you go
               </h2>
-              <p className="text-lg text-on-surface-variant mb-10 font-light leading-relaxed">
+              <p className="text-base text-on-surface-variant mb-8 leading-relaxed">
                 Our interactive map allows you to find verified specialty roasters in any city.
               </p>
-              <Link href="/map" className="bg-primary text-on-primary px-8 py-4 rounded-lg font-medium hover:opacity-90 transition-all inline-flex items-center gap-2">
+              <Link
+                href="/map"
+                className="inline-flex items-center gap-1.5 bg-primary text-on-primary px-5 py-[10px] rounded-lg font-semibold text-sm hover:bg-accent-hover transition-colors"
+              >
                 Explore the Map
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M7 17L17 7M17 7H7M17 7v10" />
                 </svg>
               </Link>
             </div>
-            <div className="h-[400px] lg:h-full relative bg-surface-container min-h-[300px]">
-              <Image src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&h=600&fit=crop" alt="World map" fill className="object-cover opacity-60 grayscale" sizes="50vw" />
-              <div className="absolute top-1/4 left-1/3 w-4 h-4 bg-primary rounded-full shadow-[0_0_0_8px_rgba(151,68,0,0.2)] animate-pulse" />
-              <div className="absolute top-1/2 left-2/3 w-4 h-4 bg-primary rounded-full shadow-[0_0_0_8px_rgba(151,68,0,0.2)]" />
-              <div className="absolute bottom-1/3 left-1/2 w-4 h-4 bg-primary rounded-full shadow-[0_0_0_8px_rgba(151,68,0,0.2)]" />
+            <div className="relative h-[320px] rounded-xl overflow-hidden bg-[#f4f4f0]">
+              <Image src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&h=600&fit=crop" alt="World map" fill className="object-cover opacity-50 grayscale" sizes="50vw" />
+              <div className="absolute top-1/4 left-1/3 w-[30px] h-[30px] bg-primary rounded-full flex items-center justify-center shadow-[0_2px_8px_rgba(151,68,0,0.4)] cursor-pointer" />
+              <div className="absolute top-1/2 left-2/3 w-[30px] h-[30px] bg-primary rounded-full flex items-center justify-center shadow-[0_2px_8px_rgba(151,68,0,0.4)]" />
+              <div className="absolute bottom-1/3 left-1/2 w-[30px] h-[30px] bg-primary rounded-full flex items-center justify-center shadow-[0_2px_8px_rgba(151,68,0,0.4)] animate-pulse" />
             </div>
           </div>
         </section>
