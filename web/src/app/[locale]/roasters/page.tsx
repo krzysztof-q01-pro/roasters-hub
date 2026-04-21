@@ -1,34 +1,52 @@
 import { Suspense } from "react";
 import Link from "next/link";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { RoasterCard } from "@/components/roasters/RoasterCard";
 import { RoasterFilters } from "@/components/roasters/RoasterFilters";
 import { db } from "@/lib/db";
-import type { Metadata, } from "next";
+import type { Metadata } from "next";
 import type { Prisma } from "@prisma/client";
 
-export const revalidate = 3600; // re-generate every hour
+export const revalidate = 3600;
 
-export const metadata: Metadata = {
-  title: "Specialty Coffee Roasters",
-  description: "Browse verified specialty coffee roasters worldwide. Filter by country, origin, certifications, and roast style.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "roasters" });
+  return {
+    title: t("h1"),
+    description: t("pageDescription"),
+  };
+}
 
 const PAGE_SIZE = 12;
 
 export default async function CatalogPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const params = await searchParams;
-  const page = Number(params.page) || 1;
-  const country = typeof params.country === "string" ? params.country : undefined;
-  const origins = Array.isArray(params.origin) ? params.origin : params.origin ? [params.origin] : [];
-  const certs = Array.isArray(params.cert) ? params.cert : params.cert ? [params.cert] : [];
-  const roast = typeof params.roast === "string" ? params.roast : undefined;
-  const q = typeof params.q === "string" ? params.q : undefined;
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  const t = await getTranslations({ locale, namespace: "roasters" });
+  const tCommon = await getTranslations({ locale, namespace: "common" });
+
+  const sp = await searchParams;
+  const page = Number(sp.page) || 1;
+  const country = typeof sp.country === "string" ? sp.country : undefined;
+  const origins = Array.isArray(sp.origin) ? sp.origin : sp.origin ? [sp.origin] : [];
+  const certs = Array.isArray(sp.cert) ? sp.cert : sp.cert ? [sp.cert] : [];
+  const roast = typeof sp.roast === "string" ? sp.roast : undefined;
+  const q = typeof sp.q === "string" ? sp.q : undefined;
 
   const where: Prisma.RoasterWhereInput = {
     status: "VERIFIED",
@@ -70,19 +88,19 @@ export default async function CatalogPage({
       <main className="max-w-7xl mx-auto px-6 py-12">
         {/* Breadcrumbs */}
         <nav className="mb-4 text-on-surface-variant flex items-center gap-2 text-xs uppercase tracking-widest">
-          <Link className="hover:text-primary transition-colors" href="/">Home</Link>
+          <Link className="hover:text-primary transition-colors" href="/">{tCommon("home")}</Link>
           <span className="text-[10px]">&rsaquo;</span>
-          <span className="text-on-surface">Roasters</span>
+          <span className="text-on-surface">{t("breadcrumb")}</span>
         </nav>
 
         {/* Header */}
         <header className="mb-12">
           <h1 className="font-headline text-5xl md:text-6xl text-on-surface text-editorial-tight mb-2">
-            Specialty Coffee Roasters
+            {t("h1")}
           </h1>
           <p className="text-on-surface-variant flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-secondary" />
-            {total} verified roasters worldwide
+            {total} {t("pageDescription")}
           </p>
         </header>
 
@@ -98,11 +116,11 @@ export default async function CatalogPage({
                 Showing {roasters.length} of {total} results
               </span>
               <div className="flex items-center gap-4">
-                <span className="text-xs uppercase tracking-widest font-semibold">Sort by:</span>
+                <span className="text-xs uppercase tracking-widest font-semibold">{tCommon("sortBy")}</span>
                 <select className="bg-transparent border-none text-sm font-medium focus:ring-0 cursor-pointer text-primary">
-                  <option>Relevance</option>
-                  <option>Name A–Z</option>
-                  <option>Newest</option>
+                  <option>{t("sortRelevance")}</option>
+                  <option>{t("sortNameAZ")}</option>
+                  <option>{t("sortNewest")}</option>
                 </select>
               </div>
             </div>
@@ -116,8 +134,8 @@ export default async function CatalogPage({
               </div>
             ) : (
               <div className="text-center py-20">
-                <p className="text-on-surface-variant text-lg mb-4">No roasters found for these filters</p>
-                <Link href="/roasters" className="text-primary font-medium hover:underline">Clear filters</Link>
+                <p className="text-on-surface-variant text-lg mb-4">{t("noResultsFilters")}</p>
+                <Link href="/roasters" className="text-primary font-medium hover:underline">{t("clearFilters")}</Link>
               </div>
             )}
 
@@ -126,7 +144,7 @@ export default async function CatalogPage({
               <nav className="mt-20 flex items-center justify-center gap-4">
                 {page > 1 && (
                   <Link href={`/roasters?page=${page - 1}`} className="flex items-center gap-1 px-4 py-2 text-sm text-on-surface-variant hover:text-primary transition-colors">
-                    &larr; Previous
+                    &larr; {tCommon("previous")}
                   </Link>
                 )}
                 <div className="flex items-center gap-1">
@@ -146,7 +164,7 @@ export default async function CatalogPage({
                 </div>
                 {page < totalPages && (
                   <Link href={`/roasters?page=${page + 1}`} className="flex items-center gap-1 px-4 py-2 text-sm text-on-surface-variant hover:text-primary transition-colors">
-                    Next &rarr;
+                    {tCommon("next")} &rarr;
                   </Link>
                 )}
               </nav>
@@ -156,13 +174,13 @@ export default async function CatalogPage({
 
         {/* Suggest banner */}
         <div className="mt-12 rounded-xl border border-outline-variant/30 bg-primary-fixed/30 p-6 text-center">
-          <p className="mb-2 text-on-surface-variant">Don&apos;t see your favorite roastery?</p>
-          <a
+          <p className="mb-2 text-on-surface-variant">{t("suggestBannerText")}</p>
+          <Link
             href="/suggest/roastery"
             className="inline-block rounded-lg bg-primary px-5 py-2 text-sm font-bold text-on-primary hover:bg-accent-hover transition-colors"
           >
-            Suggest a Roastery →
-          </a>
+            {t("suggestBannerCta")} →
+          </Link>
         </div>
       </main>
       <Footer />

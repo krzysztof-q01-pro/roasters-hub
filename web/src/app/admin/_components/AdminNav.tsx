@@ -9,9 +9,9 @@ export async function AdminNav() {
     <nav className="flex h-11 items-center gap-6 bg-stone-900 px-4 text-sm">
       <span className="font-bold tracking-wide text-white">Roasters Hub</span>
       <NavLink href="/admin/enrichment">Enrichment</NavLink>
-      <NavLink href="/admin/cafes">Kawiarnie</NavLink>
-      <NavLink href="/admin/roasters">Palarnie</NavLink>
-      <NavLink href="/admin/users">Użytkownicy</NavLink>
+      <NavLink href="/admin/cafes">Cafés</NavLink>
+      <NavLink href="/admin/roasters">Roasters</NavLink>
+      <NavLink href="/admin/users">Users</NavLink>
       <span className="ml-auto text-xs text-stone-400">@{name} ↓</span>
     </nav>
   );

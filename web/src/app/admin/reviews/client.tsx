@@ -125,7 +125,7 @@ export function AdminReviewsClient({
                 : "px-4 py-2 text-sm font-semibold text-on-surface-variant/60 hover:text-on-surface-variant transition-colors"
             }
           >
-            {t === "roasters" ? "Palarnie" : "Kawiarnie"}
+            {t === "roasters" ? "Roasters" : "Cafés"}
           </button>
         ))}
       </div>

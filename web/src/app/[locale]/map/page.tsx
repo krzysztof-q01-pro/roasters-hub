@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
 import { db } from "@/lib/db";
 import { MapContent } from "./MapContent";
 
@@ -7,9 +8,16 @@ export const metadata: Metadata = {
   description: "Explore specialty coffee roasters and cafes around the world on an interactive map.",
 };
 
-export const revalidate = 3600; // re-generate every hour
+export const revalidate = 3600;
 
-export default async function MapPage() {
+export default async function MapPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   const roasters = await db.roaster.findMany({
     where: {
       status: "VERIFIED",

@@ -75,7 +75,7 @@ export default async function EnrichmentHistoryPage() {
                 return (
                   <tr key={run.id} className="border-t border-outline-variant/20 hover:bg-surface-container/40 transition-colors">
                     <td className="px-5 py-3 text-on-surface-variant whitespace-nowrap">
-                      {run.createdAt.toLocaleDateString("pl-PL", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}
+                      {run.createdAt.toLocaleDateString("en-US", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}
                     </td>
                     <td className="px-5 py-3 font-bold">{String(query.entityType ?? "—")}</td>
                     <td className="px-5 py-3 text-on-surface-variant capitalize">{String(query.mode ?? "—")}</td>
