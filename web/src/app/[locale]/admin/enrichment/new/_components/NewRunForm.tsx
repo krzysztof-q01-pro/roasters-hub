@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import Link from "next/link"
-import { upsertEnrichmentTag, deleteEnrichmentTag } from "@/app/admin/enrichment/actions/tags"
+import { Link } from "@/i18n/navigation"
+import { upsertEnrichmentTag, deleteEnrichmentTag } from "@/app/[locale]/admin/enrichment/actions/tags"
 
 const SOURCES: Array<{
   id: string

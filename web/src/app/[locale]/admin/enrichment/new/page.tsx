@@ -1,6 +1,6 @@
 import { auth, currentUser } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { Header } from "@/components/shared/Header"
 import { Footer } from "@/components/shared/Footer"
 import { NewRunForm } from "./_components/NewRunForm"

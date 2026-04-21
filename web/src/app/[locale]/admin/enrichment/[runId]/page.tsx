@@ -1,6 +1,6 @@
 import { auth, currentUser } from "@clerk/nextjs/server"
 import { redirect, notFound } from "next/navigation"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { db } from "@/lib/db"
 import { SplitLayout } from "./_components/SplitLayout"
 import { stringSimilarity } from "@/lib/enrichment/similarity"

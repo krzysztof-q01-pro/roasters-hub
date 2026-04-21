@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { currentUser } from "@clerk/nextjs/server";
 
 export async function AdminNav() {
@@ -11,7 +11,6 @@ export async function AdminNav() {
       <NavLink href="/admin/enrichment">Enrichment</NavLink>
       <NavLink href="/admin/cafes">Cafés</NavLink>
       <NavLink href="/admin/roasters">Roasters</NavLink>
-      <NavLink href="/admin/users">Users</NavLink>
       <span className="ml-auto text-xs text-stone-400">@{name} ↓</span>
     </nav>
   );

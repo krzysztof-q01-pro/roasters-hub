@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useTransition } from "react";
 import type { ProposalWithMeta } from "./types";
 import { updateProposalStatus } from "../../actions";
-import { applyEntityProposals } from "@/app/admin/enrichment/actions/apply";
+import { applyEntityProposals } from "@/app/[locale]/admin/enrichment/actions/apply";
 import { useRouter } from "next/navigation";
 import { useUploadThing } from "@/lib/uploadthing";
 
