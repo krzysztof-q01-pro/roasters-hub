@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import { Suspense, useState } from "react";
 import { useTranslations } from "next-intl";
 import { CoffeeBean } from "@/components/icons/CoffeeBean";
 import { CoffeeCup } from "@/components/icons/CoffeeCup";
 import { AddPlaceDropdown } from "./AddPlaceDropdown";
+import { LocaleSwitcher } from "./LocaleSwitcher";
 
 function HeaderSearch() {
   const t = useTranslations("nav");
@@ -131,6 +133,10 @@ export function Header() {
             <HeaderSearch />
           </Suspense>
 
+          <div className="hidden md:block">
+            <LocaleSwitcher />
+          </div>
+
           <button
             className="md:hidden text-on-surface-variant"
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -160,6 +166,9 @@ export function Header() {
               {link.label}
             </Link>
           ))}
+          <div className="pt-2 border-t border-surface-container-high/30">
+            <LocaleSwitcher />
+          </div>
           <div className="pt-2 border-t border-surface-container-high/30 space-y-1">
             <Link
               href="/register"

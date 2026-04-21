@@ -1,4 +1,8 @@
 {
+  "localeSwitcher": {
+    "changeLanguage": "Zmień język",
+    "current": "Aktualny"
+  },
   "nav": {
     "browseRoasters": "Przeglądaj palarnie",
     "browseCafes": "Przeglądaj kawiarnie",
