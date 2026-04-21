@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { Link } from "@/i18n/navigation";
 import { approveReview, rejectReview } from "@/actions/review.actions";
 
 export interface SerializedReview {
@@ -97,12 +98,12 @@ export function AdminReviewsClient({
     <div className="max-w-4xl mx-auto px-6 py-8">
       <div className="flex items-center justify-between mb-8">
         <h1 className="font-headline text-3xl font-bold">Review Moderation</h1>
-        <a
+        <Link
           href="/admin/pending"
           className="text-sm text-primary hover:underline"
         >
           ← Back to Roasters
-        </a>
+        </Link>
       </div>
 
       {error && (

@@ -1,6 +1,7 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import type { RoasterStatus } from "@prisma/client";
 import { db } from "@/lib/db";
 import { Header } from "@/components/shared/Header";
@@ -25,6 +26,8 @@ export default async function AdminRoastersPage({ searchParams }: { searchParams
   if (!userId) redirect("/sign-in");
   const user = await currentUser();
   if (user?.publicMetadata?.role !== "ADMIN") redirect("/");
+
+  const t = await getTranslations("admin");
 
   const sp = await searchParams;
   const statusFilter = (STATUS_OPTIONS as readonly string[]).includes(sp.status ?? "") ? sp.status! : "ALL";
@@ -69,10 +72,10 @@ export default async function AdminRoastersPage({ searchParams }: { searchParams
       <main className="max-w-7xl mx-auto px-6 py-12">
         <div className="flex justify-between items-end mb-8">
           <div>
-            <h1 className="font-headline text-4xl font-bold text-on-background mb-2">Roasters</h1>
-            <p className="text-on-surface-variant">{total.toLocaleString()} total · page {page} of {totalPages}</p>
+            <h1 className="font-headline text-4xl font-bold text-on-background mb-2">{t("allRoasters")}</h1>
+            <p className="text-on-surface-variant">{t("total", { total: total.toLocaleString(), page, totalPages })}</p>
           </div>
-          <Link href="/admin" className="text-primary font-bold hover:underline">← Back to dashboard</Link>
+          <Link href="/admin" className="text-primary font-bold hover:underline">{t("backToDashboard")}</Link>
         </div>
 
         {/* Search */}
@@ -83,21 +86,21 @@ export default async function AdminRoastersPage({ searchParams }: { searchParams
             <input
               name="q"
               defaultValue={q}
-              placeholder="Search by name…"
+              placeholder={t("searchByName")}
               className="flex-1 max-w-sm border border-outline/30 rounded-lg px-3 py-2 text-sm bg-surface focus:outline-none focus:border-primary"
             />
             <button
               type="submit"
               className="px-4 py-2 rounded-lg bg-surface-container-low text-on-surface-variant text-sm font-bold hover:bg-surface-container transition-colors"
             >
-              Search
+              {t("search")}
             </button>
             {q && (
               <Link
                 href={`/admin/roasters${buildQuery({ q: "", page: 1 })}`}
                 className="px-4 py-2 rounded-lg text-sm text-on-surface-variant hover:text-on-surface transition-colors"
               >
-                Clear
+                {t("clear")}
               </Link>
             )}
           </div>
@@ -105,7 +108,7 @@ export default async function AdminRoastersPage({ searchParams }: { searchParams
 
         {/* Filters & Sort */}
         <div className="flex flex-wrap items-center gap-3 mb-6">
-          <span className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Status:</span>
+          <span className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">{t("status")}:</span>
           {STATUS_OPTIONS.map((s) => (
             <Link
               key={s}
@@ -121,23 +124,23 @@ export default async function AdminRoastersPage({ searchParams }: { searchParams
           <Link
             href={`/admin/roasters${buildQuery({ sort: "newest", page: 1 })}`}
             className={`px-3 py-1.5 rounded-full text-sm font-bold ${sort === "newest" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant"}`}
-          >Newest</Link>
+          >{t("newest")}</Link>
           <Link
             href={`/admin/roasters${buildQuery({ sort: "oldest", page: 1 })}`}
             className={`px-3 py-1.5 rounded-full text-sm font-bold ${sort === "oldest" ? "bg-primary text-on-primary" : "bg-surface-container-low text-on-surface-variant"}`}
-          >Oldest</Link>
+          >{t("oldest")}</Link>
         </div>
 
         <div className="bg-surface-container-lowest rounded-xl overflow-hidden editorial-shadow">
           <table className="w-full text-sm">
             <thead className="bg-surface-container-low text-left text-xs uppercase tracking-widest text-on-surface-variant">
               <tr>
-                <th className="px-5 py-3 font-bold">Name</th>
-                <th className="px-5 py-3 font-bold">Location</th>
-                <th className="px-5 py-3 font-bold">Status</th>
-                <th className="px-5 py-3 font-bold">Views</th>
-                <th className="px-5 py-3 font-bold">Modified</th>
-                <th className="px-5 py-3 font-bold">Registered</th>
+                <th className="px-5 py-3 font-bold">{t("name")}</th>
+                <th className="px-5 py-3 font-bold">{t("location")}</th>
+                <th className="px-5 py-3 font-bold">{t("status")}</th>
+                <th className="px-5 py-3 font-bold">{t("views")}</th>
+                <th className="px-5 py-3 font-bold">{t("modified")}</th>
+                <th className="px-5 py-3 font-bold">{t("registered")}</th>
               </tr>
             </thead>
             <tbody>
@@ -156,7 +159,7 @@ export default async function AdminRoastersPage({ searchParams }: { searchParams
                 </tr>
               ))}
               {roasters.length === 0 && (
-                <tr><td className="px-5 py-8 text-center text-on-surface-variant" colSpan={6}>No roasters match the filter.</td></tr>
+                <tr><td className="px-5 py-8 text-center text-on-surface-variant" colSpan={6}>{t("noResults")}</td></tr>
               )}
             </tbody>
           </table>
@@ -165,11 +168,11 @@ export default async function AdminRoastersPage({ searchParams }: { searchParams
         {totalPages > 1 && (
           <div className="flex items-center justify-center gap-3 mt-6">
             {page > 1 && (
-              <Link href={`/admin/roasters${buildQuery({ page: page - 1 })}`} className="px-4 py-2 rounded-lg bg-surface-container-low font-bold hover:bg-surface-container">← Prev</Link>
+              <Link href={`/admin/roasters${buildQuery({ page: page - 1 })}`} className="px-4 py-2 rounded-lg bg-surface-container-low font-bold hover:bg-surface-container">{t("prev")}</Link>
             )}
-            <span className="text-sm text-on-surface-variant">Page {page} / {totalPages}</span>
+            <span className="text-sm text-on-surface-variant">{t("total", { total: page, page, totalPages })}</span>
             {page < totalPages && (
-              <Link href={`/admin/roasters${buildQuery({ page: page + 1 })}`} className="px-4 py-2 rounded-lg bg-surface-container-low font-bold hover:bg-surface-container">Next →</Link>
+              <Link href={`/admin/roasters${buildQuery({ page: page + 1 })}`} className="px-4 py-2 rounded-lg bg-surface-container-low font-bold hover:bg-surface-container">{t("next")}</Link>
             )}
           </div>
         )}

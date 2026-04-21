@@ -8,7 +8,6 @@ const intlMiddleware = createIntlMiddleware(routing);
 const isProtectedRoute = createRouteMatcher(["/admin(.*)", "/dashboard(.*)"]);
 
 const isLocaleFreeRoute = createRouteMatcher([
-  "/admin(.*)",
   "/api(.*)",
   "/dashboard(.*)",
   "/sign-in(.*)",
