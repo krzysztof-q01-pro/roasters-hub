@@ -30,9 +30,10 @@ export async function generateMetadata({
     return { title: t("roasterNotFound") };
   }
 
+  const t = await getTranslations({ locale, namespace: "profiles" });
   return {
-    title: `${roaster.name} — Specialty Coffee in ${roaster.city}`,
-    description: roaster.description || `Discover ${roaster.name}, a verified specialty coffee roaster in ${roaster.city}, ${roaster.country}.`,
+    title: t("roasterMetaTitle", { name: roaster.name, city: roaster.city }),
+    description: roaster.description || t("roasterMetaDescription", { name: roaster.name, city: roaster.city, country: roaster.country }),
   };
 }
 
