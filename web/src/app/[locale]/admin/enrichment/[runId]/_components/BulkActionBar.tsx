@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useTransition } from "react"
+import { useTranslations } from "next-intl"
 import { bulkApplyByConfidence, applyEnrichmentRun } from "../../actions"
 import type { ProposalWithMeta } from "./types"
 
@@ -13,6 +14,7 @@ interface BulkActionBarProps {
 }
 
 export function BulkActionBar({ runId, approvedCount, allProposals, onBulkApprove, onApplyDone }: BulkActionBarProps) {
+  const t = useTranslations("admin")
   const [threshold, setThreshold] = useState(75)
   const [isPending, startTransition] = useTransition()
   const [applyPending, startApply] = useTransition()
@@ -34,9 +36,9 @@ export function BulkActionBar({ runId, approvedCount, allProposals, onBulkApprov
           )
           .map(p => p.id)
         onBulkApprove(eligibleIds)
-        setMessage(`Applied ${result.data.applied} proposals to database`)
+        setMessage(t("appliedProposals", { count: result.data.applied }))
       } else {
-        setError(result.error ?? "Failed to bulk apply")
+        setError(result.error ?? t("failedBulkApply"))
       }
     })
   }
@@ -47,10 +49,10 @@ export function BulkActionBar({ runId, approvedCount, allProposals, onBulkApprov
       setError(null)
       const result = await applyEnrichmentRun(runId)
       if (result.success) {
-        setMessage(`Applied ${result.data.applied} changes to database`)
+        setMessage(t("appliedChanges", { count: result.data.applied }))
         onApplyDone()
       } else {
-        setError(result.error ?? "Failed to apply changes")
+        setError(result.error ?? t("failedApplyChanges"))
       }
     })
   }
@@ -67,7 +69,7 @@ export function BulkActionBar({ runId, approvedCount, allProposals, onBulkApprov
       <div className="flex items-center gap-6 flex-wrap">
         {/* Threshold slider */}
         <div className="flex items-center gap-3 flex-1 min-w-[280px]">
-          <span className="text-xs text-on-surface-variant whitespace-nowrap">Confidence ≥</span>
+          <span className="text-xs text-on-surface-variant whitespace-nowrap">{t("confidence")}</span>
           <input
             type="range"
             min={50}
@@ -85,7 +87,7 @@ export function BulkActionBar({ runId, approvedCount, allProposals, onBulkApprov
           disabled={isPending || eligibleCount === 0}
           className="bg-surface-container text-on-background px-4 py-2 rounded-lg text-sm font-bold hover:bg-surface-container-high transition-colors disabled:opacity-50 whitespace-nowrap"
         >
-          {isPending ? "Applying…" : `Apply ${eligibleCount} above threshold`}
+          {isPending ? t("applying") : t("applyAboveThreshold", { count: eligibleCount })}
         </button>
 
         <button
@@ -93,7 +95,7 @@ export function BulkActionBar({ runId, approvedCount, allProposals, onBulkApprov
           disabled={applyPending || approvedCount === 0}
           className="bg-primary text-on-primary px-5 py-2 rounded-lg text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-50 whitespace-nowrap"
         >
-          {applyPending ? "Applying…" : `Apply ${approvedCount} approved →`}
+          {applyPending ? t("applying") : t("applyApproved", { count: approvedCount })}
         </button>
       </div>
 

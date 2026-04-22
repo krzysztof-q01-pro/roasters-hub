@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { verifyRoaster, rejectRoaster } from "@/actions/admin.actions";
@@ -28,6 +29,7 @@ export interface SerializedRoaster {
 type StatusFilter = "all" | "PENDING" | "VERIFIED" | "REJECTED";
 
 export function AdminPendingClient({ roasters: initial }: { roasters: SerializedRoaster[] }) {
+  const t = useTranslations("admin");
   const [roasters, setRoasters] = useState(initial);
   const [selectedId, setSelectedId] = useState<string | null>(initial[0]?.id ?? null);
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("PENDING");
@@ -75,9 +77,9 @@ export function AdminPendingClient({ roasters: initial }: { roasters: Serialized
 
   const statusBadge = (status: string) => {
     switch (status) {
-      case "PENDING": return <span className="px-2 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-full uppercase">Pending</span>;
-      case "VERIFIED": return <span className="px-2 py-0.5 bg-green-100 text-green-800 text-[10px] font-bold rounded-full uppercase">Verified</span>;
-      case "REJECTED": return <span className="px-2 py-0.5 bg-red-100 text-red-800 text-[10px] font-bold rounded-full uppercase">Rejected</span>;
+      case "PENDING": return <span className="px-2 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-full uppercase">{t("pending")}</span>;
+      case "VERIFIED": return <span className="px-2 py-0.5 bg-green-100 text-green-800 text-[10px] font-bold rounded-full uppercase">{t("verified")}</span>;
+      case "REJECTED": return <span className="px-2 py-0.5 bg-red-100 text-red-800 text-[10px] font-bold rounded-full uppercase">{t("rejected")}</span>;
       default: return null;
     }
   };
@@ -97,15 +99,15 @@ export function AdminPendingClient({ roasters: initial }: { roasters: Serialized
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-4">
             <span className="text-2xl font-bold font-headline tracking-tighter">Bean Map</span>
-            <span className="text-xs bg-inverse-surface text-inverse-on-surface px-2 py-1 rounded font-bold uppercase">Admin</span>
+            <span className="text-xs bg-inverse-surface text-inverse-on-surface px-2 py-1 rounded font-bold uppercase">{t("admin")}</span>
           </div>
           <nav className="flex items-center gap-6 text-sm">
             <span className="text-primary font-semibold">
-              Pending ({roasters.filter((r) => r.status === "PENDING").length})
+              {t("pending")} ({roasters.filter((r) => r.status === "PENDING").length})
             </span>
-            <span className="text-on-surface-variant">All Roasters</span>
+            <span className="text-on-surface-variant">{t("allRoasters")}</span>
             <Link href="/" className="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1">
-              View Site
+              {t("viewSite")}
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
               </svg>
@@ -118,7 +120,7 @@ export function AdminPendingClient({ roasters: initial }: { roasters: Serialized
       {error && (
         <div className="bg-red-50 border-b border-red-200 px-6 py-3 text-sm text-red-800">
           {error}
-          <button onClick={() => setError(null)} className="ml-4 underline">Dismiss</button>
+          <button onClick={() => setError(null)} className="ml-4 underline">{t("dismiss")}</button>
         </div>
       )}
 
@@ -127,7 +129,7 @@ export function AdminPendingClient({ roasters: initial }: { roasters: Serialized
         {/* Left Panel — Queue */}
         <div className="w-[400px] border-r border-surface-container-high flex flex-col bg-white">
           <div className="p-4 border-b border-surface-container-high">
-            <h2 className="font-headline text-xl font-bold mb-3">Pending Verification</h2>
+            <h2 className="font-headline text-xl font-bold mb-3">{t("pendingVerification")}</h2>
             <div className="flex gap-2">
               {(["all", "PENDING", "VERIFIED", "REJECTED"] as StatusFilter[]).map((filter) => (
                 <button
@@ -139,7 +141,7 @@ export function AdminPendingClient({ roasters: initial }: { roasters: Serialized
                       : "px-3 py-1 rounded-full bg-surface-container-high text-on-surface-variant text-xs font-bold hover:bg-surface-variant transition-colors"
                   }
                 >
-                  {filter === "all" ? "All" : filter.charAt(0) + filter.slice(1).toLowerCase()}
+                  {filter === "all" ? t("all") : filter.charAt(0) + filter.slice(1).toLowerCase()}
                 </button>
               ))}
             </div>
@@ -188,12 +190,12 @@ export function AdminPendingClient({ roasters: initial }: { roasters: Serialized
 
               <div className="space-y-8">
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-3">Description</h3>
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-3">{t("description")}</h3>
                   <p className="text-on-surface-variant leading-relaxed">{selected.description}</p>
                 </div>
 
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-3">Certifications</h3>
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-3">{t("certifications")}</h3>
                   <div className="flex flex-wrap gap-2">
                     {selected.certifications.map((c) => (
                       <span key={c} className="bg-surface-container-high px-3 py-1 rounded-full text-sm">{c}</span>
@@ -202,7 +204,7 @@ export function AdminPendingClient({ roasters: initial }: { roasters: Serialized
                 </div>
 
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-3">Origins</h3>
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-3">{t("origins")}</h3>
                   <div className="flex flex-wrap gap-2">
                     {selected.origins.map((o) => (
                       <span key={o} className="bg-surface-container-high px-3 py-1 rounded-full text-sm">{o}</span>
@@ -211,21 +213,21 @@ export function AdminPendingClient({ roasters: initial }: { roasters: Serialized
                 </div>
 
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-3">Links</h3>
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-3">{t("links")}</h3>
                   <div className="space-y-2 text-sm">
-                    {selected.website && <p>Website: <a href={selected.website} className="text-primary hover:underline">{selected.website}</a></p>}
-                    {selected.email && <p>Email: {selected.email}</p>}
+                    {selected.website && <p>{t("website")}: <a href={selected.website} className="text-primary hover:underline">{selected.website}</a></p>}
+                    {selected.email && <p>{t("email")}: {selected.email}</p>}
                     {selected.instagram && <p>Instagram: @{selected.instagram}</p>}
                   </div>
                 </div>
 
                 {/* Admin Notes */}
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-3">Admin Notes</h3>
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-3">{t("adminNotesLabel")}</h3>
                   <textarea
                     className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm resize-none"
                     rows={3}
-                    placeholder="Add a note about this roaster..."
+                    placeholder={t("addNotePlaceholder")}
                   />
                 </div>
 
@@ -240,14 +242,14 @@ export function AdminPendingClient({ roasters: initial }: { roasters: Serialized
                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                       </svg>
-                      {isPending ? "Saving..." : "Verify & Publish"}
+                      {isPending ? t("saving") : t("verifyAndPublish")}
                     </button>
                     <button
                       onClick={() => setShowRejectModal(true)}
                       disabled={isPending}
                       className="border border-error text-error px-6 py-3 rounded-lg font-medium hover:bg-error/5 transition-all disabled:opacity-50"
                     >
-                      Reject
+                      {t("reject")}
                     </button>
                   </div>
                 )}
@@ -255,7 +257,7 @@ export function AdminPendingClient({ roasters: initial }: { roasters: Serialized
             </div>
           ) : (
             <div className="flex items-center justify-center h-full text-on-surface-variant/60">
-              Select a roaster from the queue
+              {t("selectFromQueue")}
             </div>
           )}
         </div>
@@ -265,22 +267,22 @@ export function AdminPendingClient({ roasters: initial }: { roasters: Serialized
       {showRejectModal && selected && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4">
-            <h3 className="font-headline text-xl font-bold mb-4">Reason for rejection</h3>
+            <h3 className="font-headline text-xl font-bold mb-4">{t("reasonForRejection")}</h3>
             <textarea
               className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm resize-none mb-6"
               rows={4}
-              placeholder="Please provide a brief reason..."
+              placeholder={t("provideBriefReason")}
               value={rejectReason}
               onChange={(e) => setRejectReason(e.target.value)}
             />
             <div className="flex justify-end gap-3">
-              <button onClick={() => setShowRejectModal(false)} className="px-4 py-2 text-on-surface-variant hover:text-on-surface transition-colors">Cancel</button>
+              <button onClick={() => setShowRejectModal(false)} className="px-4 py-2 text-on-surface-variant hover:text-on-surface transition-colors">{t("cancel")}</button>
               <button
                 onClick={() => handleReject(selected.id)}
                 disabled={isPending || !rejectReason.trim()}
                 className="bg-error text-on-error px-6 py-2 rounded-lg font-medium hover:opacity-90 transition-all disabled:opacity-50"
               >
-                {isPending ? "Saving..." : "Send Rejection"}
+                {isPending ? t("saving") : t("sendRejection")}
               </button>
             </div>
           </div>

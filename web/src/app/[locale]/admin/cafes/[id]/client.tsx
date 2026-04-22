@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useTransition } from "react"
+import { useTranslations } from "next-intl"
 import { Prisma } from "@prisma/client"
 import { verifyCafe, rejectCafe } from "@/actions/cafe.actions"
 import { IdentitySection } from "./_sections/IdentitySection"
@@ -70,28 +71,29 @@ type Section =
   | "images"
   | "admin"
 
-const NAV_ITEMS: { id: Section; label: string }[] = [
-  { id: "identity", label: "Identity" },
-  { id: "location", label: "Location" },
-  { id: "contact", label: "Contact" },
-  { id: "hours", label: "Hours" },
-  { id: "services", label: "Services" },
-  { id: "images", label: "Images" },
-  { id: "admin", label: "Admin" },
-]
-
 export function AdminCafeDetailClient({ cafe }: { cafe: Cafe }) {
+  const t = useTranslations("admin")
   const [activeSection, setActiveSection] = useState<Section>("identity")
   const [error, setError] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
   const [showRejectModal, setShowRejectModal] = useState(false)
   const [rejectReason, setRejectReason] = useState("")
 
+  const navItems: { id: Section; label: string }[] = [
+    { id: "identity", label: t("identity") },
+    { id: "location", label: t("location") },
+    { id: "contact", label: t("contact") },
+    { id: "hours", label: t("hours") },
+    { id: "services", label: t("services") },
+    { id: "images", label: t("images") },
+    { id: "admin", label: t("admin") },
+  ]
+
   const handleVerify = () => {
     setError(null)
     startTransition(async () => {
       const result = await verifyCafe(cafe.id)
-      if (!result.success) setError(result.error ?? "Something went wrong")
+      if (!result.success) setError(result.error ?? t("errorDescription"))
     })
   }
 
@@ -100,7 +102,7 @@ export function AdminCafeDetailClient({ cafe }: { cafe: Cafe }) {
     setError(null)
     startTransition(async () => {
       const result = await rejectCafe(cafe.id, rejectReason)
-      if (!result.success) setError(result.error ?? "Something went wrong")
+      if (!result.success) setError(result.error ?? t("errorDescription"))
       else setShowRejectModal(false)
     })
   }
@@ -128,14 +130,14 @@ export function AdminCafeDetailClient({ cafe }: { cafe: Cafe }) {
                 disabled={isPending}
                 className="rounded-lg bg-green-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-green-700 disabled:opacity-50 transition-colors"
               >
-                {isPending ? "…" : "Verify"}
+                {isPending ? "…" : t("verify")}
               </button>
               <button
                 onClick={() => setShowRejectModal(true)}
                 disabled={isPending}
                 className="rounded-lg border border-red-500 px-3 py-1.5 text-xs font-bold text-red-400 hover:bg-red-500/10 disabled:opacity-50 transition-colors"
               >
-                Reject
+                {t("reject")}
               </button>
             </>
           )}
@@ -146,7 +148,7 @@ export function AdminCafeDetailClient({ cafe }: { cafe: Cafe }) {
         <div className="mb-6 flex items-center justify-between rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
           <span>{error}</span>
           <button onClick={() => setError(null)} className="ml-3 text-xs underline opacity-70 hover:opacity-100">
-            Dismiss
+            {t("dismiss")}
           </button>
         </div>
       )}
@@ -156,7 +158,7 @@ export function AdminCafeDetailClient({ cafe }: { cafe: Cafe }) {
         {/* Left sidebar */}
         <nav className="w-48 shrink-0">
           <ul className="flex flex-col gap-0.5">
-            {NAV_ITEMS.map((item) => {
+            {navItems.map((item) => {
               const isActive = activeSection === item.id
               return (
                 <li key={item.id}>
@@ -254,15 +256,15 @@ export function AdminCafeDetailClient({ cafe }: { cafe: Cafe }) {
       {showRejectModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
           <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl ring-1 ring-[var(--color-outline-variant)]">
-            <h3 className="mb-1 text-lg font-bold text-[var(--color-on-surface)]">Reject cafe</h3>
+            <h3 className="mb-1 text-lg font-bold text-[var(--color-on-surface)]">{t("rejectCafe")}</h3>
             <p className="mb-4 text-sm text-[var(--color-on-surface-variant)]">
-              Provide a reason for rejection — it will be sent to the owner.
+              {t("rejectReasonHint")}
             </p>
             <textarea
               value={rejectReason}
               onChange={(e) => setRejectReason(e.target.value)}
               rows={3}
-              placeholder="Reason for rejection…"
+              placeholder={t("reasonPlaceholder")}
               className="mb-4 w-full rounded-lg border border-[var(--color-outline-variant)] bg-white px-3 py-2 text-sm text-[var(--color-on-surface)] placeholder:text-[var(--color-outline)] focus:outline-none focus:ring-1 focus:ring-red-500"
             />
             <div className="flex justify-end gap-3">
@@ -273,14 +275,14 @@ export function AdminCafeDetailClient({ cafe }: { cafe: Cafe }) {
                 }}
                 className="px-4 py-2 text-sm text-[var(--color-outline)] hover:text-[var(--color-on-surface)]"
               >
-                Cancel
+                {t("cancel")}
               </button>
               <button
                 onClick={handleReject}
                 disabled={!rejectReason.trim() || isPending}
                 className="rounded-lg bg-red-600 px-4 py-2 text-sm font-bold text-white disabled:opacity-50 hover:bg-red-700 transition-colors"
               >
-                {isPending ? "Rejecting…" : "Reject cafe"}
+                {isPending ? t("rejecting") : t("rejectCafe")}
               </button>
             </div>
           </div>

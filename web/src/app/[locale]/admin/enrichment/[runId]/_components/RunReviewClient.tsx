@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useTranslations } from "next-intl"
 import { useRouter } from "next/navigation"
 import { BulkActionBar } from "./BulkActionBar"
 import { EntityCard } from "./EntityCard"
@@ -49,6 +50,7 @@ function formatDuration(ms: number): string {
 }
 
 export function RunReviewClient(props: RunReviewClientProps) {
+  const t = useTranslations("admin")
   const router = useRouter()
   const [status] = useState(props.status)
   const [approvedIds, setApprovedIds] = useState<Set<string>>(
@@ -103,11 +105,11 @@ export function RunReviewClient(props: RunReviewClientProps) {
 
         <div className="flex gap-4 text-center flex-shrink-0">
           {[
-            { label: "entities", value: props.entities.length },
-            { label: "proposals", value: props.totalProposals },
-            { label: "pending", value: pendingCount },
-            { label: "approved", value: approvedCount },
-            { label: "applied", value: props.appliedCount },
+            { label: t("entitiesLabel"), value: props.entities.length },
+            { label: t("proposalsLabel"), value: props.totalProposals },
+            { label: t("pendingLabel"), value: pendingCount },
+            { label: t("approvedLabel"), value: approvedCount },
+            { label: t("appliedLabel"), value: props.appliedCount },
           ].map(({ label, value }) => (
             <div key={label} className="bg-surface-container-lowest rounded-xl px-4 py-2 editorial-shadow text-center min-w-[60px]">
               <div className="font-headline text-xl font-bold text-on-background">{value}</div>
@@ -145,8 +147,8 @@ export function RunReviewClient(props: RunReviewClientProps) {
         {props.entities.length === 0 && (
           <div className="text-center py-16 text-on-surface-variant">
             {status === "RUNNING"
-              ? "Run in progress… proposals will appear when complete."
-              : "No proposals generated for this run."}
+              ? t("runInProgress")
+              : t("noProposals")}
           </div>
         )}
       </div>

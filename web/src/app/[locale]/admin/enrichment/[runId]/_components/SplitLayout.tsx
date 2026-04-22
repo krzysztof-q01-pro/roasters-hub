@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { EntityListPanel } from "./EntityListPanel";
 import { EntityCard } from "./EntityCard";
@@ -21,6 +22,7 @@ export function SplitLayout({
   existingFieldsByEntity,
   runKeywords,
 }: SplitLayoutProps) {
+  const t = useTranslations("admin");
   const pendingFirst = [...entities].sort((a, b) => {
     if (b.pendingCount !== a.pendingCount) return b.pendingCount - a.pendingCount;
     return 0;
@@ -53,9 +55,9 @@ export function SplitLayout({
         {selectedKey === "__done__" || !selectedEntity ? (
           <div className="flex h-full flex-col items-center justify-center gap-4 text-stone-400">
             <div className="text-5xl">✓</div>
-            <p className="text-lg font-semibold text-stone-600">Wszystkie encje przejrzane</p>
+            <p className="text-lg font-semibold text-stone-600">{t("allEntitiesReviewed")}</p>
             <Link href="/admin/enrichment" className="text-sm text-amber-700 underline">
-              Wróć do listy runów
+              {t("backToRunList")}
             </Link>
           </div>
         ) : (

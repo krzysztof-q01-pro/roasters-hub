@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { approveReview, rejectReview } from "@/actions/review.actions";
 
@@ -25,6 +26,7 @@ export function AdminReviewsClient({
 }: {
   reviews: SerializedReview[];
 }) {
+  const t = useTranslations("admin");
   const [reviews, setReviews] = useState(initial);
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("PENDING");
   const [tab, setTab] = useState<TabFilter>("roasters");
@@ -74,19 +76,19 @@ export function AdminReviewsClient({
       case "PENDING":
         return (
           <span className="px-2 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-full uppercase">
-            Pending
+            {t("pending")}
           </span>
         );
       case "APPROVED":
         return (
           <span className="px-2 py-0.5 bg-green-100 text-green-800 text-[10px] font-bold rounded-full uppercase">
-            Approved
+            {t("verified")}
           </span>
         );
       case "REJECTED":
         return (
           <span className="px-2 py-0.5 bg-red-100 text-red-800 text-[10px] font-bold rounded-full uppercase">
-            Rejected
+            {t("rejected")}
           </span>
         );
       default:
@@ -97,12 +99,12 @@ export function AdminReviewsClient({
   return (
     <div className="max-w-4xl mx-auto px-6 py-8">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="font-headline text-3xl font-bold">Review Moderation</h1>
+        <h1 className="font-headline text-3xl font-bold">{t("reviewModeration")}</h1>
         <Link
           href="/admin/pending"
           className="text-sm text-primary hover:underline"
         >
-          ← Back to Roasters
+          {t("backToRoasters")}
         </Link>
       </div>
 
@@ -110,23 +112,23 @@ export function AdminReviewsClient({
         <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-800 mb-6">
           {error}
           <button onClick={() => setError(null)} className="ml-4 underline">
-            Dismiss
+            {t("dismiss")}
           </button>
         </div>
       )}
 
       <div className="flex gap-4 mb-6 border-b border-outline-variant/20">
-        {(["roasters", "cafes"] as TabFilter[]).map((t) => (
+        {(["roasters", "cafes"] as TabFilter[]).map((tTab) => (
           <button
-            key={t}
-            onClick={() => setTab(t)}
+            key={tTab}
+            onClick={() => setTab(tTab)}
             className={
-              tab === t
+              tab === tTab
                 ? "px-4 py-2 text-sm font-semibold border-b-2 border-primary text-primary -mb-px"
                 : "px-4 py-2 text-sm font-semibold text-on-surface-variant/60 hover:text-on-surface-variant transition-colors"
             }
           >
-            {t === "roasters" ? "Roasters" : "Cafés"}
+            {tTab === "roasters" ? t("allRoasters") : t("cafes")}
           </button>
         ))}
       </div>
@@ -144,7 +146,7 @@ export function AdminReviewsClient({
               }
             >
               {filter === "all"
-                ? "All"
+                ? t("all")
                 : filter.charAt(0) + filter.slice(1).toLowerCase()}
             </button>
           ),
@@ -153,7 +155,7 @@ export function AdminReviewsClient({
 
       {filtered.length === 0 ? (
         <p className="text-on-surface-variant/60 text-center py-12">
-          No reviews to show.
+          {t("noReviewsToShow")}
         </p>
       ) : (
         <div className="space-y-4">
@@ -219,14 +221,14 @@ export function AdminReviewsClient({
                     disabled={isPending}
                     className="bg-secondary text-on-secondary px-4 py-1.5 rounded-lg text-xs font-medium hover:opacity-90 transition-all disabled:opacity-50"
                   >
-                    Approve
+                    {t("verify")}
                   </button>
                   <button
                     onClick={() => handleReject(review.id)}
                     disabled={isPending}
                     className="border border-error text-error px-4 py-1.5 rounded-lg text-xs font-medium hover:bg-error/5 transition-all disabled:opacity-50"
                   >
-                    Reject
+                    {t("reject")}
                   </button>
                 </div>
               )}

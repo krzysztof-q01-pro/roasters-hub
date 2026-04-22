@@ -1,5 +1,6 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { db } from "@/lib/db";
 import { Header } from "@/components/shared/Header";
@@ -19,6 +20,8 @@ export default async function AdminActivityPage() {
   if (!userId) redirect("/sign-in");
   const user = await currentUser();
   if (user?.publicMetadata?.role !== "ADMIN") redirect("/");
+
+  const t = await getTranslations("admin");
 
   // eslint-disable-next-line react-hooks/purity
   const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
@@ -58,15 +61,15 @@ export default async function AdminActivityPage() {
       <main className="max-w-7xl mx-auto px-6 py-12">
         <div className="flex justify-between items-end mb-8">
           <div>
-            <h1 className="font-headline text-4xl font-bold text-on-background mb-2">Activity log</h1>
-            <p className="text-on-surface-variant">Recent registrations, admin notes, top profiles (30 days)</p>
+            <h1 className="font-headline text-4xl font-bold text-on-background mb-2">{t("activityLogTitle")}</h1>
+            <p className="text-on-surface-variant">{t("activityLogSubtitle")}</p>
           </div>
-          <Link href="/admin" className="text-primary font-bold hover:underline">← Back to dashboard</Link>
+          <Link href="/admin" className="text-primary font-bold hover:underline">{t("backToDashboard")}</Link>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <section className="bg-surface-container-lowest rounded-xl overflow-hidden editorial-shadow">
-            <h2 className="font-headline text-xl font-bold px-5 py-4 border-b border-outline-variant/20">Latest registrations (50)</h2>
+            <h2 className="font-headline text-xl font-bold px-5 py-4 border-b border-outline-variant/20">{t("latestRegistrations")}</h2>
             <ul className="divide-y divide-outline-variant/20">
               {recentRegistrations.map((r) => (
                 <li key={r.id} className="px-5 py-3 flex items-center gap-3 text-sm">
@@ -77,13 +80,13 @@ export default async function AdminActivityPage() {
                 </li>
               ))}
               {recentRegistrations.length === 0 && (
-                <li className="px-5 py-6 text-center text-on-surface-variant">No registrations yet.</li>
+                <li className="px-5 py-6 text-center text-on-surface-variant">{t("noRegistrationsYet")}</li>
               )}
             </ul>
           </section>
 
           <section className="bg-surface-container-lowest rounded-xl overflow-hidden editorial-shadow">
-            <h2 className="font-headline text-xl font-bold px-5 py-4 border-b border-outline-variant/20">Admin notes (50)</h2>
+            <h2 className="font-headline text-xl font-bold px-5 py-4 border-b border-outline-variant/20">{t("adminNotes")}</h2>
             <ul className="divide-y divide-outline-variant/20">
               {recentNotes.map((n) => (
                 <li key={n.id} className="px-5 py-3 text-sm">
@@ -96,29 +99,29 @@ export default async function AdminActivityPage() {
                 </li>
               ))}
               {recentNotes.length === 0 && (
-                <li className="px-5 py-6 text-center text-on-surface-variant">No admin notes yet.</li>
+                <li className="px-5 py-6 text-center text-on-surface-variant">{t("noAdminNotesYet")}</li>
               )}
             </ul>
           </section>
         </div>
 
         <section className="mt-8 bg-surface-container-lowest rounded-xl overflow-hidden editorial-shadow">
-          <h2 className="font-headline text-xl font-bold px-5 py-4 border-b border-outline-variant/20">Top profiles — page views (last 30 days)</h2>
+          <h2 className="font-headline text-xl font-bold px-5 py-4 border-b border-outline-variant/20">{t("topProfilesViews")}</h2>
           <ol className="divide-y divide-outline-variant/20">
-            {topProfiles.map((t, idx) => {
-              const r = topRoasterMap.get(t.roasterId);
+            {topProfiles.map((tProf, idx) => {
+              const r = topRoasterMap.get(tProf.roasterId);
               if (!r) return null;
               return (
-                <li key={t.roasterId} className="px-5 py-3 flex items-center gap-4 text-sm">
+                <li key={tProf.roasterId} className="px-5 py-3 flex items-center gap-4 text-sm">
                   <span className="font-headline text-2xl font-bold text-on-surface-variant w-8">{idx + 1}</span>
                   <Link href={`/roasters/${r.slug}`} className="font-bold text-primary hover:underline flex-1">{r.name}</Link>
-                  <span className="text-on-surface-variant text-xs uppercase tracking-widest font-bold">views</span>
-                  <span className="font-headline text-xl font-bold text-primary">{t._count._all.toLocaleString()}</span>
+                  <span className="text-on-surface-variant text-xs uppercase tracking-widest font-bold">{t("views")}</span>
+                  <span className="font-headline text-xl font-bold text-primary">{tProf._count._all.toLocaleString()}</span>
                 </li>
               );
             })}
             {topProfiles.length === 0 && (
-              <li className="px-5 py-6 text-center text-on-surface-variant">No page views recorded in the last 30 days.</li>
+              <li className="px-5 py-6 text-center text-on-surface-variant">{t("noPageViews30d")}</li>
             )}
           </ol>
         </section>

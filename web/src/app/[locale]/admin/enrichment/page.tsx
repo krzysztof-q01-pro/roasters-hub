@@ -1,5 +1,6 @@
 import { auth, currentUser } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation"
+import { getTranslations } from "next-intl/server"
 import { Link } from "@/i18n/navigation"
 import { db } from "@/lib/db"
 import { Header } from "@/components/shared/Header"
@@ -19,6 +20,8 @@ export default async function EnrichmentHistoryPage() {
   const user = await currentUser()
   if (user?.publicMetadata?.role !== "ADMIN") redirect("/")
 
+  const t = await getTranslations("admin")
+
   const runs = await db.enrichmentRun.findMany({
     orderBy: { createdAt: "desc" },
     take: 50,
@@ -37,14 +40,14 @@ export default async function EnrichmentHistoryPage() {
       <main className="max-w-7xl mx-auto px-6 py-12">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="font-headline text-4xl font-bold text-on-background mb-1">Enrichment</h1>
-            <p className="text-on-surface-variant">Trigger data enrichment runs and review proposals.</p>
+            <h1 className="font-headline text-4xl font-bold text-on-background mb-1">{t("enrichmentTitle")}</h1>
+            <p className="text-on-surface-variant">{t("enrichmentSubtitle")}</p>
           </div>
           <Link
             href="/admin/enrichment/new"
             className="bg-primary text-on-primary px-5 py-2.5 rounded-xl font-bold text-sm hover:opacity-90 transition-opacity"
           >
-            New Run →
+            {t("newRun")}
           </Link>
         </div>
 
@@ -52,19 +55,19 @@ export default async function EnrichmentHistoryPage() {
           <table className="w-full text-sm">
             <thead className="bg-surface-container-low text-left text-xs uppercase tracking-widest text-on-surface-variant">
               <tr>
-                <th className="px-5 py-3 font-bold">Date</th>
-                <th className="px-5 py-3 font-bold">Type</th>
-                <th className="px-5 py-3 font-bold">Mode</th>
+                <th className="px-5 py-3 font-bold">{t("date")}</th>
+                <th className="px-5 py-3 font-bold">{t("type")}</th>
+                <th className="px-5 py-3 font-bold">{t("mode")}</th>
                 <th className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wider text-stone-500">
-                  Keywords
+                  {t("keywords")}
                 </th>
                 <th className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wider text-stone-500">
-                  Lokalizacja
+                  {t("location")}
                 </th>
-                <th className="px-5 py-3 font-bold">Sources</th>
-                <th className="px-5 py-3 font-bold">Status</th>
-                <th className="px-5 py-3 font-bold">Proposals</th>
-                <th className="px-5 py-3 font-bold">Pending</th>
+                <th className="px-5 py-3 font-bold">{t("sources")}</th>
+                <th className="px-5 py-3 font-bold">{t("status")}</th>
+                <th className="px-5 py-3 font-bold">{t("proposals")}</th>
+                <th className="px-5 py-3 font-bold">{t("pending")}</th>
                 <th className="px-5 py-3 font-bold"></th>
               </tr>
             </thead>
@@ -115,7 +118,7 @@ export default async function EnrichmentHistoryPage() {
                     <td className="px-5 py-3 text-on-surface-variant">{run._count.proposals}</td>
                     <td className="px-5 py-3">
                       {pendingCount > 0 ? (
-                        <span className="bg-amber-100 text-amber-900 px-2 py-0.5 rounded text-xs font-bold">{pendingCount} pending</span>
+                        <span className="bg-amber-100 text-amber-900 px-2 py-0.5 rounded text-xs font-bold">{pendingCount} {t("pending")}</span>
                       ) : (
                         <span className="text-on-surface-variant text-xs">—</span>
                       )}
@@ -125,7 +128,7 @@ export default async function EnrichmentHistoryPage() {
                         href={`/admin/enrichment/${run.id}`}
                         className="text-primary font-bold text-xs hover:underline"
                       >
-                        Review →
+                        {t("review")}
                       </Link>
                     </td>
                   </tr>
@@ -134,8 +137,8 @@ export default async function EnrichmentHistoryPage() {
               {runs.length === 0 && (
                 <tr>
                   <td colSpan={10} className="px-5 py-12 text-center text-on-surface-variant">
-                    No enrichment runs yet.{" "}
-                    <Link href="/admin/enrichment/new" className="text-primary hover:underline">Start your first run →</Link>
+                    {t("noEnrichmentRuns")}{" "}
+                    <Link href="/admin/enrichment/new" className="text-primary hover:underline">{t("startFirstRun")}</Link>
                   </td>
                 </tr>
               )}

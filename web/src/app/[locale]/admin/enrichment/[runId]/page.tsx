@@ -1,5 +1,6 @@
 import { auth, currentUser } from "@clerk/nextjs/server"
 import { redirect, notFound } from "next/navigation"
+import { getTranslations } from "next-intl/server"
 import { Link } from "@/i18n/navigation"
 import { db } from "@/lib/db"
 import { SplitLayout } from "./_components/SplitLayout"
@@ -39,6 +40,8 @@ export default async function RunReviewPage({ params }: { params: Promise<{ runI
   if (user?.publicMetadata?.role !== "ADMIN") redirect("/")
 
   const { runId } = await params
+
+  const t = await getTranslations("admin")
 
   const run = await db.enrichmentRun.findUnique({
     where: { id: runId },
@@ -115,7 +118,7 @@ export default async function RunReviewPage({ params }: { params: Promise<{ runI
     <div>
       {/* Run bar */}
       <div className="sticky top-11 z-10 flex items-center gap-4 border-b border-stone-200 bg-white px-4 py-3 flex-wrap">
-        <Link href="/admin/enrichment" className="text-xs text-amber-700">← Wróć do runów</Link>
+        <Link href="/admin/enrichment" className="text-xs text-amber-700">{t("backToRuns")}</Link>
         <div>
           <div className="flex items-center gap-2">
             <span className="text-base font-bold">{entityType} — {String((run.query as Record<string, unknown>)?.mode ?? "")}</span>
@@ -127,9 +130,9 @@ export default async function RunReviewPage({ params }: { params: Promise<{ runI
           </p>
         </div>
         <div className="flex gap-4 text-center">
-          <div><div className="text-lg font-bold">{entities.length}</div><div className="text-[10px] text-stone-400">encji</div></div>
-          <div><div className="text-lg font-bold text-amber-600">{entities.reduce((s, e) => s + e.pendingCount, 0)}</div><div className="text-[10px] text-stone-400">oczekuje</div></div>
-          <div><div className="text-lg font-bold text-green-600">{entities.reduce((s, e) => s + e.appliedCount, 0)}</div><div className="text-[10px] text-stone-400">zastosowane</div></div>
+          <div><div className="text-lg font-bold">{entities.length}</div><div className="text-[10px] text-stone-400">{t("entitiesLabel")}</div></div>
+          <div><div className="text-lg font-bold text-amber-600">{entities.reduce((s, e) => s + e.pendingCount, 0)}</div><div className="text-[10px] text-stone-400">{t("pendingLabel")}</div></div>
+          <div><div className="text-lg font-bold text-green-600">{entities.reduce((s, e) => s + e.appliedCount, 0)}</div><div className="text-[10px] text-stone-400">{t("appliedLabel")}</div></div>
         </div>
       </div>
 

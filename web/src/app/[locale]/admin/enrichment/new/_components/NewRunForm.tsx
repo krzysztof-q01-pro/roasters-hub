@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useTranslations } from "next-intl"
 import { useRouter } from "next/navigation"
 import { Link } from "@/i18n/navigation"
 import { upsertEnrichmentTag, deleteEnrichmentTag } from "@/app/[locale]/admin/enrichment/actions/tags"
@@ -19,6 +20,7 @@ const SOURCES: Array<{
 ]
 
 export function NewRunForm() {
+  const t = useTranslations("admin")
   const router = useRouter()
   const [entityType, setEntityType] = useState<"CAFE" | "ROASTER">("ROASTER")
   const [mode, setMode] = useState<"discover" | "enrich" | "both">("enrich")
@@ -71,11 +73,11 @@ export function NewRunForm() {
     setError(null)
 
     if (sources.length === 0) {
-      setError("Select at least one source.")
+      setError(t("selectAtLeastOneSource"))
       return
     }
     if (consentRequired && !consent) {
-      setError("Consent required for the selected sources.")
+      setError(t("consentRequired"))
       return
     }
 
@@ -104,7 +106,7 @@ export function NewRunForm() {
       const { runId } = await res.json()
       router.push(`/admin/enrichment/${runId}`)
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong")
+      setError(err instanceof Error ? err.message : t("errorDescription"))
       setLoading(false)
     }
   }
@@ -113,7 +115,7 @@ export function NewRunForm() {
     <form onSubmit={handleSubmit} className="space-y-7">
       {/* Entity type */}
       <fieldset>
-        <legend className="text-xs uppercase tracking-widest font-bold text-on-surface-variant mb-3">Entity type</legend>
+        <legend className="text-xs uppercase tracking-widest font-bold text-on-surface-variant mb-3">{t("entityType")}</legend>
         <div className="flex gap-3">
           {(["ROASTER", "CAFE"] as const).map((t) => (
             <button
@@ -134,7 +136,7 @@ export function NewRunForm() {
 
       {/* Mode */}
       <fieldset>
-        <legend className="text-xs uppercase tracking-widest font-bold text-on-surface-variant mb-3">Mode</legend>
+        <legend className="text-xs uppercase tracking-widest font-bold text-on-surface-variant mb-3">{t("mode")}</legend>
         <div className="flex gap-3">
           {(["discover", "enrich", "both"] as const).map((m) => (
             <button
@@ -152,15 +154,15 @@ export function NewRunForm() {
           ))}
         </div>
         <p className="mt-2 text-xs text-on-surface-variant">
-          {mode === "discover" && "Find new entities from external sources."}
-          {mode === "enrich" && "Update existing verified entities with new data."}
-          {mode === "both" && "Discover new entities and enrich existing ones."}
+          {mode === "discover" && t("discoverMode")}
+          {mode === "enrich" && t("enrichMode")}
+          {mode === "both" && t("bothMode")}
         </p>
       </fieldset>
 
       {/* Sources */}
       <fieldset>
-        <legend className="text-xs uppercase tracking-widest font-bold text-on-surface-variant mb-3">Sources</legend>
+        <legend className="text-xs uppercase tracking-widest font-bold text-on-surface-variant mb-3">{t("sources")}</legend>
         <div className="space-y-2">
           {SOURCES.map((s) => (
             <label key={s.id} className="flex items-center gap-3 cursor-pointer">
@@ -179,7 +181,7 @@ export function NewRunForm() {
       {/* Keywords / Tags */}
       <div className="space-y-2">
         <label className="block text-xs font-bold uppercase tracking-widest text-stone-500">
-          Keywords / Tagi specialty
+          {t("keywords")}
         </label>
         <div className="flex flex-wrap gap-2 rounded-lg border border-stone-200 bg-stone-50 p-2 min-h-[42px]">
           {keywords.map((kw) => (
@@ -205,19 +207,19 @@ export function NewRunForm() {
               if (e.key === "Enter") { e.preventDefault(); addKeyword(keywordInput); }
               if (e.key === ",") { e.preventDefault(); addKeyword(keywordInput); }
             }}
-            placeholder="Dodaj tag…"
+            placeholder={t("search")}
             className="min-w-[100px] flex-1 bg-transparent text-sm outline-none placeholder:text-stone-300"
           />
         </div>
         <p className="text-xs text-stone-400">
-          Filtruje wyniki OSM · używane jako query Unsplash przy losowaniu zdjęć
+          {t("keywords")}
         </p>
       </div>
 
       {/* Filters */}
       <div className="grid grid-cols-2 gap-4">
         <label className="block">
-          <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant block mb-1.5">Country (optional)</span>
+          <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant block mb-1.5">{t("countryOptional")}</span>
           <input
             type="text"
             value={country}
@@ -227,7 +229,7 @@ export function NewRunForm() {
           />
         </label>
         <label className="block">
-          <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant block mb-1.5">City (optional)</span>
+          <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant block mb-1.5">{t("cityOptional")}</span>
           <input
             type="text"
             value={city}
@@ -240,7 +242,7 @@ export function NewRunForm() {
 
       {/* Limit */}
       <label className="block">
-        <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant block mb-1.5">Limit (entities to process)</span>
+        <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant block mb-1.5">{t("limit")}</span>
         <input
           type="number"
           value={limit}
@@ -262,14 +264,12 @@ export function NewRunForm() {
               className="mt-0.5 w-4 h-4 accent-primary flex-shrink-0"
             />
             <span className="text-sm text-amber-900">
-              I consent to use data from third-party sources (ECT, Apify) in this enrichment run.
+              {t("consentLabel")}
             </span>
           </label>
           {apifySelected && (
             <p className="text-xs text-on-surface-variant px-1">
-              Google Maps and ECT Leads use the Apify API (paid per run). Ensure{" "}
-              <code className="font-mono bg-surface-container px-1 rounded">APIFY_TOKEN</code>{" "}
-              is configured in the environment.
+              {t("apifyNote", { token: "APIFY_TOKEN" })}
             </p>
           )}
         </div>
@@ -287,10 +287,10 @@ export function NewRunForm() {
           disabled={loading}
           className="bg-primary text-on-primary px-6 py-3 rounded-xl font-bold text-sm hover:opacity-90 transition-opacity disabled:opacity-50"
         >
-          {loading ? "Starting run…" : "Start run →"}
+          {loading ? t("startingRun") : t("startRun")}
         </button>
         <Link href="/admin/enrichment" className="px-6 py-3 rounded-xl font-bold text-sm text-on-surface-variant hover:bg-surface-container transition-colors">
-          Cancel
+          {t("cancel")}
         </Link>
       </div>
     </form>
