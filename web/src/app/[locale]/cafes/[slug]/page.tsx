@@ -28,9 +28,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const t = await getTranslations({ locale, namespace: "profiles" });
     return { title: t("cafeNotFound") };
   }
+  const t = await getTranslations({ locale, namespace: "profiles" });
   return {
-    title: `${cafe.name} — Specialty Coffee in ${cafe.city}, ${cafe.country}`,
-    description: `Discover ${cafe.name}, a specialty coffee cafe in ${cafe.city}, ${cafe.country}. See which roasters they serve and read reviews.`,
+    title: t("cafeMetaTitle", { name: cafe.name, city: cafe.city, country: cafe.country }),
+    description: t("cafeMetaDescription", { name: cafe.name, city: cafe.city, country: cafe.country }),
   };
 }
 
