@@ -2,19 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import { Suspense, useState } from "react";
+import { useTranslations } from "next-intl";
 import { CoffeeBean } from "@/components/icons/CoffeeBean";
 import { CoffeeCup } from "@/components/icons/CoffeeCup";
 import { AddPlaceDropdown } from "./AddPlaceDropdown";
-
-const NAV_LINKS = [
-  { href: "/roasters", label: "Browse Roasters" },
-  { href: "/cafes", label: "Browse Cafes" },
-  { href: "/map", label: "Map" },
-];
+import { LocaleSwitcher } from "./LocaleSwitcher";
 
 function HeaderSearch() {
+  const t = useTranslations("nav");
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentQ = searchParams.get("q") || "";
@@ -46,7 +44,7 @@ function HeaderSearch() {
             ? "bg-primary text-on-primary"
             : "text-outline hover:bg-surface-container-high"
         }`}
-        aria-label="Search roasters"
+        aria-label={t("searchRoastersLabel")}
         aria-pressed={entityType === "roasters"}
       >
         <CoffeeBean className="w-[17px] h-[17px]" />
@@ -59,7 +57,7 @@ function HeaderSearch() {
             ? "bg-secondary text-on-secondary"
             : "text-outline hover:bg-surface-container-high"
         }`}
-        aria-label="Search cafes"
+        aria-label={t("searchCafesLabel")}
         aria-pressed={entityType === "cafes"}
       >
         <CoffeeCup className="w-[17px] h-[17px]" />
@@ -72,7 +70,7 @@ function HeaderSearch() {
         <input
           key={currentQ}
           className="bg-transparent border-none focus:ring-0 focus:outline-none text-sm w-44 lg:w-64 placeholder:text-on-surface-variant/40"
-          placeholder={entityType === "cafes" ? "Search cafes..." : "Search roasters..."}
+          placeholder={entityType === "cafes" ? t("searchCafesPlaceholder") : t("searchRoastersPlaceholder")}
           type="text"
           defaultValue={currentQ}
           onKeyDown={handleSearch}
@@ -83,14 +81,21 @@ function HeaderSearch() {
 }
 
 export function Header() {
+  const t = useTranslations("nav");
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navLinks = [
+    { href: "/roasters", label: t("browseRoasters") },
+    { href: "/cafes", label: t("browseCafes") },
+    { href: "/map", label: t("map") },
+  ];
 
   return (
     <header className="sticky top-0 z-50 glass-nav border-b border-surface-container-high/50">
       <div className="flex justify-between items-center w-full px-6 max-w-7xl mx-auto h-[66px]">
         <div className="flex items-center gap-8">
-          <Link href="/" aria-label="Bean Map — home" className="flex items-center">
+          <Link href="/" aria-label={t("homeLabel")} className="flex items-center">
             <Image
               src="/brand/beanmap-logo.png"
               alt="Bean Map"
@@ -101,7 +106,7 @@ export function Header() {
             />
           </Link>
           <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
-            {NAV_LINKS.map((link) => {
+            {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
                 <Link
@@ -117,8 +122,6 @@ export function Header() {
                 </Link>
               );
             })}
-
-            {/* Dodaj miejsce dropdown */}
             <AddPlaceDropdown />
           </nav>
         </div>
@@ -130,11 +133,14 @@ export function Header() {
             <HeaderSearch />
           </Suspense>
 
-          {/* Mobile menu button */}
+          <div className="hidden md:block">
+            <LocaleSwitcher />
+          </div>
+
           <button
             className="md:hidden text-on-surface-variant"
             onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-label={mobileOpen ? t("closeMenu") : t("openMenu")}
             aria-expanded={mobileOpen}
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -148,10 +154,9 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile menu */}
       {mobileOpen && (
         <nav className="md:hidden border-t border-surface-container-high/50 bg-white px-6 py-4 space-y-3" aria-label="Mobile navigation">
-          {NAV_LINKS.map((link) => (
+          {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -161,35 +166,38 @@ export function Header() {
               {link.label}
             </Link>
           ))}
+          <div className="pt-2 border-t border-surface-container-high/30">
+            <LocaleSwitcher />
+          </div>
           <div className="pt-2 border-t border-surface-container-high/30 space-y-1">
-            <a
+            <Link
               href="/register"
               className="block text-on-surface-variant hover:text-primary transition-colors py-2 text-base font-bold"
               onClick={() => setMobileOpen(false)}
             >
-              Zarejestruj palarnię
-            </a>
-            <a
+              {t("registerRoastery")}
+            </Link>
+            <Link
               href="/register/cafe"
               className="block text-on-surface-variant hover:text-primary transition-colors py-2 text-base font-bold"
               onClick={() => setMobileOpen(false)}
             >
-              Zarejestruj kawiarnię
-            </a>
-            <a
+              {t("registerCafe")}
+            </Link>
+            <Link
               href="/suggest/roastery"
               className="block text-on-surface-variant hover:text-primary transition-colors py-2 text-base font-bold"
               onClick={() => setMobileOpen(false)}
             >
-              Zaproponuj palarnię
-            </a>
-            <a
+              {t("suggestRoastery")}
+            </Link>
+            <Link
               href="/suggest/cafe"
               className="block text-on-surface-variant hover:text-primary transition-colors py-2 text-base font-bold"
               onClick={() => setMobileOpen(false)}
             >
-              Zaproponuj kawiarnię
-            </a>
+              {t("suggestCafe")}
+            </Link>
           </div>
         </nav>
       )}

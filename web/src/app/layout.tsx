@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Fraunces, Source_Sans_3 } from "next/font/google";
+import { getLocale, getTranslations } from "next-intl/server";
+import { BetaBanner } from "@/components/shared/BetaBanner";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -43,17 +45,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const t = await getTranslations({ locale, namespace: "beta" });
+
   return (
     <html
-      lang="en"
+      lang={locale}
       className={`${fraunces.variable} ${sourceSans.variable} h-full scroll-smooth`}
     >
       <body className="min-h-full flex flex-col antialiased">
+        <BetaBanner message={t("message")} dismissLabel={t("dismiss")} />
         <ClerkProvider>{children}</ClerkProvider>
         {process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN && (
           <Script
