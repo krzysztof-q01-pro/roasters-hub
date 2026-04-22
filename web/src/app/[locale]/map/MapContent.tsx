@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Header } from "@/components/shared/Header";
 import { RoasterCard } from "@/components/roasters/RoasterCard";
 import { filterByCert, filterByService } from "@/lib/map-filters";
@@ -73,6 +74,7 @@ function CafeMapCard({ cafe }: { cafe: CafeMapItem }) {
 }
 
 export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[]; cafes: CafeMapItem[] }) {
+  const t = useTranslations("map");
   const [showSidebar, setShowSidebar] = useState(false);
   const [showRoasters, setShowRoasters] = useState(true);
   const [showCafes, setShowCafes] = useState(true);
@@ -110,7 +112,7 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
     <div className="h-screen flex flex-col">
       <Header />
       <main className="flex-1 flex overflow-hidden relative">
-        <h1 className="sr-only">Coffee Roasters & Cafes Map</h1>
+        <h1 className="sr-only">{t("title")}</h1>
 
         {/* Map area */}
         <section className="relative w-full lg:w-[70%] h-full">
@@ -119,7 +121,7 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
             cafes={showCafes ? cafes.map((c) => ({ ...c, lat: c.lat!, lng: c.lng! })) : []}
           />
 
-          {/* Map marker toggles — control visibility of map pins, independent of sidebar */}
+          {/* Map marker toggles */}
           <div className="absolute top-4 left-4 z-[500] flex gap-2">
             <button
               onClick={() => setShowRoasters((v) => !v)}
@@ -127,7 +129,7 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
                 showRoasters ? "bg-primary text-on-primary" : "bg-surface text-on-surface-variant border border-outline/30"
               }`}
             >
-              Roasters ({roasters.length})
+              {t("roastersCount", { count: roasters.length })}
             </button>
             <button
               onClick={() => setShowCafes((v) => !v)}
@@ -135,7 +137,7 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
                 showCafes ? "bg-secondary text-on-secondary" : "bg-surface text-on-surface-variant border border-outline/30"
               }`}
             >
-              Cafes ({cafes.length})
+              {t("cafesCount", { count: cafes.length })}
             </button>
           </div>
 
@@ -143,12 +145,12 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
           <button
             className="lg:hidden absolute bottom-6 right-4 z-[500] flex items-center gap-2 bg-primary text-on-primary rounded-full px-4 py-2.5 shadow-lg text-sm font-semibold"
             onClick={() => setShowSidebar(true)}
-            aria-label="Show list"
+            aria-label={t("showList")}
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7" />
             </svg>
-            {entityType === "roasters" ? `${roasters.length} roasters` : `${cafes.length} cafes`}
+            {entityType === "roasters" ? t("roastersCount", { count: roasters.length }) : t("cafesCount", { count: cafes.length })}
           </button>
         </section>
 
@@ -182,7 +184,7 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
                       : "text-on-surface-variant hover:text-on-surface"
                   }`}
                 >
-                  ☕ Roasters ({roasters.length})
+                  ☕ {t("roastersCount", { count: roasters.length })}
                 </button>
                 <button
                   onClick={() => handleEntityToggle("cafes")}
@@ -192,19 +194,19 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
                       : "text-on-surface-variant hover:text-on-surface"
                   }`}
                 >
-                  ☺ Cafes ({cafes.length})
+                  ☺ {t("cafesCount", { count: cafes.length })}
                 </button>
               </div>
               <Link
                 href={entityType === "roasters" ? "/roasters" : "/cafes"}
                 className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60 hover:text-primary transition-colors whitespace-nowrap"
               >
-                All →
+                {t("all")}
               </Link>
               <button
                 className="lg:hidden text-on-surface-variant hover:text-on-surface transition-colors"
                 onClick={() => setShowSidebar(false)}
-                aria-label="Close list"
+                aria-label={t("closeList")}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -270,14 +272,14 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
                 ))
               ) : (
                 <p className="text-center text-on-surface-variant/60 text-sm py-8">
-                  No roasters match this filter.
+                  {t("noRoastersFilter")}
                 </p>
               )
             ) : filteredCafes.length > 0 ? (
               filteredCafes.map((cafe) => <CafeMapCard key={cafe.id} cafe={cafe} />)
             ) : (
               <p className="text-center text-on-surface-variant/60 text-sm py-8">
-                No cafes match this filter.
+                {t("noCafesFilter")}
               </p>
             )}
           </div>

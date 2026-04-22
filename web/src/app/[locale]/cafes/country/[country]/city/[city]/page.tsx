@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { CafeCard } from "@/components/cafes/CafeCard";
@@ -28,9 +29,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ country: string; city: string }>;
+  params: Promise<{ country: string; city: string; locale: string }>;
 }): Promise<Metadata> {
-  const { country, city } = await params;
+  const { country, city, locale } = await params;
+  const t = await getTranslations({ locale, namespace: "profiles" });
   const row = await db.cafe.findFirst({
     where: {
       countryCode: country,
@@ -39,19 +41,20 @@ export async function generateMetadata({
     },
     select: { city: true, country: true },
   });
-  if (!row) return { title: "Specialty Coffee Cafes" };
+  if (!row) return { title: t("specialtyCoffeeCafes") };
   return {
-    title: `Specialty Coffee Cafes in ${row.city}, ${row.country}`,
-    description: `Discover verified specialty coffee cafes in ${row.city}, ${row.country}.`,
+    title: t("cityCafesTitle", { city: row.city, country: row.country }),
+    description: t("cityCafesDescription", { city: row.city, country: row.country }),
   };
 }
 
 export default async function CafeCityPage({
   params,
 }: {
-  params: Promise<{ country: string; city: string }>;
+  params: Promise<{ country: string; city: string; locale: string }>;
 }) {
-  const { country, city } = await params;
+  const { country, city, locale } = await params;
+  const t = await getTranslations({ locale, namespace: "profiles" });
 
   const cafes = await db.cafe.findMany({
     where: {
@@ -94,9 +97,9 @@ export default async function CafeCityPage({
       <Header />
       <main className="max-w-7xl mx-auto px-6 py-12">
         <nav className="mb-4 text-on-surface-variant flex items-center gap-2 text-xs uppercase tracking-widest">
-          <Link className="hover:text-primary transition-colors" href="/">Home</Link>
+          <Link className="hover:text-primary transition-colors" href="/">{t("home")}</Link>
           <span className="text-[10px]">&rsaquo;</span>
-          <Link className="hover:text-primary transition-colors" href="/cafes">Cafes</Link>
+          <Link className="hover:text-primary transition-colors" href="/cafes">{t("cafes")}</Link>
           <span className="text-[10px]">&rsaquo;</span>
           <Link
             className="hover:text-primary transition-colors"
@@ -110,11 +113,11 @@ export default async function CafeCityPage({
 
         <header className="mb-12">
           <h1 className="font-headline text-5xl md:text-6xl text-on-surface text-editorial-tight mb-2">
-            Cafes in {cityName}
+            {t("cityCafesTitle", { city: cityName })}
           </h1>
           <p className="text-on-surface-variant flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-secondary" />
-            {cafes.length} verified cafe{cafes.length !== 1 ? "s" : ""} · {countryName}
+            {t("verifiedCafeCountWithCountry", { count: cafes.length, country: countryName })}
           </p>
         </header>
 
@@ -129,7 +132,7 @@ export default async function CafeCityPage({
             href={`/cafes/country/${country}`}
             className="text-primary font-medium hover:underline underline-offset-4"
           >
-            &larr; All cafes in {countryName}
+            &larr; {t("allCafesInCountry", { country: countryName })}
           </Link>
         </div>
       </main>

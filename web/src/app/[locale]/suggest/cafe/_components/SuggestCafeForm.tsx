@@ -1,20 +1,13 @@
 "use client"
 
 import { useState, useTransition } from "react"
+import { useTranslations } from "next-intl"
 import Link from "next/link"
 import { ChevronDown, ChevronRight } from "lucide-react"
 import { OpeningHoursPicker } from "@/components/shared/OpeningHoursPicker"
 import { CAFE_SERVICES } from "@/constants/cafe-services"
 import { EMPTY_OPENING_HOURS, type OpeningHours } from "@/types/opening-hours"
 import { createCafeProposal } from "@/actions/cafe.actions"
-
-// Group labels for CAFE_SERVICES groups
-const GROUP_LABELS: Record<string, string> = {
-  amenities: "Amenities",
-  food: "Food",
-  coffee: "Coffee",
-  service: "Service",
-}
 
 // Get unique groups preserving order
 const SERVICE_GROUPS = Array.from(
@@ -34,6 +27,7 @@ interface SectionHeaderProps {
 }
 
 function SectionHeader({ number, title, required, open, onToggle }: SectionHeaderProps) {
+  const t = useTranslations("suggest")
   return (
     <div
       className={`flex items-center gap-3 ${onToggle ? "cursor-pointer select-none" : ""}`}
@@ -47,11 +41,11 @@ function SectionHeader({ number, title, required, open, onToggle }: SectionHeade
       <span className="text-sm font-semibold text-[var(--color-on-surface)]">{title}</span>
       {required && (
         <span className="rounded bg-[var(--color-primary)]/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[var(--color-primary)]">
-          Required
+          {t("required")}
         </span>
       )}
       {!required && onToggle && (
-        <span className="text-xs text-[var(--color-outline)]">optional</span>
+        <span className="text-xs text-[var(--color-outline)]">{t("optional")}</span>
       )}
       {onToggle && (
         <span className="ml-auto text-[var(--color-outline)]">
@@ -87,6 +81,7 @@ const inputClass =
   "w-full rounded-md border border-[var(--color-outline-variant)]/50 bg-[var(--color-surface-container-low)] px-3 py-2 text-sm text-[var(--color-on-surface)] placeholder:text-[var(--color-outline)] transition-colors focus:border-[var(--color-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]/30"
 
 export function SuggestCafeForm() {
+  const t = useTranslations("suggest")
   const [isPending, startTransition] = useTransition()
   const [success, setSuccess] = useState(false)
   const [globalError, setGlobalError] = useState<string | null>(null)
@@ -171,15 +166,15 @@ export function SuggestCafeForm() {
     return (
       <div className="rounded-xl border border-[var(--color-outline-variant)]/30 bg-white p-8 text-center">
         <div className="mb-4 text-4xl">☕</div>
-        <h2 className="mb-2 text-xl font-bold text-[var(--color-on-surface)]">Thank you!</h2>
+        <h2 className="mb-2 text-xl font-bold text-[var(--color-on-surface)]">{t("thankYou")}</h2>
         <p className="mb-6 text-[var(--color-on-surface-variant)]">
-          We&apos;ll review and publish your suggestion soon.
+          {t("reviewSoon")}
         </p>
         <Link
           href="/cafes"
           className="inline-block rounded-md bg-[var(--color-primary)] px-5 py-2 text-sm font-semibold text-[var(--color-on-primary)] transition-opacity hover:opacity-90"
         >
-          Browse cafes
+          {t("browseCafes")}
         </Link>
       </div>
     )
@@ -190,10 +185,10 @@ export function SuggestCafeForm() {
       {/* ── Section 1: Required fields ── */}
       <div className="rounded-xl border border-[var(--color-outline-variant)]/30 bg-white p-5">
         <div className="mb-4">
-          <SectionHeader number={1} title="Basic information" required />
+          <SectionHeader number={1} title={t("basicInfo")} required />
         </div>
         <div className="flex flex-col gap-4">
-          <Field label="Cafe name *" name="name" error={getFieldError("name")}>
+          <Field label={t("cafeName")} name="name" error={getFieldError("name")}>
             <input
               id="name"
               name="name"
@@ -201,32 +196,32 @@ export function SuggestCafeForm() {
               required
               minLength={2}
               maxLength={100}
-              placeholder="e.g. Brew Lab"
+              placeholder={t("cafeNamePlaceholder")}
               className={inputClass}
               onBlur={() => markTouched("name")}
             />
           </Field>
           <div className="grid grid-cols-2 gap-4">
-            <Field label="City *" name="city" error={getFieldError("city")}>
+            <Field label={t("city")} name="city" error={getFieldError("city")}>
               <input
                 id="city"
                 name="city"
                 type="text"
                 required
                 maxLength={100}
-                placeholder="e.g. Warsaw"
+                placeholder={t("cityPlaceholder")}
                 className={inputClass}
                 onBlur={() => markTouched("city")}
               />
             </Field>
-            <Field label="Country *" name="country" error={getFieldError("country")}>
+            <Field label={t("country")} name="country" error={getFieldError("country")}>
               <input
                 id="country"
                 name="country"
                 type="text"
                 required
                 maxLength={60}
-                placeholder="e.g. Poland"
+                placeholder={t("countryPlaceholder")}
                 className={inputClass}
                 onBlur={() => markTouched("country")}
               />
@@ -234,7 +229,7 @@ export function SuggestCafeForm() {
           </div>
         </div>
         <p className="mt-4 text-xs text-[var(--color-outline)]">
-          💡 This is enough to add the place. Everything below is optional.
+          {t("minInfoTip")}
         </p>
       </div>
 
@@ -242,61 +237,61 @@ export function SuggestCafeForm() {
       <div className="rounded-xl border border-[var(--color-outline-variant)]/30 bg-white p-5">
         <SectionHeader
           number={2}
-          title="Contact & details"
+          title={t("contactDetails")}
           open={section2Open}
           onToggle={() => setSection2Open((v) => !v)}
         />
         {section2Open && (
           <div className="mt-4 flex flex-col gap-4">
-            <Field label="Address" name="address" error={getFieldError("address")}>
+            <Field label={t("address")} name="address" error={getFieldError("address")}>
               <input
                 id="address"
                 name="address"
                 type="text"
                 maxLength={200}
-                placeholder="e.g. ul. Marszałkowska 1"
+                placeholder={t("addressPlaceholder")}
                 className={inputClass}
                 onBlur={() => markTouched("address")}
               />
             </Field>
-            <Field label="Website" name="website" error={getFieldError("website")}>
+            <Field label={t("website")} name="website" error={getFieldError("website")}>
               <input
                 id="website"
                 name="website"
                 type="url"
-                placeholder="https://yourcafe.com"
+                placeholder={t("websitePlaceholder")}
                 className={inputClass}
                 onBlur={handleWebsiteBlur}
               />
             </Field>
-            <Field label="Instagram" name="instagram" error={getFieldError("instagram")}>
+            <Field label={t("instagram")} name="instagram" error={getFieldError("instagram")}>
               <input
                 id="instagram"
                 name="instagram"
                 type="text"
-                placeholder="@yourcafe"
+                placeholder={t("instagramPlaceholder")}
                 className={inputClass}
                 onBlur={handleInstagramBlur}
               />
             </Field>
             <div className="grid grid-cols-2 gap-4">
-              <Field label="Phone" name="phone" error={getFieldError("phone")}>
+              <Field label={t("phone")} name="phone" error={getFieldError("phone")}>
                 <input
                   id="phone"
                   name="phone"
                   type="tel"
                   maxLength={30}
-                  placeholder="+48 123 456 789"
+                  placeholder={t("phonePlaceholder")}
                   className={inputClass}
                   onBlur={() => markTouched("phone")}
                 />
               </Field>
-              <Field label="Email" name="email" error={getFieldError("email")}>
+              <Field label={t("email")} name="email" error={getFieldError("email")}>
                 <input
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="hello@yourcafe.com"
+                  placeholder={t("emailPlaceholder")}
                   className={inputClass}
                   onBlur={() => markTouched("email")}
                 />
@@ -311,7 +306,7 @@ export function SuggestCafeForm() {
       <div className="rounded-xl border border-[var(--color-outline-variant)]/30 bg-white p-5">
         <SectionHeader
           number={3}
-          title="Hours & services"
+          title={t("hoursServices")}
           open={section3Open}
           onToggle={() => setSection3Open((v) => !v)}
         />
@@ -319,13 +314,13 @@ export function SuggestCafeForm() {
           <div className="mt-4 flex flex-col gap-6">
             <div>
               <p className="mb-3 text-xs font-medium uppercase tracking-wide text-[var(--color-on-surface-variant)]">
-                Opening hours
+                {t("openingHours")}
               </p>
               <OpeningHoursPicker value={hours} onChange={setHours} />
             </div>
             <div>
               <p className="mb-3 text-xs font-medium uppercase tracking-wide text-[var(--color-on-surface-variant)]">
-                Amenities & services
+                {t("amenitiesServices")}
               </p>
               <div className="flex flex-col gap-4">
                 {SERVICE_GROUPS.map((group) => {
@@ -333,7 +328,7 @@ export function SuggestCafeForm() {
                   return (
                     <div key={group}>
                       <p className="mb-2 text-xs font-semibold text-[var(--color-on-surface-variant)]">
-                        {GROUP_LABELS[group] ?? group}
+                        {group}
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {services.map((service) => {
@@ -379,10 +374,10 @@ export function SuggestCafeForm() {
         {isPending ? (
           <>
             <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-            Sending…
+            {t("sending")}
           </>
         ) : (
-          "Suggest cafe"
+          t("suggestCafe")
         )}
       </button>
     </form>
@@ -391,16 +386,17 @@ export function SuggestCafeForm() {
 
 // Separated to keep lint happy (char counter needs its own state)
 function DescriptionField({ error }: { error?: string }) {
+  const t = useTranslations("suggest")
   const [count, setCount] = useState(0)
   return (
-    <Field label="Description" name="description" error={error}>
+    <Field label={t("description")} name="description" error={error}>
       <div className="relative">
         <textarea
           id="description"
           name="description"
           maxLength={500}
           rows={4}
-          placeholder="Short description of the place…"
+          placeholder={t("descriptionPlaceholder")}
           className={`${inputClass} resize-none`}
           onChange={(e) => setCount(e.target.value.length)}
         />

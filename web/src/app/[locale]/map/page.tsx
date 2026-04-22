@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { db } from "@/lib/db";
 import { MapContent } from "./MapContent";
 
-export const metadata: Metadata = {
-  title: "Coffee Roasters & Cafes Map",
-  description: "Explore specialty coffee roasters and cafes around the world on an interactive map.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "map" });
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
 export const revalidate = 3600;
 
