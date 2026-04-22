@@ -2,6 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { ReviewForm } from "@/components/shared/ReviewForm";
@@ -17,13 +18,16 @@ import { db } from "@/lib/db";
 export const revalidate = 3600;
 export const dynamicParams = true;
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params;
+export async function generateMetadata({ params }: { params: Promise<{ slug: string; locale: string }> }): Promise<Metadata> {
+  const { slug, locale } = await params;
   const cafe = await db.cafe.findUnique({
     where: { slug },
     select: { name: true, city: true, country: true },
   });
-  if (!cafe) return { title: "Cafe Not Found" };
+  if (!cafe) {
+    const t = await getTranslations({ locale, namespace: "profiles" });
+    return { title: t("cafeNotFound") };
+  }
   return {
     title: `${cafe.name} — Specialty Coffee in ${cafe.city}, ${cafe.country}`,
     description: `Discover ${cafe.name}, a specialty coffee cafe in ${cafe.city}, ${cafe.country}. See which roasters they serve and read reviews.`,
@@ -45,9 +49,10 @@ export async function generateStaticParams() {
 export default async function CafeProfilePage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
+  const t = await getTranslations({ locale, namespace: "profiles" });
 
   let cafe;
   try {
@@ -125,9 +130,9 @@ export default async function CafeProfilePage({
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-6 pt-8">
         <nav className="flex text-xs uppercase tracking-widest text-on-surface-variant/60 gap-2">
-          <Link className="hover:text-primary transition-colors" href="/">Home</Link>
+          <Link className="hover:text-primary transition-colors" href="/">{t("home")}</Link>
           <span>›</span>
-          <Link className="hover:text-primary transition-colors" href="/cafes">Cafes</Link>
+          <Link className="hover:text-primary transition-colors" href="/cafes">{t("cafes")}</Link>
           <span>›</span>
           <Link
             className="hover:text-primary transition-colors"
@@ -178,8 +183,7 @@ export default async function CafeProfilePage({
             {cafe.city}, {cafe.country}
             {avgRating !== null && (
               <span className="ml-2 text-primary font-semibold">
-                ★ {avgRating.toFixed(1)} ({cafeReviews.length} review{cafeReviews.length !== 1 ? "s" : ""})
-              </span>
+                ★ {avgRating.toFixed(1)} ({cafeReviews.length} {cafeReviews.length === 1 ? t("reviewCount", { count: 1 }) : t("reviewCount", { count: cafeReviews.length })})</span>
             )}
           </div>
         </div>
@@ -192,7 +196,7 @@ export default async function CafeProfilePage({
           {/* About */}
           {cafe.description && (
             <section>
-              <h2 className="font-headline text-3xl mb-8 tracking-tight">About {cafe.name}</h2>
+              <h2 className="font-headline text-3xl mb-8 tracking-tight">{t("about", { name: cafe.name })}</h2>
               <p className="text-lg leading-relaxed text-on-surface-variant font-light">
                 {cafe.description}
               </p>
@@ -204,7 +208,7 @@ export default async function CafeProfilePage({
             <section className="grid gap-6 sm:grid-cols-2">
               {cafe.serving.length > 0 && (
                 <div>
-                  <h3 className="font-headline text-xl mb-3">What they serve</h3>
+                  <h3 className="font-headline text-xl mb-3">{t("whatTheyServe")}</h3>
                   <div className="flex flex-wrap gap-2">
                     {cafe.serving.map((item) => (
                       <span key={item} className="bg-surface-container text-sm px-3 py-1 rounded-full">
@@ -216,7 +220,7 @@ export default async function CafeProfilePage({
               )}
               {cafe.services.length > 0 && (
                 <div>
-                  <h3 className="font-headline text-xl mb-3">Amenities</h3>
+                  <h3 className="font-headline text-xl mb-3">{t("amenities")}</h3>
                   <div className="grid grid-cols-2 gap-3">
                     {cafe.services.map((item) => (
                       <div key={item} className="flex items-center gap-2 text-sm text-on-surface-variant/80">
@@ -233,7 +237,7 @@ export default async function CafeProfilePage({
           {/* Opening hours */}
           {cafe.openingHours && (
             <section>
-              <h3 className="font-headline text-xl mb-3">Opening hours</h3>
+              <h3 className="font-headline text-xl mb-3">{t("openingHours")}</h3>
               <div className="text-sm text-on-surface-variant/80 space-y-1">
                 {(typeof cafe.openingHours === "string" ? cafe.openingHours : JSON.stringify(cafe.openingHours))
                   .split("\n")
@@ -252,19 +256,19 @@ export default async function CafeProfilePage({
 
           {/* Reviews */}
           <section>
-            <h3 className="font-headline text-3xl mb-8 tracking-tight">Reviews</h3>
+            <h3 className="font-headline text-3xl mb-8 tracking-tight">{t("reviews")}</h3>
             <ReviewList reviews={serializedReviews} averageRating={avgRating} />
             <div className="mt-10 pt-8 border-t border-outline-variant/10">
-              <h4 className="text-lg font-medium mb-4">Leave a Review</h4>
+              <h4 className="text-lg font-medium mb-4">{t("leaveReview")}</h4>
               <ReviewForm cafeId={cafe.id} />
             </div>
           </section>
 
           {/* Roasters we serve */}
           <section>
-            <h2 className="font-headline text-3xl tracking-tight mb-6">Roasters we serve</h2>
+            <h2 className="font-headline text-3xl tracking-tight mb-6">{t("roastersWeServe")}</h2>
             {cafe.roasters.length === 0 ? (
-              <p className="text-on-surface-variant/60 text-sm">No roasters listed yet.</p>
+              <p className="text-on-surface-variant/60 text-sm">{t("noRoastersListed")}</p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {cafe.roasters.map(({ roaster }) => (
@@ -291,7 +295,7 @@ export default async function CafeProfilePage({
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <h4 className="font-headline text-2xl font-bold tracking-tight">{cafe.name}</h4>
-                  <p className="text-sm text-on-surface-variant/70">Specialty Coffee Cafe</p>
+                  <p className="text-sm text-on-surface-variant/70">{t("specialtyCoffeeCafe")}</p>
                 </div>
                 {isVerified && (
                   <svg className="w-6 h-6 text-secondary" fill="currentColor" viewBox="0 0 24 24">
@@ -325,7 +329,7 @@ export default async function CafeProfilePage({
                     eventType="WEBSITE_CLICK"
                     className="w-full bg-primary text-on-primary py-3.5 rounded-lg font-medium text-sm hover:bg-primary-container transition-all shadow-lg shadow-primary/10 block text-center"
                   >
-                    Visit Website
+                    {t("visitWebsite")}
                   </CafeTrackedLink>
                 )}
                 <SaveCafeButton cafeId={cafe.id} initialSaved={saved} />

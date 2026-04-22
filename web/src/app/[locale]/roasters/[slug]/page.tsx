@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { VerifiedBadge } from "@/components/roasters/VerifiedBadge";
@@ -20,11 +21,14 @@ export const revalidate = 3600;
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const roaster = await db.roaster.findUnique({ where: { slug } });
-  if (!roaster) return { title: "Roaster Not Found" };
+  if (!roaster) {
+    const t = await getTranslations({ locale, namespace: "profiles" });
+    return { title: t("roasterNotFound") };
+  }
 
   return {
     title: `${roaster.name} — Specialty Coffee in ${roaster.city}`,
@@ -42,9 +46,11 @@ function countryFlag(code: string): string {
 export default async function RoasterProfilePage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
+  const t = await getTranslations({ locale, namespace: "profiles" });
+
   const roaster = await db.roaster.findUnique({
     where: { slug },
     include: {
@@ -108,9 +114,9 @@ export default async function RoasterProfilePage({
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-6 pt-8">
         <nav className="flex text-xs uppercase tracking-widest text-on-surface-variant/60 gap-2">
-          <Link className="hover:text-primary transition-colors" href="/">Home</Link>
+          <Link className="hover:text-primary transition-colors" href="/">{t("home")}</Link>
           <span>›</span>
-          <Link className="hover:text-primary transition-colors" href="/roasters">Roasters</Link>
+          <Link className="hover:text-primary transition-colors" href="/roasters">{t("roasters")}</Link>
           <span>›</span>
           <Link className="hover:text-primary transition-colors" href={`/roasters/country/${roaster.countryCode}`}>
             {roaster.country}
@@ -159,7 +165,7 @@ export default async function RoasterProfilePage({
         <div className="space-y-16">
           {/* About */}
           <section>
-            <h2 className="font-headline text-3xl mb-8 tracking-tight">About {roaster.name}</h2>
+            <h2 className="font-headline text-3xl mb-8 tracking-tight">{t("about", { name: roaster.name })}</h2>
             <p className="text-lg leading-relaxed text-on-surface-variant font-light">
               {roaster.description}
             </p>
@@ -169,7 +175,7 @@ export default async function RoasterProfilePage({
           {roaster.origins.length > 0 && (
             <section>
               <h3 className="text-xs font-semibold uppercase tracking-widest text-on-surface-variant/60 mb-6">
-                Coffee Origins
+                {t("coffeeOrigins")}
               </h3>
               <div className="flex flex-wrap gap-3">
                 {roaster.origins.map((origin) => (
@@ -185,7 +191,7 @@ export default async function RoasterProfilePage({
           {roaster.certifications.length > 0 && (
             <section className="bg-surface-container-low p-8 rounded-2xl">
               <h3 className="text-xs font-semibold uppercase tracking-widest text-on-surface-variant/60 mb-8">
-                Quality Certifications
+                {t("qualityCertifications")}
               </h3>
               <div className="flex flex-wrap gap-4">
                 {roaster.certifications.map((cert) => (
@@ -197,20 +203,20 @@ export default async function RoasterProfilePage({
 
           {/* Reviews */}
           <section>
-            <h3 className="font-headline text-3xl mb-8 tracking-tight">Reviews</h3>
+            <h3 className="font-headline text-3xl mb-8 tracking-tight">{t("reviews")}</h3>
             <ReviewList reviews={approvedReviews} averageRating={avgRating} />
             <div className="mt-10 pt-8 border-t border-outline-variant/10">
-              <h4 className="text-lg font-medium mb-4">Leave a Review</h4>
+              <h4 className="text-lg font-medium mb-4">{t("leaveReview")}</h4>
               <ReviewForm roasterId={roaster.id} />
             </div>
           </section>
 
-          {/* Gdzie wypić */}
+          {/* Where to drink */}
           <section className="mt-16">
-            <h2 className="font-headline text-3xl tracking-tight mb-6">Where to drink</h2>
+            <h2 className="font-headline text-3xl tracking-tight mb-6">{t("whereToDrink")}</h2>
             {roaster.servedAt.length === 0 ? (
               <p className="text-on-surface-variant/60 text-sm">
-                This roastery is not yet available in any cafe.
+                {t("notInAnyCafe")}
               </p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -238,7 +244,7 @@ export default async function RoasterProfilePage({
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <h4 className="font-headline text-2xl font-bold tracking-tight">{roaster.name}</h4>
-                  <p className="text-sm text-on-surface-variant/70">Specialty Roastery</p>
+                  <p className="text-sm text-on-surface-variant/70">{t("specialtyRoastery")}</p>
                 </div>
                 {isVerified && (
                   <svg className="w-6 h-6 text-secondary" fill="currentColor" viewBox="0 0 24 24">
@@ -272,7 +278,7 @@ export default async function RoasterProfilePage({
                     eventType="WEBSITE_CLICK"
                     className="w-full bg-primary text-on-primary py-3.5 rounded-lg font-medium text-sm hover:bg-primary-container transition-all shadow-lg shadow-primary/10 block text-center"
                   >
-                    Visit Website
+                    {t("visitWebsite")}
                   </TrackedLink>
                 )}
                 {roaster.shopUrl && (
@@ -282,7 +288,7 @@ export default async function RoasterProfilePage({
                     eventType="SHOP_CLICK"
                     className="w-full border border-outline text-on-surface-variant py-3.5 rounded-lg font-medium text-sm hover:bg-surface-container-low transition-all block text-center"
                   >
-                    Shop Online
+                    {t("shopOnline")}
                   </TrackedLink>
                 )}
                 <SaveRoasterButton roasterId={roaster.id} initialSaved={saved} />
@@ -312,17 +318,17 @@ export default async function RoasterProfilePage({
             <div className="flex justify-between items-end mb-12">
               <div>
                 <h3 className="font-headline text-4xl tracking-tight mb-2">
-                  Discover {roaster.country}
+                  {t("discoverCountry", { country: roaster.country })}
                 </h3>
                 <p className="text-on-surface-variant/60 font-light">
-                  More specialty roasters in {roaster.country}.
+                  {t("moreRoastersInCountry", { country: roaster.country })}
                 </p>
               </div>
               <Link
                 className="text-xs uppercase tracking-widest font-bold text-primary pb-1 border-b-2 border-primary/20 hover:border-primary transition-all"
                 href={`/roasters/country/${roaster.countryCode}`}
               >
-                View All
+                {t("viewAll")}
               </Link>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
