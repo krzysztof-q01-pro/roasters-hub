@@ -1,7 +1,10 @@
 {
   "localeSwitcher": {
     "changeLanguage": "Zmień język",
-    "current": "Aktualny"
+    "current": "Aktualny",
+    "en": "English",
+    "pl": "Polski",
+    "de": "Deutsch"
   },
   "nav": {
     "browseRoasters": "Przeglądaj palarnie",

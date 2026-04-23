@@ -1,7 +1,10 @@
 {
   "localeSwitcher": {
     "changeLanguage": "Change language",
-    "current": "Current"
+    "current": "Current",
+    "en": "English",
+    "pl": "Polski",
+    "de": "Deutsch"
   },
   "nav": {
     "browseRoasters": "Browse Roasters",
