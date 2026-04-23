@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { useAuth } from "@clerk/nextjs";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { createCafe } from "@/actions/cafe.actions";
 
-const STEPS = ["Basic Info", "Contact & Location", "Review & Submit"];
-
 export default function RegisterCafePage() {
   const { userId } = useAuth();
+  const t = useTranslations("register");
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -28,12 +28,14 @@ export default function RegisterCafePage() {
     phone: "",
   });
 
+  const steps = t.raw("stepsCafe") as string[];
+
   const update = (field: string, value: string) =>
     setForm((prev) => ({ ...prev, [field]: value }));
 
   const handleSubmit = async () => {
     if (!userId) {
-      setError("You must be signed in.");
+      setError(t("signInRequired"));
       return;
     }
     setSubmitting(true);
@@ -54,15 +56,15 @@ export default function RegisterCafePage() {
       <>
         <Header />
         <main className="max-w-2xl mx-auto px-6 py-24 text-center">
-          <h1 className="font-headline text-4xl mb-4">Registration submitted!</h1>
+          <h1 className="font-headline text-4xl mb-4">{t("successTitleCafe")}</h1>
           <p className="text-on-surface-variant/60 mb-8">
-            Your cafe profile is pending review. We&apos;ll notify you once it&apos;s verified.
+            {t("successDescCafe")}
           </p>
           <Link
             href="/"
             className="bg-primary text-on-primary px-6 py-3 rounded-lg text-sm font-medium"
           >
-            Back to home
+            {t("successBackHome")}
           </Link>
         </main>
         <Footer />
@@ -75,7 +77,7 @@ export default function RegisterCafePage() {
       <Header />
       <main className="max-w-2xl mx-auto px-6 py-16">
         <div className="flex gap-2 mb-10">
-          {STEPS.map((s, i) => (
+          {steps.map((s, i) => (
             <div key={s} className="flex-1">
               <div
                 className={`h-1 rounded-full ${
@@ -93,7 +95,7 @@ export default function RegisterCafePage() {
           ))}
         </div>
 
-        <h1 className="font-headline text-4xl tracking-tight mb-8">Register your cafe</h1>
+        <h1 className="font-headline text-4xl tracking-tight mb-8">{t("registerCafe")}</h1>
 
         {error && (
           <div className="bg-error-container text-on-error-container rounded-xl p-4 mb-6 text-sm">
@@ -104,43 +106,43 @@ export default function RegisterCafePage() {
         {step === 0 && (
           <div className="space-y-5">
             <div>
-              <label className="block text-sm font-medium mb-1">Cafe name *</label>
+              <label className="block text-sm font-medium mb-1">{t("cafeName")}</label>
               <input
                 value={form.name}
                 onChange={(e) => update("name", e.target.value)}
                 className="w-full border border-outline/30 rounded-lg px-3 py-2 bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="Brew Lab"
+                placeholder={t("cafeNamePlaceholder")}
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-1">City *</label>
+                <label className="block text-sm font-medium mb-1">{t("city")}</label>
                 <input
                   value={form.city}
                   onChange={(e) => update("city", e.target.value)}
                   className="w-full border border-outline/30 rounded-lg px-3 py-2 bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="Warsaw"
+                  placeholder={t("cityPlaceholder")}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Country *</label>
+                <label className="block text-sm font-medium mb-1">{t("country")}</label>
                 <input
                   value={form.country}
                   onChange={(e) => update("country", e.target.value)}
                   className="w-full border border-outline/30 rounded-lg px-3 py-2 bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="Poland"
+                  placeholder={t("countryPlaceholder")}
                 />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Description</label>
+              <label className="block text-sm font-medium mb-1">{t("description")}</label>
               <textarea
                 value={form.description}
                 onChange={(e) => update("description", e.target.value)}
                 rows={4}
                 maxLength={2000}
                 className="w-full border border-outline/30 rounded-lg px-3 py-2 bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-                placeholder="Tell us about your cafe…"
+                placeholder={t("descriptionPlaceholderCafe")}
               />
             </div>
           </div>
@@ -149,63 +151,63 @@ export default function RegisterCafePage() {
         {step === 1 && (
           <div className="space-y-5">
             <div>
-              <label className="block text-sm font-medium mb-1">Address</label>
+              <label className="block text-sm font-medium mb-1">{t("address")}</label>
               <input
                 value={form.address}
                 onChange={(e) => update("address", e.target.value)}
                 className="w-full border border-outline/30 rounded-lg px-3 py-2 bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="ul. Marszałkowska 1, Warsaw"
+                placeholder={t("addressPlaceholder")}
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Latitude</label>
+                <label className="block text-sm font-medium mb-1">{t("latitude")}</label>
                 <input
                   value={form.lat}
                   onChange={(e) => update("lat", e.target.value)}
                   type="number"
                   step="any"
                   className="w-full border border-outline/30 rounded-lg px-3 py-2 bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="52.2297"
+                  placeholder={t("latitudePlaceholder")}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Longitude</label>
+                <label className="block text-sm font-medium mb-1">{t("longitude")}</label>
                 <input
                   value={form.lng}
                   onChange={(e) => update("lng", e.target.value)}
                   type="number"
                   step="any"
                   className="w-full border border-outline/30 rounded-lg px-3 py-2 bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="21.0122"
+                  placeholder={t("longitudePlaceholder")}
                 />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Website</label>
+              <label className="block text-sm font-medium mb-1">{t("websiteUrl")}</label>
               <input
                 value={form.website}
                 onChange={(e) => update("website", e.target.value)}
                 className="w-full border border-outline/30 rounded-lg px-3 py-2 bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="https://brewlab.coffee"
+                placeholder={t("websitePlaceholder")}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Instagram</label>
+              <label className="block text-sm font-medium mb-1">{t("instagramHandle")}</label>
               <input
                 value={form.instagram}
                 onChange={(e) => update("instagram", e.target.value)}
                 className="w-full border border-outline/30 rounded-lg px-3 py-2 bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="@brewlab"
+                placeholder={t("instagramPlaceholder")}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Phone</label>
+              <label className="block text-sm font-medium mb-1">{t("phone")}</label>
               <input
                 value={form.phone}
                 onChange={(e) => update("phone", e.target.value)}
                 className="w-full border border-outline/30 rounded-lg px-3 py-2 bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="+48 123 456 789"
+                placeholder={t("phonePlaceholder")}
               />
             </div>
           </div>
@@ -216,10 +218,10 @@ export default function RegisterCafePage() {
             <div className="bg-surface-container rounded-xl p-5 space-y-2 text-sm">
               {(
                 [
-                  ["Name", form.name],
-                  ["Location", `${form.city}, ${form.country}`],
-                  form.website ? ["Website", form.website] : null,
-                  form.instagram ? ["Instagram", form.instagram] : null,
+                  [t("reviewName"), form.name],
+                  [t("reviewLocation"), `${form.city}, ${form.country}`],
+                  form.website ? [t("reviewWebsite"), form.website] : null,
+                  form.instagram ? [t("reviewInstagram"), form.instagram] : null,
                 ] as ([string, string] | null)[]
               )
                 .filter((item): item is [string, string] => item !== null)
@@ -231,7 +233,7 @@ export default function RegisterCafePage() {
                 ))}
             </div>
             <p className="text-xs text-on-surface-variant/50">
-              Your profile will be reviewed by our team before going live.
+              {t("reviewNote")}
             </p>
           </div>
         )}
@@ -242,18 +244,18 @@ export default function RegisterCafePage() {
               onClick={() => setStep((s) => s - 1)}
               className="text-sm text-on-surface-variant/60 hover:text-on-surface transition-colors"
             >
-              ← Back
+              ← {t("back")}
             </button>
           ) : (
             <div />
           )}
-          {step < STEPS.length - 1 ? (
+          {step < steps.length - 1 ? (
             <button
               onClick={() => setStep((s) => s + 1)}
               disabled={step === 0 && (!form.name || !form.city || !form.country)}
               className="bg-primary text-on-primary px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-primary/90 disabled:opacity-40 transition-colors"
             >
-              Next →
+              {t("next")}
             </button>
           ) : (
             <button
@@ -261,7 +263,7 @@ export default function RegisterCafePage() {
               disabled={submitting}
               className="bg-primary text-on-primary px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-primary/90 disabled:opacity-50 transition-colors"
             >
-              {submitting ? "Submitting…" : "Submit for review"}
+              {submitting ? t("submittingCafe") : t("submitForReview")}
             </button>
           )}
         </div>

@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { ROAST_STYLES, CERTIFICATIONS, CERTIFICATION_LABELS, ORIGINS } from "@/types/certifications";
 import { createRoasterRegistration } from "@/actions/roaster.actions";
 
-const STEPS = ["Basic Info", "Contact & Links", "Specialty Details"];
-
 export default function RegisterPage() {
+  const t = useTranslations("register");
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -27,6 +27,8 @@ export default function RegisterPage() {
     roastStyles: [] as string[],
     certifications: [] as string[],
   });
+
+  const steps = t.raw("stepsRoaster") as string[];
 
   const updateField = (field: string, value: string | string[]) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -79,12 +81,12 @@ export default function RegisterPage() {
               <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
             </svg>
           </div>
-          <h1 className="font-headline text-4xl font-bold mb-4">Your profile is submitted!</h1>
+          <h1 className="font-headline text-4xl font-bold mb-4">{t("successTitleRoaster")}</h1>
           <p className="text-on-surface-variant text-lg mb-10">
-            We&apos;ll review your roastery profile within 48 hours. You&apos;ll receive an email once it&apos;s verified and live.
+            {t("successDescRoaster")}
           </p>
           <Link href="/roasters" className="bg-primary text-on-primary px-8 py-4 rounded-lg font-medium hover:opacity-90 transition-all inline-flex items-center gap-2">
-            Browse other roasters while you wait &rarr;
+            {t("successBrowseRoasters")}
           </Link>
         </main>
         <Footer />
@@ -96,10 +98,10 @@ export default function RegisterPage() {
     <>
       <Header />
       <main className="max-w-2xl mx-auto px-6 py-16">
-        <h1 className="sr-only">Register Your Roastery</h1>
+        <h1 className="sr-only">{t("registerRoastery")}</h1>
         {/* Step Indicator */}
         <div className="flex items-center justify-center gap-4 mb-16">
-          {STEPS.map((label, i) => (
+          {steps.map((label, i) => (
             <div key={label} className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <span
@@ -123,7 +125,7 @@ export default function RegisterPage() {
                   {label}
                 </span>
               </div>
-              {i < STEPS.length - 1 && <div className="w-12 h-px bg-surface-container-high" />}
+              {i < steps.length - 1 && <div className="w-12 h-px bg-surface-container-high" />}
             </div>
           ))}
         </div>
@@ -131,52 +133,52 @@ export default function RegisterPage() {
         {/* Step 1: Basic Info */}
         {step === 0 && (
           <div className="space-y-8">
-            <h2 className="font-headline text-3xl font-bold">Tell us about your roastery</h2>
+            <h2 className="font-headline text-3xl font-bold">{t("step1RoasterTitle")}</h2>
             <div>
-              <label className="block text-sm font-medium mb-2">Roastery name *</label>
+              <label className="block text-sm font-medium mb-2">{t("roasteryName")}</label>
               <input
                 type="text"
                 required
                 value={form.name}
                 onChange={(e) => updateField("name", e.target.value)}
                 className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
-                placeholder="e.g. Hard Beans"
+                placeholder={t("roasteryNamePlaceholder")}
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-2">Country *</label>
+                <label className="block text-sm font-medium mb-2">{t("country")}</label>
                 <input
                   type="text"
                   required
                   value={form.country}
                   onChange={(e) => updateField("country", e.target.value)}
                   className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
-                  placeholder="e.g. Poland"
+                  placeholder={t("countryPlaceholder")}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">City *</label>
+                <label className="block text-sm font-medium mb-2">{t("city")}</label>
                 <input
                   type="text"
                   required
                   value={form.city}
                   onChange={(e) => updateField("city", e.target.value)}
                   className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
-                  placeholder="e.g. Opole"
+                  placeholder={t("cityPlaceholder")}
                 />
               </div>
             </div>
             <div>
               <label className="block text-sm font-medium mb-2">
-                Description <span className="text-on-surface-variant font-normal">({form.description.length}/2000)</span>
+                {t("description")} <span className="text-on-surface-variant font-normal">{t("descriptionCounter", { count: form.description.length })}</span>
               </label>
               <textarea
                 rows={5}
                 value={form.description}
                 onChange={(e) => updateField("description", e.target.value.slice(0, 2000))}
                 className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm resize-none"
-                placeholder="Tell us about your roastery, philosophy, and what makes your coffee special..."
+                placeholder={t("descriptionPlaceholderRoaster")}
               />
             </div>
             <div className="flex justify-end">
@@ -185,7 +187,7 @@ export default function RegisterPage() {
                 disabled={!form.name || !form.country || !form.city}
                 className="bg-primary text-on-primary px-8 py-3 rounded-lg font-medium hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Continue &rarr;
+                {t("continue")}
               </button>
             </div>
           </div>
@@ -194,27 +196,27 @@ export default function RegisterPage() {
         {/* Step 2: Contact & Links */}
         {step === 1 && (
           <div className="space-y-8">
-            <h2 className="font-headline text-3xl font-bold">How can people find you?</h2>
-            <p className="text-on-surface-variant text-sm">These will be displayed on your public profile.</p>
+            <h2 className="font-headline text-3xl font-bold">{t("step2RoasterTitle")}</h2>
+            <p className="text-on-surface-variant text-sm">{t("step2RoasterSubtitle")}</p>
             <div>
-              <label className="block text-sm font-medium mb-2">Website URL</label>
-              <input type="url" value={form.website} onChange={(e) => updateField("website", e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder="https://yourroastery.com" />
+              <label className="block text-sm font-medium mb-2">{t("websiteUrl")}</label>
+              <input type="url" value={form.website} onChange={(e) => updateField("website", e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder={t("websitePlaceholder")} />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">Online shop URL</label>
-              <input type="url" value={form.shopUrl} onChange={(e) => updateField("shopUrl", e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder="https://shop.yourroastery.com" />
+              <label className="block text-sm font-medium mb-2">{t("shopUrl")}</label>
+              <input type="url" value={form.shopUrl} onChange={(e) => updateField("shopUrl", e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder={t("shopPlaceholder")} />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">Instagram handle</label>
-              <input type="text" value={form.instagram} onChange={(e) => updateField("instagram", e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder="@yourroastery" />
+              <label className="block text-sm font-medium mb-2">{t("instagramHandle")}</label>
+              <input type="text" value={form.instagram} onChange={(e) => updateField("instagram", e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder={t("instagramPlaceholder")} />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">Email address</label>
-              <input type="email" value={form.email} onChange={(e) => updateField("email", e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder="hello@yourroastery.com" />
+              <label className="block text-sm font-medium mb-2">{t("emailAddress")}</label>
+              <input type="email" value={form.email} onChange={(e) => updateField("email", e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder={t("emailPlaceholder")} />
             </div>
             <div className="flex justify-between">
-              <button onClick={() => setStep(0)} className="text-on-surface-variant hover:text-on-surface transition-colors px-4 py-3">&larr; Back</button>
-              <button onClick={() => setStep(2)} className="bg-primary text-on-primary px-8 py-3 rounded-lg font-medium hover:opacity-90 transition-all">Continue &rarr;</button>
+              <button onClick={() => setStep(0)} className="text-on-surface-variant hover:text-on-surface transition-colors px-4 py-3">{t("back")}</button>
+              <button onClick={() => setStep(2)} className="bg-primary text-on-primary px-8 py-3 rounded-lg font-medium hover:opacity-90 transition-all">{t("continue")}</button>
             </div>
           </div>
         )}
@@ -222,10 +224,10 @@ export default function RegisterPage() {
         {/* Step 3: Specialty Details */}
         {step === 2 && (
           <div className="space-y-8">
-            <h2 className="font-headline text-3xl font-bold">What makes your coffee special?</h2>
+            <h2 className="font-headline text-3xl font-bold">{t("step3RoasterTitle")}</h2>
 
             <div>
-              <label className="block text-sm font-medium mb-3">Coffee Origins</label>
+              <label className="block text-sm font-medium mb-3">{t("coffeeOrigins")}</label>
               <div className="flex flex-wrap gap-2">
                 {ORIGINS.map((origin) => (
                   <button
@@ -244,7 +246,7 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-3">Roast Styles</label>
+              <label className="block text-sm font-medium mb-3">{t("roastStyles")}</label>
               <div className="flex flex-wrap gap-2">
                 {ROAST_STYLES.map((style) => (
                   <button
@@ -263,7 +265,7 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-3">Certifications</label>
+              <label className="block text-sm font-medium mb-3">{t("certifications")}</label>
               <div className="grid grid-cols-2 gap-3">
                 {CERTIFICATIONS.map((cert) => (
                   <label key={cert} className="flex items-center gap-3 cursor-pointer group">
@@ -288,13 +290,13 @@ export default function RegisterPage() {
             )}
 
             <div className="flex justify-between pt-4">
-              <button onClick={() => setStep(1)} className="text-on-surface-variant hover:text-on-surface transition-colors px-4 py-3">&larr; Back</button>
+              <button onClick={() => setStep(1)} className="text-on-surface-variant hover:text-on-surface transition-colors px-4 py-3">{t("back")}</button>
               <button
                 onClick={handleSubmit}
                 disabled={submitting}
                 className="bg-primary text-on-primary px-8 py-3 rounded-lg font-medium hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {submitting ? "Submitting..." : "Submit for Verification"}
+                {submitting ? t("submitting") : t("submitForVerification")}
               </button>
             </div>
           </div>
