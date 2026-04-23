@@ -1,7 +1,10 @@
 {
   "localeSwitcher": {
     "changeLanguage": "Sprache ändern",
-    "current": "Aktuell"
+    "current": "Aktuell",
+    "en": "English",
+    "pl": "Polski",
+    "de": "Deutsch"
   },
   "nav": {
     "browseRoasters": "Röstereien entdecken",
