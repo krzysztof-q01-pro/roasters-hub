@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-04-16 | Data Consistency + Public Proposal Flow COMPLETE — OpeningHoursPicker, /suggest pages, admin master editors, navigation CTAs
+2026-04-24 | i18n EN/PL/DE COMPLETE + codebase cleanup — next-intl routing, full translations, locale switcher redesign, UX Quality Audit findings verified in code
 
 ---
 
@@ -23,6 +23,7 @@
 | Hosting | Vercel | ✅ deployed |
 | Email | Resend | ✅ 3 transactional emails (registration, verified, rejected) + newsletter digest |
 | Analytics | Plausible | ✅ script tag gated by env var |
+| i18n | **next-intl** | ✅ EN/PL/DE translations, `[locale]` routing, locale switcher (PR #59-61) |
 
 ---
 
@@ -44,6 +45,7 @@
 - Partner API — `GET /api/v1/roasters`, `GET /api/v1/roasters/[slug]`, ApiKey auth (`lib/api-auth.ts`)
 - Newsletter digest — `POST /api/newsletter/digest` (cron-triggered)
 - PWA — manifest.json, apple-web-app meta, theme color
+- **i18n** — `next-intl` with `[locale]` routing, full translations EN/PL/DE for all user/admin pages, redesigned locale switcher
 - **Versioning:** `package.json` version displayed in footer, npm scripts `version:patch/minor/major`
 - **Deploy:** https://beanmap-web.vercel.app (protected by Clerk auth on /admin routes)
 
@@ -72,11 +74,12 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Active Work
 
-**@MN:** feat/mn-data-consistency-proposal-flow — data consistency + public proposal flow COMPLETE (6/6 tasks: schema migration, OpeningHoursPicker, /suggest/cafe + /suggest/roastery, admin cafe master editor, admin roaster master editor, nav CTAs), ready for review
-**@KK:** Admin dashboard statystyk (P1)
-**@AGENT:** Cafe Hierarchy & Map Thumbnails — COMPLETE (4/4 tasks: coverImageUrl fallback, country/city pages, 4-level breadcrumb)
+**@AGENT:** Codebase cleanup + documentation sync (ROADMAP/STATUS update, remove garbage files) (2026-04-24)
+**@MN:** [IN PROGRESS] Taxonomia danych + Zasilenie bazy kawiarni w PL
+**@KK:** [IN PROGRESS] Logo Bean Map — SVG variants, hover states, dark mode
 
 **Completed recently:**
+- ✅ i18n EN/PL/DE — `next-intl` with `[locale]` routing, full translations for all user/admin pages (~310 keys per locale), redesigned locale switcher with dark dropdown (PR #59-61) (2026-04-23)
 - ✅ Data Consistency + Public Proposal Flow — Cafe.openingHours String→Json migration, OpeningHoursPicker component (Smart Monday), /suggest/cafe + /suggest/roastery public forms, admin cafe master editor (7 sections), admin roaster master editor (8 sections), nav CTAs "Zaproponuj miejsce" in header/footer/listings (2026-04-16)
 - ✅ Enrichment UX Redesign — AdminNav global nav, run list w/ keywords/location inline, new run form w/ EnrichmentTag (persistent per entityType), split layout (EntityListPanel + EntityCard + SplitLayout), photo selection via Unsplash + UploadThing, single-click apply (applyEntityProposals), bulkApplyByConfidence, APPROVED status removed (2026-04-14)
 - ✅ Enrichment Admin UI — `/admin/enrichment`: run history, new run form, entity-first proposal review, bulk approve by confidence, NAME_CHANGE modal, completeness score, apply Server Action, SlugRedirect model + 301 redirects (2026-04-13)
@@ -98,9 +101,10 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Next Unblocked Task
 
-**TERAZ (UNASSIGNED):** [HIGH] Cafe profile: Save/Bookmark, sticky sidebar, analytics tracking (UX Quality Audit findings).
-**TERAZ (MN):** [P1] Admin: dashboard statystyk — widok `/admin` z liczbą palarni (pending/verified/rejected), ostatnie rejestracje.
-**TERAZ (KK):** [P2] Logo Bean Map — SVG wariant jasny i ciemny, podmiana placeholdera `Bean Map` w headerze.
+**TERAZ (UNASSIGNED):** [MEDIUM] Mobile filters: search always visible — move search input outside collapsible filters on mobile (`RoasterFilters.tsx`, `CafeFilters.tsx`).
+**TERAZ (MN):** [P1] SEO review — `generateMetadata`, canonical URLs, structured data (JSON-LD), sitemap completeness.
+**TERAZ (KK):** [P2] Hover states + transitions — spójne micro-animations na kartach, buttonach, nawigacji.
+**TERAZ (KK):** [P1] Cookie policy / regulamin / polityka prywatności — strony prawne zgodne z GDPR.
 
 **HUMAN ONLY blockers:** re-seed prod DB (`prisma db seed`), run new migrations on prod, buy production domain.
 
