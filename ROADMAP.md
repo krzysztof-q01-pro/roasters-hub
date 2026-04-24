@@ -4,7 +4,7 @@ Framework: **Now / Next / Later** — nie sprinty. Maksymalnie 5 zadań w NOW.
 
 Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
-**Assignees:** `(@MN)` Marek Nadra · `(@KK)` Krzysztof Kuczkowski · `(@AGENT)` scheduled agent · `(@UNASSIGNED)` wolne do wzięcia
+**Assignees:** `(@MN)` Marek Nadra · `(@AGENT)` scheduled agent · `(@UNASSIGNED)` wolne do wzięcia
 **Status:** `[IN PROGRESS]` · `[BLOCKED: reason]` — dodaj przed tagiem assignee
 
 ---
@@ -130,22 +130,22 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] [P1] **Cafe city listing page** — `/cafes/country/[country]/city/[city]` with slug-based routing, ISR 3600s (@AGENT) ✅
 - [x] [P2] **Cafe profile breadcrumb** — 4-level hierarchy: Home > Cafes > Country > City > Name (`cafes/[slug]/page.tsx`) (@AGENT) ✅
 
-### Admin Dashboard — (@KK)
+### Admin Dashboard — (@MN)
 
-- [x] [P1] **Admin: dashboard statystyk** — widok `/admin` z licznikami statusów, page views 30d/all-time, tiles nawigacyjne, tabela ostatnich 10 rejestracji (@KK) ✅
-- [x] [P2] **Admin: panel palarni** — `/admin/roasters` z filtrami statusu, sortowaniem newest/oldest, paginacją 25/page, liczbą views per palarnia (@KK) ✅
-- [x] [P2] **Admin: logi aktywności** — `/admin/activity`: ostatnie 50 rejestracji, 50 admin notes, top 10 profili po PAGE_VIEW (30d) (@KK) ✅
+- [x] [P1] **Admin: dashboard statystyk** — widok `/admin` z licznikami statusów, page views 30d/all-time, tiles nawigacyjne, tabela ostatnich 10 rejestracji (@MN) ✅
+- [x] [P2] **Admin: panel palarni** — `/admin/roasters` z filtrami statusu, sortowaniem newest/oldest, paginacją 25/page, liczbą views per palarnia (@MN) ✅
+- [x] [P2] **Admin: logi aktywności** — `/admin/activity`: ostatnie 50 rejestracji, 50 admin notes, top 10 profili po PAGE_VIEW (30d) (@MN) ✅
 
-### Logotyp — (@KK)
+### Logotyp — (@MN)
 
-- [x] [P1] **Logotyp Bean Map** — implementacja PNG (wariant jasny), podmiana placeholder w Header, favicon + apple-icon wygenerowane z bean pin (@KK) ✅
+- [x] [P1] **Logotyp Bean Map** — implementacja PNG (wariant jasny), podmiana placeholder w Header, favicon + apple-icon wygenerowane z bean pin (@MN) ✅
 
-### Look & Feel — (@KK)
+### Look & Feel — (@MN)
 
-- [x] [P2] **Typography: custom font pair** — Fraunces (display) + Source Sans 3 (body) przez next/font/google (@KK) ✅
-- [x] [P2] **Landing polish: icon system + hero CTA + header search** — reużywalne ikony bean/cup (flat SVG), powiększona wyszukiwarka w Headerze, ujednolicenie 3 CTA w hero, podmiana ikon w community section, logo Header 65px (@KK) ✅
-- [ ] [P2] **UI polish: hover states + transitions** — spójne micro-animations na kartach, buttonach, nawigacji (@KK)
-- [ ] [P3] **Dark mode** — Tailwind dark: variant, persystencja preferencji (localStorage + system pref) (@KK)
+- [x] [P2] **Typography: custom font pair** — Fraunces (display) + Source Sans 3 (body) przez next/font/google (@MN) ✅
+- [x] [P2] **Landing polish: icon system + hero CTA + header search** — reużywalne ikony bean/cup (flat SVG), powiększona wyszukiwarka w Headerze, ujednolicenie 3 CTA w hero, podmiana ikon w community section, logo Header 65px (@MN) ✅
+- [ ] [P2] **UI polish: hover states + transitions** — spójne micro-animations na kartach, buttonach, nawigacji (@MN)
+- [ ] [P3] **Dark mode** — Tailwind dark: variant, persystencja preferencji (localStorage + system pref) (@MN)
 
 ### SEO & Meta — (@MN)
 
@@ -176,16 +176,16 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] [P2] **Admin UI enrichment** — `/admin/enrichment`: historia runów, formularz new run, entity-first review z proposals, bulk approve by confidence, NAME_CHANGE modal z slug impact, completeness score, apply Server Action, SlugRedirect model + 301 redirects (@MN)
 - [ ] [P2] **Fix regex phone extractora** — website adapter wyciąga nieprawidłowe wartości np. "1.15045.0" zamiast numeru telefonu (@MN)
 
-### Data Strategy & Taxonomy — (@MN / @KK)
+### Data Strategy & Taxonomy — (@MN)
 
 - [IN PROGRESS] [P1] **Taxonomia danych: palarnie i kawiarnie** — definicja jakie elementy pokazujemy na profilach palarni vs kawiarni; na co zwracamy uwagę; co jest ważne dla każdego typu (@MN)
 - [IN PROGRESS] [P1] **Zasilenie bazy kawiarni w PL** — skalowalne zasilenie bazy kawiarniami w Polsce; projekt procesu skalowalnego na inne kraje (@MN)
-- [ ] [P2] **Zdjęcia realne: palarnie i kawiarnie** — zebranie i dodanie realnych zdjęć do profili palarni i kawiarni (@KK)
+- [ ] [P2] **Zdjęcia realne: palarnie i kawiarnie** — zebranie i dodanie realnych zdjęć do profili palarni i kawiarni (@MN)
 
-### Legal & Compliance — (@MN / @KK)
+### Legal & Compliance — (@MN)
 
 - [IN PROGRESS] [P1] **Aspekt prawny scrapowania danych** — research jak legalnie pozyskiwać dane o kawiarniach/palarniach (GDPR, robots.txt, ToS, scraperzy vs API) (@MN)
-- [ ] [P1] **Cookie policy, regulamin, polityka prywatności** — implementacja stron prawnych zgodnych z AI Act + GDPR (@KK)
+- [ ] [P1] **Cookie policy, regulamin, polityka prywatności** — implementacja stron prawnych zgodnych z AI Act + GDPR (@MN)
 
 ### Data Consistency + Public Proposal Flow — (@MN)
 
@@ -199,15 +199,15 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] [P2] **Admin master editor: palarnie** — sidebar 8 sekcji, analogicznie do kawiarni, wszystkie pola ze schematu (@MN) ✅
 - [x] [P2] **Nawigacja: CTA "Zaproponuj miejsce"** — dropdown w Header ("Mam palarnię" → /register vs "Znam świetne miejsce" → /suggest), banery na listingach /cafes i /roasters, linki w Footer (@MN) ✅
 
-### UX Improvements — (@MN / @KK)
+### UX Improvements — (@MN)
 
 - [ ] [P2] **"List Your Cafe" — uspójnienie z palarnią** — wyrównanie UX/copy flow rejestracji kawiarni do standardu rejestracji palarni (@MN)
-- [ ] [P2] **UX improvements: automatyzacja + manualne + Robson** — zmiany UX wynikające z feedbacku (Robson) i audytu; automatyzacja + ręczne poprawki (@KK)
+- [ ] [P2] **UX improvements: automatyzacja + manualne + Robson** — zmiany UX wynikające z feedbacku (Robson) i audytu; automatyzacja + ręczne poprawki (@MN)
 
-### Infrastructure — (@KK)
+### Infrastructure — (@MN)
 
-- [ ] [P1] **Podpięcie domeny** — zakup domeny + konfiguracja DNS w Vercel (@KK)
-- [ ] [P2] **Maile firmowe (cafe)** — konfiguracja firmowych skrzynek email dla kawiarni (@KK)
+- [ ] [P1] **Podpięcie domeny** — zakup domeny + konfiguracja DNS w Vercel (@MN)
+- [ ] [P2] **Maile firmowe (cafe)** — konfiguracja firmowych skrzynek email dla kawiarni (@MN)
 
 ### i18n: PL / EN / DE — (@AGENT) ✅ **COMPLETE**
 
@@ -228,7 +228,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 ## 🧑 HUMAN ONLY — zadania wymagające człowieka (agent NIE wykonuje)
 
 - [x] Branch protection na `main` (no direct push) — GitHub Settings → Branches (@MN) ✅
-- [ ] Domena produkcyjna — zakup + konfiguracja DNS w Vercel (@KK)
+- [ ] Domena produkcyjna — zakup + konfiguracja DNS w Vercel (@MN)
 - [ ] Stripe konto (Phase 3) — rejestracja + webhook secret (@UNASSIGNED)
 - [ ] Cold outreach do palarni — lista kontaktowa, maile, LinkedIn (@UNASSIGNED)
 - [ ] Założenie Remote Server — hosting dla scheduled agent (Claude Code remote triggers) (@MN)
@@ -306,6 +306,6 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] **Perf: batch optimize cafe-roaster seeding** — replace 620 sequential upserts with `createMany`, production deploy 7m29s → 1m44s (@MN) ✅
 - [x] [HIGH] **SVG viewBox typo on /cafes** — `viewBox="0 0 2424"` instead of `"0 0 24 24"` in CafeFilters.tsx:72 → console error (@AGENT) ✅
 - [x] [HIGH] **Unify review UX** — completely different review forms/lists for roasters vs cafes (star hover vs number buttons, different layouts, date formats, text casing) (@AGENT) ✅
-- [x] **Typography: custom font pair** — Fraunces (display) + Source Sans 3 (body) przez next/font/google (@KK) ✅
+- [x] **Typography: custom font pair** — Fraunces (display) + Source Sans 3 (body) przez next/font/google (@MN) ✅
 - [x] **i18n PL/EN/DE** — complete i18n with `next-intl`, routing per locale (`[locale]`), full translations EN/PL/DE for all user/admin pages, redesigned locale switcher (PR #59-61) (@AGENT) ✅
 - [x] **UX Quality Audit findings implemented** — SaveCafeButton + saved-cafe.actions.ts, sticky sidebar with contact card on cafe profiles, CafeProfileTracker + CafeTrackedLink analytics, coverImageUrl display, VerifiedBadge on cafe hero, register title fixed (@AGENT) ✅
