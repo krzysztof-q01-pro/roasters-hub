@@ -34,7 +34,7 @@ export function LocaleSwitcher() {
   const current = locales.find((l) => l.code === currentLocale) || locales[0];
 
   return (
-    <div className="relative" ref={ref} onKeyDown={handleKeyDown}>
+    <div className="relative" ref={ref} onKeyDown={handleKeyDown} data-testid="locale-switcher">
       <button
         type="button"
         aria-haspopup="listbox"
