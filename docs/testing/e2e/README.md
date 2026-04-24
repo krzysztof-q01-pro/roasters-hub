@@ -1,146 +1,231 @@
-# E2E Testing Plan — Playwright
+# E2E Testing — BeenMap
 
-Specs generowane na podstawie `docs/testing/journeys/`. Każda misja = jeden plik `.spec.ts`.
-
----
-
-## Środowisko
-
-| Środowisko | URL | Kiedy |
-|-----------|-----|-------|
-| Preview | `$VERCEL_URL` (auto per PR) | Pull Requests |
-| Produkcja | `beanmap-web.vercel.app` | `push: main` |
-| Lokalnie | `http://localhost:3000` | Dev (opcjonalnie) |
-
-Docelowo: testy E2E uruchamiają się automatycznie na **Vercel Preview URL** dla każdego PR, i na `push: main` dla produkcji.
+> **Status:** Phase 1-2 complete (foundation + smoke tests)  
+> **Location:** `web/e2e/`  
+> **Framework:** Playwright  
+> **Last updated:** 2026-04-24
 
 ---
 
-## Mapa specs
-
-| Plik spec | Journey | Misje | Priorytet |
-|-----------|---------|-------|-----------|
-| `guest.spec.ts` | [01-guest](../journeys/01-guest.md) | A: katalog palarni, B: profil+kliknięcia, C: mapa | P2 |
-| `guest-cafes.spec.ts` | [01-guest](../journeys/01-guest.md) | D: katalog kawiarni, E: profil kawiarni, C: map toggle | P2 |
-| `registration.spec.ts` | [02-roaster](../journeys/02-roaster.md) | A: rejestracja 3-step wizard | P1 |
-| `roaster-dashboard.spec.ts` | [02-roaster](../journeys/02-roaster.md) | B: dashboard | P2 |
-| `roaster-where-to-drink.spec.ts` | [02-roaster](../journeys/02-roaster.md) | C: gdzie wypić | P3 |
-| `cafe-registration.spec.ts` | [03-cafe](../journeys/03-cafe.md) | A: rejestracja kawiarni 3-step | P1 |
-| `cafe-dashboard.spec.ts` | [03-cafe](../journeys/03-cafe.md) | B: dashboard, C: relacje z palarniami, D: saved roasters | P2 |
-| `admin.spec.ts` | [04-admin](../journeys/04-admin.md) | A: weryfikacja palarni, B: odrzucenie palarni | P1 |
-| `admin-cafes.spec.ts` | [04-admin](../journeys/04-admin.md) | D: weryfikacja kawiarni, E: odrzucenie kawiarni | P1 |
-| `admin-reviews.spec.ts` | [04-admin](../journeys/04-admin.md) | C: moderacja recenzji (palarnie + kawiarnie) | P3 |
-| `review.spec.ts` | [05-reviewer](../journeys/05-reviewer.md) | A: formularz recenzji palarni | P2 |
-| `cafe-review.spec.ts` | [05-reviewer](../journeys/05-reviewer.md) | B: formularz recenzji kawiarni | P2 |
-
-Zacznij od P1 (`registration.spec.ts`, `admin.spec.ts`, `cafe-registration.spec.ts`, `admin-cafes.spec.ts`) — pokrywają krytyczne flow pieniężne i trust platformy.
-
----
-
-## Podejście implementacyjne
-
-### 1. Setup Playwright
+## Quick Start
 
 ```bash
 cd web
-npm install -D @playwright/test
-npx playwright install chromium
+
+# Run smoke tests against production
+E2E_BASE_URL=https://beanmap-web.vercel.app npm run e2e:smoke
+
+# Run all E2E tests locally (needs dev server on :3000)
+npm run e2e
+
+# Debug mode (headed, slow-mo)
+npm run e2e:debug -- e2e/specs/smoke/homepage.spec.ts
+
+# Update visual regression snapshots
+npm run e2e:update-snapshots
 ```
 
-Konfiguracja `playwright.config.ts` — wystarczy Chromium, headless, base URL z env:
+---
+
+## Architecture
+
+```
+web/e2e/
+├── fixtures/
+│   ├── auth.ts              # Programmatic Clerk login stubs
+│   └── data-factory.ts      # CreateRoaster(), CreateCafe(), CreateReview()
+├── pages/
+│   ├── base.page.ts         # Shared: waitForLoad, screenshot
+│   ├── home.page.ts
+│   ├── roasters.page.ts
+│   ├── roaster-profile.page.ts
+│   ├── cafes.page.ts
+│   └── map.page.ts
+├── specs/
+│   ├── smoke/               # CI — 3-5 min
+│   │   ├── homepage.spec.ts
+│   │   ├── roasters.spec.ts
+│   │   ├── cafes.spec.ts
+│   │   └── map.spec.ts
+│   ├── journeys/            # Full user journeys (TODO)
+│   └── regression/          # Bug fixes (TODO)
+├── global-setup.ts          # Env verification
+├── global-teardown.ts       # Cleanup
+└── playwright.config.ts     # 5 browsers, parallel execution
+```
+
+### Page Object Model (POM)
+
+Every page has a corresponding `.page.ts` file:
 
 ```ts
-import { defineConfig } from '@playwright/test';
+import { HomePage } from "../../pages/home.page";
 
-export default defineConfig({
-  testDir: '../docs/testing/e2e',
-  use: {
-    baseURL: process.env.E2E_BASE_URL ?? 'http://localhost:3000',
-    headless: true,
-  },
-  projects: [{ name: 'chromium', use: { browserName: 'chromium' } }],
+test("homepage renders", async ({ page }) => {
+  const home = new HomePage(page);
+  await home.goto();
+  await home.expectHeroVisible();
 });
 ```
 
-### 2. Konta testowe
-
-Każdy test który wymaga logowania korzysta z **Clerk Testing Tokens** (nie prawdziwego OAuth flow):
+### Test Data Factory
 
 ```ts
-// fixtures/auth.ts
-import { clerk } from '@clerk/testing/playwright';
+import { TestDataFactory } from "../../fixtures/data-factory";
 
-export const adminUser = { email: 'admin@test.beanmap', ... };
-export const cafeUser  = { email: 'cafe@test.beanmap', ... };
-```
-
-Clerk Testing Tokens działają bez UI sign-in — Agent AI może je użyć bezpośrednio. Szczegóły: [Clerk Playwright docs](https://clerk.com/docs/testing/playwright).
-
-### 3. Dane testowe
-
-Każdy spec powinien być **izolowany** — tworzy własne dane i po sobie sprząta (lub używa dedykowanego test-user z predefiniowanym stanem DB).
-
-Opcja dla MVP: `beforeAll` seed minimalnych danych przez API / bezpośredni Prisma call do Neon test branch.
-
-### 4. Struktura każdego spec
-
-```ts
-// registration.spec.ts
-import { test, expect } from '@playwright/test';
-
-test.describe('Journey 02-A: Roaster Registration', () => {
-  test('completes 3-step wizard and shows success', async ({ page }) => {
-    // Setup → Kroki → Assert (mapowane 1:1 z tabeli w journeys/02-roaster.md)
-  });
-
-  test('shows validation error when name is empty', async ({ page }) => {
-    // Edge case z sekcji Edge cases w journey doc
-  });
+const { roaster, cleanup } = await TestDataFactory.createRoaster({
+  name: "Test Roastery",
+  status: "VERIFIED",
 });
+afterEach(() => cleanup());
 ```
 
-### 5. CI — GitHub Actions
+---
+
+## Test Categories
+
+| Category | Count | Duration | When to Run |
+|----------|-------|----------|-------------|
+| **Smoke** | 9 | ~15s | Every code change (CI conditional) |
+| **Journeys** | 0 (planned 50) | ~15-20 min | Weekly + pre-release |
+| **Regression** | 0 | — | Per bug fix |
+
+### Smoke Tests (Implemented)
+
+| Spec | Tests | Coverage |
+|------|-------|----------|
+| `smoke/homepage.spec.ts` | 3 | Hero, navigation, title |
+| `smoke/roasters.spec.ts` | 3 | Heading, cards, profile link |
+| `smoke/cafes.spec.ts` | 2 | Heading, cards |
+| `smoke/map.spec.ts` | 1 | Leaflet container |
+
+### Journey Tests (Planned)
+
+Map 1:1 to `docs/testing/journeys/*.md`:
+
+| Spec | Journey | Role | Priority |
+|------|---------|------|----------|
+| `journeys/01-guest.spec.ts` | [01-guest](../journeys/01-guest.md) | Guest | P2 |
+| `journeys/02-roaster.spec.ts` | [02-roaster](../journeys/02-roaster.md) | Roaster owner | P2 |
+| `journeys/03-cafe.spec.ts` | [03-cafe](../journeys/03-cafe.md) | Cafe owner | P2 |
+| `journeys/04-admin.spec.ts` | [04-admin](../journeys/04-admin.md) | Admin | P1 |
+| `journeys/05-reviewer.spec.ts` | [05-reviewer](../journeys/05-reviewer.md) | Reviewer | P2 |
+
+---
+
+## CI/CD Integration
+
+### Hybrid Triggers (Recommended)
 
 ```yaml
-# .github/workflows/e2e.yml
+# .github/workflows/e2e-smoke.yml (TO BE IMPLEMENTED)
 on:
-  push:
-    branches: [main]
-  deployment_status:          # trigger po Vercel preview deploy
+  pull_request:
+    paths:
+      - 'web/src/**'
+      - 'web/prisma/**'
+      - 'web/package.json'
 
 jobs:
-  e2e:
-    if: github.event.deployment_status.state == 'success'
+  e2e-smoke:
+    if: |
+      !contains(github.event.pull_request.labels, 'skip-smoke')
     runs-on: ubuntu-latest
-    env:
-      E2E_BASE_URL: ${{ github.event.deployment_status.target_url }}
     steps:
       - uses: actions/checkout@v4
-      - run: npm ci
-        working-directory: web
-      - run: npx playwright install --with-deps chromium
-        working-directory: web
-      - run: npx playwright test
-        working-directory: web
+      - run: npm ci && npx playwright install chromium
+      - run: npm run e2e:smoke
+        env:
+          E2E_BASE_URL: ${{ github.event.deployment_status.target_url || 'http://localhost:3000' }}
+```
+
+### Labels
+
+| Label | Effect |
+|-------|--------|
+| *(none, code changed)* | Run smoke tests |
+| `skip-smoke` | Skip all E2E |
+| `e2e-smoke` | Force run smoke |
+| `e2e-full` | Run full journey suite |
+
+---
+
+## Environment Variables
+
+```bash
+# Required
+E2E_BASE_URL=http://localhost:3000    # or https://beanmap-web.vercel.app
+
+# Optional (for tests requiring DB/auth)
+DATABASE_URL=postgresql://...
+CLERK_SECRET_KEY=sk_test_...
 ```
 
 ---
 
-## Kolejność implementacji (rekomendowana)
+## Adding New Tests
 
-1. **Setup** — zainstaluj Playwright, skonfiguruj `playwright.config.ts`, dodaj do `package.json`
-2. **`registration.spec.ts`** — happy path + walidacja step 1 (nie wymaga auth)
-3. **`admin.spec.ts`** — verify + reject (wymaga Clerk Testing Token dla ADMIN)
-4. **`guest.spec.ts`** — katalog, profil, mapa (nie wymaga auth)
-5. **CI job** — GitHub Actions trigger na `deployment_status`
-6. Pozostałe specs (cafe, dashboard, reviews)
+### 1. Create Page Object (if new page)
+
+```ts
+// e2e/pages/new-feature.page.ts
+import { BasePage } from "./base.page";
+export class NewFeaturePage extends BasePage {
+  async expectHeading() {
+    await expect(this.page.getByRole("heading")).toBeVisible();
+  }
+}
+```
+
+### 2. Create Spec
+
+```ts
+// e2e/specs/smoke/new-feature.spec.ts
+import { test } from "@playwright/test";
+import { NewFeaturePage } from "../../pages/new-feature.page";
+
+test("new feature works", async ({ page }) => {
+  const feature = new NewFeaturePage(page);
+  await feature.goto();
+  await feature.expectHeading();
+});
+```
+
+### 3. Add `data-testid` to component (preferred over CSS selectors)
+
+```tsx
+<button data-testid="save-cafe-button">Save</button>
+```
 
 ---
 
-## Zależności / blockers
+## Troubleshooting
 
-| Zależność | Status | Uwagi |
-|-----------|--------|-------|
-| Clerk Testing Tokens | ✅ dostępne | Wymaga `CLERK_SECRET_KEY` w CI |
-| Neon test branch | 🔜 zablokowane | Wymaga GitHub integration w Neon Console — zadanie dla KK |
-| Vercel Preview URL w CI | ✅ dostępne | Via `deployment_status` event |
+| Problem | Solution |
+|---------|----------|
+| `browserType.launch: Executable doesn't exist` | Run `npx playwright install chromium` |
+| `DATABASE_URL not set` | Tests work without DB (smoke tests). For DB tests, set env var or create `.env.local` |
+| Strict mode violation (multiple elements) | Use `.first()`, `.nth(n)`, or more specific selector |
+| Test flaky on CI | Add `retries: 2` in playwright.config.ts |
+
+---
+
+## Decisions Log
+
+| Date | Decision | Reason |
+|------|----------|--------|
+| 2026-04-24 | Page Object Model over flat specs | Reusability, maintainability as project grows |
+| 2026-04-24 | Production testing as default | No local dev server needed, tests real deployment |
+| 2026-04-24 | data-testid over CSS classes | Resilient to design changes |
+| 2026-04-24 | 5 browsers in config, smoke only on chromium | Fast feedback for dev, full coverage on demand |
+| 2026-04-24 | Hybrid CI triggers (path-based + labels) | Skip E2E for docs/markdown PRs |
+
+---
+
+## Next Steps
+
+1. [ ] Journey tests: 01-guest (homepage → catalog → profile → map)
+2. [ ] Journey tests: 04-admin (verify/reject roasters + cafes)
+3. [ ] CI workflow: `.github/workflows/e2e-smoke.yml`
+4. [ ] Visual regression: baseline snapshots
+5. [ ] Accessibility: axe-core integration
