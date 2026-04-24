@@ -92,23 +92,23 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] [P3] **Cafe amenities icons** — ikony dla Wi-Fi, Vegan, etc. na profilu kawiarni (@AGENT) ✅
 - [x] [P3] **Cafe amenities filter** — filtr po amenities w katalogu /cafes (@AGENT) ✅
 
-### UX Quality Audit — 2026-04-04 — (@UNASSIGNED)
+### UX Quality Audit — 2026-04-04 — (@AGENT) ✅ **FINDINGS IMPLEMENTED**
 
 > **Session:** 2026-04-04 — Full UX quality test via Playwright MCP on production
 > **Report:** `.tmp/ux-quality-audit-2026-04-04.md`
-> **Method:** 14 test scenarios across all user journeys (guest, roaster, cafe, admin, reviewer)
-> **Status:** 28 PASS, 3 HIGH, 5 MEDIUM found
+> **Audit verification:** 2026-04-24 — code review confirmed all HIGH + 4/5 MEDIUM items exist in codebase
+> **Status:** 3 HIGH + 4 MEDIUM implemented in code; 1 MEDIUM remaining
 
 **HIGH Priority:**
-- [ ] [HIGH] **Cafe profile: Save/Bookmark feature** — add "Save Cafe" button + extend SavedRoaster model or create SavedCafe; mirror roaster UX (`cafes/[slug]/page.tsx`, `dashboard/`) (@UNASSIGNED)
-- [ ] [HIGH] **Cafe profile: sticky sidebar / contact card** — add sticky aside with contact info, links (Website, Instagram, Phone), matching roaster profile layout (`cafes/[slug]/page.tsx`) (@UNASSIGNED)
-- [ ] [HIGH] **Cafe profile: analytics tracking** — add ProfileTracker for PAGE_VIEW, WEBSITE_CLICK, CONTACT_CLICK on cafe profiles; add stats to `/dashboard/cafe` (`cafes/[slug]/page.tsx`, `dashboard/cafe/`) (@UNASSIGNED)
+- [x] [HIGH] **Cafe profile: Save/Bookmark feature** — `SaveCafeButton`, `saved-cafe.actions.ts`, `isCafeSaved` helper (@AGENT) ✅
+- [x] [HIGH] **Cafe profile: sticky sidebar / contact card** — sticky aside with contact info, Website/Instagram/Phone links on `/cafes/[slug]` (@AGENT) ✅
+- [x] [HIGH] **Cafe profile: analytics tracking** — `CafeProfileTracker`, `CafeTrackedLink` for PAGE_VIEW, WEBSITE_CLICK, CONTACT_CLICK (@AGENT) ✅
 
 **MEDIUM Priority:**
-- [ ] [MEDIUM] **Title duplication on /register** — remove extra `| Bean Map` from `register/page.tsx` metadata (same fix as cafes) (`register/page.tsx`) (@UNASSIGNED)
-- [ ] [MEDIUM] **Map H1 inconsistency** — change H1 from "Coffee Roasters Map" to "Coffee Roasters & Cafes Map" to match page title (`map/page.tsx`) (@UNASSIGNED)
-- [ ] [MEDIUM] **Cafe profile: cover image** — add cover image upload for cafes in dashboard; display on cafe profile (`dashboard/cafe/`, `cafes/[slug]/page.tsx`) (@UNASSIGNED)
-- [ ] [MEDIUM] **Cafe profile: VerifiedBadge** — add VerifiedBadge component to cafe profile hero for VERIFIED cafes (`cafes/[slug]/page.tsx`) (@UNASSIGNED)
+- [x] [MEDIUM] **Title duplication on /register** — `register/layout.tsx` uses clean title "Register Your Roastery" (@AGENT) ✅
+- [x] [MEDIUM] **Map H1 inconsistency** — map page title and H1 unified (audited via code) (@AGENT) ✅
+- [x] [MEDIUM] **Cafe profile: cover image** — `coverImageUrl` in Prisma query + `<Image>` in cafe profile header, dashboard upload supported (@AGENT) ✅
+- [x] [MEDIUM] **Cafe profile: VerifiedBadge** — `VerifiedBadge` rendered on cafe profile hero for VERIFIED cafes (@AGENT) ✅
 - [ ] [MEDIUM] **Mobile filters: search always visible** — move search input outside collapsible filters on mobile; keep other filters collapsed (`RoasterFilters.tsx`, `CafeFilters.tsx`) (@UNASSIGNED)
 
 ### Map & Search UX Overhaul — (@MN)
@@ -209,9 +209,9 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [ ] [P1] **Podpięcie domeny** — zakup domeny + konfiguracja DNS w Vercel (@KK)
 - [ ] [P2] **Maile firmowe (cafe)** — konfiguracja firmowych skrzynek email dla kawiarni (@KK)
 
-### i18n: PL / EN / DE — (@KK)
+### i18n: PL / EN / DE — (@AGENT) ✅ **COMPLETE**
 
-- [ ] [P2] **Wersja PL/EN/DE (modułowo)** — modułowa implementacja i18n (`next-intl`): architektura, routing per locale, tłumaczenia PL/EN/DE; podejście modularne bez pełnego refactoru na raz (@KK)
+- [x] [P2] **Wersja PL/EN/DE (modułowo)** — modułowa implementacja i18n (`next-intl`): architektura, routing per locale, tłumaczenia PL/EN/DE dla wszystkich stron użytkownika i admina; locale switcher redesign (PR #59-61) (@AGENT) ✅
 
 ---
 
@@ -307,3 +307,5 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] [HIGH] **SVG viewBox typo on /cafes** — `viewBox="0 0 2424"` instead of `"0 0 24 24"` in CafeFilters.tsx:72 → console error (@AGENT) ✅
 - [x] [HIGH] **Unify review UX** — completely different review forms/lists for roasters vs cafes (star hover vs number buttons, different layouts, date formats, text casing) (@AGENT) ✅
 - [x] **Typography: custom font pair** — Fraunces (display) + Source Sans 3 (body) przez next/font/google (@KK) ✅
+- [x] **i18n PL/EN/DE** — complete i18n with `next-intl`, routing per locale (`[locale]`), full translations EN/PL/DE for all user/admin pages, redesigned locale switcher (PR #59-61) (@AGENT) ✅
+- [x] **UX Quality Audit findings implemented** — SaveCafeButton + saved-cafe.actions.ts, sticky sidebar with contact card on cafe profiles, CafeProfileTracker + CafeTrackedLink analytics, coverImageUrl display, VerifiedBadge on cafe hero, register title fixed (@AGENT) ✅
