@@ -64,7 +64,7 @@ export const TestDataFactory = {
     const data: Prisma.ReviewCreateInput = {
       authorName: "Test Reviewer",
       rating: 4,
-      content: "Great coffee! This is a test review.",
+      comment: "Great coffee! This is a test review.",
       status: "APPROVED",
       ...overrides,
     };
