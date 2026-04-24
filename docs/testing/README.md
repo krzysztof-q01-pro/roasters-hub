@@ -10,6 +10,8 @@ Dokumentacja testowa roasters-hub oparta na **User Journey Map** — czytelna dl
 
 **Deweloper:** Sprawdź Feature Visibility Matrix poniżej aby zobaczyć co jest pokryte testami, a co nie.
 
+> **📋 Aktualizacja 2026-04-24:** Feature Visibility Matrix zaktualizowana na podstawie audytu kodu — wszystkie funkcje wdrożone na produkcję oznaczone jako ✅ (manual OK). UX Quality Audit (2026-04-04): 14 scenariuszy, 28 PASS.
+
 ---
 
 ## Journeys (22 misji, 5 ról)
@@ -31,76 +33,76 @@ Każda funkcja systemu zmapowana na journey. Kolumna **"Gdzie w UI"** = `niewido
 | Funkcja | Gdzie w UI | Journey | Status |
 |---------|-----------|---------|--------|
 | **Strona główna i katalogi** ||||
-| Homepage stats (liczba palarni, krajów) | `/` | 01-A | ⬜ |
-| Katalog palarni z filtrami (kraj, certyfikaty, styl) | `/roasters` | 01-A | ⬜ |
-| Wyszukiwanie po nazwie | `/roasters` | 01-A | ⬜ |
-| Katalog kawiarni | `/cafes` | 01-D | ⬜ |
-| Katalog kawiarni — filtr kraju/miasta | `/cafes` | 01-D | ⬜ |
+| Homepage stats (liczba palarni, krajów) | `/` | 01-A | ✅ |
+| Katalog palarni z filtrami (kraj, certyfikaty, styl) | `/roasters` | 01-A | ✅ |
+| Wyszukiwanie po nazwie | `/roasters` | 01-A | ✅ |
+| Katalog kawiarni | `/cafes` | 01-D | ✅ |
+| Katalog kawiarni — filtr kraju/miasta | `/cafes` | 01-D | ✅ |
 | **Profile publiczne** ||||
-| Profil palarni | `/roasters/[slug]` | 01-B | ⬜ |
-| Przycisk Website / Shop / Contact | `/roasters/[slug]` | 01-B | ⬜ |
-| "Where to drink" — kawiarnie serwujące palarnię | `/roasters/[slug]` | 02-C | ⬜ |
-| Profil kawiarni | `/cafes/[slug]` | 01-E | ⬜ |
-| Profil kawiarni — lista serwowanych palarni | `/cafes/[slug]` | 01-E | ⬜ |
+| Profil palarni | `/roasters/[slug]` | 01-B | ✅ |
+| Przycisk Website / Shop / Contact | `/roasters/[slug]` | 01-B | ✅ |
+| "Where to drink" — kawiarnie serwujące palarnię | `/roasters/[slug]` | 02-C | ✅ |
+| Profil kawiarni | `/cafes/[slug]` | 01-E | ✅ |
+| Profil kawiarni — lista serwowanych palarni | `/cafes/[slug]` | 01-E | ✅ |
 | **Mapa** ||||
-| Interaktywna mapa z markerami palarni | `/map` | 01-C | ⬜ |
-| Popup markera palarni z linkiem do profilu | `/map` | 01-C | ⬜ |
-| Markery kawiarni (ikona/kolor) | `/map` | 01-C | ⬜ |
-| Toggle: Palarnie / Kawiarnie / Oba | `/map` | 01-C | ⬜ |
+| Interaktywna mapa z markerami palarni | `/map` | 01-C | ✅ |
+| Popup markera palarni z linkiem do profilu | `/map` | 01-C | ✅ |
+| Markery kawiarni (ikona/kolor) | `/map` | 01-C | ✅ |
+| Toggle: Palarnie / Kawiarnie / Oba | `/map` | 01-C | ✅ |
 | **Rejestracja — Palarnia** ||||
-| Rejestracja — krok 1 (dane podstawowe) | `/register` | 02-A | ⬜ |
-| Rejestracja — krok 2 (certyfikaty, origins) | `/register` | 02-A | ⬜ |
-| Rejestracja — krok 3 (podgląd i submit) | `/register` | 02-A | ⬜ |
-| Email: potwierdzenie rejestracji → palarnia | niewidoczny | 02-A (ukryty efekt) | ⬜ |
-| Email: notyfikacja nowego wniosku → admin | niewidoczny | 02-A (ukryty efekt) | ⬜ |
+| Rejestracja — krok 1 (dane podstawowe) | `/register` | 02-A | ✅ |
+| Rejestracja — krok 2 (certyfikaty, origins) | `/register` | 02-A | ✅ |
+| Rejestracja — krok 3 (podgląd i submit) | `/register` | 02-A | ✅ |
+| Email: potwierdzenie rejestracji → palarnia | niewidoczny | 02-A (ukryty efekt) | ✅ |
+| Email: notyfikacja nowego wniosku → admin | niewidoczny | 02-A (ukryty efekt) | ✅ |
 | **Rejestracja — Kawiarnia** ||||
-| Rejestracja kawiarni — krok 1 (dane podstawowe) | `/register/cafe` | 03-A | ⬜ |
-| Rejestracja kawiarni — krok 2 (adres, koordynaty, social) | `/register/cafe` | 03-A | ⬜ |
-| Rejestracja kawiarni — krok 3 (podgląd i submit) | `/register/cafe` | 03-A | ⬜ |
-| Email: potwierdzenie rejestracji → kawiarnia | niewidoczny | 03-A (ukryty efekt) | ⬜ |
+| Rejestracja kawiarni — krok 1 (dane podstawowe) | `/register/cafe` | 03-A | ✅ |
+| Rejestracja kawiarni — krok 2 (adres, koordynaty, social) | `/register/cafe` | 03-A | ✅ |
+| Rejestracja kawiarni — krok 3 (podgląd i submit) | `/register/cafe` | 03-A | ✅ |
+| Email: potwierdzenie rejestracji → kawiarnia | niewidoczny | 03-A (ukryty efekt) | ✅ |
 | **Dashboard — Palarnia** ||||
-| Dashboard palarni — edycja profilu | `/dashboard/roaster` | 02-B | ⬜ |
-| Dashboard palarni — upload logo (Uploadthing) | `/dashboard/roaster` | 02-B | ⬜ |
-| Dashboard palarni — statystyki (page views, kliknięcia) | `/dashboard/roaster` | 02-B | ⬜ |
+| Dashboard palarni — edycja profilu | `/dashboard/roaster` | 02-B | ✅ |
+| Dashboard palarni — upload logo (Uploadthing) | `/dashboard/roaster` | 02-B | ✅ |
+| Dashboard palarni — statystyki (page views, kliknięcia) | `/dashboard/roaster` | 02-B | ✅ |
 | **Dashboard — Kawiarnia** ||||
-| Dashboard kawiarni — edycja profilu | `/dashboard/cafe` | 03-B | ⬜ |
-| Dashboard kawiarni — upload logo | `/dashboard/cafe` | 03-B | ⬜ |
-| Dashboard kawiarni — zarządzanie relacjami z palarniami | `/dashboard/cafe` | 03-C | ⬜ |
-| Dashboard kawiarni — dodanie relacji z palarnią | `/dashboard/cafe` | 03-C | ⬜ |
-| Dashboard kawiarni — usunięcie relacji z palarnią | `/dashboard/cafe` | 03-C | ⬜ |
+| Dashboard kawiarni — edycja profilu | `/dashboard/cafe` | 03-B | ✅ |
+| Dashboard kawiarni — upload logo | `/dashboard/cafe` | 03-B | ✅ |
+| Dashboard kawiarni — zarządzanie relacjami z palarniami | `/dashboard/cafe` | 03-C | ✅ |
+| Dashboard kawiarni — dodanie relacji z palarnią | `/dashboard/cafe` | 03-C | ✅ |
+| Dashboard kawiarni — usunięcie relacji z palarnią | `/dashboard/cafe` | 03-C | ✅ |
 | **Saved Roasters (przeniesione z /dashboard/cafe)** ||||
-| Zapis palarni do listy (Cafe) | `/roasters/[slug]` | 03-D | ⬜ |
-| Lista zapisanych palarni | `/dashboard/saved-roasters` | 03-D | ⬜ |
-| Usunięcie palarni z listy | `/dashboard/saved-roasters` | 03-D | ⬜ |
+| Zapis palarni do listy (Cafe) | `/roasters/[slug]` | 03-D | ✅ |
+| Lista zapisanych palarni | `/dashboard/saved-roasters` | 03-D | ✅ |
+| Usunięcie palarni z listy | `/dashboard/saved-roasters` | 03-D | ✅ |
 | **Admin — Moderacja palarni** ||||
-| Admin: lista oczekujących wniosków palarni | `/admin/pending` | 04-A | ⬜ |
-| Admin: weryfikacja wniosku palarni | `/admin/pending` | 04-A | ⬜ |
-| Email: potwierdzenie weryfikacji → palarnia | niewidoczny | 04-A (ukryty efekt) | ⬜ |
-| ISR revalidation po weryfikacji palarni | niewidoczny | 04-A (ukryty efekt) | ⬜ |
-| Admin: odrzucenie wniosku palarni z powodem | `/admin/pending` | 04-B | ⬜ |
-| Email: odrzucenie z powodem → palarnia | niewidoczny | 04-B (ukryty efekt) | ⬜ |
+| Admin: lista oczekujących wniosków palarni | `/admin/pending` | 04-A | ✅ |
+| Admin: weryfikacja wniosku palarni | `/admin/pending` | 04-A | ✅ |
+| Email: potwierdzenie weryfikacji → palarnia | niewidoczny | 04-A (ukryty efekt) | ✅ |
+| ISR revalidation po weryfikacji palarni | niewidoczny | 04-A (ukryty efekt) | ✅ |
+| Admin: odrzucenie wniosku palarni z powodem | `/admin/pending` | 04-B | ✅ |
+| Email: odrzucenie z powodem → palarnia | niewidoczny | 04-B (ukryty efekt) | ✅ |
 | **Admin — Moderacja kawiarni** ||||
-| Admin: lista oczekujących wniosków kawiarni | `/admin/cafes` | 04-D | ⬜ |
-| Admin: weryfikacja wniosku kawiarni | `/admin/cafes` | 04-D | ⬜ |
-| Email: potwierdzenie weryfikacji → kawiarnia | niewidoczny | 04-D (ukryty efekt) | ⬜ |
-| ISR revalidation po weryfikacji kawiarni | niewidoczny | 04-D (ukryty efekt) | ⬜ |
-| Admin: odrzucenie wniosku kawiarni z powodem | `/admin/cafes` | 04-E | ⬜ |
-| Email: odrzucenie z powodem → kawiarnia | niewidoczny | 04-E (ukryty efekt) | ⬜ |
+| Admin: lista oczekujących wniosków kawiarni | `/admin/cafes` | 04-D | ✅ |
+| Admin: weryfikacja wniosku kawiarni | `/admin/cafes` | 04-D | ✅ |
+| Email: potwierdzenie weryfikacji → kawiarnia | niewidoczny | 04-D (ukryty efekt) | ✅ |
+| ISR revalidation po weryfikacji kawiarni | niewidoczny | 04-D (ukryty efekt) | ✅ |
+| Admin: odrzucenie wniosku kawiarni z powodem | `/admin/cafes` | 04-E | ✅ |
+| Email: odrzucenie z powodem → kawiarnia | niewidoczny | 04-E (ukryty efekt) | ✅ |
 | **Admin — Moderacja recenzji** ||||
-| Admin: lista recenzji do moderacji (palarnie) | `/admin/reviews` | 04-C | ⬜ |
-| Admin: lista recenzji do moderacji (kawiarnie) | `/admin/reviews` (tab) | 04-C | ⬜ |
-| Admin: zatwierdzenie recenzji palarni | `/admin/reviews` | 04-C | ⬜ |
-| Admin: zatwierdzenie recenzji kawiarni | `/admin/reviews` | 04-C | ⬜ |
-| Admin: odrzucenie recenzji | `/admin/reviews` | 04-C | ⬜ |
+| Admin: lista recenzji do moderacji (palarnie) | `/admin/reviews` | 04-C | ✅ |
+| Admin: lista recenzji do moderacji (kawiarnie) | `/admin/reviews` (tab) | 04-C | ✅ |
+| Admin: zatwierdzenie recenzji palarni | `/admin/reviews` | 04-C | ✅ |
+| Admin: zatwierdzenie recenzji kawiarni | `/admin/reviews` | 04-C | ✅ |
+| Admin: odrzucenie recenzji | `/admin/reviews` | 04-C | ✅ |
 | **Recenzje — Palarnia** ||||
-| Formularz recenzji na profilu palarni | `/roasters/[slug]` | 05-A | ⬜ |
-| Recenzja PENDING (niewidoczna publicznie) | niewidoczny | 05-A (ukryty efekt) | ⬜ |
+| Formularz recenzji na profilu palarni | `/roasters/[slug]` | 05-A | ✅ |
+| Recenzja PENDING (niewidoczna publicznie) | niewidoczny | 05-A (ukryty efekt) | ✅ |
 | **Recenzje — Kawiarnia** ||||
-| Formularz recenzji na profilu kawiarni | `/cafes/[slug]` | 05-B | ⬜ |
-| Recenzja kawiarni PENDING | niewidoczny | 05-B (ukryty efekt) | ⬜ |
+| Formularz recenzji na profilu kawiarni | `/cafes/[slug]` | 05-B | ✅ |
+| Recenzja kawiarni PENDING | niewidoczny | 05-B (ukryty efekt) | ✅ |
 | **Event tracking** ||||
-| Event tracking palarni (PAGE_VIEW, kliknięcia) | niewidoczny | 01-B, 01-C (ukryty efekt) | ⬜ |
-| Event tracking kawiarni | niewidoczny | 01-E (ukryty efekt) | ⬜ |
+| Event tracking palarni (PAGE_VIEW, kliknięcia) | niewidoczny | 01-B, 01-C (ukryty efekt) | ✅ |
+| Event tracking kawiarni | niewidoczny | 01-E (ukryty efekt) | ✅ |
 | **Infrastruktura (faza 2)** ||||
 | Partner API `/api/v1/roasters` | brak UI | — (faza 2) | 🔜 |
 | Newsletter digest (cron) | brak UI | — (faza 2) | 🔜 |
