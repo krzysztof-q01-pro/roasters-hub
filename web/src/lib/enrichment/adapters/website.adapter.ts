@@ -39,14 +39,38 @@ async function isAllowedByRobots(url: string): Promise<boolean> {
 }
 
 function extractPhone(html: string): string | undefined {
-  const telMatch = html.match(/href="tel:([^"]+)"/i)
-  if (telMatch) return decodeURIComponent(telMatch[1]).trim()
+  // 1. Try tel: link (most reliable source)
+  const telMatch = html.match(/href=["']tel:([^"']+)["']/i)
+  if (telMatch) {
+    const cleaned = decodeURIComponent(telMatch[1]).replace(/[^\d+]/g, '').trim()
+    if (cleaned.length >= 7) return cleaned
+  }
 
-  const phonePattern = /(\+?\d[\d\s\-().]{7,}\d)/g
+  // 2. Fallback: scan text for phone-like patterns
+  // Match: optional +country code, then digits with common separators
+  const phonePattern = /(?:\+?\d{1,3}[-.\s()]?)?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}/g
   const matches = html.match(phonePattern)
   if (matches) {
-    const cleaned = matches.find((m) => m.replace(/\D/g, '').length >= 7)
-    return cleaned?.trim()
+    for (const match of matches) {
+      const trimmed = match.trim()
+      const digitsOnly = trimmed.replace(/\D/g, '')
+
+      // Must have 7-15 digits (valid phone length)
+      if (digitsOnly.length < 7 || digitsOnly.length > 15) continue
+
+      // Reject version numbers like "1.15.0" or "1.15045.0"
+      if (/^\d+\.\d+\.\d+$/.test(trimmed)) continue
+
+      // Reject dates like "2024-04-24" or "24.04.2024"
+      if (/^\d{4}[-./]\d{2}[-./]\d{2}$/.test(trimmed)) continue
+      if (/^\d{2}[-./]\d{2}[-./]\d{4}$/.test(trimmed)) continue
+
+      // Reject if mostly dots (likely not a phone)
+      const dotCount = (trimmed.match(/\./g) || []).length
+      if (dotCount >= 2 && digitsOnly.length < 9) continue
+
+      return trimmed
+    }
   }
   return undefined
 }
