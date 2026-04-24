@@ -76,7 +76,7 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 **@AGENT:** Codebase cleanup + documentation sync (ROADMAP/STATUS update, remove garbage files) (2026-04-24)
 **@MN:** [IN PROGRESS] Taxonomia danych + Zasilenie bazy kawiarni w PL
-**@KK:** [IN PROGRESS] Logo Bean Map — SVG variants, hover states, dark mode
+**@MN:** [IN PROGRESS] Logo Bean Map — SVG variants, hover states, dark mode
 
 **Completed recently:**
 - ✅ i18n EN/PL/DE — `next-intl` with `[locale]` routing, full translations for all user/admin pages (~310 keys per locale), redesigned locale switcher with dark dropdown (PR #59-61) (2026-04-23)
@@ -103,8 +103,8 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 **TERAZ (UNASSIGNED):** [MEDIUM] Mobile filters: search always visible — move search input outside collapsible filters on mobile (`RoasterFilters.tsx`, `CafeFilters.tsx`).
 **TERAZ (MN):** [P1] SEO review — `generateMetadata`, canonical URLs, structured data (JSON-LD), sitemap completeness.
-**TERAZ (KK):** [P2] Hover states + transitions — spójne micro-animations na kartach, buttonach, nawigacji.
-**TERAZ (KK):** [P1] Cookie policy / regulamin / polityka prywatności — strony prawne zgodne z GDPR.
+**TERAZ (MN):** [P2] Hover states + transitions — spójne micro-animations na kartach, buttonach, nawigacji.
+**TERAZ (MN):** [P1] Cookie policy / regulamin / polityka prywatności — strony prawne zgodne z GDPR.
 
 **HUMAN ONLY blockers:** re-seed prod DB (`prisma db seed`), run new migrations on prod, buy production domain.
 
