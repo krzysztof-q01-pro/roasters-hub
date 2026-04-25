@@ -5,9 +5,9 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 
 const locales = [
-  { code: "en", label: "EN", flag: "🇬🇧" },
-  { code: "pl", label: "PL", flag: "🇵🇱" },
-  { code: "de", label: "DE", flag: "🇩🇪" },
+  { code: "en", label: "EN", flag: "🇬🇧" }, // Great Britain flag for English
+  { code: "pl", label: "PL", flag: "🇵🇱" }, // Poland flag
+  { code: "de", label: "DE", flag: "🇩🇪" }, // Germany flag
 ];
 
 export function LocaleSwitcher() {
