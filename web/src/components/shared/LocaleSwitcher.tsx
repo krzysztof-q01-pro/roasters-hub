@@ -5,9 +5,9 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 
 const locales = [
-  { code: "en", label: "EN", flag: "🇬🇧" },
-  { code: "pl", label: "PL", flag: "🇵🇱" },
-  { code: "de", label: "DE", flag: "🇩🇪" },
+  { code: "en", label: "EN" },
+  { code: "pl", label: "PL" },
+  { code: "de", label: "DE" },
 ];
 
 export function LocaleSwitcher() {
@@ -43,8 +43,8 @@ export function LocaleSwitcher() {
         onClick={() => setOpen((o) => !o)}
         className="flex items-center gap-2 text-sm font-medium bg-surface-container-high text-on-surface px-4 py-2.5 rounded-xl hover:bg-surface-variant transition-colors"
       >
-        <span className="text-base leading-none" aria-hidden="true">
-          {current.flag}
+        <span className="text-on-surface-variant font-semibold text-xs tracking-wider">
+          {current.label}
         </span>
         <svg
           className={`h-3.5 w-3.5 text-on-surface-variant transition-transform duration-200 ${open ? "rotate-180" : ""}`}
@@ -87,12 +87,11 @@ export function LocaleSwitcher() {
                   <span>{t(locale.code)}</span>
                 </span>
                 <span
-                  className={`text-base leading-none ${
-                    isActive ? "opacity-100" : "opacity-60"
+                  className={`text-xs tracking-wider ${
+                    isActive ? "text-primary font-semibold" : "text-white/40"
                   }`}
-                  aria-hidden="true"
                 >
-                  {locale.flag}
+                  {locale.label}
                 </span>
               </Link>
             );
