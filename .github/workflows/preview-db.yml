@@ -36,6 +36,12 @@ jobs:
           echo "env_suffix=$ENV_SUFFIX" >> $GITHUB_OUTPUT
 
       # --- CREATE (on open/sync/reopen) ---
+      - name: Get branch expiration date
+        if: github.event.action != 'closed'
+        id: expiration
+        run: |
+          echo "expires_at=$(date -u --date '+7 days' +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
+
       - name: Create Neon branch
         if: github.event.action != 'closed'
         id: neon
@@ -45,6 +51,7 @@ jobs:
           api_key: ${{ secrets.NEON_API_KEY }}
           branch_name: ${{ steps.names.outputs.neon_branch }}
           parent_branch: main
+          expires_at: ${{ steps.expiration.outputs.expires_at }}
 
       - name: Check for new migrations
         if: github.event.action != 'closed'
@@ -103,32 +110,35 @@ jobs:
           PROJECT_ID="${{ secrets.VERCEL_PROJECT_ID }}"
           TOKEN="${{ secrets.VERCEL_TOKEN }}"
 
-          # Find existing branch-scoped DATABASE_URL for this branch
+          # Compute sanitized branch name for env var key
+          ENV_SUFFIX="$(echo "$BRANCH" | sed 's/[^a-zA-Z0-9]/_/g' | tr '[:lower:]' '[:upper:]')"
+          ENV_KEY="DATABASE_URL_${ENV_SUFFIX}"
+
+          # Find existing env var for this branch
           EXISTING_ID=$(curl -s \
             "https://api.vercel.com/v9/projects/${PROJECT_ID}/env?decrypt=false" \
             -H "Authorization: Bearer ${TOKEN}" \
-            | jq -r --arg branch "$BRANCH" '.envs[] | select(.key == "DATABASE_URL" and .gitBranch == $branch) | .id // empty')
+            | jq -r --arg key "$ENV_KEY" '.envs[] | select(.key == $key) | .id // empty')
 
           # Delete if exists
           if [ -n "$EXISTING_ID" ]; then
-            echo "Deleting existing branch-scoped DATABASE_URL (id: $EXISTING_ID)"
+            echo "Deleting existing $ENV_KEY (id: $EXISTING_ID)"
             curl -s -X DELETE \
               "https://api.vercel.com/v9/projects/${PROJECT_ID}/env/${EXISTING_ID}" \
               -H "Authorization: Bearer ${TOKEN}"
           fi
 
-          # Create branch-scoped DATABASE_URL — Vercel uses this for preview builds of this branch
-          echo "Creating branch-scoped DATABASE_URL for branch: $BRANCH"
+          # Create branch-specific DATABASE_URL — used by getDatabaseUrl() in preview builds
+          echo "Creating $ENV_KEY for branch: $BRANCH"
           curl -s -X POST \
             "https://api.vercel.com/v9/projects/${PROJECT_ID}/env" \
             -H "Authorization: Bearer ${TOKEN}" \
             -H "Content-Type: application/json" \
             -d "{
-              \"key\": \"DATABASE_URL\",
+              \"key\": \"${ENV_KEY}\",
               \"value\": \"${ENV_VALUE}\",
               \"type\": \"plain\",
-              \"target\": [\"preview\"],
-              \"gitBranch\": \"${BRANCH}\"
+              \"target\": [\"preview\"]
             }"
 
       # --- DESTROY (on closed) ---
@@ -139,18 +149,21 @@ jobs:
           PROJECT_ID="${{ secrets.VERCEL_PROJECT_ID }}"
           TOKEN="${{ secrets.VERCEL_TOKEN }}"
 
+          ENV_SUFFIX="$(echo "$BRANCH" | sed 's/[^a-zA-Z0-9]/_/g' | tr '[:lower:]' '[:upper:]')"
+          ENV_KEY="DATABASE_URL_${ENV_SUFFIX}"
+
           EXISTING_ID=$(curl -s \
             "https://api.vercel.com/v9/projects/${PROJECT_ID}/env?decrypt=false" \
             -H "Authorization: Bearer ${TOKEN}" \
-            | jq -r --arg branch "$BRANCH" '.envs[] | select(.key == "DATABASE_URL" and .gitBranch == $branch) | .id // empty')
+            | jq -r --arg key "$ENV_KEY" '.envs[] | select(.key == $key) | .id // empty')
 
           if [ -n "$EXISTING_ID" ]; then
-            echo "Deleting branch-scoped DATABASE_URL for branch: $BRANCH (id: $EXISTING_ID)"
+            echo "Deleting $ENV_KEY for branch: $BRANCH (id: $EXISTING_ID)"
             curl -s -X DELETE \
               "https://api.vercel.com/v9/projects/${PROJECT_ID}/env/${EXISTING_ID}" \
               -H "Authorization: Bearer ${TOKEN}"
           else
-            echo "Branch-scoped DATABASE_URL for $BRANCH not found, skipping"
+            echo "$ENV_KEY for $BRANCH not found, skipping"
           fi
 
       - name: Delete Neon branch
