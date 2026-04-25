@@ -50,6 +50,22 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] [P2] **CR: Komponenty UI (agent-generated)** — review kodu generowanego przez agenta — accessibility, semantyczny HTML, reużywalność (@MN)
 - [x] [P2] **CR: Security audit** — env vars exposure, CSRF w Server Actions, upload validation, XSS w user content (@MN)
 
+### Site Audit — 2026-04-24 — (@AGENT)
+
+> **Report:** `.tmp/audit-2026-04-24.md`
+> **Wykonane:** 2026-04-24 — Pełny audyt usability via Playwright MCP (8 stron, 3 viewporty, 3 flow testy)
+
+**CRITICAL:**
+- [x] [CRITICAL] **/register zwraca 500 (biały ekran)** — naprawiono: `Footer.tsx` używał `getTranslations` w "use client" page → zamieniono na `useTranslations` (2026-04-25) (@AGENT)
+- [x] [CRITICAL] **/register/cafe biały ekran + zły `<title>`** — naprawiono: ten sam root cause co powyżej + dodano osobny layout z `title: "Register Your Cafe"` (2026-04-25) (@AGENT)
+
+**HIGH:**
+- [x] [HIGH] **Mapa: 25 obrazków bez `alt`** — naprawiono: `MutationObserver` w `RoasterMap.tsx` dodaje `alt=""` do `img.leaflet-tile` (2026-04-25) (@AGENT)
+- [x] [HIGH] **Mapa: dropdown "+ Add a place" zasłonięty przez warstwę mapy** — naprawiono: zwiększono z-index Header do `z-[1000]` i dropdown menu do `z-[1001]` (Leaflet pane ma z-index 400) (2026-04-25) (@AGENT)
+
+**MEDIUM:**
+- [ ] [MEDIUM] **manifest.json 404 na każdej stronie** — brak Web App Manifest (PWA); przeglądarka próbuje pobrać `/manifest.json` i dostaje 404; powtarza się globalnie (audit 2026-04-24) (@UNASSIGNED)
+
 ---
 
 ## NEXT

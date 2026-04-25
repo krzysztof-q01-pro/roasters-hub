@@ -40,7 +40,7 @@ export function AddPlaceDropdown() {
       {open && (
         <div
           role="menu"
-          className="absolute right-0 top-full z-50 mt-2 w-60 rounded-xl border border-outline-variant/40 bg-surface-container-lowest p-2 shadow-[var(--shadow-dropdown)]"
+          className="absolute right-0 top-full z-[1001] mt-2 w-60 rounded-xl border border-outline-variant/40 bg-surface-container-lowest p-2 shadow-[var(--shadow-dropdown)]"
         >
           <Link
             role="menuitem"

@@ -1,7 +1,7 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { useSyncExternalStore, useEffect } from "react";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import Link from "next/link";
 import "leaflet/dist/leaflet.css";
@@ -9,6 +9,28 @@ import "leaflet/dist/leaflet.css";
 const subscribe = () => () => {};
 const getSnapshot = () => true;
 const getServerSnapshot = () => false;
+
+function TileAltObserver() {
+  const map = useMap();
+  useEffect(() => {
+    const container = map.getContainer();
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        for (const node of mutation.addedNodes) {
+          if (node instanceof HTMLImageElement && node.classList.contains("leaflet-tile") && !node.alt) {
+            node.alt = "";
+          }
+        }
+      }
+    });
+    observer.observe(container, { childList: true, subtree: true });
+    container.querySelectorAll("img.leaflet-tile").forEach((img) => {
+      if (!(img as HTMLImageElement).alt) (img as HTMLImageElement).alt = "";
+    });
+    return () => observer.disconnect();
+  }, [map]);
+  return null;
+}
 
 interface MapRoaster {
   id: string;
@@ -92,6 +114,7 @@ export function RoasterMap({ roasters, cafes = [] }: { roasters: MapRoaster[]; c
       style={{ width: "100%", height: "100%" }}
       zoomControl={false}
     >
+      <TileAltObserver />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
