@@ -1,9 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 
-export async function Footer() {
-  const t = await getTranslations("footer");
+export function Footer() {
+  const t = useTranslations("footer");
 
   return (
     <footer className="bg-stone-900 w-full pt-12 pb-6 text-stone-400 text-sm font-light mt-auto">

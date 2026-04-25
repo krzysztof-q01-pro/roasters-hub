@@ -92,7 +92,7 @@ export function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 glass-nav border-b border-surface-container-high/50">
+    <header className="sticky top-0 z-[1000] glass-nav border-b border-surface-container-high/50">
       <div className="flex justify-between items-center w-full px-6 max-w-7xl mx-auto h-[66px]">
         <div className="flex items-center gap-8">
           <Link href="/" aria-label={t("homeLabel")} className="flex items-center">
