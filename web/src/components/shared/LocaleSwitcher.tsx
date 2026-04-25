@@ -44,7 +44,7 @@ export function LocaleSwitcher() {
         onClick={() => setOpen((o) => !o)}
         className="flex items-center gap-2 text-sm font-medium bg-surface-container-high text-on-surface px-4 py-2.5 rounded-xl hover:bg-surface-variant transition-colors"
       >
-        <CountryFlag country={current.country} className="w-5 h-5 rounded-sm shadow-sm" />
+        <CountryFlag country={current.country} className="w-5 h-auto" />
         <svg
           className={`h-3.5 w-3.5 text-on-surface-variant transition-transform duration-200 ${open ? "rotate-180" : ""}`}
           fill="none"
@@ -87,7 +87,7 @@ export function LocaleSwitcher() {
                 </span>
                 <CountryFlag
                   country={locale.country}
-                  className={`w-5 h-5 rounded-sm shadow-sm ${isActive ? "opacity-100" : "opacity-60"}`}
+                  className={`w-5 h-auto ${isActive ? "opacity-100" : "opacity-60"}`}
                 />
               </Link>
             );
