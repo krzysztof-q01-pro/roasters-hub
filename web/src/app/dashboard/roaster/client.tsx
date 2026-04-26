@@ -16,6 +16,7 @@ import {
   ROAST_STYLES,
   ORIGINS,
 } from "@/types/certifications";
+import { DeleteAccountSection } from "@/components/shared/DeleteAccountSection";
 
 interface RoasterData {
   id: string;
@@ -433,6 +434,7 @@ export function DashboardClient({
           </div>
         )}
       </section>
+      <DeleteAccountSection />
     </main>
   );
 }
