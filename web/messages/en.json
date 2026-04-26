@@ -433,6 +433,45 @@
     "next": "Next →",
     "submitForReview": "Submit for review",
     "submittingCafe": "Submitting…",
-    "signInRequired": "You must be signed in."
+    "signInRequired": "You must be signed in.",
+    "consentRequired": "To continue, you must accept the Terms of Service and consent to data processing.",
+    "consentsTitle": "Required consents",
+    "acceptTerms": "I have read and accept the <termsLink>Terms of Service</termsLink>. *",
+    "acceptPrivacy": "I consent to the processing of my personal data in accordance with the <privacyLink>Privacy Policy</privacyLink>. *",
+    "acceptMarketing": "I consent to receiving marketing information about Bean Map (optional)."
+  },
+  "newsletter": {
+    "emailLabel": "Email address",
+    "emailPlaceholder": "Enter your email",
+    "submitting": "Subscribing...",
+    "subscribe": "Subscribe",
+    "success": "You're subscribed! Check your inbox.",
+    "consentRequired": "You must consent to receiving the newsletter.",
+    "consent": "I consent to receiving the Bean Map newsletter at the provided email address. I can withdraw my consent at any time. Details in the <privacyLink>Privacy Policy</privacyLink>. *",
+    "segmentConsumer": "I'm a Coffee Lover",
+    "segmentCafe": "I own a Café"
+  },
+  "legal": {
+    "privacyTitle": "Privacy Policy",
+    "privacyDesc": "Privacy Policy for Bean Map — how we protect your data.",
+    "termsTitle": "Terms of Service",
+    "termsDesc": "Terms of Service for using Bean Map.",
+    "cookiesTitle": "Cookie Policy",
+    "cookiesDesc": "Cookie Policy for Bean Map — minimal and transparent."
+  },
+  "cookies": {
+    "message": "We use essential cookies for login and functionality. We don't track you.",
+    "learnMore": "Learn more",
+    "accept": "Got it"
+  },
+  "account": {
+    "dangerZone": "Danger Zone",
+    "deleteAccount": "Delete Account",
+    "deleteAccountDesc": "Deleting your account is irreversible. All your personal data, reviews, and associations will be permanently removed.",
+    "deleteAccountConfirm": "Are you sure you want to delete your account?",
+    "deleteAccountWarning": "This action cannot be undone. Your profile, reviews, and saved roasters will be deleted.",
+    "cancel": "Cancel",
+    "confirmDelete": "Yes, delete my account",
+    "deleting": "Deleting..."
   }
 }

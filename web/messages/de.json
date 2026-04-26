@@ -433,6 +433,45 @@
     "next": "Weiter →",
     "submitForReview": "Zur Prüfung einreichen",
     "submittingCafe": "Wird gesendet…",
-    "signInRequired": "Du musst angemeldet sein."
+    "signInRequired": "Du musst angemeldet sein.",
+    "consentRequired": "Um fortzufahren, musst du die Nutzungsbedingungen akzeptieren und der Datenverarbeitung zustimmen.",
+    "consentsTitle": "Erforderliche Zustimmungen",
+    "acceptTerms": "Ich habe die <termsLink>Nutzungsbedingungen</termsLink> gelesen und akzeptiere sie. *",
+    "acceptPrivacy": "Ich stimme der Verarbeitung meiner personenbezogenen Daten gemäß der <privacyLink>Datenschutzerklärung</privacyLink> zu. *",
+    "acceptMarketing": "Ich stimme zu, Marketinginformationen über Bean Map zu erhalten (optional)."
+  },
+  "newsletter": {
+    "emailLabel": "E-Mail-Adresse",
+    "emailPlaceholder": "Gib deine E-Mail-Adresse ein",
+    "submitting": "Wird abonniert...",
+    "subscribe": "Abonnieren",
+    "success": "Abonniert! Überprüfe deinen Posteingang.",
+    "consentRequired": "Du musst der Zusendung des Newsletters zustimmen.",
+    "consent": "Ich stimme zu, den Bean Map Newsletter an die angegebene E-Mail-Adresse zu erhalten. Ich kann meine Zustimmung jederzeit widerrufen. Details in der <privacyLink>Datenschutzerklärung</privacyLink>. *",
+    "segmentConsumer": "Ich bin Kaffeeliebhaber",
+    "segmentCafe": "Ich bin Café-Besitzer"
+  },
+  "legal": {
+    "privacyTitle": "Datenschutzerklärung",
+    "privacyDesc": "Datenschutzerklärung von Bean Map — wie wir deine Daten schützen.",
+    "termsTitle": "Nutzungsbedingungen",
+    "termsDesc": "Nutzungsbedingungen für Bean Map.",
+    "cookiesTitle": "Cookie-Richtlinie",
+    "cookiesDesc": "Cookie-Richtlinie von Bean Map — minimal und transparent."
+  },
+  "cookies": {
+    "message": "Wir verwenden essenzielle Cookies für Login und Funktionalität. Wir verfolgen dich nicht.",
+    "learnMore": "Mehr erfahren",
+    "accept": "Verstanden"
+  },
+  "account": {
+    "dangerZone": "Gefahrenzone",
+    "deleteAccount": "Konto löschen",
+    "deleteAccountDesc": "Das Löschen deines Kontos ist unwiderruflich. Alle deine persönlichen Daten, Bewertungen und Verknüpfungen werden dauerhaft entfernt.",
+    "deleteAccountConfirm": "Bist du sicher, dass du dein Konto löschen möchtest?",
+    "deleteAccountWarning": "Diese Aktion kann nicht rückgängig gemacht werden. Dein Profil, Bewertungen und gespeicherte Röstereien werden gelöscht.",
+    "cancel": "Abbrechen",
+    "confirmDelete": "Ja, Konto löschen",
+    "deleting": "Wird gelöscht..."
   }
 }

@@ -26,6 +26,9 @@ export default function RegisterPage() {
     origins: [] as string[],
     roastStyles: [] as string[],
     certifications: [] as string[],
+    acceptTerms: false,
+    acceptPrivacy: false,
+    acceptMarketing: false,
   });
 
   const steps = t.raw("stepsRoaster") as string[];
@@ -44,6 +47,11 @@ export default function RegisterPage() {
   };
 
   const handleSubmit = async () => {
+    if (!form.acceptTerms || !form.acceptPrivacy) {
+      setError(t("consentRequired"));
+      return;
+    }
+
     setSubmitting(true);
     setError(null);
 
@@ -56,6 +64,7 @@ export default function RegisterPage() {
     formData.set("shopUrl", form.shopUrl);
     formData.set("instagram", form.instagram);
     formData.set("email", form.email);
+    formData.set("acceptMarketing", form.acceptMarketing ? "true" : "false");
     form.certifications.forEach((c) => formData.append("certifications", c));
     form.origins.forEach((o) => formData.append("origins", o));
     form.roastStyles.forEach((s) => formData.append("roastStyles", s));
@@ -283,6 +292,56 @@ export default function RegisterPage() {
               </div>
             </div>
 
+            <div className="space-y-4 pt-4 border-t border-outline/10">
+              <h3 className="text-sm font-semibold text-on-surface">{t("consentsTitle")}</h3>
+
+              <label className="flex items-start gap-3 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  required
+                  checked={form.acceptTerms}
+                  onChange={(e) => setForm((prev) => ({ ...prev, acceptTerms: e.target.checked }))}
+                  className="mt-0.5 w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary"
+                />
+                <span className="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors leading-relaxed">
+                  {t.rich("acceptTerms", {
+                    termsLink: (chunks) => (
+                      <Link href="/terms" className="text-primary hover:underline" target="_blank">{chunks}</Link>
+                    ),
+                  })}
+                </span>
+              </label>
+
+              <label className="flex items-start gap-3 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  required
+                  checked={form.acceptPrivacy}
+                  onChange={(e) => setForm((prev) => ({ ...prev, acceptPrivacy: e.target.checked }))}
+                  className="mt-0.5 w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary"
+                />
+                <span className="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors leading-relaxed">
+                  {t.rich("acceptPrivacy", {
+                    privacyLink: (chunks) => (
+                      <Link href="/privacy" className="text-primary hover:underline" target="_blank">{chunks}</Link>
+                    ),
+                  })}
+                </span>
+              </label>
+
+              <label className="flex items-start gap-3 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={form.acceptMarketing}
+                  onChange={(e) => setForm((prev) => ({ ...prev, acceptMarketing: e.target.checked }))}
+                  className="mt-0.5 w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary"
+                />
+                <span className="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors leading-relaxed">
+                  {t("acceptMarketing")}
+                </span>
+              </label>
+            </div>
+
             {error && (
               <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg text-sm">
                 {error}
@@ -293,7 +352,7 @@ export default function RegisterPage() {
               <button onClick={() => setStep(1)} className="text-on-surface-variant hover:text-on-surface transition-colors px-4 py-3">{t("back")}</button>
               <button
                 onClick={handleSubmit}
-                disabled={submitting}
+                disabled={submitting || !form.acceptTerms || !form.acceptPrivacy}
                 className="bg-primary text-on-primary px-8 py-3 rounded-lg font-medium hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {submitting ? t("submitting") : t("submitForVerification")}

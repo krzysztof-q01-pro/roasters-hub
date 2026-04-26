@@ -26,6 +26,9 @@ export default function RegisterCafePage() {
     website: "",
     instagram: "",
     phone: "",
+    acceptTerms: false,
+    acceptPrivacy: false,
+    acceptMarketing: false,
   });
 
   const steps = t.raw("stepsCafe") as string[];
@@ -38,10 +41,24 @@ export default function RegisterCafePage() {
       setError(t("signInRequired"));
       return;
     }
+    if (!form.acceptTerms || !form.acceptPrivacy) {
+      setError(t("consentRequired"));
+      return;
+    }
     setSubmitting(true);
     setError(null);
     const fd = new FormData();
-    Object.entries(form).forEach(([k, v]) => fd.set(k, v));
+    fd.set("name", form.name);
+    fd.set("city", form.city);
+    fd.set("country", form.country);
+    fd.set("description", form.description);
+    fd.set("address", form.address);
+    fd.set("lat", form.lat);
+    fd.set("lng", form.lng);
+    fd.set("website", form.website);
+    fd.set("instagram", form.instagram);
+    fd.set("phone", form.phone);
+    fd.set("acceptMarketing", form.acceptMarketing ? "true" : "false");
     const result = await createCafe(fd, userId);
     if (result.success) {
       setSubmitted(true);
@@ -214,7 +231,7 @@ export default function RegisterCafePage() {
         )}
 
         {step === 2 && (
-          <div className="space-y-4">
+          <div className="space-y-5">
             <div className="bg-surface-container rounded-xl p-5 space-y-2 text-sm">
               {(
                 [
@@ -235,6 +252,56 @@ export default function RegisterCafePage() {
             <p className="text-xs text-on-surface-variant/50">
               {t("reviewNote")}
             </p>
+
+            <div className="space-y-3 pt-4 border-t border-outline/10">
+              <h3 className="text-sm font-semibold text-on-surface">{t("consentsTitle")}</h3>
+
+              <label className="flex items-start gap-3 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  required
+                  checked={form.acceptTerms}
+                  onChange={(e) => setForm((prev) => ({ ...prev, acceptTerms: e.target.checked }))}
+                  className="mt-0.5 w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary"
+                />
+                <span className="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors leading-relaxed">
+                  {t.rich("acceptTerms", {
+                    termsLink: (chunks) => (
+                      <Link href="/terms" className="text-primary hover:underline" target="_blank">{chunks}</Link>
+                    ),
+                  })}
+                </span>
+              </label>
+
+              <label className="flex items-start gap-3 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  required
+                  checked={form.acceptPrivacy}
+                  onChange={(e) => setForm((prev) => ({ ...prev, acceptPrivacy: e.target.checked }))}
+                  className="mt-0.5 w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary"
+                />
+                <span className="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors leading-relaxed">
+                  {t.rich("acceptPrivacy", {
+                    privacyLink: (chunks) => (
+                      <Link href="/privacy" className="text-primary hover:underline" target="_blank">{chunks}</Link>
+                    ),
+                  })}
+                </span>
+              </label>
+
+              <label className="flex items-start gap-3 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={form.acceptMarketing}
+                  onChange={(e) => setForm((prev) => ({ ...prev, acceptMarketing: e.target.checked }))}
+                  className="mt-0.5 w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary"
+                />
+                <span className="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors leading-relaxed">
+                  {t("acceptMarketing")}
+                </span>
+              </label>
+            </div>
           </div>
         )}
 
@@ -260,7 +327,7 @@ export default function RegisterCafePage() {
           ) : (
             <button
               onClick={handleSubmit}
-              disabled={submitting}
+              disabled={submitting || !form.acceptTerms || !form.acceptPrivacy}
               className="bg-primary text-on-primary px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-primary/90 disabled:opacity-50 transition-colors"
             >
               {submitting ? t("submittingCafe") : t("submitForReview")}

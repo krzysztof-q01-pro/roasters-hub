@@ -11,6 +11,7 @@ import {
 } from "@/actions/cafe-relation.actions";
 import { UploadButton } from "@/lib/uploadthing";
 import { updateCafeCoverImage } from "@/actions/cafe.actions";
+import { DeleteAccountSection } from "@/components/shared/DeleteAccountSection";
 
 type Cafe = {
   id: string;
@@ -238,6 +239,7 @@ export function CafeDashboardClient({
           )}
         </div>
       </section>
+      <DeleteAccountSection />
     </main>
   );
 }
