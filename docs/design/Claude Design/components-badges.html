@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Source Sans 3', sans-serif; background: #f9f9f7; padding: 20px; }
+  .section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #897267; margin-bottom: 8px; }
+  .row { display: flex; gap: 10px; margin-bottom: 14px; }
+  .semantic-group { flex: 1; border-radius: 10px; overflow: hidden; border: 1px solid #e8e8e6; background: white; }
+  .semantic-header { padding: 14px 14px 10px; }
+  .semantic-label { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
+  .semantic-palette { display: flex; gap: 4px; }
+  .pal { height: 28px; flex: 1; border-radius: 4px; }
+  .semantic-body { padding: 0 14px 14px; }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; }
+  .hex-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  .hex { font-size: 10px; font-family: monospace; color: #897267; }
+</style>
+</head><body>
+<div class="section-label">Semantic Colors</div>
+<div class="row">
+  <div class="semantic-group">
+    <div class="semantic-header">
+      <div class="semantic-label" style="color:#974400">Accent / CTA</div>
+      <div class="semantic-palette">
+        <div class="pal" style="background:#974400"></div>
+        <div class="pal" style="background:#a85218"></div>
+        <div class="pal" style="background:#ffdbc9"></div>
+      </div>
+    </div>
+    <div class="semantic-body">
+      <div class="badge-row">
+        <span class="badge" style="background:#974400;color:white">Primary CTA</span>
+        <span class="badge" style="background:transparent;color:#974400;border:1.5px solid #974400">Outline</span>
+      </div>
+      <div class="hex-row">
+        <span class="hex">#974400 base</span>
+        <span class="hex">#A85218 hover</span>
+        <span class="hex">#FFDBC9 soft</span>
+      </div>
+    </div>
+  </div>
+  <div class="semantic-group">
+    <div class="semantic-header">
+      <div class="semantic-label" style="color:#2c694e">Verified / Success</div>
+      <div class="semantic-palette">
+        <div class="pal" style="background:#2c694e"></div>
+        <div class="pal" style="background:#aeeecb"></div>
+        <div class="pal" style="background:#e8f4ee"></div>
+      </div>
+    </div>
+    <div class="semantic-body">
+      <div class="badge-row">
+        <span class="badge" style="background:#2c694e;color:white">✓ Verified</span>
+        <span class="badge" style="background:#aeeecb;color:#2c694e">Direct Trade</span>
+      </div>
+      <div class="hex-row">
+        <span class="hex">#2C694E base</span>
+        <span class="hex">#AEEECB container</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="semantic-group">
+    <div class="semantic-header">
+      <div class="semantic-label" style="color:#b45309">Warning / Pending</div>
+      <div class="semantic-palette">
+        <div class="pal" style="background:#b45309"></div>
+        <div class="pal" style="background:#fef3c7"></div>
+      </div>
+    </div>
+    <div class="semantic-body">
+      <div class="badge-row">
+        <span class="badge" style="background:#fef3c7;color:#b45309">⏳ Pending</span>
+      </div>
+      <div class="hex-row">
+        <span class="hex">#B45309 text</span>
+        <span class="hex">#FEF3C7 bg</span>
+      </div>
+    </div>
+  </div>
+  <div class="semantic-group">
+    <div class="semantic-header">
+      <div class="semantic-label" style="color:#ba1a1a">Error / Rejected</div>
+      <div class="semantic-palette">
+        <div class="pal" style="background:#ba1a1a"></div>
+        <div class="pal" style="background:#ffdad6"></div>
+      </div>
+    </div>
+    <div class="semantic-body">
+      <div class="badge-row">
+        <span class="badge" style="background:#ffdad6;color:#ba1a1a">✗ Rejected</span>
+        <span class="badge" style="background:#ba1a1a;color:white">Delete</span>
+      </div>
+      <div class="hex-row">
+        <span class="hex">#BA1A1A base</span>
+        <span class="hex">#FFDAD6 soft</span>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

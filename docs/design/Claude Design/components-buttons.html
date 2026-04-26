@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Source Sans 3', sans-serif; background: #f9f9f7; padding: 20px; }
+  .row { display: flex; gap: 8px; margin-bottom: 12px; }
+  .swatch { flex: 1; border-radius: 8px; overflow: hidden; }
+  .swatch-color { height: 56px; border: 1px solid #e8e8e6; border-bottom: none; border-radius: 8px 8px 0 0; }
+  .swatch-info { padding: 6px 8px; background: white; border: 1px solid #e8e8e6; border-top: none; border-radius: 0 0 8px 8px; }
+  .swatch-name { font-size: 10px; font-weight: 600; color: #1a1c1b; }
+  .swatch-hex  { font-size: 10px; color: #897267; font-family: monospace; }
+  .section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #897267; margin-bottom: 6px; }
+  .group { margin-bottom: 14px; }
+  .text-row { display: flex; gap: 8px; }
+  .text-swatch { flex: 1; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 4px; border: 1px solid #e8e8e6; }
+  .text-sample { font-size: 14px; font-weight: 600; }
+  .text-meta { font-size: 10px; font-family: monospace; }
+</style>
+</head><body>
+<div class="group">
+  <div class="section-label">Surface Scale</div>
+  <div class="row">
+    <div class="swatch"><div class="swatch-color" style="background:#ffffff"></div><div class="swatch-info"><div class="swatch-name">Lowest</div><div class="swatch-hex">#FFFFFF</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#f4f4f2"></div><div class="swatch-info"><div class="swatch-name">Low</div><div class="swatch-hex">#F4F4F2</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#f9f9f7"></div><div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#F9F9F7</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#eeeeec"></div><div class="swatch-info"><div class="swatch-name">Container</div><div class="swatch-hex">#EEEEEC</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#e8e8e6"></div><div class="swatch-info"><div class="swatch-name">High</div><div class="swatch-hex">#E8E8E6</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#e2e3e1"></div><div class="swatch-info"><div class="swatch-name">Highest</div><div class="swatch-hex">#E2E3E1</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#dadad8"></div><div class="swatch-info"><div class="swatch-name">Dim</div><div class="swatch-hex">#DADAD8</div></div></div>
+  </div>
+</div>
+<div class="group">
+  <div class="section-label">Text & Borders</div>
+  <div class="text-row">
+    <div class="text-swatch" style="background:#ffffff">
+      <div class="text-sample" style="color:#1a1c1b">On Surface</div>
+      <div class="text-meta" style="color:#897267">#1A1C1B — Primary text</div>
+    </div>
+    <div class="text-swatch" style="background:#ffffff">
+      <div class="text-sample" style="color:#564338">On Surface Variant</div>
+      <div class="text-meta" style="color:#897267">#564338 — Secondary text</div>
+    </div>
+    <div class="text-swatch" style="background:#ffffff">
+      <div style="height:20px;background:#897267;border-radius:2px;margin-bottom:4px"></div>
+      <div class="text-meta" style="color:#897267">#897267 — Outline</div>
+    </div>
+    <div class="text-swatch" style="background:#ffffff">
+      <div style="height:20px;background:#dcc1b3;border-radius:2px;margin-bottom:4px"></div>
+      <div class="text-meta" style="color:#897267">#DCC1B3 — Outline Variant</div>
+    </div>
+  </div>
+</div>
+<div class="group">
+  <div class="section-label">Inverse (Dark / Footer)</div>
+  <div class="row">
+    <div class="swatch"><div class="swatch-color" style="background:#2f3130"></div><div class="swatch-info"><div class="swatch-name">Inverse Surface</div><div class="swatch-hex">#2F3130</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#1c1917"></div><div class="swatch-info"><div class="swatch-name">Footer BG</div><div class="swatch-hex">#1C1917</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#f1f1ef; border: 1px solid #e8e8e6"></div><div class="swatch-info"><div class="swatch-name">Inv. On-Surface</div><div class="swatch-hex">#F1F1EF</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#ffb68d"></div><div class="swatch-info"><div class="swatch-name">Inv. Primary</div><div class="swatch-hex">#FFB68D</div></div></div>
+  </div>
+</div>
+</body></html>

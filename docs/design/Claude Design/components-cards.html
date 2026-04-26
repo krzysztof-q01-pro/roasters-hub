@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Source Sans 3', sans-serif; background: #f9f9f7; padding: 18px 20px; }
+  .section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #897267; margin-bottom: 8px; }
+  .group { margin-bottom: 16px; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  /* Verified badge */
+  .badge-verified { display:inline-flex;align-items:center;gap:4px;background:#2c694e;color:white;font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:3px 10px;border-radius:9999px; }
+  .badge-verified-md { font-size:11px;padding:4px 12px; }
+  .badge-verified-lg { font-size:12px;padding:6px 16px; }
+  /* Certification */
+  .badge-cert { display:inline-flex;align-items:center;background:#eeeeec;color:#564338;font-size:10px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;padding:3px 9px;border-radius:9999px; }
+  /* Featured */
+  .badge-featured { display:inline-flex;background:#974400;color:white;font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:3px 10px;border-radius:9999px; }
+  /* Status */
+  .badge-status { display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px; }
+  /* Filter chip */
+  .chip { display:inline-flex;align-items:center;font-size:13px;font-weight:500;padding:5px 14px;border-radius:9999px;border:1.5px solid #dcc1b3;background:transparent;color:#564338; }
+  .chip-active { background:#ffdbc9;color:#974400;border-color:#974400; }
+</style>
+</head><body>
+
+<div class="group">
+  <div class="section-label">Verified Badge — Sizes</div>
+  <div class="row">
+    <span class="badge-verified">✓ Verified</span>
+    <span class="badge-verified badge-verified-md">✓ Verified</span>
+    <span class="badge-verified badge-verified-lg">✓ Verified</span>
+    <span style="font-size:10px;color:#897267">sm / md / lg</span>
+  </div>
+</div>
+
+<div class="group">
+  <div class="section-label">Certification Badges</div>
+  <div class="row">
+    <span class="badge-cert">Direct Trade</span>
+    <span class="badge-cert">Organic</span>
+    <span class="badge-cert">Fair Trade</span>
+    <span class="badge-cert">Rainforest Alliance</span>
+    <span class="badge-cert">SCA Member</span>
+    <span class="badge-cert">Bird Friendly</span>
+    <span class="badge-cert">Demeter</span>
+  </div>
+</div>
+
+<div class="group">
+  <div class="section-label">Featured + Origin Tags</div>
+  <div class="row">
+    <span class="badge-featured">Featured</span>
+    <span style="background:#f4f4f2;color:#564338;font-size:12px;font-weight:500;padding:4px 10px;border-radius:9999px;border:1px solid #e8e8e6">🇪🇹 Ethiopia</span>
+    <span style="background:#f4f4f2;color:#564338;font-size:12px;font-weight:500;padding:4px 10px;border-radius:9999px;border:1px solid #e8e8e6">🇰🇪 Kenya</span>
+    <span style="background:#f4f4f2;color:#564338;font-size:12px;font-weight:500;padding:4px 10px;border-radius:9999px;border:1px solid #e8e8e6">🇨🇴 Colombia</span>
+  </div>
+</div>
+
+<div class="group">
+  <div class="section-label">Status Badges (Admin)</div>
+  <div class="row">
+    <span class="badge-status" style="background:#fef3c7;color:#b45309">⏳ Pending</span>
+    <span class="badge-status" style="background:#aeeecb;color:#2c694e">✓ Verified</span>
+    <span class="badge-status" style="background:#ffdad6;color:#ba1a1a">✗ Rejected</span>
+    <span class="badge-status" style="background:#eeeeec;color:#897267">○ Inactive</span>
+  </div>
+</div>
+
+<div class="group">
+  <div class="section-label">Filter Chips</div>
+  <div class="row">
+    <span class="chip chip-active">✓ Ethiopia</span>
+    <span class="chip">Kenya</span>
+    <span class="chip">Colombia</span>
+    <span class="chip">Brazil</span>
+    <span class="chip chip-active">✓ Direct Trade</span>
+    <span class="chip">Organic</span>
+  </div>
+</div>
+
+</body></html>
