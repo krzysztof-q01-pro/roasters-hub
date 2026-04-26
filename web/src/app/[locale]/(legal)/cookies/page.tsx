@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
@@ -264,7 +265,7 @@ function CookiesEn() {
 
       <h2>3. Local Storage</h2>
       <p>
-        In addition to cookies, the Service uses the browser's <code>localStorage</code>{" "}
+        In addition to cookies, the Service uses the browser&apos;s <code>localStorage</code>{" "}
         mechanism to remember:
       </p>
       <ul>

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
@@ -47,7 +48,7 @@ function PrivacyPl() {
       <h2>1. Informacje ogólne</h2>
       <p>
         Niniejsza Polityka Prywatności określa zasady przetwarzania danych osobowych
-        użytkowników serwisu Bean Map (dalej: „Serwis"), dostępnego pod adresem
+        użytkowników serwisu Bean Map (dalej: Serwis), dostępnego pod adresem
         beanmap.pl oraz beanmap.cafe.
       </p>
       <p>
@@ -162,7 +163,7 @@ function PrivacyPl() {
       <ul>
         <li>Prawo dostępu do swoich danych (art. 15 RODO).</li>
         <li>Prawo do sprostowania danych (art. 16 RODO).</li>
-        <li>Prawo do usunięcia danych („prawo do bycia zapomnianym", art. 17 RODO).</li>
+        <li>Prawo do usunięcia danych (prawo do bycia zapomnianym, art. 17 RODO).</li>
         <li>Prawo do ograniczenia przetwarzania (art. 18 RODO).</li>
         <li>Prawo do przenoszenia danych (art. 20 RODO).</li>
         <li>Prawo do sprzeciwu wobec przetwarzania (art. 21 RODO).</li>
@@ -238,7 +239,7 @@ function PrivacyEn() {
       <h2>1. General Information</h2>
       <p>
         This Privacy Policy sets out the rules for processing personal data of users
-        of the Bean Map service (hereinafter: "Service"), available at beanmap.pl
+        of the Bean Map service (hereinafter: Service), available at beanmap.pl
         and beanmap.cafe.
       </p>
       <p>
@@ -348,7 +349,7 @@ function PrivacyEn() {
       <ul>
         <li>Right of access to your data (Art. 15 GDPR).</li>
         <li>Right to rectification (Art. 16 GDPR).</li>
-        <li>Right to erasure ("right to be forgotten", Art. 17 GDPR).</li>
+        <li>Right to erasure (right to be forgotten, Art. 17 GDPR).</li>
         <li>Right to restriction of processing (Art. 18 GDPR).</li>
         <li>Right to data portability (Art. 20 GDPR).</li>
         <li>Right to object to processing (Art. 21 GDPR).</li>
