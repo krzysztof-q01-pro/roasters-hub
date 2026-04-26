@@ -51,6 +51,7 @@
     "privacyPolicy": "Datenschutz",
     "termsOfService": "Nutzungsbedingungen",
     "cookiePolicy": "Cookie-Richtlinie",
+    "impressum": "Impressum",
     "crafted": "Für den Sinnesschöpfer gestaltet."
   },
   "beta": {
@@ -457,7 +458,9 @@
     "termsTitle": "Nutzungsbedingungen",
     "termsDesc": "Nutzungsbedingungen für Bean Map.",
     "cookiesTitle": "Cookie-Richtlinie",
-    "cookiesDesc": "Cookie-Richtlinie von Bean Map — minimal und transparent."
+    "cookiesDesc": "Cookie-Richtlinie von Bean Map — minimal und transparent.",
+    "impressumTitle": "Impressum",
+    "impressumDesc": "Impressum — Informationen zum Betreiber des Bean Map Dienstes."
   },
   "cookies": {
     "message": "Wir verwenden essenzielle Cookies für Login und Funktionalität. Wir verfolgen dich nicht.",
