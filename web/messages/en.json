@@ -51,6 +51,7 @@
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
     "cookiePolicy": "Cookie Policy",
+    "impressum": "Impressum",
     "crafted": "Crafted for the Sensory Curator."
   },
   "beta": {
@@ -457,7 +458,9 @@
     "termsTitle": "Terms of Service",
     "termsDesc": "Terms of Service for using Bean Map.",
     "cookiesTitle": "Cookie Policy",
-    "cookiesDesc": "Cookie Policy for Bean Map — minimal and transparent."
+    "cookiesDesc": "Cookie Policy for Bean Map — minimal and transparent.",
+    "impressumTitle": "Impressum",
+    "impressumDesc": "Impressum — information about the operator of Bean Map service."
   },
   "cookies": {
     "message": "We use essential cookies for login and functionality. We don't track you.",

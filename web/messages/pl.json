@@ -51,6 +51,7 @@
     "privacyPolicy": "Polityka prywatności",
     "termsOfService": "Warunki korzystania",
     "cookiePolicy": "Polityka cookies",
+    "impressum": "Impressum",
     "crafted": "Stworzone dla Koneserów Zmysłów."
   },
   "beta": {
@@ -457,7 +458,9 @@
     "termsTitle": "Regulamin",
     "termsDesc": "Regulamin korzystania z serwisu Bean Map.",
     "cookiesTitle": "Polityka Cookies",
-    "cookiesDesc": "Polityka Cookies Bean Map — minimalizm i przejrzystość."
+    "cookiesDesc": "Polityka Cookies Bean Map — minimalizm i przejrzystość.",
+    "impressumTitle": "Impressum",
+    "impressumDesc": "Impressum — informacje o operatorze serwisu Bean Map."
   },
   "cookies": {
     "message": "Używamy niezbędnych cookies do logowania i funkcjonalności. Nie śledzimy Cię.",

@@ -124,6 +124,7 @@ export function Footer() {
           <Link href="/privacy" className="hover:text-stone-300 transition-colors">{t("privacyPolicy")}</Link>
           <Link href="/terms" className="hover:text-stone-300 transition-colors">{t("termsOfService")}</Link>
           <Link href="/cookies" className="hover:text-stone-300 transition-colors">{t("cookiePolicy")}</Link>
+          <Link href="/impressum" className="hover:text-stone-300 transition-colors">{t("impressum")}</Link>
         </nav>
       </div>
     </footer>
