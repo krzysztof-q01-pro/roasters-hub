@@ -60,90 +60,96 @@ export default async function HomePage({
     <>
       <Header />
       <main>
-        {/* Hero Section */}
-        <section className="max-w-7xl mx-auto px-6 py-[72px] grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
-          <div>
-            <div className="inline-flex items-center gap-1.5 bg-primary-fixed text-primary text-[11px] font-bold tracking-[0.1em] uppercase px-3 py-[5px] rounded-full mb-5">
-              🫘 {t("heroBadge")}
-            </div>
-            <h1 className="font-headline text-[54px] font-semibold tracking-[-0.025em] text-on-surface leading-[1.08] mb-5" style={{textWrap: "pretty"}}>
-              {t("heroTitle")}
-            </h1>
-            <p className="text-lg text-on-surface-variant leading-[1.65] mb-9">
-              {t("heroDesc")}
-            </p>
-            <div className="flex flex-wrap items-center gap-3">
-              <Link
-                href="/roasters"
-                className="inline-flex items-center gap-1.5 bg-primary text-on-primary px-[30px] py-[14px] rounded-lg font-semibold text-base hover:bg-accent-hover transition-colors"
+        {/* Hero Section — full-screen video background */}
+        <section
+          className="relative overflow-hidden min-h-screen flex items-center"
+          style={{ background: "#1a1009" }}
+        >
+          {/* Background video — opacity 0.55 per design spec */}
+          <video
+            className="absolute inset-0 w-full h-full object-cover opacity-[0.55]"
+            src="/videos/hero-bg.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            aria-hidden="true"
+          />
+          {/* Diagonal gradient overlay: left-heavy for text legibility */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(105deg, rgba(10,5,0,0.72) 0%, rgba(10,5,0,0.35) 55%, rgba(10,5,0,0.18) 100%)",
+            }}
+          />
+          {/* Bottom fade — blends into the stats bar / site bg below */}
+          <div
+            className="absolute bottom-0 left-0 right-0 h-[120px] pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(to top, rgba(249,249,247,0.9), transparent)",
+            }}
+          />
+          {/* Content */}
+          <div className="relative z-10 max-w-7xl mx-auto px-6 py-[80px] w-full">
+            <div className="max-w-[640px]">
+              <div
+                className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-[0.1em] uppercase px-3 py-[5px] rounded-full mb-[22px] backdrop-blur-sm"
+                style={{
+                  background: "rgba(255,219,201,0.18)",
+                  border: "1px solid rgba(255,219,201,0.35)",
+                  color: "#ffdbc9",
+                }}
               >
-                {tNav("browseRoasters")}
-                <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M7 17L17 7M17 7H7M17 7v10" />
-                </svg>
-              </Link>
-              <Link
-                href="/register"
-                className="inline-flex items-center border-[1.5px] border-primary text-primary px-[30px] py-[14px] rounded-lg font-semibold text-base hover:bg-primary-fixed transition-colors"
+                🫘 {t("heroBadge")}
+              </div>
+              <h1
+                className="font-headline text-[58px] font-semibold tracking-[-0.025em] text-white leading-[1.06] mb-5"
+                style={{
+                  textWrap: "pretty",
+                  textShadow: "0 2px 24px rgba(0,0,0,0.25)",
+                }}
               >
-                {t("listRoastery")}
-              </Link>
-              <Link
-                href="/cafes"
-                className="inline-flex items-center gap-1.5 text-primary px-4 py-[14px] rounded-lg font-semibold text-base hover:bg-primary-fixed/50 transition-colors"
+                {t("heroTitle")}
+              </h1>
+              <p
+                className="text-lg text-white/80 leading-[1.65] mb-9 max-w-xl"
+                style={{ textShadow: "0 1px 8px rgba(0,0,0,0.3)" }}
               >
-                {t("findCafe")}
-                <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M7 17L17 7M17 7H7M17 7v10" />
-                </svg>
-              </Link>
+                {t("heroDesc")}
+              </p>
+              <div className="flex flex-wrap items-center gap-3">
+                <Link
+                  href="/roasters"
+                  className="inline-flex items-center gap-1.5 bg-primary text-on-primary px-[30px] py-[14px] rounded-lg font-semibold text-base hover:bg-accent-hover transition-colors"
+                >
+                  {tNav("browseRoasters")}
+                  <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </Link>
+                <Link
+                  href="/register"
+                  className="inline-flex items-center px-[30px] py-[14px] rounded-lg font-semibold text-base text-white transition-colors backdrop-blur-sm"
+                  style={{
+                    background: "rgba(255,255,255,0.15)",
+                    border: "1.5px solid rgba(255,255,255,0.45)",
+                  }}
+                >
+                  {t("listRoastery")}
+                </Link>
+                <Link
+                  href="/cafes"
+                  className="inline-flex items-center gap-1.5 text-white/75 px-4 py-[14px] rounded-lg font-semibold text-base hover:text-white transition-colors"
+                >
+                  {t("findCafe")}
+                  <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </Link>
+              </div>
             </div>
-          </div>
-
-          {/* Hero image grid */}
-          <div className="hidden lg:grid grid-cols-2 gap-2.5" style={{gridTemplateRows: "auto auto"}}>
-            <div className="row-span-2 rounded-xl overflow-hidden bg-surface-container" style={{aspectRatio: "3/4"}}>
-              <Image
-                src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=800&fit=crop"
-                alt="A barista pouring latte art in a sunlit cafe"
-                width={600}
-                height={800}
-                className="w-full h-full object-cover"
-                sizes="280px"
-                priority
-              />
-            </div>
-            <div className="rounded-xl overflow-hidden bg-surface-container" style={{aspectRatio: "4/3"}}>
-              <Image
-                src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&h=300&fit=crop"
-                alt="Close up of coffee beans in a commercial roaster"
-                width={400}
-                height={300}
-                className="w-full h-full object-cover"
-                sizes="200px"
-              />
-            </div>
-            <div className="rounded-xl overflow-hidden bg-surface-container" style={{aspectRatio: "4/3"}}>
-              <Image
-                src="https://images.unsplash.com/photo-1507133750040-4a8f57021571?w=400&h=300&fit=crop"
-                alt="Professional coffee tasting cupping session"
-                width={400}
-                height={300}
-                className="w-full h-full object-cover"
-                sizes="200px"
-              />
-            </div>
-          </div>
-          {/* Mobile hero image */}
-          <div className="lg:hidden w-full h-[260px] rounded-xl overflow-hidden relative">
-            <Image
-              src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&h=500&fit=crop"
-              alt="A barista pouring latte art in a sunlit cafe"
-              fill
-              className="object-cover"
-              sizes="100vw"
-              priority
-            />
           </div>
         </section>
 

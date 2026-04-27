@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Source Sans 3', sans-serif; background: #f9f9f7; padding: 20px; }
+  .row { display: flex; gap: 20px; align-items: center; }
+  .logo-box { background: white; border-radius: 12px; padding: 24px 32px; border: 1px solid #e8e8e6; display: flex; align-items: center; justify-content: center; }
+  .logo-box-dark { background: #1c1917; border-radius: 12px; padding: 24px 32px; border: 1px solid #1c1917; display: flex; align-items: center; justify-content: center; }
+  .meta { font-size: 10px; color: #897267; font-family: monospace; margin-top: 5px; text-align: center; }
+  .label { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #897267; margin-bottom: 10px; }
+</style>
+</head><body>
+
+<div class="label">Logo — Light & Dark</div>
+<div class="row" style="margin-bottom: 16px">
+  <div>
+    <div class="logo-box">
+      <img src="../assets/beanmap-logo.png" alt="Bean Map" style="height: 52px; width: auto;">
+    </div>
+    <div class="meta">On white / light bg</div>
+  </div>
+  <div>
+    <div class="logo-box-dark">
+      <img src="../assets/beanmap-logo.png" alt="Bean Map" style="height: 52px; width: auto; filter: brightness(0) invert(1);">
+    </div>
+    <div class="meta">On dark bg (inverted)</div>
+  </div>
+  <div>
+    <div class="logo-box" style="background: #f9f9f7">
+      <img src="../assets/beanmap-logo.png" alt="Bean Map" style="height: 40px; width: auto;">
+    </div>
+    <div class="meta">On off-white bg</div>
+  </div>
+  <div>
+    <div class="logo-box" style="background: #974400">
+      <img src="../assets/beanmap-logo.png" alt="Bean Map" style="height: 40px; width: auto; filter: brightness(0) invert(1);">
+    </div>
+    <div class="meta">On primary bg</div>
+  </div>
+</div>
+
+<div class="label">Wordmark — Typography Reference</div>
+<div style="background: white; border-radius: 12px; padding: 16px 20px; border: 1px solid #e8e8e6; display: flex; gap: 32px; align-items: center">
+  <div>
+    <div style="font-family: 'Fraunces', serif; font-size: 28px; font-weight: 600; color: #1a1c1b; letter-spacing: -0.02em">Bean Map</div>
+    <div style="font-size: 10px; color: #897267; margin-top: 3px; font-family: monospace">Fraunces 600 — wordmark fallback</div>
+  </div>
+  <div style="width: 1px; height: 40px; background: #e8e8e6"></div>
+  <div>
+    <div style="font-size: 11px; color: #897267; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 4px">Primary brand color</div>
+    <div style="display: flex; gap: 8px; align-items: center">
+      <div style="width: 28px; height: 28px; border-radius: 6px; background: #974400"></div>
+      <div style="width: 28px; height: 28px; border-radius: 6px; background: #5C2E00"></div>
+      <div style="font-size: 10px; font-family: monospace; color: #897267">#974400 · #5C2E00</div>
+    </div>
+  </div>
+</div>
+
+</body></html>
