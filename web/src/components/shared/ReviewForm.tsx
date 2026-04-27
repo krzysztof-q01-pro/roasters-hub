@@ -71,7 +71,7 @@ export function ReviewForm({ roasterId, cafeId }: ReviewFormProps) {
           required
           minLength={2}
           maxLength={100}
-          className="w-full px-4 py-2.5 rounded-lg border border-outline-variant/30 bg-surface-container-lowest text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+          className="input-field"
           placeholder="Jane Doe"
         />
       </div>
@@ -112,7 +112,7 @@ export function ReviewForm({ roasterId, cafeId }: ReviewFormProps) {
           name="comment"
           rows={3}
           maxLength={2000}
-          className="w-full px-4 py-2.5 rounded-lg border border-outline-variant/30 bg-surface-container-lowest text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
+          className="input-field resize-none"
           placeholder="Share your experience..."
         />
       </div>

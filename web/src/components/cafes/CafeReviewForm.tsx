@@ -47,7 +47,7 @@ export function CafeReviewForm({ cafeId }: { cafeId: string }) {
           required
           minLength={2}
           maxLength={100}
-          className="w-full border border-outline/30 rounded-lg px-3 py-2 bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+          className="input-field"
         />
       </div>
       <div>
@@ -75,7 +75,7 @@ export function CafeReviewForm({ cafeId }: { cafeId: string }) {
           name="comment"
           maxLength={2000}
           rows={3}
-          className="w-full border border-outline/30 rounded-lg px-3 py-2 bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+          className="input-field resize-none"
         />
       </div>
       <button

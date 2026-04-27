@@ -58,7 +58,7 @@ export default async function RootLayout({
       lang={locale}
       className={`${fraunces.variable} ${sourceSans.variable} h-full scroll-smooth`}
     >
-      <body className="min-h-full flex flex-col antialiased">
+      <body className="min-h-full flex flex-col antialiased" suppressHydrationWarning>
         <BetaBanner message={t("message")} dismissLabel={t("dismiss")} />
         <ClerkProvider>{children}</ClerkProvider>
         {process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN && (
