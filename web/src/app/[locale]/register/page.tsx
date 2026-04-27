@@ -150,7 +150,7 @@ export default function RegisterPage() {
                 required
                 value={form.name}
                 onChange={(e) => updateField("name", e.target.value)}
-                className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+                className="input-field"
                 placeholder={t("roasteryNamePlaceholder")}
               />
             </div>
@@ -162,7 +162,7 @@ export default function RegisterPage() {
                   required
                   value={form.country}
                   onChange={(e) => updateField("country", e.target.value)}
-                  className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+                  className="input-field"
                   placeholder={t("countryPlaceholder")}
                 />
               </div>
@@ -173,7 +173,7 @@ export default function RegisterPage() {
                   required
                   value={form.city}
                   onChange={(e) => updateField("city", e.target.value)}
-                  className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+                  className="input-field"
                   placeholder={t("cityPlaceholder")}
                 />
               </div>
@@ -209,19 +209,19 @@ export default function RegisterPage() {
             <p className="text-on-surface-variant text-sm">{t("step2RoasterSubtitle")}</p>
             <div>
               <label className="block text-sm font-medium mb-2">{t("websiteUrl")}</label>
-              <input type="url" value={form.website} onChange={(e) => updateField("website", e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder={t("websitePlaceholder")} />
+              <input type="url" value={form.website} onChange={(e) => updateField("website", e.target.value)} className="input-field" placeholder={t("websitePlaceholder")} />
             </div>
             <div>
               <label className="block text-sm font-medium mb-2">{t("shopUrl")}</label>
-              <input type="url" value={form.shopUrl} onChange={(e) => updateField("shopUrl", e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder={t("shopPlaceholder")} />
+              <input type="url" value={form.shopUrl} onChange={(e) => updateField("shopUrl", e.target.value)} className="input-field" placeholder={t("shopPlaceholder")} />
             </div>
             <div>
               <label className="block text-sm font-medium mb-2">{t("instagramHandle")}</label>
-              <input type="text" value={form.instagram} onChange={(e) => updateField("instagram", e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder={t("instagramPlaceholder")} />
+              <input type="text" value={form.instagram} onChange={(e) => updateField("instagram", e.target.value)} className="input-field" placeholder={t("instagramPlaceholder")} />
             </div>
             <div>
               <label className="block text-sm font-medium mb-2">{t("emailAddress")}</label>
-              <input type="email" value={form.email} onChange={(e) => updateField("email", e.target.value)} className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder={t("emailPlaceholder")} />
+              <input type="email" value={form.email} onChange={(e) => updateField("email", e.target.value)} className="input-field" placeholder={t("emailPlaceholder")} />
             </div>
             <div className="flex justify-between">
               <button onClick={() => setStep(0)} className="text-on-surface-variant hover:text-on-surface transition-colors px-4 py-3">{t("back")}</button>

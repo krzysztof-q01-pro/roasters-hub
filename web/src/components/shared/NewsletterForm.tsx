@@ -49,7 +49,7 @@ export function NewsletterForm() {
           name="email"
           type="email"
           required
-          className="flex-grow bg-surface-container-low border-none rounded-lg px-6 py-4 focus:ring-2 focus:ring-primary/20 text-on-background"
+          className="input-field flex-grow"
           placeholder={t("emailPlaceholder")}
         />
         <button
