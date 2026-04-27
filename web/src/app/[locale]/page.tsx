@@ -5,6 +5,7 @@ import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { NewsletterForm } from "@/components/shared/NewsletterForm";
 import { RoasterCard } from "@/components/roasters/RoasterCard";
+import { HeroVideo } from "@/components/shared/HeroVideo";
 import { db } from "@/lib/db";
 import type { Metadata } from "next";
 
@@ -66,15 +67,7 @@ export default async function HomePage({
           style={{ background: "#1a1009" }}
         >
           {/* Background video — opacity 0.55 per design spec */}
-          <video
-            className="absolute inset-0 w-full h-full object-cover opacity-[0.55]"
-            src="/videos/hero-bg.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            aria-hidden="true"
-          />
+          <HeroVideo />
           {/* Diagonal gradient overlay: left-heavy for text legibility */}
           <div
             className="absolute inset-0 pointer-events-none"
