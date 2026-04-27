@@ -10,7 +10,7 @@ export function HeroVideo() {
     if (!video) return;
 
     const handleTimeUpdate = () => {
-      if (video.duration && video.currentTime >= video.duration - 0.1) {
+      if (video.duration && video.currentTime >= video.duration - 0.15) {
         video.currentTime = 0;
       }
     };
