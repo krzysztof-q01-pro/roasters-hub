@@ -57,7 +57,7 @@ export default function PasswordPage() {
             alt="BeenMap"
             width={120}
             height={47}
-            className="brightness-0 invert opacity-90"
+            className="h-[47px] w-auto brightness-0 invert opacity-90"
             priority
           />
         </div>
