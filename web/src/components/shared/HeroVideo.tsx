@@ -10,8 +10,9 @@ export function HeroVideo() {
     if (!video) return;
 
     const handleTimeUpdate = () => {
-      if (video.duration && video.currentTime >= video.duration - 0.15) {
+      if (video.duration && video.currentTime >= video.duration - 0.5) {
         video.currentTime = 0;
+        void video.play().catch(() => {});
       }
     };
 
@@ -25,6 +26,7 @@ export function HeroVideo() {
       className="absolute inset-0 w-full h-full object-cover opacity-[0.55]"
       src="/videos/hero-bg.mp4"
       autoPlay
+      loop
       muted
       playsInline
       aria-hidden="true"
