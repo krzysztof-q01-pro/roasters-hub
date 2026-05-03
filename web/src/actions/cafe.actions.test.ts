@@ -41,7 +41,7 @@ const validData = {
   city: "Warsaw",
   country: "Poland",
   description: "",
-  address: "",
+  address: "Main Street 42",
   lat: "",
   lng: "",
   website: "",
@@ -138,6 +138,7 @@ describe("createCafeProposal", () => {
       name: "Brew Lab",
       city: "Warsaw",
       country: "Poland",
+      address: "Main Street 42",
     });
     const result = await createCafeProposal(fd);
 
@@ -154,7 +155,7 @@ describe("createCafeProposal", () => {
   });
 
   it("returns fieldError when name is too short", async () => {
-    const fd = makeFormData({ name: "X", city: "Warsaw", country: "Poland" });
+    const fd = makeFormData({ name: "X", city: "Warsaw", country: "Poland", address: "Main Street 42" });
     const result = await createCafeProposal(fd);
     expect(result.success).toBe(false);
     if (!result.success) expect(result.fieldErrors?.name).toBeDefined();
@@ -164,7 +165,7 @@ describe("createCafeProposal", () => {
   it("stores parsed openingHours JSON", async () => {
     mockCreate.mockResolvedValue({ slug: "test" });
     const hours = JSON.stringify({ mon: { open: "08:00", close: "18:00" }, tue: null, wed: null, thu: null, fri: null, sat: null, sun: null });
-    const fd = makeFormData({ name: "Test Cafe", city: "Warsaw", country: "Poland", openingHours: hours });
+    const fd = makeFormData({ name: "Test Cafe", city: "Warsaw", country: "Poland", address: "Main Street 42", openingHours: hours });
     await createCafeProposal(fd);
     expect(mockCreate).toHaveBeenCalledWith(
       expect.objectContaining({
