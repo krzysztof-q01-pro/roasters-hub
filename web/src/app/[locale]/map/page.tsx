@@ -28,7 +28,10 @@ export default async function MapPage({
       lat: { not: null },
       lng: { not: null },
     },
-    include: { images: { where: { isPrimary: true }, take: 1 } },
+    include: {
+      images: { where: { isPrimary: true }, take: 1 },
+      reviews: { select: { rating: true } },
+    },
   });
 
   const cafes = await db.cafe.findMany({
@@ -44,6 +47,7 @@ export default async function MapPage({
       logoUrl: true,
       coverImageUrl: true,
       services: true,
+      reviews: { select: { rating: true } },
     },
   });
 
