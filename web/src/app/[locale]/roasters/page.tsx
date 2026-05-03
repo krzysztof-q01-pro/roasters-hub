@@ -5,6 +5,7 @@ import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { RoasterCard } from "@/components/roasters/RoasterCard";
 import { RoasterFilters } from "@/components/roasters/RoasterFilters";
+import { SortSelect } from "@/components/shared/SortSelect";
 import { db } from "@/lib/db";
 import type { Metadata } from "next";
 import type { Prisma } from "@prisma/client";
@@ -42,11 +43,15 @@ export default async function CatalogPage({
 
   const sp = await searchParams;
   const page = Number(sp.page) || 1;
+  const sort = typeof sp.sort === "string" ? sp.sort : "newest";
   const country = typeof sp.country === "string" ? sp.country : undefined;
   const origins = Array.isArray(sp.origin) ? sp.origin : sp.origin ? [sp.origin] : [];
   const certs = Array.isArray(sp.cert) ? sp.cert : sp.cert ? [sp.cert] : [];
   const roast = typeof sp.roast === "string" ? sp.roast : undefined;
   const q = typeof sp.q === "string" ? sp.q : undefined;
+
+  const orderBy: Prisma.RoasterOrderByWithRelationInput =
+    sort === "nameAZ" ? { name: "asc" } : sort === "relevance" ? { featured: "desc" } : { createdAt: "desc" };
 
   const where: Prisma.RoasterWhereInput = {
     status: "VERIFIED",
@@ -62,7 +67,7 @@ export default async function CatalogPage({
     db.roaster.findMany({
       where,
       include: { images: { where: { isPrimary: true }, take: 1 } },
-      orderBy: { createdAt: "desc" },
+      orderBy,
       skip: (page - 1) * PAGE_SIZE,
       take: PAGE_SIZE,
     }),
@@ -117,11 +122,16 @@ export default async function CatalogPage({
               </span>
               <div className="flex items-center gap-4">
                 <span className="text-xs uppercase tracking-widest font-semibold">{tCommon("sortBy")}</span>
-                <select className="bg-transparent border-none text-sm font-medium focus:ring-0 cursor-pointer text-primary">
-                  <option>{t("sortRelevance")}</option>
-                  <option>{t("sortNameAZ")}</option>
-                  <option>{t("sortNewest")}</option>
-                </select>
+                <Suspense fallback={<select className="bg-transparent border-none text-sm font-medium text-primary"><option>{t("sortNewest")}</option></select>}>
+                  <SortSelect
+                    basePath="/roasters"
+                    options={[
+                      { label: t("sortNewest"), value: "newest" },
+                      { label: t("sortNameAZ"), value: "nameAZ" },
+                      { label: t("sortRelevance"), value: "relevance" },
+                    ]}
+                  />
+                </Suspense>
               </div>
             </div>
 
