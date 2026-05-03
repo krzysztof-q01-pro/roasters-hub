@@ -1,6 +1,6 @@
 "use client";
 
-import { useSyncExternalStore, useEffect } from "react";
+import { useSyncExternalStore, useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import Link from "next/link";
@@ -9,6 +9,21 @@ import "leaflet/dist/leaflet.css";
 const subscribe = () => () => {};
 const getSnapshot = () => true;
 const getServerSnapshot = () => false;
+
+const DEFAULT_CENTER: [number, number] = [51.9, 19.1];
+const DEFAULT_ZOOM = 5;
+
+function useGeolocation() {
+  const [position, setPosition] = useState<[number, number] | null>(null);
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+      (pos) => setPosition([pos.coords.latitude, pos.coords.longitude]),
+      () => {}
+    );
+  }, []);
+  return position;
+}
 
 function TileAltObserver() {
   const map = useMap();
@@ -54,7 +69,6 @@ interface MapCafe {
   lng: number;
 }
 
-// Custom brown pin icon for roasters
 const roasterIcon = new L.DivIcon({
   className: "custom-marker",
   html: `<div style="
@@ -75,7 +89,6 @@ const roasterIcon = new L.DivIcon({
   popupAnchor: [0, -20],
 });
 
-// Custom orange/amber pin icon for cafes
 const cafeIcon = new L.DivIcon({
   className: "custom-marker",
   html: `<div style="
@@ -96,8 +109,17 @@ const cafeIcon = new L.DivIcon({
   popupAnchor: [0, -18],
 });
 
+function FlyToCenter({ center, zoom }: { center: [number, number]; zoom: number }) {
+  const map = useMap();
+  useEffect(() => {
+    map.flyTo(center, zoom, { duration: 1.2 });
+  }, [center, zoom, map]);
+  return null;
+}
+
 export function RoasterMap({ roasters, cafes = [] }: { roasters: MapRoaster[]; cafes?: MapCafe[] }) {
   const mounted = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const userPosition = useGeolocation();
 
   if (!mounted) {
     return (
@@ -107,13 +129,17 @@ export function RoasterMap({ roasters, cafes = [] }: { roasters: MapRoaster[]; c
     );
   }
 
+  const center: [number, number] = userPosition ?? DEFAULT_CENTER;
+  const zoom = userPosition ? 10 : DEFAULT_ZOOM;
+
   return (
     <MapContainer
-      center={[51.9, 19.1]}
-      zoom={6}
+      center={DEFAULT_CENTER}
+      zoom={DEFAULT_ZOOM}
       style={{ width: "100%", height: "100%" }}
       zoomControl={false}
     >
+      {(userPosition) && <FlyToCenter center={center} zoom={zoom} />}
       <TileAltObserver />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
