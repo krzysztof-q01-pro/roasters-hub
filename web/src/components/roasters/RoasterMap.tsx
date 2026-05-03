@@ -109,8 +109,8 @@ export function RoasterMap({ roasters, cafes = [] }: { roasters: MapRoaster[]; c
 
   return (
     <MapContainer
-      center={[48, 10]}
-      zoom={4}
+      center={[51.9, 19.1]}
+      zoom={6}
       style={{ width: "100%", height: "100%" }}
       zoomControl={false}
     >

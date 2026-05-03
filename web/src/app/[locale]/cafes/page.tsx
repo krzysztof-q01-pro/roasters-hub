@@ -5,6 +5,7 @@ import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { CafeCard } from "@/components/cafes/CafeCard";
 import { CafeFilters } from "@/components/cafes/CafeFilters";
+import { SortSelect } from "@/components/shared/SortSelect";
 import { db } from "@/lib/db";
 import type { Metadata } from "next";
 import type { Prisma } from "@prisma/client";
@@ -42,6 +43,7 @@ export default async function CafesPage({
 
   const sp = await searchParams;
   const page = Number(sp.page) || 1;
+  const sort = typeof sp.sort === "string" ? sp.sort : "nameAZ";
   const country = typeof sp.country === "string" ? sp.country : undefined;
   const q = typeof sp.q === "string" ? sp.q : undefined;
   const amenities = typeof sp.amenities === "string"
@@ -55,11 +57,14 @@ export default async function CafesPage({
     ...(amenities.length > 0 && { services: { hasSome: amenities } }),
   };
 
+  const orderBy: Prisma.CafeOrderByWithRelationInput =
+    sort === "city" ? { city: "asc" } : sort === "rating" ? { reviews: { _count: "desc" } } : { name: "asc" };
+
   const [total, cafes, countryRows] = await Promise.all([
     db.cafe.count({ where }),
     db.cafe.findMany({
       where,
-      orderBy: { name: "asc" },
+      orderBy,
       skip: (page - 1) * PAGE_SIZE,
       take: PAGE_SIZE,
       select: {
@@ -99,15 +104,19 @@ export default async function CafesPage({
     count: r._count._all,
   }));
 
-  const cafesWithRating = await Promise.all(
-    cafes.map(async (cafe) => {
-      const agg = await db.review.aggregate({
-        where: { cafeId: cafe.id, status: "APPROVED" },
+  const cafeIds = cafes.map((c) => c.id);
+  const ratingAggs = cafeIds.length > 0
+    ? await db.review.groupBy({
+        by: ["cafeId"],
+        where: { cafeId: { in: cafeIds }, status: "APPROVED" },
         _avg: { rating: true },
-      });
-      return { ...cafe, averageRating: agg._avg.rating };
-    })
-  );
+      })
+    : [];
+  const ratingMap = new Map(ratingAggs.map((r) => [r.cafeId, r._avg.rating]));
+  const cafesWithRating = cafes.map((cafe) => ({
+    ...cafe,
+    averageRating: ratingMap.get(cafe.id) ?? null,
+  }));
 
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
@@ -143,11 +152,16 @@ export default async function CafesPage({
               </span>
               <div className="flex items-center gap-4">
                 <span className="text-xs uppercase tracking-widest font-semibold">{tCommon("sortBy")}</span>
-                <select className="bg-transparent border-none text-sm font-medium focus:ring-0 cursor-pointer text-primary">
-                  <option>{t("sortNameAZ")}</option>
-                  <option>{t("sortCity")}</option>
-                  <option>{t("sortRating")}</option>
-                </select>
+                <Suspense fallback={<select className="bg-transparent border-none text-sm font-medium text-primary"><option>{t("sortNameAZ")}</option></select>}>
+                  <SortSelect
+                    basePath="/cafes"
+                    options={[
+                      { label: t("sortNameAZ"), value: "nameAZ" },
+                      { label: t("sortCity"), value: "city" },
+                      { label: t("sortRating"), value: "rating" },
+                    ]}
+                  />
+                </Suspense>
               </div>
             </div>
 
