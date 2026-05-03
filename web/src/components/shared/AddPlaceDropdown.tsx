@@ -63,7 +63,7 @@ export function AddPlaceDropdown() {
           <div className="my-1 border-t border-outline-variant/30" />
           <Link
             role="menuitem"
-            href="/suggest/roastery"
+            href="/register"
             onClick={() => setOpen(false)}
             className="block rounded-lg px-3 py-2.5 text-sm hover:bg-surface-container-low transition-colors focus:bg-surface-container-low focus:outline-none"
           >
@@ -72,7 +72,7 @@ export function AddPlaceDropdown() {
           </Link>
           <Link
             role="menuitem"
-            href="/suggest/cafe"
+            href="/register/cafe"
             onClick={() => setOpen(false)}
             className="block rounded-lg px-3 py-2.5 text-sm hover:bg-surface-container-low transition-colors focus:bg-surface-container-low focus:outline-none"
           >

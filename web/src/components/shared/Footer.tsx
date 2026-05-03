@@ -101,13 +101,13 @@ export function Footer() {
           <div className="mt-6 pt-4 border-t border-white/10 space-y-3">
             <Link
               className="text-sm text-inverse-on-surface/30 hover:text-inverse-on-surface/70 transition-colors block"
-              href="/suggest/roastery"
+              href="/register"
             >
               {t("suggestRoastery")}
             </Link>
             <Link
               className="text-sm text-inverse-on-surface/30 hover:text-inverse-on-surface/70 transition-colors block"
-              href="/suggest/cafe"
+              href="/register/cafe"
             >
               {t("suggestCafe")}
             </Link>

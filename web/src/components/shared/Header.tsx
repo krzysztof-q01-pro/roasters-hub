@@ -225,14 +225,14 @@ export function Header() {
               {t("registerCafe")}
             </Link>
             <Link
-              href="/suggest/roastery"
+              href="/register"
               className="block text-on-surface-variant hover:text-primary transition-colors py-2 text-base font-bold"
               onClick={() => setMobileOpen(false)}
             >
               {t("suggestRoastery")}
             </Link>
             <Link
-              href="/suggest/cafe"
+              href="/register/cafe"
               className="block text-on-surface-variant hover:text-primary transition-colors py-2 text-base font-bold"
               onClick={() => setMobileOpen(false)}
             >

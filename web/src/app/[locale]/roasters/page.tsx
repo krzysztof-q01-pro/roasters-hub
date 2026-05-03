@@ -186,7 +186,7 @@ export default async function CatalogPage({
         <div className="mt-12 rounded-xl border border-outline-variant/30 bg-primary-fixed/30 p-6 text-center">
           <p className="mb-2 text-on-surface-variant">{t("suggestBannerText")}</p>
           <Link
-            href="/suggest/roastery"
+            href="/register"
             className="inline-block rounded-lg bg-primary px-5 py-2 text-sm font-bold text-on-primary hover:bg-accent-hover transition-colors"
           >
             {t("suggestBannerCta")} →

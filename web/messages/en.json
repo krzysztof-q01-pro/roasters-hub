@@ -444,7 +444,19 @@
     "consentsTitle": "Required consents",
     "acceptTerms": "I have read and accept the <termsLink>Terms of Service</termsLink>. *",
     "acceptPrivacy": "I consent to the processing of my personal data in accordance with the <privacyLink>Privacy Policy</privacyLink>. *",
-    "acceptMarketing": "I consent to receiving marketing information about Bean Map (optional)."
+    "acceptMarketing": "I consent to receiving marketing information about Bean Map (optional).",
+    "openingHours": "Opening hours",
+    "amenitiesServices": "Amenities & services",
+    "coordinates": "Coordinates",
+    "yourRoleCafe": "Your role",
+    "iAmOwner": "I am the owner",
+    "iAmOwnerDesc": "Register this cafe as yours — manage it from your dashboard once verified.",
+    "signInToClaim": "Sign in to register as owner",
+    "iAmSuggesting": "I'm suggesting this place",
+    "iAmSuggestingDesc": "Share a place you know. The cafe will be listed without an owner.",
+    "yourRoleRoaster": "Your role",
+    "iAmOwnerRoaster": "I am the owner",
+    "iAmOwnerRoasterDesc": "Register this roastery as yours — manage it from your dashboard once verified."
   },
   "newsletter": {
     "emailLabel": "Email address",

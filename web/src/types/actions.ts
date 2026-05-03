@@ -30,6 +30,7 @@ export const CreateRoasterSchema = z.object({
   certifications: z.array(z.enum(CERTIFICATIONS)).max(10).default([]),
   origins: z.array(z.string().min(2).max(50)).max(20).default([]),
   roastStyles: z.array(z.enum(ROAST_STYLES)).max(5).default([]),
+  openingHours: z.string().optional().or(z.literal("")),
 });
 
 export type CreateRoasterInput = z.infer<typeof CreateRoasterSchema>;
@@ -74,6 +75,8 @@ export const CreateCafeSchema = z.object({
     .or(z.literal("")),
   phone: z.string().max(30).optional().or(z.literal("")),
   email: z.string().email("Invalid email").optional().or(z.literal("")),
+  openingHours: z.string().optional().or(z.literal("")),
+  services: z.string().optional().or(z.literal("")),
 });
 
 export type CreateCafeInput = z.infer<typeof CreateCafeSchema>;
@@ -102,32 +105,3 @@ export const CreateCafeReviewSchema = z.object({
 });
 
 export type CreateCafeReviewInput = z.infer<typeof CreateCafeReviewSchema>;
-
-export const ProposeCafeSchema = z.object({
-  name: z.string().min(2, "Minimum 2 znaki").max(100),
-  city: z.string().min(2).max(100),
-  country: z.string().min(2).max(60),
-  address: z.string().min(3, "Adres jest wymagany").max(200),
-  website: z.string().url("Nieprawidłowy URL").optional().or(z.literal("")),
-  instagram: z.string().max(50).optional().or(z.literal("")),
-  phone: z.string().max(30).optional().or(z.literal("")),
-  email: z.string().email("Nieprawidłowy email").optional().or(z.literal("")),
-  description: z.string().max(500, "Maksymalnie 500 znaków").optional().or(z.literal("")),
-  openingHours: z.string().optional().or(z.literal("")),
-  services: z.string().optional().or(z.literal("")),
-})
-
-export const ProposeRoasterSchema = z.object({
-  name: z.string().min(2, "Minimum 2 znaki").max(100),
-  city: z.string().min(2).max(100),
-  country: z.string().min(2).max(60),
-  website: z.string().url("Nieprawidłowy URL").optional().or(z.literal("")),
-  instagram: z.string().max(50).optional().or(z.literal("")),
-  email: z.string().email("Nieprawidłowy email").optional().or(z.literal("")),
-  shopUrl: z.string().url("Nieprawidłowy URL").optional().or(z.literal("")),
-  description: z.string().max(500, "Maksymalnie 500 znaków").optional().or(z.literal("")),
-  certifications: z.array(z.string()).max(10).optional().default([]),
-  origins: z.array(z.string()).optional().default([]),
-  roastStyles: z.array(z.string()).max(5).optional().default([]),
-  openingHours: z.string().optional().or(z.literal("")),
-})
