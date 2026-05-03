@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { Header } from "@/components/shared/Header";
 import { RoasterCard } from "@/components/roasters/RoasterCard";
@@ -85,6 +85,8 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
   });
   const [activeCert, setActiveCert] = useState<string | null>(null);
   const [activeService, setActiveService] = useState<string | null>(null);
+  const [boundsRoasterIds, setBoundsRoasterIds] = useState<Set<string> | null>(null);
+  const [boundsCafeIds, setBoundsCafeIds] = useState<Set<string> | null>(null);
 
   const handleEntityToggle = (type: "roasters" | "cafes") => {
     setEntityType(type);
@@ -93,20 +95,68 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
     localStorage.setItem(ENTITY_TYPE_KEY, type);
   };
 
-  const mapData = roasters.map((r) => ({
-    id: r.id,
-    name: r.name,
-    slug: r.slug,
-    city: r.city,
-    country: r.country,
-    lat: r.lat!,
-    lng: r.lng!,
-    image: r.images[0]?.url,
-    verified: r.status === "VERIFIED",
-  }));
+  const handleBoundsChange = useCallback(
+    ({ roasterIds, cafeIds }: { roasterIds: Set<string>; cafeIds: Set<string> }) => {
+      setBoundsRoasterIds(roasterIds);
+      setBoundsCafeIds(cafeIds);
+    },
+    []
+  );
 
-  const filteredRoasters = filterByCert(roasters, activeCert);
-  const filteredCafes = filterByService(cafes, activeService);
+  const mapData = useMemo(
+    () =>
+      roasters.map((r) => ({
+        id: r.id,
+        name: r.name,
+        slug: r.slug,
+        city: r.city,
+        country: r.country,
+        lat: r.lat!,
+        lng: r.lng!,
+        image: r.images[0]?.url,
+        verified: r.status === "VERIFIED",
+        certifications: r.certifications,
+      })),
+    [roasters]
+  );
+
+  const certFilteredRoasters = useMemo(
+    () => filterByCert(roasters, activeCert),
+    [roasters, activeCert]
+  );
+  const serviceFilteredCafes = useMemo(
+    () => filterByService(cafes, activeService),
+    [cafes, activeService]
+  );
+
+  const visibleRoasters = useMemo(() => {
+    if (!boundsRoasterIds) return certFilteredRoasters;
+    return certFilteredRoasters.filter((r) => boundsRoasterIds.has(r.id));
+  }, [certFilteredRoasters, boundsRoasterIds]);
+
+  const visibleCafes = useMemo(() => {
+    if (!boundsCafeIds) return serviceFilteredCafes;
+    return serviceFilteredCafes.filter((c) => boundsCafeIds.has(c.id));
+  }, [serviceFilteredCafes, boundsCafeIds]);
+
+  const visibleRoasterIds = useMemo(() => {
+    if (!boundsRoasterIds) return undefined;
+    const set = new Set<string>();
+    for (const r of visibleRoasters) set.add(r.id);
+    return set;
+  }, [visibleRoasters, boundsRoasterIds]);
+
+  const visibleCafeIds = useMemo(() => {
+    if (!boundsCafeIds) return undefined;
+    const set = new Set<string>();
+    for (const c of visibleCafes) set.add(c.id);
+    return set;
+  }, [visibleCafes, boundsCafeIds]);
+
+  const totalRoasters = roasters.length;
+  const totalCafes = cafes.length;
+  const onMapRoasters = boundsRoasterIds ? visibleRoasters.length : totalRoasters;
+  const onMapCafes = boundsCafeIds ? visibleCafes.length : totalCafes;
 
   return (
     <div className="h-screen flex flex-col">
@@ -119,6 +169,9 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
           <RoasterMap
             roasters={showRoasters ? mapData : []}
             cafes={showCafes ? cafes.map((c) => ({ ...c, lat: c.lat!, lng: c.lng! })) : []}
+            visibleRoasterIds={visibleRoasterIds}
+            visibleCafeIds={visibleCafeIds}
+            onBoundsChange={handleBoundsChange}
           />
 
           {/* Map marker toggles */}
@@ -129,7 +182,7 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
                 showRoasters ? "bg-primary text-on-primary" : "bg-surface text-on-surface-variant border border-outline/30"
               }`}
             >
-              {t("roastersCount", { count: roasters.length })}
+              {t("roastersCount", { count: onMapRoasters })}
             </button>
             <button
               onClick={() => setShowCafes((v) => !v)}
@@ -137,7 +190,7 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
                 showCafes ? "bg-secondary text-on-secondary" : "bg-surface text-on-surface-variant border border-outline/30"
               }`}
             >
-              {t("cafesCount", { count: cafes.length })}
+              {t("cafesCount", { count: onMapCafes })}
             </button>
           </div>
 
@@ -150,7 +203,9 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7" />
             </svg>
-            {entityType === "roasters" ? t("roastersCount", { count: roasters.length }) : t("cafesCount", { count: cafes.length })}
+            {entityType === "roasters"
+              ? t("roastersCount", { count: onMapRoasters })
+              : t("cafesCount", { count: onMapCafes })}
           </button>
         </section>
 
@@ -184,7 +239,7 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
                       : "text-on-surface-variant hover:text-on-surface"
                   }`}
                 >
-                  ☕ {t("roastersCount", { count: roasters.length })}
+                  ☕ {t("roastersCount", { count: onMapRoasters })}
                 </button>
                 <button
                   onClick={() => handleEntityToggle("cafes")}
@@ -194,7 +249,7 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
                       : "text-on-surface-variant hover:text-on-surface"
                   }`}
                 >
-                  ☺ {t("cafesCount", { count: cafes.length })}
+                  ☺ {t("cafesCount", { count: onMapCafes })}
                 </button>
               </div>
               <Link
@@ -266,8 +321,8 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
           {/* List */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {entityType === "roasters" ? (
-              filteredRoasters.length > 0 ? (
-                filteredRoasters.map((roaster) => (
+              visibleRoasters.length > 0 ? (
+                visibleRoasters.map((roaster) => (
                   <RoasterCard key={roaster.id} roaster={roaster} variant="compact" />
                 ))
               ) : (
@@ -275,8 +330,8 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
                   {t("noRoastersFilter")}
                 </p>
               )
-            ) : filteredCafes.length > 0 ? (
-              filteredCafes.map((cafe) => <CafeMapCard key={cafe.id} cafe={cafe} />)
+            ) : visibleCafes.length > 0 ? (
+              visibleCafes.map((cafe) => <CafeMapCard key={cafe.id} cafe={cafe} />)
             ) : (
               <p className="text-center text-on-surface-variant/60 text-sm py-8">
                 {t("noCafesFilter")}
