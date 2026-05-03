@@ -105,19 +105,54 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
 
   const mapData = useMemo(
     () =>
-      roasters.map((r) => ({
-        id: r.id,
-        name: r.name,
-        slug: r.slug,
-        city: r.city,
-        country: r.country,
-        lat: r.lat!,
-        lng: r.lng!,
-        image: r.images[0]?.url,
-        verified: r.status === "VERIFIED",
-        certifications: r.certifications,
-      })),
+      roasters.map((r) => {
+        const reviews = (r as unknown as { reviews: { rating: number }[] }).reviews ?? [];
+        const avgRating =
+          reviews.length > 0
+            ? reviews.reduce((s, rev) => s + rev.rating, 0) / reviews.length
+            : null;
+        return {
+          id: r.id,
+          name: r.name,
+          slug: r.slug,
+          city: r.city,
+          country: r.country,
+          lat: r.lat!,
+          lng: r.lng!,
+          image: r.images[0]?.url,
+          verified: r.status === "VERIFIED",
+          certifications: r.certifications,
+          rating: avgRating,
+        };
+      }),
     [roasters]
+  );
+
+  const enrichedCafes = useMemo(() => {
+    return cafes.map((c) => {
+      const reviews = (c as unknown as { reviews: { rating: number }[] }).reviews ?? [];
+      const avgRating = reviews.length > 0
+        ? reviews.reduce((s, r) => s + r.rating, 0) / reviews.length
+        : null;
+      return { ...c, rating: avgRating };
+    });
+  }, [cafes]);
+
+  const mapCafes = useMemo(
+    () => enrichedCafes.map((c) => ({
+      id: c.id,
+      name: c.name,
+      slug: c.slug,
+      city: c.city,
+      country: c.country,
+      lat: c.lat!,
+      lng: c.lng!,
+      logoUrl: c.logoUrl,
+      coverImageUrl: c.coverImageUrl,
+      services: c.services,
+      rating: c.rating,
+    })),
+    [enrichedCafes]
   );
 
   const certFilteredRoasters = useMemo(
@@ -125,8 +160,8 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
     [roasters, activeCert]
   );
   const serviceFilteredCafes = useMemo(
-    () => filterByService(cafes, activeService),
-    [cafes, activeService]
+    () => filterByService(enrichedCafes, activeService),
+    [enrichedCafes, activeService]
   );
 
   const visibleRoasters = useMemo(() => {
@@ -168,7 +203,7 @@ export function MapContent({ roasters, cafes }: { roasters: RoasterWithImages[];
         <section className="relative w-full lg:w-[70%] h-full">
           <RoasterMap
             roasters={showRoasters ? mapData : []}
-            cafes={showCafes ? cafes.map((c) => ({ ...c, lat: c.lat!, lng: c.lng! })) : []}
+            cafes={showCafes ? mapCafes : []}
             visibleRoasterIds={visibleRoasterIds}
             visibleCafeIds={visibleCafeIds}
             onBoundsChange={handleBoundsChange}
