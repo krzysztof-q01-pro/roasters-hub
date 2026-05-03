@@ -251,7 +251,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [ ] [P1] **Environment segregation: Uploadthing** — stworzyć osobny Uploadthing app dla dev; podmienić `UPLOADTHING_TOKEN` w `.env.local` na klucz dev (obecnie `sk_live_` wszędzie — dev testy uploadują do produkcji) (@MN)
 - [ ] [P1] **Environment segregation: Resend** — założyć `re_test_...` klucz w Resend dla dev; podmienić `RESEND_API_KEY` w `.env.local`; ustawić `ADMIN_EMAIL` na produkcji (obecnie nieustawione — admin nie dostaje powiadomień) (@MN)
 - [ ] [P2] **Environment segregation: Plausible** — przy wdrożeniu analityki: osobny site ID dla dev i prod (obecnie nieaktywne — Phase 2) (@MN)
-- [ ] [P2] **Bug: Cafe dashboard używa złego Uploadthing endpointa** — `web/src/app/dashboard/cafe/client.tsx:170` używa `endpoint="roasterImage"` zamiast `cafeImage`; dedykowany endpoint cafeImage istnieje ale jest nieużywany (@AGENT)
+- [x] [P2] **Bug: Cafe dashboard używa złego Uploadthing endpointa** — `web/src/app/dashboard/cafe/client.tsx:170` używa `endpoint="roasterImage"` zamiast `cafeImage`; dedykowany endpoint cafeImage istnieje ale jest nieużywany (@AGENT) ✅
 - [ ] [P1] **Podpięcie domeny** — zakup domeny + konfiguracja DNS w Vercel (@MN)
 - [ ] [P2] **Maile firmowe (cafe)** — konfiguracja firmowych skrzynek email dla kawiarni (@MN)
 
