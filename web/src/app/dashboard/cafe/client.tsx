@@ -167,7 +167,8 @@ export function CafeDashboardClient({
             {cafe.coverImageUrl ? "Replace your cover image" : "Upload a cover image for your cafe profile"}
           </p>
           <UploadButton
-            endpoint="roasterImage"
+            endpoint="cafeImage"
+            headers={{ "x-cafe-id": cafe.id }}
             onClientUploadComplete={async (res) => {
               if (res?.[0]?.url) {
                 await updateCafeCoverImage(cafe.id, res[0].url);
