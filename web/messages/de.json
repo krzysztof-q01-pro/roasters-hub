@@ -28,7 +28,9 @@
     "hasCafeDesc": "Dein Café registrieren",
     "knowRoastery": "Ich kenne eine tolle Rösterei",
     "knowCafe": "Ich kenne ein tolles Café",
-    "suggestAPlace": "Ort vorschlagen"
+    "suggestAPlace": "Ort vorschlagen",
+    "signIn": "Anmelden",
+    "signOut": "Abmelden"
   },
   "footer": {
     "tagline": "Das Specialty-Coffee-Ökosystem durch Transparenz, Herkunft und Gemeinschaft verbinden.",
@@ -408,6 +410,9 @@
     "instagramPlaceholder": "@deineroesterei",
     "emailAddress": "E-Mail-Adresse",
     "emailPlaceholder": "hallo@deineroesterei.com",
+    "cafeWebsitePlaceholder": "https://deincafe.com",
+    "cafeInstagramPlaceholder": "@deincafe",
+    "cafeEmailPlaceholder": "hallo@deincafe.com",
     "coffeeOrigins": "Kaffee-Herkunft",
     "roastStyles": "Röststile",
     "certifications": "Zertifizierungen",

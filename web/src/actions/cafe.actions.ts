@@ -10,7 +10,7 @@ import { CreateCafeSchema, UpdateCafeSchema, ProposeCafeSchema, type ActionResul
 
 export async function createCafe(
   formData: FormData,
-  userId: string,
+  userId?: string,
 ): Promise<ActionResult<{ slug: string }>> {
   try {
     const raw = {
@@ -24,6 +24,7 @@ export async function createCafe(
       website: formData.get("website"),
       instagram: formData.get("instagram"),
       phone: formData.get("phone"),
+      email: formData.get("email") || undefined,
     };
 
     const parsed = CreateCafeSchema.safeParse(raw);
@@ -35,7 +36,7 @@ export async function createCafe(
       };
     }
 
-    const { name, description, country, city, address, lat, lng, website, instagram, phone } =
+    const { name, description, country, city, address, lat, lng, website, instagram, phone, email } =
       parsed.data;
 
     const slug = await generateUniqueCafeSlug(name, city);
@@ -55,19 +56,22 @@ export async function createCafe(
         website: website || null,
         instagram: instagram || null,
         phone: phone || null,
+        email: email || null,
         status: "PENDING",
       },
     });
 
-    await db.userProfile.update({
-      where: { id: userId },
-      data: { role: "CAFE" },
-    });
+    if (userId) {
+      await db.userProfile.update({
+        where: { id: userId },
+        data: { role: "CAFE" },
+      });
 
-    await db.cafe.update({
-      where: { id: cafe.id },
-      data: { ownerId: userId },
-    });
+      await db.cafe.update({
+        where: { id: cafe.id },
+        data: { ownerId: userId },
+      });
+    }
 
     revalidatePath("/cafes");
     return { success: true, data: { slug: cafe.slug } };

@@ -28,7 +28,9 @@
     "hasCafeDesc": "Zarejestruj swoją kawiarnię",
     "knowRoastery": "Znam świetną palarnię",
     "knowCafe": "Znam świetną kawiarnię",
-    "suggestAPlace": "Zaproponuj miejsce"
+    "suggestAPlace": "Zaproponuj miejsce",
+    "signIn": "Zaloguj się",
+    "signOut": "Wyloguj się"
   },
   "footer": {
     "tagline": "Łączymy ekosystem kawy specialty przez transparentność, origin i społeczność.",
@@ -408,6 +410,9 @@
     "instagramPlaceholder": "@twojapalaria",
     "emailAddress": "Adres email",
     "emailPlaceholder": "kontakt@twojapalaria.pl",
+    "cafeWebsitePlaceholder": "https://twojakawiarnia.pl",
+    "cafeInstagramPlaceholder": "@twojakawiarnia",
+    "cafeEmailPlaceholder": "kontakt@twojakawiarnia.pl",
     "coffeeOrigins": "Pochodzenie kawy",
     "roastStyles": "Style palenia",
     "certifications": "Certyfikaty",

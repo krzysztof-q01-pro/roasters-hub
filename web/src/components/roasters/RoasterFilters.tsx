@@ -84,20 +84,19 @@ export function RoasterFilters({ countries }: RoasterFiltersProps) {
         </svg>
       </button>
 
-      {/* Search — always visible on mobile */}
-      <div className="mb-6">
-        <label htmlFor="filter-search" className="text-xs font-semibold uppercase tracking-wider mb-3 block">Search name</label>
-        <input
-          id="filter-search"
-          className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
-          placeholder="Roastery name..."
-          type="text"
-          defaultValue={searchParams.get("q") || ""}
-          onChange={(e) => updateFilter("q", e.target.value || null)}
-        />
-      </div>
-
       <div className={`space-y-10 ${open ? "block" : "hidden"} lg:block`}>
+        {/* Search */}
+        <div>
+          <label htmlFor="filter-search" className="text-xs font-semibold uppercase tracking-wider mb-3 block">Search name</label>
+          <input
+            id="filter-search"
+            className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+            placeholder="Roastery name..."
+            type="text"
+            defaultValue={searchParams.get("q") || ""}
+            onChange={(e) => updateFilter("q", e.target.value || null)}
+          />
+        </div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="font-headline text-2xl hidden lg:block">Filters</h2>
         <button onClick={clearAll} className="text-sm text-primary hover:underline underline-offset-4">

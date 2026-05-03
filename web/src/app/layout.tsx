@@ -50,8 +50,22 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = await getLocale();
-  const t = await getTranslations({ locale, namespace: "beta" });
+  let locale = "en";
+  try {
+    locale = await getLocale();
+  } catch {
+    // next-intl context missing on locale-free routes (/sign-in, /sign-up, /dashboard)
+  }
+
+  let betaMessage = "";
+  let betaDismiss = "Dismiss";
+  try {
+    const t = await getTranslations({ locale, namespace: "beta" });
+    betaMessage = t("message");
+    betaDismiss = t("dismiss");
+  } catch {
+    // BetaBanner will be hidden when BETA_PASSWORD is not set anyway
+  }
 
   return (
     <html
@@ -59,7 +73,7 @@ export default async function RootLayout({
       className={`${fraunces.variable} ${sourceSans.variable} h-full scroll-smooth`}
     >
       <body className="min-h-full flex flex-col antialiased" suppressHydrationWarning>
-        <BetaBanner message={t("message")} dismissLabel={t("dismiss")} />
+        <BetaBanner message={betaMessage} dismissLabel={betaDismiss} />
         <ClerkProvider>{children}</ClerkProvider>
         {process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN && (
           <Script
