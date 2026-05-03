@@ -66,6 +66,31 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 **MEDIUM:**
 - [ ] [MEDIUM] **manifest.json 404 na każdej stronie** — brak Web App Manifest (PWA); przeglądarka próbuje pobrać `/manifest.json` i dostaje 404; powtarza się globalnie (audit 2026-04-24) (@UNASSIGNED)
 
+### Site Audit — 2026-05-02 — (@AGENT) ✅ **FIXED** (PR #77 merged to main)
+
+> **Report:** `.tmp/audit-2026-05-02.md`
+> **Wykonane:** 2026-05-02 — Test rejestracji palarni, kawiarni i zakładania konta na `beanmap.pl` (Playwright MCP)
+> **Session:** 2026-05-03 — @AGENT naprawił 12/14 problemów (3 CRITICAL, 5 HIGH, 4 MEDIUM). Turnstile wyłączone przez @MN w Clerk Dashboard.
+> **Branch:** `feat/agent-2026-18` (merged)
+> **Status:** Wszystkie CRITICAL + HIGH + MEDIUM naprawione i zweryfikowane na produkcji
+
+**CRITICAL:**
+- [x] [CRITICAL] **/sign-in zwraca HTTP 500** — naprawiono: root layout guarduje `getLocale()`/`getTranslations()` try-catch dla locale-free routes (2026-05-03) (@AGENT)
+- [x] [CRITICAL] **/sign-up blokowany przez Cloudflare Turnstile** — naprawiono: wyłączone Bot sign-up protection w Clerk Dashboard (2026-05-03) (@MN)
+- [x] [CRITICAL] **/register/cafe wymaga logowania, /register nie** — naprawiono: usunięto `useAuth()` z cafe page; `createCafe` przyjmuje opcjonalny `userId`; rejestracja kawiarni działa bez logowania jak palarnia (2026-05-03) (@AGENT)
+
+**HIGH:**
+- [x] [HIGH] **Brak linku "Sign in" w headerze** — naprawiono: dodano `<SignedIn>`, `<SignedOut>`, `<SignInButton>`, `<UserButton>` w Header.tsx desktop + mobile (2026-05-03) (@AGENT)
+- [x] [HIGH] **/register/cafe — brak "| Bean Map" w tytule** — naprawiono: explicit title "Register Your Cafe | Bean Map" w layout.tsx (2026-05-03) (@AGENT)
+- [x] [HIGH] **/register/cafe — placeholder'y "roastery"** — naprawiono: dodano cafe-specific klucze (`cafeWebsitePlaceholder` itd.) do namespace register EN/PL/DE (2026-05-03) (@AGENT)
+- [x] [HIGH] **/register/cafe — podwójna strzałka "← ← Back"** — naprawiono: usunięto hardcodowane `←` (2026-05-03) (@AGENT)
+- [x] [HIGH] **/register/cafe — podsumowanie nie pokazuje adresu i opisu** — naprawiono: dodano description, address, phone, email, lat/lng do review step (2026-05-03) (@AGENT)
+
+**MEDIUM:**
+- [x] [MEDIUM] **/register/cafe — brak wizualnych wskaźników kroków** — naprawiono: zastąpiono progress bar numerowanymi kółkami (zgodnie z `/register`) (2026-05-03) (@AGENT)
+- [x] [MEDIUM] **/register/cafe — brak pola Email** — naprawiono: dodano email do form state, Step 2, FormData i CreateCafeSchema (2026-05-03) (@AGENT)
+- [x] [MEDIUM] **Search toggle zawsze domyślnie "Search cafes"** — naprawiono: HeaderSearch dostaje `pathname` i domyślnie ustawia roasters na `/roasters` i `/register` (2026-05-03) (@AGENT)
+
 ---
 
 ## NEXT
@@ -222,6 +247,11 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 ### Infrastructure — (@MN)
 
+- [ ] [P1] **Clerk Production environment** — utworzenie środowiska Production w Clerk Dashboard (obecnie tylko Development z `sk_test_`); podmiana kluczy w Vercel na `pk_live_`/`sk_live_`; konfiguracja Attack Protection dla Production; przekonfigurowanie Google OAuth redirect URI (@MN)
+- [ ] [P1] **Environment segregation: Uploadthing** — stworzyć osobny Uploadthing app dla dev; podmienić `UPLOADTHING_TOKEN` w `.env.local` na klucz dev (obecnie `sk_live_` wszędzie — dev testy uploadują do produkcji) (@MN)
+- [ ] [P1] **Environment segregation: Resend** — założyć `re_test_...` klucz w Resend dla dev; podmienić `RESEND_API_KEY` w `.env.local`; ustawić `ADMIN_EMAIL` na produkcji (obecnie nieustawione — admin nie dostaje powiadomień) (@MN)
+- [ ] [P2] **Environment segregation: Plausible** — przy wdrożeniu analityki: osobny site ID dla dev i prod (obecnie nieaktywne — Phase 2) (@MN)
+- [x] [P2] **Bug: Cafe dashboard używa złego Uploadthing endpointa** — `web/src/app/dashboard/cafe/client.tsx:170` używa `endpoint="roasterImage"` zamiast `cafeImage`; dedykowany endpoint cafeImage istnieje ale jest nieużywany (@AGENT) ✅
 - [ ] [P1] **Podpięcie domeny** — zakup domeny + konfiguracja DNS w Vercel (@MN)
 - [ ] [P2] **Maile firmowe (cafe)** — konfiguracja firmowych skrzynek email dla kawiarni (@MN)
 

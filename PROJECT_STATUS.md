@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-04-24 | i18n EN/PL/DE COMPLETE + codebase cleanup — next-intl routing, full translations, locale switcher redesign, UX Quality Audit findings verified in code
+2026-05-03 | @AGENT fixed 12/14 issues from Site Audit 2026-05-02 (PR #77 merged). Turnstile disabled in Clerk Dashboard (@MN). Clerk Production environment + Infrastructure segregation audit added to ROADMAP.
 
 ---
 
@@ -74,11 +74,15 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Active Work
 
-**@AGENT:** Codebase cleanup + documentation sync (ROADMAP/STATUS update, remove garbage files) (2026-04-24)
-**@MN:** [IN PROGRESS] Taxonomia danych + Zasilenie bazy kawiarni w PL
+**@MN:** [IN PROGRESS] Taksonomia danych + Zasilenie bazy kawiarni w PL
 **@MN:** [IN PROGRESS] Logo Bean Map — SVG variants, hover states, dark mode
+**@MN:** [P1] Clerk Production environment — utworzenie Production instance w Clerk, podmiana kluczy w Vercel
+**@MN:** [P1] Environment segregation audit — Uploadthing, Resend, Plausible klucze Dev vs Prod
 
 **Completed recently:**
+- ✅ Site Audit 2026-05-02 — all 12/14 issues fixed and verified on production (PR #77) (2026-05-03)
+- ✅ Bot sign-up protection disabled in Clerk Dashboard — `/sign-up` works (2026-05-03)
+- ✅ ROADMAP updated with Clerk Production + Infrastructure audit tasks (2026-05-03)
 - ✅ i18n EN/PL/DE — `next-intl` with `[locale]` routing, full translations for all user/admin pages (~310 keys per locale), redesigned locale switcher with dark dropdown (PR #59-61) (2026-04-23)
 - ✅ Data Consistency + Public Proposal Flow — Cafe.openingHours String→Json migration, OpeningHoursPicker component (Smart Monday), /suggest/cafe + /suggest/roastery public forms, admin cafe master editor (7 sections), admin roaster master editor (8 sections), nav CTAs "Zaproponuj miejsce" in header/footer/listings (2026-04-16)
 - ✅ Enrichment UX Redesign — AdminNav global nav, run list w/ keywords/location inline, new run form w/ EnrichmentTag (persistent per entityType), split layout (EntityListPanel + EntityCard + SplitLayout), photo selection via Unsplash + UploadThing, single-click apply (applyEntityProposals), bulkApplyByConfidence, APPROVED status removed (2026-04-14)

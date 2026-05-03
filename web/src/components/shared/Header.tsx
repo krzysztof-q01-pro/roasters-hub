@@ -6,20 +6,22 @@ import { useSearchParams } from "next/navigation";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { Suspense, useState } from "react";
 import { useTranslations } from "next-intl";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { CoffeeBean } from "@/components/icons/CoffeeBean";
 import { CoffeeCup } from "@/components/icons/CoffeeCup";
 import { AddPlaceDropdown } from "./AddPlaceDropdown";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 
-function HeaderSearch() {
+function HeaderSearch({ pathname }: { pathname: string }) {
   const t = useTranslations("nav");
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentQ = searchParams.get("q") || "";
   const [entityType, setEntityType] = useState<"roasters" | "cafes">(() => {
-    if (typeof window === "undefined") return "cafes";
-    const stored = localStorage.getItem("beanmap_entity_type");
-    return stored === "roasters" || stored === "cafes" ? stored : "cafes";
+    const stored = typeof window !== "undefined" ? localStorage.getItem("beanmap_entity_type") : null;
+    if (stored === "roasters" || stored === "cafes") return stored;
+    if (pathname.startsWith("/roasters") || pathname.startsWith("/register")) return "roasters";
+    return "cafes";
   });
 
   const handleToggle = (type: "roasters" | "cafes") => {
@@ -130,11 +132,28 @@ export function Header() {
           <Suspense fallback={
             <div className="hidden sm:flex items-center bg-surface-container-low rounded-lg overflow-hidden h-[42px] w-72 lg:w-80" />
           }>
-            <HeaderSearch />
+            <HeaderSearch pathname={pathname} />
           </Suspense>
 
-          <div className="hidden md:block">
+          <div className="hidden md:flex items-center gap-3">
             <LocaleSwitcher />
+            <div className="w-px h-5 bg-outline-variant/30" />
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="text-sm text-on-surface-variant hover:text-primary transition-colors font-medium">
+                  {t("signIn")}
+                </button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: "w-8 h-8",
+                  },
+                }}
+              />
+            </SignedIn>
           </div>
 
           <button
@@ -166,6 +185,27 @@ export function Header() {
               {link.label}
             </Link>
           ))}
+          <div className="pt-2 border-t border-surface-container-high/30 space-y-1">
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="block text-on-surface-variant hover:text-primary transition-colors py-2 text-base font-bold w-full text-left">
+                  {t("signIn")}
+                </button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <div className="flex items-center gap-2 py-2">
+                <UserButton
+                  appearance={{
+                    elements: {
+                      avatarBox: "w-8 h-8",
+                    },
+                  }}
+                />
+                <span className="text-on-surface-variant text-base font-bold">{t("signOut")}</span>
+              </div>
+            </SignedIn>
+          </div>
           <div className="pt-2 border-t border-surface-container-high/30">
             <LocaleSwitcher />
           </div>
