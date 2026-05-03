@@ -1,22 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { ROAST_STYLES, CERTIFICATIONS, CERTIFICATION_LABELS, ORIGINS } from "@/types/certifications";
 import { createRoasterRegistration } from "@/actions/roaster.actions";
+import { getDefaultCountryFromLocale } from "@/lib/default-country";
+import { detectCountry } from "@/actions/geo.actions";
 
 export default function RegisterPage() {
   const t = useTranslations("register");
+  const locale = useLocale();
+  const defaultCountry = getDefaultCountryFromLocale(locale);
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
     name: "",
-    country: "",
+    country: defaultCountry?.name ?? "",
     city: "",
     description: "",
     website: "",
@@ -30,6 +34,18 @@ export default function RegisterPage() {
     acceptPrivacy: false,
     acceptMarketing: false,
   });
+
+  useEffect(() => {
+    if (defaultCountry) return;
+    detectCountry().then((detected) => {
+      if (detected) {
+        setForm((prev) => {
+          if (prev.country) return prev;
+          return { ...prev, country: detected.name };
+        });
+      }
+    });
+  }, [defaultCountry]);
 
   const steps = t.raw("stepsRoaster") as string[];
 

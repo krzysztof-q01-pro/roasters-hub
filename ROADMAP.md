@@ -264,6 +264,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 ## LATER — Phase 3: Growth (miesiąc 2-3)
 
 - [ ] Featured tier + Stripe (webhook `/api/webhooks/stripe`, `setFeatured` action) (@UNASSIGNED)
+- [ ] **UserProfile.country** — zapisz preferowany kraj w profilu zalogowanego użytkownika; auto-fill country w formularzach rejestracji na podstawie zapisanej preferencji (fallback: locale → IP geo) (@UNASSIGNED)
 
 ## LATER — Phase 4: Scale (miesiąc 4+)
 
