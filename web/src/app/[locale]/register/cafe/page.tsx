@@ -1,14 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { createCafe } from "@/actions/cafe.actions";
+import { getDefaultCountryFromLocale } from "@/lib/default-country";
+import { detectCountry } from "@/actions/geo.actions";
 
 export default function RegisterCafePage() {
   const t = useTranslations("register");
+  const locale = useLocale();
+  const defaultCountry = getDefaultCountryFromLocale(locale);
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -16,7 +20,7 @@ export default function RegisterCafePage() {
   const [form, setForm] = useState({
     name: "",
     city: "",
-    country: "",
+    country: defaultCountry?.name ?? "",
     description: "",
     address: "",
     lat: "",
@@ -29,6 +33,18 @@ export default function RegisterCafePage() {
     acceptPrivacy: false,
     acceptMarketing: false,
   });
+
+  useEffect(() => {
+    if (defaultCountry) return;
+    detectCountry().then((detected) => {
+      if (detected) {
+        setForm((prev) => {
+          if (prev.country) return prev;
+          return { ...prev, country: detected.name };
+        });
+      }
+    });
+  }, [defaultCountry]);
 
   const steps = t.raw("stepsCafe") as string[];
 
@@ -175,7 +191,7 @@ export default function RegisterCafePage() {
         {step === 1 && (
           <div className="space-y-5">
             <div>
-              <label className="block text-sm font-medium mb-1">{t("address")}</label>
+              <label className="block text-sm font-medium mb-1">{t("address")} *</label>
               <input
                 value={form.address}
                 onChange={(e) => update("address", e.target.value)}
@@ -340,7 +356,10 @@ export default function RegisterCafePage() {
           {step < steps.length - 1 ? (
             <button
               onClick={() => setStep((s) => s + 1)}
-              disabled={step === 0 && (!form.name || !form.city || !form.country)}
+              disabled={
+                (step === 0 && (!form.name || !form.city || !form.country)) ||
+                (step === 1 && !form.address)
+              }
               className="bg-primary text-on-primary px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-primary/90 disabled:opacity-40 transition-colors"
             >
               {t("next")}
