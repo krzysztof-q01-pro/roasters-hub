@@ -28,7 +28,9 @@
     "hasCafeDesc": "Dein Café registrieren",
     "knowRoastery": "Ich kenne eine tolle Rösterei",
     "knowCafe": "Ich kenne ein tolles Café",
-    "suggestAPlace": "Ort vorschlagen"
+    "suggestAPlace": "Ort vorschlagen",
+    "signIn": "Anmelden",
+    "signOut": "Abmelden"
   },
   "footer": {
     "tagline": "Das Specialty-Coffee-Ökosystem durch Transparenz, Herkunft und Gemeinschaft verbinden.",

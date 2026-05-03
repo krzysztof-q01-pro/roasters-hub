@@ -28,7 +28,9 @@
     "hasCafeDesc": "Register your café",
     "knowRoastery": "Know a great roastery",
     "knowCafe": "Know a great café",
-    "suggestAPlace": "Suggest a place"
+    "suggestAPlace": "Suggest a place",
+    "signIn": "Sign in",
+    "signOut": "Sign out"
   },
   "footer": {
     "tagline": "Connecting the specialty coffee ecosystem through transparency, origin, and community.",
