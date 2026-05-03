@@ -1,18 +1,20 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { auth } from "@clerk/nextjs/server";
 import { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
 import { requireAdmin, requireCafeOwner } from "@/lib/auth";
 import { generateUniqueCafeSlug } from "@/lib/slug";
 import { resolveCountryCode } from "@/lib/country-codes";
-import { CreateCafeSchema, UpdateCafeSchema, ProposeCafeSchema, type ActionResult } from "@/types/actions";
+import { CreateCafeSchema, UpdateCafeSchema, type ActionResult } from "@/types/actions";
 
 export async function createCafe(
   formData: FormData,
-  userId?: string,
 ): Promise<ActionResult<{ slug: string }>> {
   try {
+    const isOwner = formData.get("isOwner") === "true";
+
     const raw = {
       name: formData.get("name"),
       description: formData.get("description"),
@@ -25,6 +27,8 @@ export async function createCafe(
       instagram: formData.get("instagram"),
       phone: formData.get("phone"),
       email: formData.get("email") || undefined,
+      openingHours: formData.get("openingHours") || undefined,
+      services: formData.get("services") || undefined,
     };
 
     const parsed = CreateCafeSchema.safeParse(raw);
@@ -36,11 +40,32 @@ export async function createCafe(
       };
     }
 
-    const { name, description, country, city, address, lat, lng, website, instagram, phone, email } =
+    const { name, description, country, city, address, lat, lng, website, instagram, phone, email, openingHours: hoursRaw, services: servicesRaw } =
       parsed.data;
+
+    let userId: string | undefined;
+    if (isOwner) {
+      const session = await auth();
+      userId = session.userId ?? undefined;
+      if (!userId) {
+        return {
+          success: false,
+          error: "You must be signed in to register as the owner. Please sign in and try again.",
+        };
+      }
+    }
 
     const slug = await generateUniqueCafeSlug(name, city);
     const countryCode = resolveCountryCode(country);
+
+    let openingHours: Prisma.InputJsonValue | undefined = undefined;
+    if (hoursRaw) {
+      try { openingHours = JSON.parse(hoursRaw); } catch { /* invalid JSON, skip */ }
+    }
+
+    const services = servicesRaw
+      ? servicesRaw.split(",").map((s) => s.trim()).filter(Boolean)
+      : [];
 
     const cafe = await db.cafe.create({
       data: {
@@ -58,6 +83,8 @@ export async function createCafe(
         phone: phone || null,
         email: email || null,
         status: "PENDING",
+        openingHours,
+        services,
       },
     });
 
@@ -73,67 +100,15 @@ export async function createCafe(
       });
     }
 
-    revalidatePath("/cafes");
+    if (userId) {
+      revalidatePath("/cafes");
+    } else {
+      revalidatePath("/admin/cafes");
+    }
     return { success: true, data: { slug: cafe.slug } };
   } catch (error) {
     console.error("[createCafe]", error);
     return { success: false, error: "Something went wrong. Please try again." };
-  }
-}
-
-export async function createCafeProposal(
-  formData: FormData
-): Promise<ActionResult<{ slug: string }>> {
-  try {
-    const raw = Object.fromEntries(formData)
-    const parsed = ProposeCafeSchema.safeParse(raw)
-    if (!parsed.success) {
-      return {
-        success: false,
-        error: "Validation failed",
-        fieldErrors: parsed.error.flatten().fieldErrors as Record<string, string[]>,
-      }
-    }
-
-    const { name, city, country, address, website, instagram, phone, email,
-      description, openingHours: hoursRaw, services: servicesRaw } = parsed.data
-
-    const countryCode = resolveCountryCode(country)
-    const slug = await generateUniqueCafeSlug(name, city)
-
-    let openingHours: import("@prisma/client").Prisma.InputJsonValue | undefined = undefined
-    if (hoursRaw) {
-      try { openingHours = JSON.parse(hoursRaw) } catch { /* invalid JSON, skip */ }
-    }
-
-    const services = servicesRaw
-      ? servicesRaw.split(",").map((s) => s.trim()).filter(Boolean)
-      : []
-
-    const cafe = await db.cafe.create({
-      data: {
-        name,
-        city,
-        country,
-        countryCode,
-        slug,
-        status: "PENDING",
-        address: address || null,
-        website: website || null,
-        instagram: instagram || null,
-        phone: phone || null,
-        email: email || null,
-        description: description || null,
-        openingHours,
-        services,
-      },
-    })
-
-    revalidatePath("/admin/cafes")
-    return { success: true, data: { slug: cafe.slug } }
-  } catch (error) {
-    console.error("[createCafeProposal]", error)
-    return { success: false, error: "Something went wrong. Please try again." }
   }
 }
 

@@ -3,16 +3,20 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
+import { useAuth, SignInButton } from "@clerk/nextjs";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { ROAST_STYLES, CERTIFICATIONS, CERTIFICATION_LABELS, ORIGINS } from "@/types/certifications";
 import { createRoasterRegistration } from "@/actions/roaster.actions";
 import { getDefaultCountryFromLocale } from "@/lib/default-country";
 import { detectCountry } from "@/actions/geo.actions";
+import { OpeningHoursPicker } from "@/components/shared/OpeningHoursPicker";
+import { EMPTY_OPENING_HOURS, type OpeningHours } from "@/types/opening-hours";
 
 export default function RegisterPage() {
   const t = useTranslations("register");
   const locale = useLocale();
+  const { isSignedIn } = useAuth();
   const defaultCountry = getDefaultCountryFromLocale(locale);
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
@@ -34,6 +38,9 @@ export default function RegisterPage() {
     acceptPrivacy: false,
     acceptMarketing: false,
   });
+
+  const [isOwner, setIsOwner] = useState(false);
+  const [hours, setHours] = useState<OpeningHours>(EMPTY_OPENING_HOURS);
 
   useEffect(() => {
     if (defaultCountry) return;
@@ -81,6 +88,8 @@ export default function RegisterPage() {
     formData.set("instagram", form.instagram);
     formData.set("email", form.email);
     formData.set("acceptMarketing", form.acceptMarketing ? "true" : "false");
+    formData.set("isOwner", isOwner ? "true" : "false");
+    formData.set("openingHours", JSON.stringify(hours));
     form.certifications.forEach((c) => formData.append("certifications", c));
     form.origins.forEach((o) => formData.append("origins", o));
     form.roastStyles.forEach((s) => formData.append("roastStyles", s));
@@ -308,6 +317,64 @@ export default function RegisterPage() {
               </div>
             </div>
 
+            <div>
+              <p className="text-sm font-medium mb-3">{t("openingHours")}</p>
+              <OpeningHoursPicker value={hours} onChange={setHours} />
+            </div>
+
+            <div className="space-y-3 pt-4 border-t border-outline/10">
+              <h3 className="text-sm font-semibold text-on-surface">{t("yourRoleRoaster")}</h3>
+
+              <label
+                className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
+                  isOwner
+                    ? "border-primary bg-primary/5"
+                    : "border-outline/10 hover:border-outline"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="roasterRole"
+                  checked={isOwner}
+                  onChange={() => setIsOwner(true)}
+                  className="mt-0.5 w-4 h-4 text-primary focus:ring-primary"
+                />
+                <div>
+                  <span className="text-sm font-medium">{t("iAmOwnerRoaster")}</span>
+                  <p className="text-xs text-on-surface-variant mt-0.5">{t("iAmOwnerRoasterDesc")}</p>
+                  {!isSignedIn && (
+                    <p className="text-xs text-primary mt-1">
+                      <SignInButton mode="modal">
+                        <button type="button" className="underline hover:opacity-80">
+                          {t("signInToClaim")}
+                        </button>
+                      </SignInButton>
+                    </p>
+                  )}
+                </div>
+              </label>
+
+              <label
+                className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
+                  !isOwner
+                    ? "border-primary bg-primary/5"
+                    : "border-outline/10 hover:border-outline"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="roasterRole"
+                  checked={!isOwner}
+                  onChange={() => setIsOwner(false)}
+                  className="mt-0.5 w-4 h-4 text-primary focus:ring-primary"
+                />
+                <div>
+                  <span className="text-sm font-medium">{t("iAmSuggesting")}</span>
+                  <p className="text-xs text-on-surface-variant mt-0.5">{t("iAmSuggestingDesc")}</p>
+                </div>
+              </label>
+            </div>
+
             <div className="space-y-4 pt-4 border-t border-outline/10">
               <h3 className="text-sm font-semibold text-on-surface">{t("consentsTitle")}</h3>
 
@@ -368,7 +435,7 @@ export default function RegisterPage() {
               <button onClick={() => setStep(1)} className="text-on-surface-variant hover:text-on-surface transition-colors px-4 py-3">{t("back")}</button>
               <button
                 onClick={handleSubmit}
-                disabled={submitting || !form.acceptTerms || !form.acceptPrivacy}
+                disabled={submitting || !form.acceptTerms || !form.acceptPrivacy || (isOwner && !isSignedIn)}
                 className="bg-primary text-on-primary px-8 py-3 rounded-lg font-medium hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {submitting ? t("submitting") : t("submitForVerification")}

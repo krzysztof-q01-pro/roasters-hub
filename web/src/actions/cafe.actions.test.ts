@@ -14,13 +14,17 @@ vi.mock("@/lib/auth", () => ({
   requireAdmin: vi.fn(),
   requireCafeOwner: vi.fn(),
 }));
+vi.mock("@clerk/nextjs/server", () => ({
+  auth: vi.fn(),
+}));
 
 import { revalidatePath } from "next/cache";
+import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { generateUniqueCafeSlug } from "@/lib/slug";
 import { resolveCountryCode } from "@/lib/country-codes";
 import { requireAdmin } from "@/lib/auth";
-import { createCafe, verifyCafe, rejectCafe, createCafeProposal } from "@/actions/cafe.actions";
+import { createCafe, verifyCafe, rejectCafe } from "@/actions/cafe.actions";
 
 const mockCreate = db.cafe.create as unknown as ReturnType<typeof vi.fn>;
 const mockUpdate = db.cafe.update as unknown as ReturnType<typeof vi.fn>;
@@ -29,6 +33,9 @@ const mockSlug = vi.mocked(generateUniqueCafeSlug);
 const mockCountryCode = vi.mocked(resolveCountryCode);
 const mockRequireAdmin = vi.mocked(requireAdmin);
 const mockRevalidatePath = vi.mocked(revalidatePath);
+const mockAuth = vi.mocked(auth);
+
+type AuthResult = Awaited<ReturnType<typeof auth>>;
 
 function makeFormData(data: Record<string, string>): FormData {
   const fd = new FormData();
@@ -58,18 +65,27 @@ beforeEach(() => {
 describe("createCafe", () => {
   it("returns fieldError when name is too short", async () => {
     const fd = makeFormData({ ...validData, name: "X" });
-    const result = await createCafe(fd, "user_123");
+    const result = await createCafe(fd);
     expect(result.success).toBe(false);
     if (!result.success) expect(result.fieldErrors?.name).toBeDefined();
   });
 
-  it("creates cafe, updates userProfile, revalidates /cafes", async () => {
+  it("returns error when isOwner is true but user is not authenticated", async () => {
+    mockAuth.mockResolvedValue({ userId: null } as unknown as AuthResult);
+    const fd = makeFormData({ ...validData, isOwner: "true" });
+    const result = await createCafe(fd);
+    expect(result.success).toBe(false);
+    if (!result.success) expect(result.error).toContain("signed in");
+  });
+
+  it("creates cafe as owner, updates userProfile, revalidates /cafes", async () => {
+    mockAuth.mockResolvedValue({ userId: "user_123" } as unknown as AuthResult);
     mockCreate.mockResolvedValue({ id: "cafe_1", slug: "brew-lab" });
     mockUserUpdate.mockResolvedValue({});
     mockUpdate.mockResolvedValue({});
 
-    const fd = makeFormData(validData);
-    const result = await createCafe(fd, "user_123");
+    const fd = makeFormData({ ...validData, isOwner: "true" });
+    const result = await createCafe(fd);
 
     expect(result.success).toBe(true);
     expect(mockCreate).toHaveBeenCalledOnce();
@@ -82,6 +98,59 @@ describe("createCafe", () => {
       data: { ownerId: "user_123" },
     });
     expect(mockRevalidatePath).toHaveBeenCalledWith("/cafes");
+  });
+
+  it("creates PENDING cafe as suggestion, no owner, revalidates /admin/cafes", async () => {
+    mockAuth.mockResolvedValue({ userId: null } as unknown as AuthResult);
+    mockCreate.mockResolvedValue({ slug: "brew-lab" });
+
+    const fd = makeFormData({ ...validData, isOwner: "false" });
+    const result = await createCafe(fd);
+
+    expect(result.success).toBe(true);
+    if (result.success) expect(result.data).toEqual({ slug: "brew-lab" });
+    expect(mockCreate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          status: "PENDING",
+          name: "Brew Lab",
+        }),
+      })
+    );
+    expect(mockUserUpdate).not.toHaveBeenCalled();
+    expect(mockRevalidatePath).toHaveBeenCalledWith("/admin/cafes");
+  });
+
+  it("stores parsed openingHours JSON", async () => {
+    mockAuth.mockResolvedValue({ userId: null } as unknown as AuthResult);
+    mockCreate.mockResolvedValue({ slug: "test" });
+    const hours = JSON.stringify({ mon: { open: "08:00", close: "18:00" }, tue: null, wed: null, thu: null, fri: null, sat: null, sun: null });
+    const fd = makeFormData({ ...validData, openingHours: hours });
+    await createCafe(fd);
+    expect(mockCreate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          openingHours: { mon: { open: "08:00", close: "18:00" }, tue: null, wed: null, thu: null, fri: null, sat: null, sun: null },
+        }),
+      })
+    );
+  });
+
+  it("stores parsed services from comma-separated string", async () => {
+    mockAuth.mockResolvedValue({ userId: null } as unknown as AuthResult);
+    mockCreate.mockResolvedValue({ slug: "test" });
+
+    const fd = makeFormData({ ...validData, services: "Wi-Fi, Workspace, Dog friendly" });
+    const result = await createCafe(fd);
+
+    expect(result.success).toBe(true);
+    expect(mockCreate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          services: ["Wi-Fi", "Workspace", "Dog friendly"],
+        }),
+      })
+    );
   });
 });
 
@@ -127,52 +196,5 @@ describe("rejectCafe", () => {
       },
       select: { slug: true },
     });
-  });
-});
-
-describe("createCafeProposal", () => {
-  it("creates PENDING cafe with no ownerId and returns slug", async () => {
-    mockCreate.mockResolvedValue({ slug: "brew-lab" });
-
-    const fd = makeFormData({
-      name: "Brew Lab",
-      city: "Warsaw",
-      country: "Poland",
-      address: "Main Street 42",
-    });
-    const result = await createCafeProposal(fd);
-
-    expect(result.success).toBe(true);
-    if (result.success) expect(result.data).toEqual({ slug: "brew-lab" });
-    expect(mockCreate).toHaveBeenCalledWith(
-      expect.objectContaining({
-        data: expect.objectContaining({
-          status: "PENDING",
-          name: "Brew Lab",
-        }),
-      })
-    );
-  });
-
-  it("returns fieldError when name is too short", async () => {
-    const fd = makeFormData({ name: "X", city: "Warsaw", country: "Poland", address: "Main Street 42" });
-    const result = await createCafeProposal(fd);
-    expect(result.success).toBe(false);
-    if (!result.success) expect(result.fieldErrors?.name).toBeDefined();
-    expect(mockCreate).not.toHaveBeenCalled();
-  });
-
-  it("stores parsed openingHours JSON", async () => {
-    mockCreate.mockResolvedValue({ slug: "test" });
-    const hours = JSON.stringify({ mon: { open: "08:00", close: "18:00" }, tue: null, wed: null, thu: null, fri: null, sat: null, sun: null });
-    const fd = makeFormData({ name: "Test Cafe", city: "Warsaw", country: "Poland", address: "Main Street 42", openingHours: hours });
-    await createCafeProposal(fd);
-    expect(mockCreate).toHaveBeenCalledWith(
-      expect.objectContaining({
-        data: expect.objectContaining({
-          openingHours: { mon: { open: "08:00", close: "18:00" }, tue: null, wed: null, thu: null, fri: null, sat: null, sun: null },
-        }),
-      })
-    );
   });
 });

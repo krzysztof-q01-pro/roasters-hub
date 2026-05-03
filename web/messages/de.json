@@ -444,7 +444,19 @@
     "consentsTitle": "Erforderliche Zustimmungen",
     "acceptTerms": "Ich habe die <termsLink>Nutzungsbedingungen</termsLink> gelesen und akzeptiere sie. *",
     "acceptPrivacy": "Ich stimme der Verarbeitung meiner personenbezogenen Daten gemäß der <privacyLink>Datenschutzerklärung</privacyLink> zu. *",
-    "acceptMarketing": "Ich stimme zu, Marketinginformationen über Bean Map zu erhalten (optional)."
+    "acceptMarketing": "Ich stimme zu, Marketinginformationen über Bean Map zu erhalten (optional).",
+    "openingHours": "Öffnungszeiten",
+    "amenitiesServices": "Ausstattung & Services",
+    "coordinates": "Koordinaten",
+    "yourRoleCafe": "Deine Rolle",
+    "iAmOwner": "Ich bin der Inhaber",
+    "iAmOwnerDesc": "Registriere dieses Café als deins — verwalte es nach der Verifizierung im Dashboard.",
+    "signInToClaim": "Anmelden, um als Inhaber zu registrieren",
+    "iAmSuggesting": "Ich schlage diesen Ort vor",
+    "iAmSuggestingDesc": "Du bist nicht der Inhaber, teilst nur einen großartigen Ort. Das Café wird ohne Inhaber gelistet.",
+    "yourRoleRoaster": "Deine Rolle",
+    "iAmOwnerRoaster": "Ich bin der Inhaber",
+    "iAmOwnerRoasterDesc": "Registriere diese Rösterei als deine — verwalte sie nach der Verifizierung im Dashboard."
   },
   "newsletter": {
     "emailLabel": "E-Mail-Adresse",

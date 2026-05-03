@@ -444,7 +444,19 @@
     "consentsTitle": "Zgody wymagane",
     "acceptTerms": "Zapoznałem się z <termsLink>Regulaminem</termsLink> i akceptuję jego postanowienia. *",
     "acceptPrivacy": "Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z <privacyLink>Polityką Prywatności</privacyLink>. *",
-    "acceptMarketing": "Wyrażam zgodę na otrzymywanie informacji marketingowych o Bean Map (opcjonalne)."
+    "acceptMarketing": "Wyrażam zgodę na otrzymywanie informacji marketingowych o Bean Map (opcjonalne).",
+    "openingHours": "Godziny otwarcia",
+    "amenitiesServices": "Udogodnienia i usługi",
+    "coordinates": "Współrzędne",
+    "yourRoleCafe": "Twoja rola",
+    "iAmOwner": "Jestem właścicielem",
+    "iAmOwnerDesc": "Zarejestruj tę kawiarnię jako swoją — zarządzaj nią z panelu po weryfikacji.",
+    "signInToClaim": "Zaloguj się, aby zarejestrować jako właściciel",
+    "iAmSuggesting": "Proponuję to miejsce",
+    "iAmSuggestingDesc": "Nie jesteś właścicielem, po prostu dzielisz się świetnym miejscem. Kawiarnia zostanie dodana bez właściciela.",
+    "yourRoleRoaster": "Twoja rola",
+    "iAmOwnerRoaster": "Jestem właścicielem",
+    "iAmOwnerRoasterDesc": "Zarejestruj tę palarnię jako swoją — zarządzaj nią z panelu po weryfikacji."
   },
   "newsletter": {
     "emailLabel": "Adres email",

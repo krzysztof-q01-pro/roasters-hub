@@ -3,15 +3,22 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
+import { useAuth, SignInButton } from "@clerk/nextjs";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { createCafe } from "@/actions/cafe.actions";
 import { getDefaultCountryFromLocale } from "@/lib/default-country";
 import { detectCountry } from "@/actions/geo.actions";
+import { OpeningHoursPicker } from "@/components/shared/OpeningHoursPicker";
+import { CAFE_SERVICES } from "@/constants/cafe-services";
+import { EMPTY_OPENING_HOURS, type OpeningHours } from "@/types/opening-hours";
+
+const SERVICE_GROUPS = Array.from(new Set(CAFE_SERVICES.map((s) => s.group)));
 
 export default function RegisterCafePage() {
   const t = useTranslations("register");
   const locale = useLocale();
+  const { isSignedIn } = useAuth();
   const defaultCountry = getDefaultCountryFromLocale(locale);
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
@@ -33,6 +40,9 @@ export default function RegisterCafePage() {
     acceptPrivacy: false,
     acceptMarketing: false,
   });
+  const [isOwner, setIsOwner] = useState(false);
+  const [hours, setHours] = useState<OpeningHours>(EMPTY_OPENING_HOURS);
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
 
   useEffect(() => {
     if (defaultCountry) return;
@@ -50,6 +60,12 @@ export default function RegisterCafePage() {
 
   const update = (field: string, value: string) =>
     setForm((prev) => ({ ...prev, [field]: value }));
+
+  const toggleService = (value: string) => {
+    setSelectedServices((prev) =>
+      prev.includes(value) ? prev.filter((s) => s !== value) : [...prev, value]
+    );
+  };
 
   const handleSubmit = async () => {
     if (!form.acceptTerms || !form.acceptPrivacy) {
@@ -70,6 +86,9 @@ export default function RegisterCafePage() {
     fd.set("instagram", form.instagram);
     fd.set("phone", form.phone);
     fd.set("email", form.email);
+    fd.set("openingHours", JSON.stringify(hours));
+    fd.set("services", selectedServices.join(","));
+    fd.set("isOwner", isOwner ? "true" : "false");
     fd.set("acceptMarketing", form.acceptMarketing ? "true" : "false");
     const result = await createCafe(fd);
     if (result.success) {
@@ -260,6 +279,44 @@ export default function RegisterCafePage() {
                 placeholder={t("phonePlaceholder")}
               />
             </div>
+
+            <div className="pt-4 border-t border-outline/10">
+              <p className="text-sm font-medium mb-3">{t("openingHours")}</p>
+              <OpeningHoursPicker value={hours} onChange={setHours} />
+            </div>
+
+            <div>
+              <p className="text-sm font-medium mb-3">{t("amenitiesServices")}</p>
+              <div className="flex flex-col gap-4">
+                {SERVICE_GROUPS.map((group) => {
+                  const services = CAFE_SERVICES.filter((s) => s.group === group);
+                  return (
+                    <div key={group}>
+                      <p className="text-xs font-semibold text-on-surface-variant mb-2">{group}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {services.map((service) => {
+                          const checked = selectedServices.includes(service.value);
+                          return (
+                            <button
+                              key={service.value}
+                              type="button"
+                              onClick={() => toggleService(service.value)}
+                              className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+                                checked
+                                  ? "border-primary/50 bg-primary/10 text-primary"
+                                  : "border-outline/30 text-on-surface-variant hover:border-outline hover:text-on-surface"
+                              }`}
+                            >
+                              {service.label}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         )}
 
@@ -276,6 +333,8 @@ export default function RegisterCafePage() {
                   form.email ? [t("emailAddress"), form.email] : null,
                   form.website ? [t("reviewWebsite"), form.website] : null,
                   form.instagram ? [t("reviewInstagram"), form.instagram] : null,
+                  (form.lat || form.lng) ? [t("coordinates"), `${form.lat}, ${form.lng}`] : null,
+                  selectedServices.length > 0 ? [t("amenitiesServices"), selectedServices.join(", ")] : null,
                 ] as ([string, string] | null)[]
               )
                 .filter((item): item is [string, string] => item !== null)
@@ -289,6 +348,59 @@ export default function RegisterCafePage() {
             <p className="text-xs text-on-surface-variant/50">
               {t("reviewNote")}
             </p>
+
+            <div className="space-y-3 pt-4 border-t border-outline/10">
+              <h3 className="text-sm font-semibold text-on-surface">{t("yourRoleCafe")}</h3>
+
+              <label
+                className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
+                  isOwner
+                    ? "border-primary bg-primary/5"
+                    : "border-outline/10 hover:border-outline"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="cafeRole"
+                  checked={isOwner}
+                  onChange={() => setIsOwner(true)}
+                  className="mt-0.5 w-4 h-4 text-primary focus:ring-primary"
+                />
+                <div>
+                  <span className="text-sm font-medium">{t("iAmOwner")}</span>
+                  <p className="text-xs text-on-surface-variant mt-0.5">{t("iAmOwnerDesc")}</p>
+                  {!isSignedIn && (
+                    <p className="text-xs text-primary mt-1">
+                      <SignInButton mode="modal">
+                        <button type="button" className="underline hover:opacity-80">
+                          {t("signInToClaim")}
+                        </button>
+                      </SignInButton>
+                    </p>
+                  )}
+                </div>
+              </label>
+
+              <label
+                className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
+                  !isOwner
+                    ? "border-primary bg-primary/5"
+                    : "border-outline/10 hover:border-outline"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="cafeRole"
+                  checked={!isOwner}
+                  onChange={() => setIsOwner(false)}
+                  className="mt-0.5 w-4 h-4 text-primary focus:ring-primary"
+                />
+                <div>
+                  <span className="text-sm font-medium">{t("iAmSuggesting")}</span>
+                  <p className="text-xs text-on-surface-variant mt-0.5">{t("iAmSuggestingDesc")}</p>
+                </div>
+              </label>
+            </div>
 
             <div className="space-y-3 pt-4 border-t border-outline/10">
               <h3 className="text-sm font-semibold text-on-surface">{t("consentsTitle")}</h3>
@@ -367,7 +479,7 @@ export default function RegisterCafePage() {
           ) : (
             <button
               onClick={handleSubmit}
-              disabled={submitting || !form.acceptTerms || !form.acceptPrivacy}
+              disabled={submitting || !form.acceptTerms || !form.acceptPrivacy || (isOwner && !isSignedIn)}
               className="bg-primary text-on-primary px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-primary/90 disabled:opacity-50 transition-colors"
             >
               {submitting ? t("submittingCafe") : t("submitForReview")}

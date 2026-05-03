@@ -1,7 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-// ── Mocks (must be hoisted above imports) ──────────────────────────────────
-
 vi.mock("next/cache", () => ({
   revalidatePath: vi.fn(),
 }));
@@ -26,20 +24,26 @@ vi.mock("@/lib/email", () => ({
   sendNewRegistrationNotification: vi.fn(),
 }));
 
+vi.mock("@clerk/nextjs/server", () => ({
+  auth: vi.fn(),
+}));
+
 import { revalidatePath } from "next/cache";
+import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { generateUniqueSlug } from "@/lib/slug";
 import { resolveCountryCode } from "@/lib/country-codes";
 import { sendNewRegistrationNotification } from "@/lib/email";
-import { createRoasterRegistration, createRoasterProposal } from "@/actions/roaster.actions";
+import { createRoasterRegistration } from "@/actions/roaster.actions";
 
 const mockRevalidatePath = vi.mocked(revalidatePath);
 const mockCreate = db.roaster.create as unknown as ReturnType<typeof vi.fn>;
 const mockGenerateSlug = vi.mocked(generateUniqueSlug);
 const mockResolveCountryCode = vi.mocked(resolveCountryCode);
 const mockSendNotification = vi.mocked(sendNewRegistrationNotification);
+const mockAuth = vi.mocked(auth);
 
-// ── Helpers ────────────────────────────────────────────────────────────────
+type AuthResult = Awaited<ReturnType<typeof auth>>;
 
 function makeFormData(data: Record<string, string | string[]>): FormData {
   const fd = new FormData();
@@ -53,8 +57,6 @@ function makeFormData(data: Record<string, string | string[]>): FormData {
   return fd;
 }
 
-// Optional fields must be provided as empty strings — FormData.get() returns
-// null for missing keys, which Zod rejects for .optional().or(z.literal(""))
 const validData = {
   name: "Rocket Roasters",
   city: "Warsaw",
@@ -66,8 +68,6 @@ const validData = {
   shopUrl: "",
 };
 
-// ── createRoasterRegistration ──────────────────────────────────────────────
-
 describe("createRoasterRegistration", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -76,6 +76,7 @@ describe("createRoasterRegistration", () => {
     mockCreate.mockResolvedValue({
       slug: "rocket-roasters-warsaw",
     });
+    mockAuth.mockResolvedValue({ userId: null } as unknown as AuthResult);
   });
 
   it("returns validation error when name is missing", async () => {
@@ -119,8 +120,27 @@ describe("createRoasterRegistration", () => {
     }
   });
 
-  it("returns success with slug on valid data", async () => {
-    const fd = makeFormData(validData);
+  it("returns error when isOwner is true but user is not authenticated", async () => {
+    mockAuth.mockResolvedValue({ userId: null } as unknown as AuthResult);
+    const fd = makeFormData({ ...validData, isOwner: "true" });
+    const result = await createRoasterRegistration(fd);
+    expect(result.success).toBe(false);
+    if (!result.success) expect(result.error).toContain("signed in");
+  });
+
+  it("returns success with slug on valid data (suggestion)", async () => {
+    const fd = makeFormData({ ...validData, isOwner: "false" });
+    const result = await createRoasterRegistration(fd);
+
+    expect(result).toEqual({
+      success: true,
+      data: { slug: "rocket-roasters-warsaw" },
+    });
+  });
+
+  it("returns success with slug on valid data (owner)", async () => {
+    mockAuth.mockResolvedValue({ userId: "user_1" } as unknown as AuthResult);
+    const fd = makeFormData({ ...validData, isOwner: "true" });
     const result = await createRoasterRegistration(fd);
 
     expect(result).toEqual({
@@ -154,6 +174,21 @@ describe("createRoasterRegistration", () => {
     });
   });
 
+  it("creates as owner with ownerId set", async () => {
+    mockAuth.mockResolvedValue({ userId: "user_1" } as unknown as AuthResult);
+    mockCreate.mockResolvedValue({ slug: "rocket-roasters-warsaw" });
+
+    const fd = makeFormData({ ...validData, isOwner: "true" });
+    await createRoasterRegistration(fd);
+
+    expect(mockCreate).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        name: "Rocket Roasters",
+        ownerId: "user_1",
+      }),
+    });
+  });
+
   it("calls revalidatePath for /admin/pending", async () => {
     const fd = makeFormData(validData);
     await createRoasterRegistration(fd);
@@ -173,49 +208,9 @@ describe("createRoasterRegistration", () => {
   });
 
   it("does not call db.roaster.create when validation fails", async () => {
-    const fd = makeFormData({ city: "Warsaw", country: "Poland" }); // missing name
+    const fd = makeFormData({ city: "Warsaw", country: "Poland" });
     await createRoasterRegistration(fd);
 
-    expect(mockCreate).not.toHaveBeenCalled();
-  });
-});
-
-// ── createRoasterProposal ──────────────────────────────────────────────────
-
-describe("createRoasterProposal", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-    mockGenerateSlug.mockResolvedValue("rocket-roasters-warsaw");
-    mockResolveCountryCode.mockReturnValue("PL");
-    mockCreate.mockResolvedValue({ slug: "rocket-roasters-warsaw" });
-  });
-
-  it("creates PENDING roaster with no ownerId and returns slug", async () => {
-    const fd = makeFormData({
-      name: "Rocket Roasters",
-      city: "Warsaw",
-      country: "Poland",
-    });
-    const result = await createRoasterProposal(fd);
-
-    expect(result.success).toBe(true);
-    if (result.success) expect(result.data).toEqual({ slug: "rocket-roasters-warsaw" });
-    expect(mockCreate).toHaveBeenCalledWith(
-      expect.objectContaining({
-        data: expect.objectContaining({
-          status: "PENDING",
-          name: "Rocket Roasters",
-        }),
-      })
-    );
-  });
-
-  it("returns fieldError when name is too short", async () => {
-    const fd = makeFormData({ name: "X", city: "Warsaw", country: "Poland" });
-    const result = await createRoasterProposal(fd);
-
-    expect(result.success).toBe(false);
-    if (!result.success) expect(result.fieldErrors?.name).toBeDefined();
     expect(mockCreate).not.toHaveBeenCalled();
   });
 });
