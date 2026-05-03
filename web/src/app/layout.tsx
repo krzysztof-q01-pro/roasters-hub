@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
   description:
     "The global directory connecting cafés and coffee lovers with verified specialty roasters.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://beanmap.cafe"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://beanmap.pl"),
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
