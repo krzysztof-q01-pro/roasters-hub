@@ -73,6 +73,7 @@ export const CreateCafeSchema = z.object({
     .optional()
     .or(z.literal("")),
   phone: z.string().max(30).optional().or(z.literal("")),
+  email: z.string().email("Invalid email").optional().or(z.literal("")),
 });
 
 export type CreateCafeInput = z.infer<typeof CreateCafeSchema>;

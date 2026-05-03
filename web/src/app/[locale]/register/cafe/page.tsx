@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useAuth } from "@clerk/nextjs";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Header } from "@/components/shared/Header";
@@ -9,7 +8,6 @@ import { Footer } from "@/components/shared/Footer";
 import { createCafe } from "@/actions/cafe.actions";
 
 export default function RegisterCafePage() {
-  const { userId } = useAuth();
   const t = useTranslations("register");
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
@@ -26,6 +24,7 @@ export default function RegisterCafePage() {
     website: "",
     instagram: "",
     phone: "",
+    email: "",
     acceptTerms: false,
     acceptPrivacy: false,
     acceptMarketing: false,
@@ -37,10 +36,6 @@ export default function RegisterCafePage() {
     setForm((prev) => ({ ...prev, [field]: value }));
 
   const handleSubmit = async () => {
-    if (!userId) {
-      setError(t("signInRequired"));
-      return;
-    }
     if (!form.acceptTerms || !form.acceptPrivacy) {
       setError(t("consentRequired"));
       return;
@@ -58,8 +53,9 @@ export default function RegisterCafePage() {
     fd.set("website", form.website);
     fd.set("instagram", form.instagram);
     fd.set("phone", form.phone);
+    fd.set("email", form.email);
     fd.set("acceptMarketing", form.acceptMarketing ? "true" : "false");
-    const result = await createCafe(fd, userId);
+    const result = await createCafe(fd);
     if (result.success) {
       setSubmitted(true);
     } else {
@@ -93,21 +89,32 @@ export default function RegisterCafePage() {
     <>
       <Header />
       <main className="max-w-2xl mx-auto px-6 py-16">
-        <div className="flex gap-2 mb-10">
-          {steps.map((s, i) => (
-            <div key={s} className="flex-1">
-              <div
-                className={`h-1 rounded-full ${
-                  i <= step ? "bg-primary" : "bg-surface-container-high"
-                }`}
-              />
-              <p
-                className={`text-xs mt-1 ${
-                  i === step ? "text-primary font-medium" : "text-on-surface-variant/50"
-                }`}
-              >
-                {s}
-              </p>
+        <div className="flex items-center justify-center gap-4 mb-16">
+          {steps.map((label, i) => (
+            <div key={label} className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <span
+                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                    i < step
+                      ? "bg-secondary text-on-secondary"
+                      : i === step
+                        ? "bg-primary text-on-primary"
+                        : "bg-surface-container-high text-on-surface-variant"
+                  }`}
+                >
+                  {i < step ? (
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                    </svg>
+                  ) : (
+                    i + 1
+                  )}
+                </span>
+                <span className={`text-sm hidden sm:block ${i === step ? "font-semibold text-on-surface" : "text-on-surface-variant"}`}>
+                  {label}
+                </span>
+              </div>
+              {i < steps.length - 1 && <div className="w-12 h-px bg-surface-container-high" />}
             </div>
           ))}
         </div>
@@ -201,12 +208,22 @@ export default function RegisterCafePage() {
               </div>
             </div>
             <div>
+              <label className="block text-sm font-medium mb-1">{t("emailAddress")}</label>
+              <input
+                value={form.email}
+                onChange={(e) => update("email", e.target.value)}
+                type="email"
+                className="w-full border border-outline/30 rounded-lg px-3 py-2 bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder={t("cafeEmailPlaceholder")}
+              />
+            </div>
+            <div>
               <label className="block text-sm font-medium mb-1">{t("websiteUrl")}</label>
               <input
                 value={form.website}
                 onChange={(e) => update("website", e.target.value)}
                 className="w-full border border-outline/30 rounded-lg px-3 py-2 bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder={t("websitePlaceholder")}
+                placeholder={t("cafeWebsitePlaceholder")}
               />
             </div>
             <div>
@@ -215,7 +232,7 @@ export default function RegisterCafePage() {
                 value={form.instagram}
                 onChange={(e) => update("instagram", e.target.value)}
                 className="w-full border border-outline/30 rounded-lg px-3 py-2 bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder={t("instagramPlaceholder")}
+                placeholder={t("cafeInstagramPlaceholder")}
               />
             </div>
             <div>
@@ -237,6 +254,10 @@ export default function RegisterCafePage() {
                 [
                   [t("reviewName"), form.name],
                   [t("reviewLocation"), `${form.city}, ${form.country}`],
+                  form.address ? [t("address"), form.address] : null,
+                  form.description ? [t("description"), form.description] : null,
+                  form.phone ? [t("phone"), form.phone] : null,
+                  form.email ? [t("emailAddress"), form.email] : null,
                   form.website ? [t("reviewWebsite"), form.website] : null,
                   form.instagram ? [t("reviewInstagram"), form.instagram] : null,
                 ] as ([string, string] | null)[]
@@ -245,7 +266,7 @@ export default function RegisterCafePage() {
                 .map(([label, value]) => (
                   <div key={label} className="flex justify-between">
                     <span className="text-on-surface-variant/60">{label}</span>
-                    <span className="font-medium">{value}</span>
+                    <span className="font-medium text-right max-w-[60%] truncate">{value}</span>
                   </div>
                 ))}
             </div>
@@ -311,7 +332,7 @@ export default function RegisterCafePage() {
               onClick={() => setStep((s) => s - 1)}
               className="text-sm text-on-surface-variant/60 hover:text-on-surface transition-colors"
             >
-              ← {t("back")}
+              {t("back")}
             </button>
           ) : (
             <div />
