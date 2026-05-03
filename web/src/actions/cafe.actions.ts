@@ -24,7 +24,7 @@ export async function createCafe(
       website: formData.get("website"),
       instagram: formData.get("instagram"),
       phone: formData.get("phone"),
-      email: formData.get("email"),
+      email: formData.get("email") || undefined,
     };
 
     const parsed = CreateCafeSchema.safeParse(raw);
