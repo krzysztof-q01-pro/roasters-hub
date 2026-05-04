@@ -50,11 +50,22 @@ export function CafeFilters({ countries }: CafeFiltersProps) {
 
   const hasActiveFilters =
     !!searchParams.get("country") ||
-    !!searchParams.get("q") ||
     activeAmenities.length > 0;
 
   return (
     <aside className="w-full lg:w-[300px] shrink-0">
+      {/* Search — always visible on mobile */}
+      <div className="lg:hidden mb-4">
+        <input
+          id="filter-search-mobile"
+          className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
+          placeholder="Cafe name..."
+          type="text"
+          defaultValue={searchParams.get("q") || ""}
+          onChange={(e) => updateFilter("q", e.target.value || null)}
+        />
+      </div>
+
       <button
         className="lg:hidden w-full flex items-center justify-between py-3 border-b border-outline-variant/20 mb-6"
         onClick={() => setOpen((v) => !v)}
@@ -77,11 +88,11 @@ export function CafeFilters({ countries }: CafeFiltersProps) {
       </button>
 
       <div className={`space-y-10 ${open ? "block" : "hidden"} lg:block`}>
-        {/* Search */}
-        <div>
-          <label htmlFor="filter-search" className="text-xs font-semibold uppercase tracking-wider mb-3 block">Search name</label>
+        {/* Search — inside panel on desktop */}
+        <div className="hidden lg:block">
+          <label htmlFor="filter-search-desktop" className="text-xs font-semibold uppercase tracking-wider mb-3 block">Search name</label>
           <input
-            id="filter-search"
+            id="filter-search-desktop"
             className="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm"
             placeholder="Cafe name..."
             type="text"

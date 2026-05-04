@@ -64,7 +64,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] [HIGH] **Mapa: dropdown "+ Add a place" zasłonięty przez warstwę mapy** — naprawiono: zwiększono z-index Header do `z-[1000]` i dropdown menu do `z-[1001]` (Leaflet pane ma z-index 400) (2026-04-25) (@AGENT)
 
 **MEDIUM:**
-- [ ] [MEDIUM] **manifest.json 404 na każdej stronie** — brak Web App Manifest (PWA); przeglądarka próbuje pobrać `/manifest.json` i dostaje 404; powtarza się globalnie (audit 2026-04-24) (@UNASSIGNED)
+- [ ] [MEDIUM] **manifest.json 404 na każdej stronie** — brak Web App Manifest (PWA); przeglądarka próbuje pobrać `/manifest.json` i dostaje 404; powtarza się globalnie (audit 2026-04-24) (@AGENT)
 
 ### Site Audit — 2026-05-02 — (@AGENT) ✅ **FIXED** (PR #77 merged to main)
 
@@ -150,7 +150,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] [MEDIUM] **Map H1 inconsistency** — map page title and H1 unified (audited via code) (@AGENT) ✅
 - [x] [MEDIUM] **Cafe profile: cover image** — `coverImageUrl` in Prisma query + `<Image>` in cafe profile header, dashboard upload supported (@AGENT) ✅
 - [x] [MEDIUM] **Cafe profile: VerifiedBadge** — `VerifiedBadge` rendered on cafe profile hero for VERIFIED cafes (@AGENT) ✅
-- [ ] [MEDIUM] **Mobile filters: search always visible** — move search input outside collapsible filters on mobile; keep other filters collapsed (`RoasterFilters.tsx`, `CafeFilters.tsx`) (@UNASSIGNED)
+- [IN PROGRESS] [MEDIUM] **Mobile filters: search always visible** — move search input outside collapsible filters on mobile; keep other filters collapsed (`RoasterFilters.tsx`, `CafeFilters.tsx`) (@AGENT)
 
 ### Map & Search UX Overhaul — (@MN)
 

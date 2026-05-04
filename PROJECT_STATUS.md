@@ -105,7 +105,7 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Next Unblocked Task
 
-**TERAZ (UNASSIGNED):** [MEDIUM] Mobile filters: search always visible — move search input outside collapsible filters on mobile (`RoasterFilters.tsx`, `CafeFilters.tsx`).
+**TERAZ (@AGENT):** [MEDIUM] Mobile filters: search always visible — move search input outside collapsible filters on mobile (`RoasterFilters.tsx`, `CafeFilters.tsx`).
 **TERAZ (MN):** [P1] SEO review — `generateMetadata`, canonical URLs, structured data (JSON-LD), sitemap completeness.
 **TERAZ (MN):** [P2] Hover states + transitions — spójne micro-animations na kartach, buttonach, nawigacji.
 **TERAZ (MN):** [P1] Cookie policy / regulamin / polityka prywatności — strony prawne zgodne z GDPR.
