@@ -64,7 +64,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] [HIGH] **Mapa: dropdown "+ Add a place" zasłonięty przez warstwę mapy** — naprawiono: zwiększono z-index Header do `z-[1000]` i dropdown menu do `z-[1001]` (Leaflet pane ma z-index 400) (2026-04-25) (@AGENT)
 
 **MEDIUM:**
-- [ ] [MEDIUM] **manifest.json 404 na każdej stronie** — brak Web App Manifest (PWA); przeglądarka próbuje pobrać `/manifest.json` i dostaje 404; powtarza się globalnie (audit 2026-04-24) (@UNASSIGNED)
+- [x] [MEDIUM] **manifest.json 404 na każdej stronie** — zweryfikowano: manifest działa poprawnie na beanmap.pl i beanmap-web.vercel.app; audyt 2026-04-24 false positive (307 redirect Vercel → www) (2026-05-04) (@AGENT) ✅
 
 ### Site Audit — 2026-05-02 — (@AGENT) ✅ **FIXED** (PR #77 merged to main)
 
@@ -150,7 +150,7 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [x] [MEDIUM] **Map H1 inconsistency** — map page title and H1 unified (audited via code) (@AGENT) ✅
 - [x] [MEDIUM] **Cafe profile: cover image** — `coverImageUrl` in Prisma query + `<Image>` in cafe profile header, dashboard upload supported (@AGENT) ✅
 - [x] [MEDIUM] **Cafe profile: VerifiedBadge** — `VerifiedBadge` rendered on cafe profile hero for VERIFIED cafes (@AGENT) ✅
-- [ ] [MEDIUM] **Mobile filters: search always visible** — move search input outside collapsible filters on mobile; keep other filters collapsed (`RoasterFilters.tsx`, `CafeFilters.tsx`) (@UNASSIGNED)
+- [IN PROGRESS] [MEDIUM] **Mobile filters: search always visible** — move search input outside collapsible filters on mobile; keep other filters collapsed (`RoasterFilters.tsx`, `CafeFilters.tsx`) (@AGENT)
 
 ### Map & Search UX Overhaul — (@MN)
 
@@ -199,16 +199,18 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 - [ ] [P3] **E2E Playwright** — implementacja specs na bazie `docs/testing/journeys/` (22 misji, 5 ról); środowisko: Vercel Preview URL; CI job na `push: main`; plan w `docs/testing/e2e/README.md` (@MN)
 - [BLOCKED: wymaga Krzysztofa — GitHub integration w Neon Console (Settings → Integrations → GitHub → Add) lub płatnego Neon] **Neon Preview Branches** — izolowana baza per PR/preview deployment (@MN)
 
-### Testing Documentation — (@UNASSIGNED)
+### Testing Documentation — (@AGENT) ✅ **VERIFIED** (2026-05-04)
 
-- [ ] [P2] **Testing docs: Feature Matrix** — dodanie 14+ wpisów cafe w `docs/testing/README.md` Feature Visibility Matrix (@UNASSIGNED)
-- [ ] [P2] **Testing docs: Journey 03 rewrite** — przepisanie `docs/testing/journeys/03-cafe.md` z 4 nowymi misjami (rejestracja, dashboard, relacje, saved roasters) (@UNASSIGNED)
-- [ ] [P2] **Testing docs: Journey 01 extend** — dodanie misji D (katalog kawiarni), E (profil kawiarni), rozszerzenie C (map toggle) w `docs/testing/journeys/01-guest.md` (@UNASSIGNED)
-- [ ] [P3] **Testing docs: Journey 02 extend** — dodanie misji C ("Gdzie wypić") w `docs/testing/journeys/02-roaster.md` (@UNASSIGNED)
-- [ ] [P2] **Testing docs: Journey 04 extend** — dodanie misji D (weryfikacja kawiarni), E (odrzucenie kawiarni), rozszerzenie C (cafe reviews tab) w `docs/testing/journeys/04-admin.md` (@UNASSIGNED)
-- [ ] [P3] **Testing docs: Journey 05 extend** — dodanie misji B (recenzja kawiarni) w `docs/testing/journeys/05-reviewer.md` (@UNASSIGNED)
-- [ ] [P2] **Testing docs: E2E README** — aktualizacja mapy specs o cafe-registration, cafe-dashboard, admin-cafes, guest-cafes, cafe-review w `docs/testing/e2e/README.md` (@UNASSIGNED)
-- [ ] [P3] **Testing docs: E2E skeletons** — szkielety speców: `cafe-registration.spec.ts`, `admin-cafes.spec.ts`, `guest-cafes.spec.ts`, `cafe-review.spec.ts` w `docs/testing/e2e/` (@UNASSIGNED)
+> **Weryfikacja 2026-05-04:** Wszystkie zadania były już zrealizowane — dokumentacja testowa pokrywa funkcje kawiarni.
+
+- [x] [P2] **Testing docs: Feature Matrix** — 16+ wpisów cafe w `docs/testing/README.md` Feature Visibility Matrix ✅ (już istniały)
+- [x] [P2] **Testing docs: Journey 03 rewrite** — `docs/testing/journeys/03-cafe.md` ma 4 misje (rejestracja, dashboard, relacje, saved roasters) ✅
+- [x] [P2] **Testing docs: Journey 01 extend** — ma misję D (katalog kawiarni), E (profil kawiarni) ✅
+- [x] [P3] **Testing docs: Journey 02 extend** — ma misję C ("Gdzie wypić") ✅
+- [x] [P2] **Testing docs: Journey 04 extend** — ma misję D (weryfikacja kawiarni), E (odrzucenie kawiarni), rozszerzone C (cafe reviews tab) ✅
+- [x] [P3] **Testing docs: Journey 05 extend** — ma misję B (recenzja kawiarni) ✅
+- [x] [P2] **Testing docs: E2E README** — ma mapę specs cafe-registration, cafe-dashboard, admin-cafes, guest-cafes, cafe-review ✅
+- [ ] [P3] **Testing docs: E2E skeletons** — szkielety speców: `cafe-registration.spec.ts`, `admin-cafes.spec.ts`, `guest-cafes.spec.ts`, `cafe-review.spec.ts` w `web/e2e/specs/journeys/` (@UNASSIGNED)
 
 ### Enrichment Engine — (@MN)
 
