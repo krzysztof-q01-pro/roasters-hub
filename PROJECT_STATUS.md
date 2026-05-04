@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-05-04 | @AGENT — Mobile filters: search always visible (RoasterFilters.tsx, CafeFilters.tsx). manifest.json verified working (audit false positive). Testing docs verified — already covered cafes.
+2026-05-04 | @AGENT — UX Enhancement plan: Image model, geocoding (Nominatim), address autocomplete, default photo pool, user image uploads + approval queue, review auth gate, profile galleries. Spec: `docs/superpowers/specs/2026-05-04-ux-enhancement-design.md`
 
 ---
 
@@ -105,8 +105,9 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Next Unblocked Task
 
-**TERAZ (@AGENT):** [MEDIUM] Mobile filters: search always visible — move search input outside collapsible filters on mobile (`RoasterFilters.tsx`, `CafeFilters.tsx`). ✅ **DONE** (2026-05-04, PR #82)
-**TERAZ (@UNASSIGNED):** [P3] E2E skeleton specs: `cafe-registration.spec.ts`, `admin-cafes.spec.ts`, `guest-cafes.spec.ts`, `cafe-review.spec.ts` in `web/e2e/specs/journeys/`
+**TERAZ (@AGENT):** [P1] DB: Image + AppSettings + Review zmiany — nowy unified model Image, konfiguracja limitów, Review.userId.
+**NASTĘPNIE (@AGENT):** [P1] lib/geocoding.ts + AddressAutocomplete + MiniMap — Nominatim, autouzupełnianie adresu.
+**NASTĘPNIE (@AGENT):** [P1] Image actions + UploadThing endpointy — defaultImage, userImage.
 **TERAZ (MN):** [P1] SEO review — `generateMetadata`, canonical URLs, structured data (JSON-LD), sitemap completeness.
 **TERAZ (MN):** [P2] Hover states + transitions — spójne micro-animations na kartach, buttonach, nawigacji.
 **TERAZ (MN):** [P1] Cookie policy / regulamin / polityka prywatności — strony prawne zgodne z GDPR.
