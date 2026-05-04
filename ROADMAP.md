@@ -261,6 +261,28 @@ Kanon stanu zadań: ten plik. Aktualizuj po każdej sesji (agent lub developer).
 
 - [x] [P2] **Wersja PL/EN/DE (modułowo)** — modułowa implementacja i18n (`next-intl`): architektura, routing per locale, tłumaczenia PL/EN/DE dla wszystkich stron użytkownika i admina; locale switcher redesign (PR #59-61) (@AGENT) ✅
 
+### UX Enhancement — Images, Geocoding, Reviews — (@AGENT)
+
+> **Spec:** `docs/superpowers/specs/2026-05-04-ux-enhancement-design.md`
+> **Zakres:** Wspólny model Image (zastępuje RoasterImage), geokodowanie adresów przez Nominatim, autouzupełnianie adresu, pula zdjęć domyślnych admina, upload zdjęć przez użytkowników z kolejką zatwierdzania, recenzje tylko dla zalogowanych (userId zamiast authorName), galeria zdjęć na profilach, lightbox, drag-and-drop sortowanie, konfigurowalne limity.
+
+- [ ] [P1] **DB: Image + AppSettings + Review zmiany** — nowy model `Image` (entityType, status, isDefault, isPrimary), `AppSettings` (limity), migracja `RoasterImage` → `Image`, `Review.userId` + unique constraints (@AGENT)
+- [ ] [P1] **lib/geocoding.ts** — wrapper Nominatim: `geocodeAddress()`, `searchAddress()`, rate limiting 1 req/s, User-Agent header (@AGENT)
+- [ ] [P1] **AddressAutocomplete + MiniMap** — komponenty: debounced input z dropdown sugestii, statyczna mapka Leaflet z pinezką potwierdzającą współrzędne (@AGENT)
+- [ ] [P1] **Integracja autocomplete we wszystkich formularzach** — register/cafe, register/roaster (nowy krok adresu), admin detail (LocationSection), dashboard (@AGENT)
+- [ ] [P1] **Image actions** — `uploadImage`, `approveImage`, `rejectImage`, `deleteImage`, `setPrimaryImage`, `reorderImages`, `addDefaultImage` (@AGENT)
+- [ ] [P1] **UploadThing: defaultImage + userImage** — nowe endpointy, admin-default pool, user upload z PENDING statusem (@AGENT)
+- [ ] [P2] **/admin/images** — zarządzanie pulą domyślną: grid, upload, delete, filter (CAFE/ROASTER), max 20 (@AGENT)
+- [ ] [P2] **/admin/images/pending** — kolejka zatwierdzania: lista miniaturek, Approve/Reject, powód odrzucenia (@AGENT)
+- [ ] [P2] **/admin/settings** — konfiguracja limitów: `imageMaxTotal`, `imageMaxPerUser`, `imageMaxPerOwner`, `defaultPoolMax` (@AGENT)
+- [ ] [P2] **Dashboard: sekcja Gallery** — upload zdjęć przez właściciela (max 3), drag-and-drop sortowanie, ustawianie isPrimary, usuwanie (@AGENT)
+- [ ] [P1] **Review auth gate** — `ReviewForm` tylko w `<SignedIn>`, `userId` + Clerk `fullName` zamiast `authorName`, edycja/usuwanie własnych recenzji (@AGENT)
+- [ ] [P2] **ImageGallery + ImageLightbox** — grid/karuzela zdjęć na profilach, pełnoekranowy podgląd, nawigacja strzałkami, licznik (@AGENT)
+- [ ] [P2] **ImageSortableList** — przeciąganie zdjęć do zmiany kolejności (admin + właściciel) (@AGENT)
+- [ ] [P3] **ReviewSortControls** — dropdown sortowania recenzji: najnowsze / najwyżej oceniane (@AGENT)
+- [ ] [P3] **Empty states + CTA** — "No photos yet", "Be the first to review", "No images pending review" (@AGENT)
+- [ ] [P3] **VerifiedOwnerBadge** — odznaka przy zdjęciach dodanych przez właściciela (@AGENT)
+
 ---
 
 ## LATER — Phase 3: Growth (miesiąc 2-3)
