@@ -7,7 +7,7 @@
 ---
 
 ## Last Updated
-2026-05-03 | @AGENT fixed 12/14 issues from Site Audit 2026-05-02 (PR #77 merged). Turnstile disabled in Clerk Dashboard (@MN). Clerk Production environment + Infrastructure segregation audit added to ROADMAP.
+2026-05-04 | @AGENT — Mobile filters: search always visible (RoasterFilters.tsx, CafeFilters.tsx). manifest.json verified working (audit false positive). Testing docs verified — already covered cafes.
 
 ---
 
@@ -105,7 +105,8 @@ web/src/lib/supabase.ts       — NOT NEEDED (replaced by Clerk)
 
 ## Next Unblocked Task
 
-**TERAZ (@AGENT):** [MEDIUM] Mobile filters: search always visible — move search input outside collapsible filters on mobile (`RoasterFilters.tsx`, `CafeFilters.tsx`).
+**TERAZ (@AGENT):** [MEDIUM] Mobile filters: search always visible — move search input outside collapsible filters on mobile (`RoasterFilters.tsx`, `CafeFilters.tsx`). ✅ **DONE** (2026-05-04, PR #82)
+**TERAZ (@UNASSIGNED):** [P3] E2E skeleton specs: `cafe-registration.spec.ts`, `admin-cafes.spec.ts`, `guest-cafes.spec.ts`, `cafe-review.spec.ts` in `web/e2e/specs/journeys/`
 **TERAZ (MN):** [P1] SEO review — `generateMetadata`, canonical URLs, structured data (JSON-LD), sitemap completeness.
 **TERAZ (MN):** [P2] Hover states + transitions — spójne micro-animations na kartach, buttonach, nawigacji.
 **TERAZ (MN):** [P1] Cookie policy / regulamin / polityka prywatności — strony prawne zgodne z GDPR.
