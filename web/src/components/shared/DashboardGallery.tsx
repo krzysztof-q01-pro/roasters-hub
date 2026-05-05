@@ -66,7 +66,7 @@ export function DashboardGallery({
       <h2 className="font-headline text-2xl tracking-tight mb-2">Gallery</h2>
       <p className="text-sm text-on-surface-variant/60 mb-6">
         {activeImages.length} / {maxImages} images
-        {remaining > 0 && ` — you can add ${remaining} more`}
+        {remaining > 0 && `— you can add ${remaining} more`}
       </p>
 
       {message && (
@@ -166,7 +166,7 @@ export function DashboardGallery({
 
       {remaining === 0 && (
         <div className="text-center py-4 text-on-surface-variant/50 text-sm">
-          You've reached the maximum number of images.
+          You&apos;ve reached the maximum number of images.
         </div>
       )}
     </section>

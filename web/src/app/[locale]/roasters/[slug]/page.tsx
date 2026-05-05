@@ -11,6 +11,7 @@ import { ProfileTracker } from "@/components/roasters/ProfileTracker";
 import { TrackedLink } from "@/components/roasters/TrackedLink";
 import { ReviewForm } from "@/components/shared/ReviewForm";
 import { ReviewList } from "@/components/shared/ReviewList";
+import { ImageGallery } from "@/components/shared/ImageGallery";
 import { SaveRoasterButton } from "@/components/roasters/SaveRoasterButton";
 import { isRoasterSaved } from "@/actions/saved-roaster.actions";
 import { db } from "@/lib/db";
@@ -56,6 +57,10 @@ export default async function RoasterProfilePage({
     where: { slug },
     include: {
       images: { orderBy: { order: "asc" }, take: 1 },
+      galleryImages: {
+        where: { status: "APPROVED" },
+        orderBy: [{ isPrimary: "desc" }, { sortOrder: "asc" }],
+      },
       servedAt: {
         include: {
           cafe: {
@@ -171,6 +176,20 @@ export default async function RoasterProfilePage({
               {roaster.description}
             </p>
           </section>
+
+          {/* Gallery */}
+          {roaster.galleryImages.length > 0 && (
+            <section>
+              <h2 className="font-headline text-3xl mb-8 tracking-tight">Photos</h2>
+              <ImageGallery
+                images={roaster.galleryImages.map((img) => ({
+                  id: img.id,
+                  url: img.url,
+                  isPrimary: img.isPrimary,
+                }))}
+              />
+            </section>
+          )}
 
           {/* Origins */}
           {roaster.origins.length > 0 && (
