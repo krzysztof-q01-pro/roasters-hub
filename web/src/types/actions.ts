@@ -30,6 +30,9 @@ export const CreateRoasterSchema = z.object({
   certifications: z.array(z.enum(CERTIFICATIONS)).max(10).default([]),
   origins: z.array(z.string().min(2).max(50)).max(20).default([]),
   roastStyles: z.array(z.enum(ROAST_STYLES)).max(5).default([]),
+  address: z.string().max(300).optional().or(z.literal("")),
+  lat: z.coerce.number().min(-90).max(90).optional().or(z.literal("")),
+  lng: z.coerce.number().min(-180).max(180).optional().or(z.literal("")),
   openingHours: z.string().optional().or(z.literal("")),
 });
 
