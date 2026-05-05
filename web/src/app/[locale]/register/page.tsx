@@ -249,8 +249,6 @@ export default function RegisterPage() {
                   updateField("lat", String(lat));
                   updateField("lng", String(lng));
                 }}
-                city={form.city}
-                country={form.country}
                 placeholder={t("addressPlaceholder")}
               />
             </div>

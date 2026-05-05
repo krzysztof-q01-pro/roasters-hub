@@ -8,8 +8,6 @@ interface AddressAutocompleteProps {
   onChange: (address: string) => void;
   onCoordsChange?: (lat: number, lng: number) => void;
   placeholder?: string;
-  city?: string;
-  country?: string;
 }
 
 interface Suggestion {
@@ -23,10 +21,7 @@ export function AddressAutocomplete({
   onChange,
   onCoordsChange,
   placeholder = "Start typing an address...",
-  city,
-  country,
 }: AddressAutocompleteProps) {
-  const [query, setQuery] = useState(value);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [isOpen, setIsOpen] = useState(false);
@@ -70,13 +65,11 @@ export function AddressAutocomplete({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const v = e.target.value;
-    setQuery(v);
     onChange(v);
     debouncedSearch(v);
   };
 
   const selectSuggestion = (suggestion: Suggestion) => {
-    setQuery(suggestion.displayName);
     onChange(suggestion.displayName);
     setIsOpen(false);
     setSuggestions([]);
@@ -115,18 +108,12 @@ export function AddressAutocomplete({
     return () => clearTimeout(debounceRef.current);
   }, []);
 
-  useEffect(() => {
-    if (value !== query) {
-      setQuery(value);
-    }
-  }, [value]);
-
   return (
     <div className="relative">
       <input
         ref={inputRef}
         type="text"
-        value={query}
+        value={value}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         onFocus={() => {
@@ -144,7 +131,7 @@ export function AddressAutocomplete({
           Searching...
         </div>
       )}
-      {error && !loading && !suggestions.length && query.length >= 3 && (
+      {error && !loading && !suggestions.length && value.length >= 3 && (
         <div className="absolute z-10 mt-1 w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-500 shadow-lg">
           Could not find address. Enter coordinates manually.
         </div>

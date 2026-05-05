@@ -220,8 +220,6 @@ export default function RegisterCafePage() {
                   update("lat", String(lat));
                   update("lng", String(lng));
                 }}
-                city={form.city}
-                country={form.country}
                 placeholder={t("addressPlaceholder")}
               />
             </div>
