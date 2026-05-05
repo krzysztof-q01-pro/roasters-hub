@@ -99,6 +99,8 @@ export const UpdateCafeSchema = z.object({
     .optional()
     .or(z.literal("")),
   phone: z.string().max(30).optional().or(z.literal("")),
+  email: z.string().email("Invalid email").optional().or(z.literal("")),
+  openingHours: z.string().optional().or(z.literal("")),
 });
 
 export type UpdateCafeInput = z.infer<typeof UpdateCafeSchema>;

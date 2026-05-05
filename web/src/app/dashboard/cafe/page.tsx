@@ -70,6 +70,14 @@ export default async function CafeDashboardPage() {
           city: cafe.city,
           country: cafe.country,
           status: cafe.status,
+          description: cafe.description ?? "",
+          address: cafe.address ?? "",
+          lat: cafe.lat,
+          lng: cafe.lng,
+          website: cafe.website ?? "",
+          email: cafe.email ?? "",
+          instagram: cafe.instagram ?? "",
+          phone: cafe.phone ?? "",
           coverImageUrl: cafe.coverImageUrl ?? null,
         }}
         galleryImages={galleryImages.map((img) => ({
