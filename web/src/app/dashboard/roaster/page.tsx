@@ -38,15 +38,23 @@ export default async function RoasterDashboardPage() {
     where: { id: profile.ownedRoasters[0].id },
     include: {
       images: { orderBy: { order: "asc" } },
-      galleryImages: {
-        where: { status: { not: "REJECTED" } },
-        orderBy: { sortOrder: "asc" },
-      },
       _count: { select: { events: true } },
     },
   });
 
   if (!roaster) redirect("/");
+
+  let galleryImages: { id: string; url: string; isPrimary: boolean; status: "PENDING" | "APPROVED" | "REJECTED" }[] = [];
+  try {
+    const imgs = await db.image.findMany({
+      where: { roasterId: roaster.id, status: { not: "REJECTED" } },
+      orderBy: { sortOrder: "asc" },
+      select: { id: true, url: true, isPrimary: true, status: true },
+    });
+    galleryImages = imgs;
+  } catch {
+    // gallery not available
+  }
 
   const eventCounts = await db.profileEvent.groupBy({
     by: ["type"],
@@ -81,11 +89,11 @@ export default async function RoasterDashboardPage() {
     roastStyles: roaster.roastStyles,
     imageUrl: roaster.images[0]?.url ?? null,
     imageId: roaster.images[0]?.id ?? null,
-    galleryImages: roaster.galleryImages.map((img) => ({
+    galleryImages: galleryImages.map((img) => ({
       id: img.id,
       url: img.url,
       isPrimary: img.isPrimary,
-      status: img.status,
+      status: img.status as "PENDING" | "APPROVED" | "REJECTED",
     })),
   };
 

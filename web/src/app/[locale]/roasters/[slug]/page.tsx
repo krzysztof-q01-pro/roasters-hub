@@ -57,10 +57,6 @@ export default async function RoasterProfilePage({
     where: { slug },
     include: {
       images: { orderBy: { order: "asc" }, take: 1 },
-      galleryImages: {
-        where: { status: "APPROVED" },
-        orderBy: [{ isPrimary: "desc" }, { sortOrder: "asc" }],
-      },
       servedAt: {
         include: {
           cafe: {
@@ -77,6 +73,17 @@ export default async function RoasterProfilePage({
     const slugRedirect = await db.slugRedirect.findUnique({ where: { fromSlug: slug } });
     if (slugRedirect?.entityType === "roaster") redirect(`/roasters/${slugRedirect.toSlug}`);
     notFound();
+  }
+
+  let galleryImages: { id: string; url: string; isPrimary: boolean }[] = [];
+  try {
+    galleryImages = await db.image.findMany({
+      where: { roasterId: roaster.id, status: "APPROVED" },
+      orderBy: { sortOrder: "asc" },
+      select: { id: true, url: true, isPrimary: true },
+    });
+  } catch {
+    // gallery not available — graceful fallback
   }
 
   let approvedReviews: { id: string; authorName: string; rating: number; comment: string | null; createdAt: Date }[] = [];
@@ -178,16 +185,10 @@ export default async function RoasterProfilePage({
           </section>
 
           {/* Gallery */}
-          {roaster.galleryImages.length > 0 && (
+          {galleryImages.length > 0 && (
             <section>
               <h2 className="font-headline text-3xl mb-8 tracking-tight">Photos</h2>
-              <ImageGallery
-                images={roaster.galleryImages.map((img) => ({
-                  id: img.id,
-                  url: img.url,
-                  isPrimary: img.isPrimary,
-                }))}
-              />
+              <ImageGallery images={galleryImages} />
             </section>
           )}
 

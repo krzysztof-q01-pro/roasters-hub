@@ -77,24 +77,20 @@ export default async function CafeProfilePage({
         coverImageUrl: true,
         openingHours: true,
         serving: true,
-        services: true,
-        sourceUrl: true,
-        status: true,
-        featured: true,
-        createdAt: true,
-        updatedAt: true,
-        roasters: {
-          include: {
-            roaster: {
-              select: { id: true, name: true, slug: true, city: true, country: true },
+          services: true,
+          sourceUrl: true,
+          status: true,
+          featured: true,
+          createdAt: true,
+          updatedAt: true,
+          roasters: {
+            include: {
+              roaster: {
+                select: { id: true, name: true, slug: true, city: true, country: true },
+              },
             },
           },
         },
-        galleryImages: {
-          where: { status: "APPROVED" },
-          orderBy: [{ isPrimary: "desc" }, { sortOrder: "asc" }],
-        },
-      },
     });
   } catch {
     notFound();
@@ -104,6 +100,17 @@ export default async function CafeProfilePage({
     const slugRedirect = await db.slugRedirect.findUnique({ where: { fromSlug: slug } });
     if (slugRedirect?.entityType === "cafe") redirect(`/cafes/${slugRedirect.toSlug}`);
     notFound();
+  }
+
+  let galleryImages: { id: string; url: string; isPrimary: boolean }[] = [];
+  try {
+    galleryImages = await db.image.findMany({
+      where: { cafeId: cafe.id, status: "APPROVED" },
+      orderBy: { sortOrder: "asc" },
+      select: { id: true, url: true, isPrimary: true },
+    });
+  } catch {
+    // gallery not available — graceful fallback
   }
 
   const cafeReviews = await db.review.findMany({
@@ -210,15 +217,11 @@ export default async function CafeProfilePage({
           )}
 
           {/* Gallery */}
-          {cafe.galleryImages.length > 0 && (
+          {galleryImages.length > 0 && (
             <section>
               <h2 className="font-headline text-3xl mb-8 tracking-tight">Photos</h2>
               <ImageGallery
-                images={cafe.galleryImages.map((img) => ({
-                  id: img.id,
-                  url: img.url,
-                  isPrimary: img.isPrimary,
-                }))}
+                images={galleryImages}
               />
             </section>
           )}
