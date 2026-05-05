@@ -40,6 +40,9 @@ export type CreateRoasterInput = z.infer<typeof CreateRoasterSchema>;
 
 export const UpdateRoasterSchema = z.object({
   description: z.string().max(2000).optional().or(z.literal("")),
+  address: z.string().max(300).optional().or(z.literal("")),
+  lat: z.coerce.number().min(-90).max(90).optional().or(z.literal("")),
+  lng: z.coerce.number().min(-180).max(180).optional().or(z.literal("")),
   website: httpUrl.optional().or(z.literal("")),
   email: z.string().email("Invalid email").optional().or(z.literal("")),
   instagram: z

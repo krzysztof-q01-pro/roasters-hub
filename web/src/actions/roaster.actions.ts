@@ -118,6 +118,9 @@ export async function updateRoasterProfile(
 
     const raw = {
       description: formData.get("description"),
+      address: formData.get("address") || undefined,
+      lat: formData.get("lat") || undefined,
+      lng: formData.get("lng") || undefined,
       website: formData.get("website"),
       email: formData.get("email"),
       instagram: formData.get("instagram"),
@@ -146,6 +149,9 @@ export async function updateRoasterProfile(
       where: { id: roasterId },
       data: {
         description: data.description || null,
+        address: data.address || null,
+        lat: typeof data.lat === "number" ? data.lat : null,
+        lng: typeof data.lng === "number" ? data.lng : null,
         website: data.website || null,
         email: data.email || null,
         instagram: data.instagram || null,
