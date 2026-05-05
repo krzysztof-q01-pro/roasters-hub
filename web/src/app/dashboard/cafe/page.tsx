@@ -25,6 +25,10 @@ export default async function CafeDashboardPage() {
               roaster: { select: { id: true, name: true, slug: true, city: true } },
             },
           },
+          galleryImages: {
+            where: { status: { not: "REJECTED" } },
+            orderBy: { sortOrder: "asc" },
+          },
           _count: { select: { events: true } },
         },
       },
@@ -60,6 +64,12 @@ export default async function CafeDashboardPage() {
           status: cafe.status,
           coverImageUrl: cafe.coverImageUrl ?? null,
         }}
+        galleryImages={cafe.galleryImages.map((img) => ({
+          id: img.id,
+          url: img.url,
+          isPrimary: img.isPrimary,
+          status: img.status,
+        }))}
         linkedRoasters={cafe.roasters.map(({ roaster }) => ({
           id: roaster.id,
           name: roaster.name,

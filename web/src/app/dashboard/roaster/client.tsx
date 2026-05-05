@@ -17,6 +17,8 @@ import {
   ORIGINS,
 } from "@/types/certifications";
 import { DeleteAccountSection } from "@/components/shared/DeleteAccountSection";
+import { DashboardGallery } from "@/components/shared/DashboardGallery";
+import type { GalleryImage } from "@/components/shared/DashboardGallery";
 
 interface RoasterData {
   id: string;
@@ -35,6 +37,7 @@ interface RoasterData {
   roastStyles: string[];
   imageUrl: string | null;
   imageId: string | null;
+  galleryImages: GalleryImage[];
 }
 
 interface Stats {
@@ -197,6 +200,14 @@ export function DashboardClient({
           />
         </div>
       </section>
+
+      {/* Gallery */}
+      <DashboardGallery
+        images={roaster.galleryImages}
+        entityType="ROASTER"
+        entityId={roaster.id}
+        maxImages={3}
+      />
 
       {/* Profile Section */}
       <section className="bg-surface-container-lowest editorial-shadow rounded-2xl p-8 border border-outline-variant/10">

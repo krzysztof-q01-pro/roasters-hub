@@ -12,6 +12,8 @@ import {
 import { UploadButton } from "@/lib/uploadthing";
 import { updateCafeCoverImage } from "@/actions/cafe.actions";
 import { DeleteAccountSection } from "@/components/shared/DeleteAccountSection";
+import { DashboardGallery } from "@/components/shared/DashboardGallery";
+import type { GalleryImage } from "@/components/shared/DashboardGallery";
 
 type Cafe = {
   id: string;
@@ -30,10 +32,12 @@ type Stats = { pageViews: number; websiteClicks: number; contactClicks: number }
 export function CafeDashboardClient({
   cafe,
   linkedRoasters: initialLinked,
+  galleryImages,
   stats,
 }: {
   cafe: Cafe;
   linkedRoasters: LinkedRoaster[];
+  galleryImages: GalleryImage[];
   stats: Stats;
 }) {
   const router = useRouter();
@@ -186,6 +190,14 @@ export function CafeDashboardClient({
           />
         </div>
       </section>
+
+      {/* Gallery */}
+      <DashboardGallery
+        images={galleryImages}
+        entityType="CAFE"
+        entityId={cafe.id}
+        maxImages={3}
+      />
 
       {/* Roasters we serve */}
       <section className="bg-surface-container-lowest editorial-shadow rounded-2xl p-8 border border-outline-variant/10">

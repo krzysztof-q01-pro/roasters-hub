@@ -38,6 +38,10 @@ export default async function RoasterDashboardPage() {
     where: { id: profile.ownedRoasters[0].id },
     include: {
       images: { orderBy: { order: "asc" } },
+      galleryImages: {
+        where: { status: { not: "REJECTED" } },
+        orderBy: { sortOrder: "asc" },
+      },
       _count: { select: { events: true } },
     },
   });
@@ -74,6 +78,12 @@ export default async function RoasterDashboardPage() {
     roastStyles: roaster.roastStyles,
     imageUrl: roaster.images[0]?.url ?? null,
     imageId: roaster.images[0]?.id ?? null,
+    galleryImages: roaster.galleryImages.map((img) => ({
+      id: img.id,
+      url: img.url,
+      isPrimary: img.isPrimary,
+      status: img.status,
+    })),
   };
 
   return (
