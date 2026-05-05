@@ -11,7 +11,6 @@ import { ProfileTracker } from "@/components/roasters/ProfileTracker";
 import { TrackedLink } from "@/components/roasters/TrackedLink";
 import { ReviewForm } from "@/components/shared/ReviewForm";
 import { ReviewList } from "@/components/shared/ReviewList";
-import { ImageGallery } from "@/components/shared/ImageGallery";
 import { SaveRoasterButton } from "@/components/roasters/SaveRoasterButton";
 import { isRoasterSaved } from "@/actions/saved-roaster.actions";
 import { db } from "@/lib/db";
@@ -188,7 +187,19 @@ export default async function RoasterProfilePage({
           {galleryImages.length > 0 && (
             <section>
               <h2 className="font-headline text-3xl mb-8 tracking-tight">Photos</h2>
-              <ImageGallery images={galleryImages} />
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {galleryImages.map((img) => (
+                  <div key={img.id} className="relative aspect-square overflow-hidden rounded-lg">
+                    <Image
+                      src={img.url}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 640px) 50vw, 33vw"
+                    />
+                  </div>
+                ))}
+              </div>
             </section>
           )}
 
