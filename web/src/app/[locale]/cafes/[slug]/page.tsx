@@ -15,9 +15,6 @@ import { SaveCafeButton } from "@/components/cafes/SaveCafeButton";
 import { isCafeSaved } from "@/actions/saved-cafe.actions";
 import { db } from "@/lib/db";
 
-export const revalidate = 3600;
-export const dynamicParams = true;
-
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; locale: string }> }): Promise<Metadata> {
   const { slug, locale } = await params;
   const cafe = await db.cafe.findUnique({
