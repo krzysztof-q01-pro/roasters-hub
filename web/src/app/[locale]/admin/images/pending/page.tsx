@@ -21,38 +21,51 @@ export default async function AdminPendingImagesPage() {
   const user = await currentUser();
   if (user?.publicMetadata?.role !== "ADMIN") redirect("/");
 
-  const images = await db.image.findMany({
-    where: { status: "PENDING" },
-    orderBy: { createdAt: "desc" },
-    include: { uploadedBy: { select: { email: true } } },
-  });
+  let serialized: PendingImage[] = [];
+  try {
+    const images = await db.image.findMany({
+      where: { status: "PENDING" },
+      orderBy: { createdAt: "desc" },
+      select: {
+        id: true,
+        url: true,
+        entityType: true,
+        roasterId: true,
+        cafeId: true,
+        createdAt: true,
+        uploadedBy: { select: { email: true } },
+      },
+    });
 
-  const serialized: PendingImage[] = await Promise.all(
-    images.map(async (img) => {
-      let entityName: string | null = null;
-      if (img.roasterId) {
-        const r = await db.roaster.findUnique({
-          where: { id: img.roasterId },
-          select: { name: true },
-        });
-        entityName = r?.name ?? null;
-      } else if (img.cafeId) {
-        const c = await db.cafe.findUnique({
-          where: { id: img.cafeId },
-          select: { name: true },
-        });
-        entityName = c?.name ?? null;
-      }
-      return {
-        id: img.id,
-        url: img.url,
-        entityType: img.entityType,
-        entityName,
-        uploadedBy: img.uploadedBy.email,
-        createdAt: img.createdAt.toISOString(),
-      };
-    }),
-  );
+    serialized = await Promise.all(
+      images.map(async (img) => {
+        let entityName: string | null = null;
+        if (img.roasterId) {
+          const r = await db.roaster.findUnique({
+            where: { id: img.roasterId },
+            select: { name: true },
+          });
+          entityName = r?.name ?? null;
+        } else if (img.cafeId) {
+          const c = await db.cafe.findUnique({
+            where: { id: img.cafeId },
+            select: { name: true },
+          });
+          entityName = c?.name ?? null;
+        }
+        return {
+          id: img.id,
+          url: img.url,
+          entityType: img.entityType as "CAFE" | "ROASTER",
+          entityName,
+          uploadedBy: img.uploadedBy.email,
+          createdAt: img.createdAt.toISOString(),
+        };
+      }),
+    );
+  } catch {
+    // Image table may not exist yet
+  }
 
   return <AdminPendingImagesClient images={serialized} />;
 }

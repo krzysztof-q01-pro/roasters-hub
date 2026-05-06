@@ -12,9 +12,14 @@ export default async function AdminSettingsPage() {
   const user = await currentUser();
   if (user?.publicMetadata?.role !== "ADMIN") redirect("/");
 
-  const settings = await db.appSettings.findUnique({
-    where: { id: "singleton" },
-  });
+  let settings = null;
+  try {
+    settings = await db.appSettings.findUnique({
+      where: { id: "singleton" },
+    });
+  } catch {
+    // AppSettings table may not exist yet
+  }
 
   return (
     <AdminSettingsClient

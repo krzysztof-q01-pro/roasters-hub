@@ -22,17 +22,30 @@ export default async function AdminImagesPage() {
   const user = await currentUser();
   if (user?.publicMetadata?.role !== "ADMIN") redirect("/");
 
-  const images = await db.image.findMany({
-    where: { isDefault: true },
-    orderBy: { createdAt: "desc" },
-    include: { uploadedBy: { select: { email: true } } },
-  });
+  let images: { id: string; url: string; entityType: "CAFE" | "ROASTER"; status: "PENDING" | "APPROVED" | "REJECTED"; isDefault: boolean; createdAt: Date; uploadedBy: { email: string } }[] = [];
+  try {
+    images = await db.image.findMany({
+      where: { isDefault: true },
+      orderBy: { createdAt: "desc" },
+      select: {
+        id: true,
+        url: true,
+        entityType: true,
+        status: true,
+        isDefault: true,
+        createdAt: true,
+        uploadedBy: { select: { email: true } },
+      },
+    });
+  } catch {
+    // Image table may not exist yet
+  }
 
   const serialized: ImageWithUser[] = images.map((img) => ({
     id: img.id,
     url: img.url,
-    entityType: img.entityType,
-    status: img.status,
+    entityType: img.entityType as "CAFE" | "ROASTER",
+    status: img.status as "PENDING" | "APPROVED" | "REJECTED",
     isDefault: img.isDefault,
     createdAt: img.createdAt.toISOString(),
     uploadedBy: img.uploadedBy.email,
