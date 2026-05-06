@@ -109,18 +109,25 @@ export default async function CafeProfilePage({
     // gallery not available — graceful fallback
   }
 
-  const cafeReviews = await db.review.findMany({
-    where: { cafeId: cafe.id, status: "APPROVED" },
-    orderBy: { createdAt: "desc" },
-    take: 20,
-  });
+  let approvedReviews: { id: string; authorName: string; rating: number; comment: string | null; createdAt: Date }[] = [];
+  try {
+    const rows = await db.review.findMany({
+      where: { cafeId: cafe.id, status: "APPROVED" },
+      orderBy: { createdAt: "desc" },
+      take: 20,
+      select: { id: true, authorName: true, rating: true, comment: true, createdAt: true },
+    });
+    approvedReviews = rows;
+  } catch {
+    // reviews migration may not be applied yet
+  }
 
   const avgRating =
-    cafeReviews.length > 0
-      ? cafeReviews.reduce((sum, r) => sum + r.rating, 0) / cafeReviews.length
+    approvedReviews.length > 0
+      ? approvedReviews.reduce((sum, r) => sum + r.rating, 0) / approvedReviews.length
       : null;
 
-  const serializedReviews = cafeReviews.map((r) => ({
+  const serializedReviews = approvedReviews.map((r) => ({
     id: r.id,
     authorName: r.authorName,
     rating: r.rating,
@@ -192,7 +199,7 @@ export default async function CafeProfilePage({
             {cafe.city}, {cafe.country}
             {avgRating !== null && (
               <span className="ml-2 text-primary font-semibold">
-                ★ {avgRating.toFixed(1)} ({cafeReviews.length} {cafeReviews.length === 1 ? t("reviewCount", { count: 1 }) : t("reviewCount", { count: cafeReviews.length })})</span>
+                ★ {avgRating.toFixed(1)} ({approvedReviews.length} {approvedReviews.length === 1 ? t("reviewCount", { count: 1 }) : t("reviewCount", { count: approvedReviews.length })})</span>
             )}
           </div>
         </div>
