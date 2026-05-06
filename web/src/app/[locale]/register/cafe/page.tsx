@@ -10,6 +10,8 @@ import { createCafe } from "@/actions/cafe.actions";
 import { getDefaultCountryFromLocale } from "@/lib/default-country";
 import { detectCountry } from "@/actions/geo.actions";
 import { OpeningHoursPicker } from "@/components/shared/OpeningHoursPicker";
+import { AddressAutocomplete } from "@/components/shared/AddressAutocomplete";
+import { MiniMap } from "@/components/shared/MiniMap";
 import { CAFE_SERVICES } from "@/constants/cafe-services";
 import { EMPTY_OPENING_HOURS, type OpeningHours } from "@/types/opening-hours";
 
@@ -211,13 +213,19 @@ export default function RegisterCafePage() {
           <div className="space-y-5">
             <div>
               <label className="block text-sm font-medium mb-1">{t("address")} *</label>
-              <input
+              <AddressAutocomplete
                 value={form.address}
-                onChange={(e) => update("address", e.target.value)}
-                className="w-full border border-outline/30 rounded-lg px-3 py-2 bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                onChange={(address) => update("address", address)}
+                onCoordsChange={(lat, lng) => {
+                  update("lat", String(lat));
+                  update("lng", String(lng));
+                }}
                 placeholder={t("addressPlaceholder")}
               />
             </div>
+            {form.lat && form.lng && (
+              <MiniMap lat={parseFloat(form.lat)} lng={parseFloat(form.lng)} />
+            )}
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-1">{t("latitude")}</label>
